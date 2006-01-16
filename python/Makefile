@@ -8,8 +8,8 @@ SWIGFLAGS = -w312 -w315 -w508
 #SWIG = /var/tmp/swig/BUILD/SWIG-1.3.16/swig
 LUAFLAGS = -DWITH_LUA
 
-PYTHONVER = $(shell python -c "import sys; v=sys.version_info[:2]; print '%d.%d'%v" 2>/dev/null || echo NONE)
-PYTHONFLAGS=-I/usr/include/python$(PYTHONVER)
+PYTHON = python
+PYTHONFLAGS = $(shell $(PYTHON) -c "from distutils.sysconfig import get_python_inc; print '-I' + get_python_inc(1)")
 
 all: $(MODULES)
 
@@ -25,4 +25,4 @@ clean:
 	rm -f *.cxx
 
 distclean: clean
-	rm -f $(MODULES) *.pyc _*.so
+	rm -f $(MODULES) *.pyc *.pyo *.so
