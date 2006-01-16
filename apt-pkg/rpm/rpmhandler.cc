@@ -371,7 +371,7 @@ RPMDBHandler::RPMDBHandler(bool WriteLock)
    Handler = rpmtsCreate();
    rpmtsSetVSFlags(Handler, (rpmVSFlags_e)-1);
    rpmtsSetRootDir(Handler, Dir.c_str());
-   if (rpmtsOpenDB(Handler, WriteLock?O_RDWR:O_RDONLY) != 0)
+   if (rpmtsOpenDB(Handler, O_RDONLY) != 0)
    {
       _error->Error(_("could not open RPM database"));
       return;
@@ -380,7 +380,7 @@ RPMDBHandler::RPMDBHandler(bool WriteLock)
    const char *RootDir = NULL;
    if (!Dir.empty())
       RootDir = Dir.c_str();
-   if (rpmdbOpen(RootDir, &Handler, WriteLock?O_RDWR:O_RDONLY, 0644) != 0)
+   if (rpmdbOpen(RootDir, &Handler, O_RDONLY, 0644) != 0)
    {
       _error->Error(_("could not open RPM database"));
       return;
