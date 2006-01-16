@@ -393,10 +393,31 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
 	 else
 	    Type = pkgCache::Dep::Depends;
       }
-      
-      if (namel[i][0] == 'r' && strncmp(namel[i], "rpmlib", 6) == 0) 
+#if RPM_VERSION >= 0x040404
+      if (namel[i][0] == 'g' && strncmp(namel[i], "getconf", 7) == 0)
       {
-#if RPM_VERSION >= 0x040100
+        rpmds getconfProv = NULL;
+        rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
+                               namel[i], verl?verl[i]:NULL, flagl[i]);
+        rpmdsGetconf(&getconfProv, NULL);
+        int res = rpmdsSearch(getconfProv, ds) >= 0;
+        rpmdsFree(ds);
+        rpmdsFree(getconfProv);
+        if (res) continue;
+      }
+#endif
+      
+      if (namel[i][0] == 'r' && strncmp(namel[i], "rpmlib", 6) == 0)
+      {
+#if RPM_VERSION >= 0x040404
+        rpmds rpmlibProv = NULL;
+        rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
+                               namel[i], verl?verl[i]:NULL, flagl[i]);
+        rpmdsRpmlib(&rpmlibProv, NULL);
+        int res = rpmdsSearch(rpmlibProv, ds) >= 0;
+        rpmdsFree(ds);
+        rpmdsFree(rpmlibProv);
+#elif RPM_VERSION >= 0x040100
 	 rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
 			        namel[i], verl?verl[i]:NULL, flagl[i]);
 	 int res = rpmCheckRpmlibProvides(ds);

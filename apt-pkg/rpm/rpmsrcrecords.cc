@@ -436,9 +436,31 @@ bool rpmSrcRecordParser::BuildDepends(vector<pkgSrcRecords::Parser::BuildDepRec>
       
       for (int i = 0; i < count; i++) 
       {
+#if RPM_VERSION >= 0x040404
+         if (namel[i][0] == 'g' && strncmp(namel[i], "getconf", 7) == 0)
+         {
+            rpmds getconfProv = NULL;
+            rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
+                                   namel[i], verl?verl[i]:NULL, flagl[i]);
+            rpmdsGetconf(&getconfProv, NULL);
+            int res = rpmdsSearch(getconfProv, ds) >= 0;
+            rpmdsFree(ds);
+            rpmdsFree(getconfProv);
+            if (res) continue;
+         }
+#endif
 	 if (strncmp(namel[i], "rpmlib", 6) == 0) 
 	 {
-#if RPM_VERSION >= 0x040100
+#if RPM_VERSION >= 0x040404
+	    rpmds rpmlibProv = NULL;
+	    rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
+				   namel[i], verl?verl[i]:NULL, flagl[i]);
+	    rpmdsRpmlib(&rpmlibProv, NULL);
+	    rpmdsSearch(rpmlibProv, ds);
+	    int res = rpmdsResult(ds);
+	    rpmdsFree(ds);
+	    rpmdsFree(rpmlibProv);
+#elif RPM_VERSION >= 0x040100
 	    rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
 				   namel[i], verl?verl[i]:NULL, flagl[i]);
 	    int res = rpmCheckRpmlibProvides(ds);
