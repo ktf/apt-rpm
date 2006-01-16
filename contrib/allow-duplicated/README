@@ -1,0 +1,28 @@
+This script will handle Allow-Duplicated packages when more
+than one is available during an install operation, and will
+also upgrade these packages in a dist-upgrade operation.
+
+For the dist-upgrade operation, only those packages matching
+a regular expression in the RPM::Allow-Duplicated-Upgrade
+option will be affected.
+
+For example, suppose that the following packages are
+available:
+
+	kernel26#2.6.2-48393cl 2.6.2-48393cl [Installed]
+	kernel26#2.6.0-41929cl 2.6.0-41929cl [Installed]
+	kernel26#2.6.1-44677cl 2.6.1-44677cl [Installed]
+	kernel26#2.6.3-50659cl 2.6.3-50659cl
+
+If you try to install the package "kernel26", you'll usually
+get a message that these packages are available, and you must
+select one of them.
+
+With this script plugged into the necessary slots, the 2.6.3
+version will be correctly selected for installation in
+the "install kernel26" operation is performed. It will also
+be selected for installation if you perform a dist-upgrade
+operation with something like this in your configuration:
+
+	RPM::Allow-Duplicated-Upgrade:: "kernel.*";
+

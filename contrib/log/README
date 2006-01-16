@@ -1,0 +1,11 @@
+This script will log the changes being introduced by
+the transaction which is going to be run, and is based
+on an idea of Panu Matilainen.
+
+This script must be plugged in the slots:
+
+    Scripts::PM::Pre
+    Scripts::PM::Post
+
+Then, when some transaction is run, it will dump information
+about it in /var/log/apt.log, or in the configured file.

@@ -1,0 +1,47 @@
+
+Notice
+------
+
+APT-RPM supports translation of filenames to package names internally
+since version 0.5.15cnc3, but filenames must be in the pkglists for
+the internal version to work. It means that to access all files in the
+system pkglists must be built with --bloat, so using this script is
+still an option.
+
+What is apt-files?
+------------------
+
+This is a simple APT-RPM plugin allowing one to pass any
+filename for apt-get, like:
+
+    apt-get install /etc/rc.d/init.d/myservice
+
+or
+
+    apt-get install /usr/bin/lua
+
+
+How to use it?
+--------------
+
+First, you must create a "database" with the "filename -> pkgname" map.
+This database is a simple compressed text file with one "filename pkgname"
+pair per line, with a space separating them. For example:
+
+    /usr/bin/lua lua
+    /usr/bin/apt-get apt-get
+    ...
+
+You can create these files from an hdlist or from a directory full of
+rpm files using the convert.py program (you'll need the rpm python
+module).
+
+After you created the database, you can install the plugin putting
+these files in the following directories:
+
+    /etc/apt/apt.conf.d/apt-files.conf
+    /usr/lib/apt/scripts/apt-files.lua
+    /var/state/apt/Contents.gz
+
+Bingo! It should be working. ;-)
+

@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+  "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+
+<!ENTITY % aptent SYSTEM "apt.ent">
+<!ENTITY rpm "<citerefentry>
+    <refentrytitle><command>rpm</command></refentrytitle>
+    <manvolnum>1</manvolnum>
+  </citerefentry>"
+>
+
+%aptent;
+]>
+
+<refentry>
+
+ <refentryinfo>
+   <author>
+    <surname>Debian apt development team</surname>
+   </author>
+   <author>
+    <surname>Conectiva apt-rpm development team</surname>
+   </author>
+   &apt-product;
+   <!-- The last update date -->
+   <date>24 June 2004</date>
+   <copyright>
+    <year>2004</year>
+    <holder>Richard Bos</holder>
+   </copyright>
+ </refentryinfo>
+
+ <refmeta>
+   <refentrytitle>apt</refentrytitle>
+   <manvolnum>1</manvolnum>
+ </refmeta>
+ 
+ <!-- Man page title -->
+ <refnamediv>
+    <refname>apt</refname>
+    <refpurpose>Advanced Package Tool</refpurpose>
+ </refnamediv>
+
+ <!-- Arguments -->
+ <refsynopsisdiv>
+   <cmdsynopsis>
+      <command>apt</command>
+      <arg><option><replaceable>options</replaceable></option></arg>
+      <arg><option><replaceable>apt-rpm options</replaceable></option></arg>
+      <arg><option><replaceable>action</replaceable></option></arg>
+      <arg><option><replaceable>packages</replaceable></option></arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+
+ <refsect1><title>Description</title>
+   <para>Apt provides a single command line user interface for the following
+    commands: &apt-get;, &apt-cache;, &apt-config;, &apt-cdrom; and
+    the <command>rpm</command> query possibilities.
+    Besides  the  single interface it provides some additional
+    options that are specific to apt in combination with rpm.</para>
+
+   <para>Unless the <option>-h</option>, <option>--help</option>,
+    <option>-v</option>, or <option>--version</option> option is
+    given one of the commands mentioned in the ACTIONS section must be
+    present.</para>
+
+   <para>Detailed information about each apt command and its options
+    can be found in the man pages that belong to the dispatched apt
+    applications.</para>
+
+ </refsect1>
+
+ <refsect1><title>Actions</title>
+  <para>Actions supported by <command>apt</command>:
+  <literal>add</literal>,
+  <literal>autoclean</literal>,
+  <literal>build-dep</literal>,
+  <literal>check</literal>,
+  <literal>clean</literal>,
+  <literal>depends</literal>,
+  <literal>dist-upgrade</literal>,
+  <literal>dotty</literal>,
+  <literal>dump</literal>,
+  <literal>dumpavail</literal>,
+  <literal>gencaches</literal>,
+  <literal>groupinstall</literal>,
+  <literal>groupnames</literal>,
+  <literal>groupremove</literal>,
+  <literal>ident</literal>,
+  <literal>install</literal>,
+  <literal>list-extras</literal>,
+  <literal>list-nodeps</literal>,
+  <literal>moo</literal>,
+  <literal>pkgnames</literal>,
+  <literal>policy</literal>,
+  <literal>query</literal>,
+  <literal>querytags</literal>,
+  <literal>rdepends</literal>.
+  <literal>reinstall</literal>.
+  <literal>remove</literal>,
+  <literal>script</literal>,
+  <literal>search</literal>,
+  <literal>show</literal>,
+  <literal>showgroup</literal>,
+  <literal>showpkg</literal>,
+  <literal>showsrc</literal>,
+  <literal>source</literal>,
+  <literal>stats</literal>,
+  <literal>unmet</literal>,
+  <literal>update</literal>,
+  <literal>upgrade</literal>,
+  <literal>whatdepends</literal>,
+  <literal>xvcg</literal>.</para>
+
+  <variablelist>
+   <varlistentry><term><literal>groupinstall</literal></term>
+    <listitem><para>Install a group (or groups) of packages.  Most often
+     those groups are defined by the distributor.
+     Configuration item: Scripts::Groupinstall::Backend</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term><literal>groupremove</literal></term>
+    <listitem><para>Remove a group (or groups) of packages.  Most often
+     those groups are defined by the distributor.
+     Configuration item: Scripts::Groupinstall::Backend</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term><literal>list-nodeps</literal></term>
+    <listitem><para>list all installed packages that are not required by any other
+     installed package.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term><literal>list-extras</literal></term>
+    <listitem><para>shows packages not found in any online repositories.
+     These are packages downloaded or build and installed locally. It's useful
+     to review that list and decide if all those packages are still needed.
+     Specifically if the system is used to build packages distributed to other
+     systems.  It's very important to be aware of all installed non-standard
+     packages to avoid dependencies that cannot be satisfied from the standard
+     repository.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term><literal>list-nodeps</literal></term>
+    <listitem><para>list all installed packages that are not required by any other
+     installed package.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term><literal>reinstall</literal></term>
+    <listitem><para>installs a package again, even if the package is already
+     installed.</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term><literal>showgroup</literal></term>
+    <listitem><para>Provide information about group (or groups).  Most often
+     those groups are defined by the distributor.
+     Configuration item: Scripts::Groupinstall::Backend</para></listitem>
+   </varlistentry>
+
+   <varlistentry><term><literal>groupnames</literal></term>
+    <listitem><para>Show available groups.  Most often those groups are defined
+     by the distributor.  Configuration item:
+     Scripts::Groupinstall::Backend</para></listitem>
+   </varlistentry>
+  </variablelist>
+
+  <para>The functionality of the remaining actions are provided by other
+  apt tools.  The actions listed by their respective command:</para>
+  <variablelist>
+   <varlistentry><term><command>apt-get</command></term>
+    <listitem><para><literal>autoclean</literal>,
+     <literal>build-dep</literal>,
+     <literal>check</literal>,
+     <literal>clean</literal>,
+     <literal>dist-upgrade</literal>,
+     <literal>install</literal>,
+     <literal>moo</literal>,
+     <literal>remove</literal>,
+     <literal>reinstall</literal>.
+     <literal>script</literal>,
+     <literal>source</literal>,
+     <literal>update</literal>,
+     <literal>upgrade</literal>.</para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+
+  <variablelist>
+   <varlistentry><term><command>apt-cache</command></term>
+    <listitem><para><literal>add</literal>,
+     <literal>depends</literal>,
+     <literal>dotty</literal>,
+     <literal>dump</literal>,
+     <literal>dumpavail</literal>,
+     <literal>gencaches</literal>,
+     <literal>pkgnames</literal>,
+     <literal>policy</literal>,
+     <literal>rdepends</literal>.
+     <literal>search</literal>,
+     <literal>show</literal>,
+     <literal>showpkg</literal>,
+     <literal>showsrc</literal>,
+     <literal>stats</literal>,
+     <literal>unmet</literal>,
+     <literal>whatdepends</literal>,
+     <literal>xvcg</literal>.</para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+
+  <variablelist>
+   <varlistentry><term><command>apt-config</command></term>
+    <listitem><para><literal>shell</literal>,
+     <literal>dump</literal>.</para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+
+  <variablelist>
+   <varlistentry><term><command>apt-cdrom</command></term>
+    <listitem><para><literal>add</literal>,
+     <literal>ident</literal>.</para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+
+ </refsect1>
+
+ <refsect1><title>Options</title>
+
+   <variablelist>
+     <varlistentry><term><option>--checksig</option></term>
+     <listitem><para>checks the integrity and origin of the candidate packages to
+      be installed.  If the check fails for 1 or more packages non of the candidate
+      packages will be installed!  In case the signature check fails use the --hold
+      argument to keep back the offending package(s) or use the --no-checksig argument
+      to skip the package integrity check.  More about package checking can be
+      found in the rpm manual.
+      Configuration item: <literal>RPM::GPG-Check</literal>.
+      </para>
+     </listitem>
+     </varlistentry>
+
+     <varlistentry><term><option>--hold</option></term>
+     <listitem><para>puts a package on hold.  A package on hold won't be upgraded
+      unless overruled with the <literal>install</literal> action.  Repeat this option
+      if multiple packages must be kept from upgrading.  This option
+      uses regular expressions to find the package to be put on hold.
+      E.g. in case the package "at" must be hold, it must be specified
+      as --hold ^at$, if not done like this a package like
+      <literal>attr</literal> will be put on hold as well.  In any case
+      it is better to put packages on hold with the
+      <literal>rpm::hold</literal> variable in the file
+      <filename>apt.conf</filename>!</para>
+     </listitem>
+     </varlistentry>
+
+     <varlistentry><term><option>--no-checksig</option></term>
+     <listitem><para>Do not check the integrity of the packages to be installed.
+      It can be used if the integrity check fails for 1 or more packages, but
+      the packages have been obtained from a save origin.
+      Configuration item: <literal>RPM::GPG-Check</literal>.
+      </para>
+     </listitem>
+     </varlistentry>
+
+     <varlistentry><term><option>--no-postscript</option></term>
+     <listitem><para>Do not run a postscript after packages have been upgraded,
+      degraded, removed or installed.
+      Configuration item: <literal>Scripts::Options::RunPostScript</literal>.
+      </para>
+     </listitem>
+     </varlistentry>
+
+     <varlistentry><term><option>--postscript</option></term>
+     <listitem><para>Run a postscript after packages have been upgraded, degraded, removed or
+      installed.  The script to use is specified with configuration item:
+      <literal>Scripts::PM::Post::</literal>.  With this option it is possible to run
+      for example <literal>ldconfig</literal> or a distribution specific configuration
+      script.
+      Configuration item: <literal>Scripts::Options::RunPostScript</literal>.
+      </para>
+     </listitem>
+     </varlistentry>
+
+     <varlistentry><term><option>--show-rpm-command</option></term>
+     <listitem><para>Shows the exact rpm command to be performed, during
+      <literal>install</literal>, <literal>upgrade</literal> or
+      <literal>dist-upgrade</literal> actions.  The action itself
+      will not be performed.</para>
+     </listitem>
+     </varlistentry>
+
+     <varlistentry><term><option>--sourceslist</option></term>
+     <listitem><para>Select the sourceslist file to be used
+      (default is <filename>/etc/apt/sources.list</filename>).</para>
+     </listitem>
+     </varlistentry>
+
+     &apt-commonoptions;
+   </variablelist>
+
+ </refsect1>
+
+ <refsect1><title>Rpm options</title>
+   <para>Options handed over to <command>rpm</command>, see rpm man page
+    for their functionality.</para>
+
+   <variablelist>
+     <varlistentry><term><option>--test</option></term>
+     <listitem><para><command>Rpm</command> option
+      <literal>--test</literal>.</para>
+     </listitem>
+     </varlistentry>
+   </variablelist>
+
+   <variablelist>
+     <varlistentry><term><option>--force-rpm</option></term>
+     <listitem><para><command>Rpm</command> option
+      <literal>--force</literal>.</para>
+     </listitem>
+     </varlistentry>
+   </variablelist>
+
+ </refsect1>
+
+ <refsect1><title>Files</title>
+   <variablelist>
+     <varlistentry><term><filename>/usr/lib/apt/scripts</filename></term>
+     <listitem><para>APT lua scripts.
+     Configuration item: <literal>Dir::Bin::scripts</literal>.</para></listitem>
+     </varlistentry>
+   </variablelist>
+
+ </refsect1>
+
+ <refsect1><title>Environment</title>
+   <variablelist>
+     <varlistentry><term><option>APT_VERBOSE</option></term>
+     <listitem><para>If <literal>APT_VERBOSE</literal> is defined <command>apt</command>
+      will show which application is being dispatched.</para>
+     </listitem>
+     </varlistentry>
+   </variablelist>
+ </refsect1>
+
+ <refsect1><title>Caveats</title>
+   <para>There are 2 apt actions, <literal>add</literal> and
+    <literal>dump</literal>, that are used by several apt commands.
+    The action <literal>add</literal> is used by
+    <command>apt-cdrom</command> and <command>apt-cache</command>.
+    <command>apt</command> uses <literal>add</literal> from <command>apt-cdrom.</command>
+    The action <literal>dump</literal> is used by <command>apt-config</command> and
+    <command>apt-cache</command>.  <command>apt</command> uses <literal>dump</literal> from
+    <command>apt-config</command>.</para>
+ </refsect1>
+
+ <refsect1><title>See Also</title>
+   <para>&apt-get;, &apt-cache;, &apt-config;, &apt-cdrom;, &rpm;</para>
+ </refsect1>
+
+ <refsect1><title>Diagnostics</title>
+   <para><command>apt</command> returns zero on normal operation, decimal 100 on error.
+   </para>
+ </refsect1>
+
+ <refsect1><title>Bugs</title>
+   <para>Report bugs to
+   <email>apt-rpm@distro2.conectiva.com.br</email></para>
+ </refsect1>
+
+</refentry>
+

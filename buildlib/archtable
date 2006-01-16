@@ -1,0 +1,27 @@
+# This file contains a table of known architecture strings, with
+# things to map them to. `configure' will take the output of the
+# autoconf cannon macros and look in here. This only deals with architecture
+# (CPU) names.
+
+# The left side is a regex for awk
+
+i.86	i386
+pentium	i386
+sparc	sparc
+sparc64	sparc
+alpha.*	alpha
+m68k	m68k
+arm.*	arm
+powerpc	powerpc
+ppc	powerpc
+mipsel  mipsel
+mipseb	mips
+mips	mips
+sheb	sheb
+shel	sh
+sh	sh
+hppa.*	hppa
+ia64	ia64
+s390	s390
+s390x	s390x
+x86_64	x86_64

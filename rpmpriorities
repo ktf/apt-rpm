@@ -1,0 +1,17 @@
+Essential:
+  apt
+  basesystem
+  bash
+  conectiva-release
+  dev
+  e2fsprogs
+  filesystem
+  fileutils
+  glibc-base
+  initscripts
+  modutils
+  mount
+  pam
+  passwd
+  rpm
+  setup

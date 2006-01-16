@@ -1,0 +1,6 @@
+- Implement hashing in file method.
+- Build program to check for dependencies between repositories.
+- Implement apt-cache provides/whatprovides
+- Implement Minimize
+- Implement depends/provides support in Lua API.
+- Implement build options for source -b command.

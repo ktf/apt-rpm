@@ -1,0 +1,10 @@
+This script will list all installed packages which are not
+required by any other installed package.
+
+This script must be plugged in the slot
+
+    Scripts::AptCache::Command
+
+To use it, just run
+
+    apt-cache list-nodeps

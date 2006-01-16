@@ -1,0 +1,64 @@
+Lua script to allow installing and viewing package groups, determined by 
+a backend script to allow it to work on arbitrary group-metadata formats.
+
+This script must be plugged into the following APT script slots:
+
+    Scripts::AptGet::Command::
+    Scripts::AptCache::Command::
+    Scripts::AptGet::Help::Command::
+    Scripts::AptCache::Help::Command::
+
+The backend script name must be specified with the configuration 
+item Scripts::Groupinstall::Backend, the path is relative to the generic
+scripts directory specified by Dir::Bin::scripts.
+
+Additional configuration options which may or may not have any meaning to
+the backend are:
+    Scripts::Groupinstall::Recursive (recursively process groups)
+    Scripts::Groupinstall::Show-Hidden (show normally hidden groups)
+    Scripts::Groupinstall::All-Packages (install optional packages as well)
+    Scripts::Groupinstall::DataPath (specify a path to group metadata)
+
+Usage:
+    apt-cache groupnames - show all known groups
+    apt-cache showgroup <group> - show description and contents of group(s)
+    apt-get groupinstall <group> - install all packages belonging to a group(s)
+    apt-get groupremove <group> - remove all packages belonging to a group(s)
+
+About the backend:
+
+The backend is also compatible with Synaptic's task-support (new as of 
+synaptic-0.53), provided that you set Synaptic::taskHelperProg configuration
+item to whatever the path is to your backend script/program.
+
+The supplied groupinstall-backend-comps.py is known to work in RHL 8.0, 9,
+RHEL 3 and Fedora Core 1 and 2. Requires python, comps and
+rhpl packages to be installed. 
+
+There's also a backend for SuSe called groupinstall-backend-suse by 
+Richard Bos which should work on any recent SuSe system with Yast.
+
+Groupinstall can be made to work on any system where package group
+data is available in some parseable format. You'll just need to write your
+own backend for it, providing the following three operations
+
+List all available groups:
+<backend> --list-tasks
+Show contents of given groups in a human-friendly format:
+<backend> --task-desc <group1> [--task-desc <group2> ...]
+List packages belonging to given groups, one package at a time (this is not
+a user visible operation but is used internally by the script to determine
+what packages to install/remove in groupinstall and groupremove operations)
+<backend> --task-packages <group1> [--task-packages <group2> ...]
+
+Additionally the backend must be capable of handling the following options
+passed in before the actual groupnames, even if unimplemented (some options 
+might not be relevant to a given system):
+-h (show hidden groups)
+-a (show/install/remove all packages beloging to group, not just default)
+-r (recursively process groups)
+-p <path> (pass in an arbitrary data path for the group metadata)
+-t (show "terminal friendly" output instead of the way synaptic wants
+    the output formatted)
+
+Licensed under the GPL, by pmatilai@welho.com / 2003-2004

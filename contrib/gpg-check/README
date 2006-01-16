@@ -1,0 +1,27 @@
+This script checks packages for known good GPG signatures. Optionally
+it can also automatically import GPG keys.
+Note that rpm-4.1 or later is required for this functionality.
+
+For the checker functionality to work you must have the following
+configuration items set:
+
+Scripts::PM::Pre:: "gpg-check.lua";
+RPM::GPG-Check "true";
+
+As a workaround for certain commercial rpm's which break when signed afterwards
+you can specify packages not to be checked by adding them to
+RPM::GPG::Skip-Check:: list.
+
+A completely optional addon is the ability to automatically import GPG keys
+to rpmdb when running apt.
+To enable this you need the following configuration items set:
+
+Scripts::Init:: "gpg-import.lua";
+RPM::GPG-Import "true";
+
+The importer looks for files in /etc/apt/gpg/ directory and for the keys
+to be automatically be named gpg-pubkey-xxx-yyy, where xxx-yyy is the name
+the key gets when it's imported into the rpmdb.
+
+By pmatilai@welho.com
+Licensed under the GPL

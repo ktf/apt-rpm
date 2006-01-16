@@ -1,0 +1,9 @@
+This is a simple script that will install all development packages
+for packages already in the system, as far as they are suffixed with
+"-devel" or "-devel-static". It will also try to string numbers
+from the end of the package name, if they are found. This will,
+for example, check "libapt-pkg-devel" for a library like "libapt-pkg0".
+
+To use it, just run
+
+    apt-get script ./install-devel.lua

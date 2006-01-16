@@ -1,0 +1,10 @@
+This script will try to change the requested names in a few
+ways, trying to guess an available package.
+
+For example, if the user ask in the command line for "somepkg",
+and a package with that name is not available, but "libSomePkg0"
+is, it will be selected, and the user noticed.
+
+This script must be plugged in the slot
+
+    Scripts::AptGet::Install::TranslateArg

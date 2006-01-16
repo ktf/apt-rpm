@@ -1,0 +1,281 @@
+#!/bin/sh
+##################################################################
+#
+# Copyright (C) 2004 R Bos
+#
+# File:           $RCSfile: groupinstall-backend-suse,v $
+# Revision:       $Revision: 1.7 $
+# Last change:    $Date: 2004/08/18 19:07:42 $
+#
+# Send suggestions to: apt4rpm-devel@lists.sourceforge.net
+# Homepage: http://apt4rpm.sourceforge.net
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# For a copy of the GNU General Public License, visit
+# http://www.gnu.org or write to the Free Software Foundation, Inc.,
+# 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#
+##################################################################
+
+# This backend is to be used with apt.  The latter must be configured
+# for the apt options: groupnames, showgroup, groupinstall and groupremove.
+PATH=/bin:/usr/bin
+
+PRGNAME=$(basename $0)
+
+function get_summary
+{
+	FILE=$SEL_LOC/$1.sel
+	if [ -r $FILE ]; then
+		grep "^=Sum:" $SEL_LOC/$1.sel | cut -d: -f2 | sed 's,^ ,,'
+	fi
+}
+
+function get_req
+{
+	FILE=$SEL_LOC/$1.sel
+	if [ -r $FILE ]; then
+		awk '{
+			if ( $1 == "-Req:" ) prt = "no"
+			if ( prt == "yes" ) print $1
+			if ( $1 == "+Req:" ) prt = "yes"
+
+		}' $FILE
+	fi
+}
+
+function get_rec
+{
+	FILE=$SEL_LOC/$1.sel
+	if [ -r $FILE ]; then
+		awk '{
+			if ( $1 == "-Rec:" ) prt = "no"
+			if ( prt == "yes" ) print $1
+			if ( $1 == "+Rec:" ) prt = "yes"
+
+		}' $FILE
+	fi
+}
+
+function get_req_and_rec
+{
+	local GRP
+
+	for GRP in $@; do
+		FILE=$SEL_LOC/$GRP.sel
+		if [ -r $FILE ]; then
+			awk '{
+				if ( $1 == "-Req:" || $1 == "-Rec:" ) prt = "no"
+				if ( prt == "yes" ) print $1
+				if ( $1 == "+Req:" || $1 == "+Rec:" ) prt = "yes"
+
+			}' $FILE
+		fi
+	done
+}
+
+function get_lang
+{
+	FILE=$SEL_LOC/$1.sel
+	if [ -r $FILE ]; then
+		grep "^+Ins." $FILE | sed s,+Ins.,, | cut -d: -f1
+	fi
+}
+
+function get_pkgs
+{
+	local GRP
+
+	for GRP in $@; do
+		FILE=$SEL_LOC/$GRP.sel
+		if [ -r $FILE ]; then
+			awk '{
+				if ( $1 == "-Ins:" ) prt = "no"
+				if ( prt == "yes" ) print $1
+				if ( $1 == "+Ins:" ) prt = "yes"
+
+			}' $FILE
+		fi
+	done
+}
+
+function groupnames
+{
+	# Install location.  Selections that have been installed
+	# are copied to this location.
+	local INSTALL_LOC=/var/adm/YaST/SelDB
+
+	if [[ "$OPT_SHOWHIDDEN" == "yes" ]]; then
+		GRPS=$(ls $SEL_LOC/*sel)
+	else
+		GRPS=$(grep -l "=Vis: *true" $(grep -l "=Cat: *addon" $SEL_LOC/*sel))
+	fi
+
+	GRPS=$(echo "$GRPS" | sed 's,^.*/,,;s,\.sel$,,')
+
+	if [[ "$OPT_TERM_MODE" == "yes" ]]; then
+		printf "%-18s %s\n" "Group name"  "Description"
+		printf "%-18s %s\n" "-----------" "------------"
+	fi
+
+	for GRP in $GRPS; do
+		SUMMARY=$(get_summary $GRP)
+		if [[ "$OPT_TERM_MODE" == "yes" ]]; then
+			printf "%-18s %s\n" "$GRP" "$SUMMARY"
+		else
+			# IMODE = installation mode
+			# i = installed, u = uninstalled
+			if [[ -s $INSTALL_LOC/$GRP.sel ]]; then
+				IMODE="i"
+			else
+				IMODE="u"
+			fi
+
+			printf "%s %s\t%s\n" "$IMODE" "$GRP" "$SUMMARY"
+		fi
+	done
+}
+
+function showgroup
+{
+	typeset -i NUM
+	GRPS=$@
+
+	local GRP
+	typeset -i NUM
+
+	NUM=1
+	for GRP in $GRPS; do
+		[ $NUM -gt 1 ] && echo
+		echo "Group: $GRP"
+		echo "Summary: $(get_summary $GRP)"
+                LANGS="$(get_lang $GRP)"
+		if [[ -n "$LANGS" ]]; then
+			echo "Available languages:"
+			echo "  " $LANGS
+		fi
+		REQ=$(get_req $GRP)
+		if [[ -n "$REQ" ]]; then
+			echo "Required groups:"
+			echo "$REQ" | sed 's/^/  /'
+		fi
+		REC=$(get_rec $GRP)
+		if [[ -n "$REC" ]]; then
+			echo "Recommendend groups:"
+			echo "$REC" | sed 's/^/  /'
+		fi
+		echo "Packages:" 
+		get_pkgs $GRP | sed 's/^/  /'
+
+		NUM=$((NUM + 1))
+	done
+}
+
+function involved_groups
+{
+	ALL_GRPS="$@"
+	REQUIRED_GRPS="$(get_req_and_rec $ALL_GRPS)"
+
+	ALL_GRPS="$ALL_GRPS $REQUIRED_GRPS"
+
+	# Use a recursive method to find all involved groups.
+	# NUM is used to prevent a runaway loop.  Normally the most
+	# extensive dependencies are resolved in 5 iterations.
+	typeset -i NUM=1
+	while [[ -n "$REQUIRED_GRPS" && $NUM -lt 7 ]]; do
+
+		unset LOOP_REQS
+		for GRP in $REQUIRED_GRPS; do
+			if [[ -z "$LOOP_REQS" ]]; then
+				LOOP_REQS="$(get_req_and_rec $GRP)"
+			else
+				LOOP_REQS="$LOOP_REQS $(get_req_and_rec $GRP)"
+			fi
+		done
+
+		ALL_GRPS="$ALL_GRPS $LOOP_REQS"
+		REQUIRED_GRPS="$LOOP_REQS"
+
+		NUM=$(($NUM + 1))
+	done
+
+	echo $ALL_GRPS | tr " " "\n" | sort -u
+}
+
+OPT_TERM_MODE=no
+
+while [[ $# -gt 0 ]]; do
+
+	case $1 in
+	-h)
+		OPT_SHOWHIDDEN=yes
+		;;
+	--list-tasks)
+		cmd=groupnames 
+		;;
+	--task-desc)
+		cmd=showgroup
+		OPT_GRPS="$OPT_GRPS $2"
+		shift
+		;;
+	--task-packages)
+		cmd=grouppkgs
+		OPT_GRPS="$OPT_GRPS $2"
+		shift
+		;;
+	-t)
+		OPT_TERM_MODE=yes
+		;;
+	-r|-a|-p)
+		echo "Not supported argument: $1" >&2
+		;;
+	*)
+		echo "Incorrect argument: $1" >&2
+		exit 1
+		;;
+	esac
+
+	shift
+done
+
+# Find the first populated selection directory
+# Some more information about the *.sel files directory can be found in 
+# the suse package: yast2-packagemanager.
+# The file is src/inst/InstSrcManager.cc
+for DIR in $(ls -d /var/adm/YaST/InstSrcManager/IS_CACHE_0x000000??); do
+	if ls -l $DIR/DATA/descr/*.sel >/dev/null 2>&1; then
+		SEL_LOC=$DIR/DATA/descr
+		break
+	fi
+done
+
+if [[ -z "$SEL_LOC" ]]; then
+	echo "$PRGNAME: no selection files found" >&2
+	exit 2
+fi
+
+case $cmd in
+
+	groupnames)
+		groupnames
+		;;
+
+	showgroup)
+		showgroup $OPT_GRPS
+		;;
+
+	grouppkgs)
+		get_pkgs $(involved_groups $OPT_GRPS)
+		;;
+esac
+
+

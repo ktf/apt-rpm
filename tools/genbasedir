@@ -1,0 +1,621 @@
+#!/bin/sh
+#
+# $Id: genbasedir,v 1.6 2002/09/04 22:48:37 niemeyer Exp $
+#
+# This script generates the contents of the base/ directory, by creating
+# the pkglists and the hash file. Update the components directory to contain
+# the components of your repository.
+#
+ 
+usage="\
+Usage: genbasedir [<options>] <topdir> [<comp1> [<comp2> ...]]\n\
+
+Options:\n\
+   -s, --sign         Generate and sign hashfile\n\
+   --default-key=ID   Use ID as gnupg secret key\n\
+   --hashonly         Do hash stuff only\n\
+   --listonly         Generate pkglists/srclists and quit\n\
+   --partial          Update just some of the already existent components\n\
+   --oldhashfile      Enable generation of old hashfile\n\
+   --bz2only          Generate only compressed lists\n\
+   --progress         Show progress bars for genpkglist/gensrclist\n\
+   --updateinfo=FILE  Update information file\n\
+   --flat             Use flat repository, where SRPMS and RPMS are in\n\
+                      the topdir (SRPMS are usually in 'topdir/..')\n\
+   --bloat            Do not strip the package file list, needed for some\n\
+                      distributions that use non-automatically generated\n\
+                      file dependencies\n\
+   --meta=NAME        Create a meta repository named NAME\n\
+   --compresslevel=n  Set bzip2 compress level (1-9)\n\
+   --cachedir=DIR     Use a custom md5sum cache directory for package list\n\
+                      generation (useful for non-root users).\n\
+   -h, --help         Display this help\n\
+\n\
+Examples:\n\
+\n\
+   genbasedir /home/ftp/pub/conectiva\n\
+   genbasedir /home/ftp/pub/conectiva main extra devel\n\
+"
+
+getsize()
+{
+    tmp=`wc -c $1`
+    echo $tmp|cut -f1 -d\  
+}
+
+phashstuff()
+{
+    size=`getsize $1`
+    md5=`md5sum $1|cut -f1 -d\  `
+    echo " $md5 $size $2"
+}
+
+basedir=.
+signature=0
+listonly=0
+hashonly=0
+partial=0
+oldhashfile=0
+mapi=0
+bz2only=0
+meta=
+meta_opts=
+updateinfo=
+progress=
+flat=
+defaultkey=
+srcidxdir=
+
+
+# bloat is necessary for non-Conectiva distros, at least RH,
+# because they use file dependencies with a non-predictable
+# heuristic. So we can't strip-off paths that will probably
+# never appear in dependencies.
+bloat=""
+
+while test $# -gt 0 ; do
+    case "$1" in
+    -h | --help)
+        echo -e "$usage"
+        exit 0
+    ;;
+    --mapi)
+    	# hee hee hee..
+        mapi=1
+	;;
+    --listonly)
+        listonly=1
+	;;
+    --hashonly)
+        hashonly=1
+	;;
+	--partial)
+		partial=1
+	;;
+    --oldhashfile)
+        oldhashfile=1
+	;;
+    --bz2only)
+        bz2only=1
+    ;;
+    --append)
+        append=1
+    ;;
+    --meta=*)
+        meta=`echo $1 | sed 's/^--meta=//'`
+        meta_opts="--append --meta $meta"
+    ;;
+    --updateinfo=*)
+		updateinfo=$1
+	;;
+    --bloat)
+		bloat="--bloat"
+	;;
+    --topdir=*)
+		# Legacy
+		_topdir=$1
+    ;;
+    --progress)
+        progress="--progress"
+    ;;
+    --flat)
+        flat="--flat"
+    ;;
+    -s | --sign)
+		signature=1
+	;;
+	--default-key=*)
+		defaultkey="\"$1\""
+	;;
+	--compresslevel=*)
+		bz2opts="-`echo $1 | sed 's/^--compresslevel=//'`"
+	;;
+	--cachedir=*)
+		cachedir="`echo $1 | sed 's/^--cachedir=//'`"
+		cacheopts="--cachedir $cachedir"
+		[ -d $cachedir/genpkglist ] || mkdir -p $cachedir/genpkglist
+		[ -d $cachedir/gensrclist ] || mkdir -p $cachedir/gensrclist
+	;;
+    -*)
+        echo -e "$usage" 1>&2
+        exit 1
+    ;;
+    *)
+        break
+    ;;
+    esac
+    shift
+done
+
+if [ -z "$*" ]; then
+	echo -e "$usage" 1>&2
+	exit 1
+fi
+
+topdir=`echo $topdir_/$1|tr -s /`
+shift
+
+components=$*
+
+basedir_=base
+basedir=`echo $topdir/$basedir_|tr -s /`
+
+pkglist_=$basedir_/pkglist
+srclist_=$basedir_/srclist
+release_=$basedir_/release
+pkglist=$basedir/pkglist
+srclist=$basedir/srclist
+release=$basedir/release
+
+if [ ! -d "$topdir" ]; then
+	echo "error: invalid topdir: $topdir" 1>&2
+	exit 1
+fi
+
+if [ ! -d "$basedir" ]; then
+	echo -n "Creating base directory... "
+	mkdir $basedir
+	echo "done"
+fi
+
+if [ -z "$components" ]; then
+	comps=$basedir/.components.tmp
+	rm -f $comps; touch $comps
+	for dir in $topdir/RPMS.* $topdir/SRPMS.* $topdir/../SRPMS.*; do
+		if [ -d $dir ]; then
+			echo $dir | sed 's/.*\.//' >> $comps
+		fi
+	done
+	components=`cat $comps|sort|uniq`
+	components=`echo $components` # eat newlines
+	rm -f $comps
+fi
+
+if [ -z "$components" ]; then
+	echo "error: no components found" 2>&1
+    exit 1
+else
+	echo "Components: $components"
+fi
+
+if [ $hashonly -ne 1 ]; then
+
+# package lists
+# -------------
+
+test -z "$TMPDIR" && TMPDIR=/tmp;
+srcidxdir=`mktemp -d $TMPDIR/genbasedir.XXXXXX 2>/dev/null`
+if [ -z "$srcidxdir" -o ! -d "$srcidxdir" ]; then
+	srcidxdir=$basedir/.srcidxtmp.$$
+	mkdir -p $srcidxdir
+	if [ ! -d "$srcidxdir" ]; then
+		echo "error: can't create temp dir" 1>&2
+		exit 1
+	fi
+fi
+
+echo -n "Processing pkglists..."
+
+# Save older pkglist outside loop, if creating a meta repository
+if [ -n "$meta" ]; then 
+	if [ -f $basedir/pkglist.$meta ]; then
+		mv -f $basedir/pkglist.$meta $basedir/pkglist.$meta.old
+	fi
+fi
+
+for comp in $components; do
+	if [ ! -d $topdir/RPMS.$comp ]; then
+		continue
+	fi
+
+	echo -n " $comp"
+
+    # Save older pkglist inside loop, if creating a normal repository
+	if [ -z "$meta" ]; then
+		if [ -f $basedir/pkglist.$comp ]; then
+			mv -f $basedir/pkglist.$comp $basedir/pkglist.$comp.old
+		fi
+	fi
+
+    if test x$updateinfo = x; then
+    	(cd $basedir; genpkglist $progress $bloat $meta_opts $cacheopts --index $srcidxdir/srcidx.$comp $topdir $comp)
+    else
+    	(cd $basedir; genpkglist $progress $bloat $meta_opts $cacheopts --index $srcidxdir/srcidx.$comp --info $updateinfo $topdir $comp)
+    fi
+
+    if [ -z "$meta" -a -f $basedir/pkglist.$comp ]; then
+
+        # Compare with older pkglist.
+        if [ -f $basedir/pkglist.$comp.old ]; then
+            if cmp -s $basedir/pkglist.$comp.old $basedir/pkglist.$comp; then
+                mv -f $basedir/pkglist.$comp.old $basedir/pkglist.$comp
+            fi
+        fi
+
+        # Save older compressed pkglist
+        if [ -f $basedir/pkglist.$comp.bz2 ]; then
+            mv -f $basedir/pkglist.$comp.bz2 $basedir/pkglist.$comp.bz2.old
+        fi
+
+        bzip2 $bz2opts -c $basedir/pkglist.$comp > $basedir/pkglist.$comp.bz2
+
+        # Compare with older compressed pkglist.
+        if [ -f $basedir/pkglist.$comp.bz2.old ]; then
+            if cmp -s $basedir/pkglist.$comp.bz2.old $basedir/pkglist.$comp.bz2; then
+                mv -f $basedir/pkglist.$comp.bz2.old $basedir/pkglist.$comp.bz2
+            fi
+        fi
+
+        rm -f $basedir/pkglist.$comp.old
+        rm -f $basedir/pkglist.$comp.bz2.old
+    fi
+
+    cat $srcidxdir/srcidx.$comp >> $srcidxdir/srcidx
+
+done
+
+if [ -n "$meta" -a -f $basedir/pkglist.$meta ]; then
+
+	# Compare with older pkglist.
+	if [ -f $basedir/pkglist.$meta.old ]; then
+		if cmp -s $basedir/pkglist.$meta.old $basedir/pkglist.$meta; then
+			mv -f $basedir/pkglist.$meta.old $basedir/pkglist.$meta
+		fi
+	fi
+
+	# Save older compressed pkglist
+	if [ -f $basedir/pkglist.$meta.bz2 ]; then
+		mv -f $basedir/pkglist.$meta.bz2 $basedir/pkglist.$meta.bz2.old
+	fi
+
+	bzip2 $bz2opts -c $basedir/pkglist.$meta > $basedir/pkglist.$meta.bz2
+
+	# Compare with older compressed pkglist.
+	if [ -f $basedir/pkglist.$meta.bz2.old ]; then
+		if cmp -s $basedir/pkglist.$meta.bz2.old $basedir/pkglist.$meta.bz2; then
+			mv -f $basedir/pkglist.$meta.bz2.old $basedir/pkglist.$meta.bz2
+		fi
+	fi
+
+	rm -f $basedir/pkglist.$meta.old
+	rm -f $basedir/pkglist.$meta.bz2.old
+fi
+
+echo " [done]"
+
+echo -n "Processing srclists..."
+
+if [ -n "$meta" ]; then 
+	if [ -f $basedir/srclist.$meta ]; then
+		mv -f $basedir/srclist.$meta $basedir/srclist.$meta.old
+	fi
+fi
+
+for comp in $components; do
+	if [ -z "$flat" ]; then
+		srctopdir=`cd $topdir/..; pwd`
+	else
+		srctopdir=`cd $topdir; pwd`
+	fi
+
+	if [ ! -d $srctopdir/SRPMS.$comp ]; then
+		continue
+	fi
+
+	echo -n " $comp"
+
+    # Save older srclist
+    if [ -z "$meta" -a -f $basedir/srclist.$comp ]; then
+        mv -f $basedir/srclist.$comp $basedir/srclist.$comp.old
+    fi
+
+    if [ $mapi -ne 0 ]; then
+        (cd $basedir; gensrclist $progress $flat $meta_opts --mapi $srctopdir $comp $srcidxdir/srcidx.$comp)
+    else
+        (cd $basedir; gensrclist $progress $flat $meta_opts $srctopdir $comp $srcidxdir/srcidx)
+    fi
+
+    if [ -z "$meta" -a -f $basedir/srclist.$comp ]; then
+
+        # Compare with older srclist.
+        if [ -f $basedir/srclist.$comp.old ]; then
+            if cmp -s $basedir/srclist.$comp.old $basedir/srclist.$comp; then
+                mv -f $basedir/srclist.$comp.old $basedir/srclist.$comp
+            fi
+        fi
+
+        # Save older compressed srclist
+        if [ -f $basedir/srclist.$comp.bz2 ]; then
+            mv -f $basedir/srclist.$comp.bz2 $basedir/srclist.$comp.bz2.old
+        fi
+
+        bzip2 $bz2opts -c $basedir/srclist.$comp > $basedir/srclist.$comp.bz2
+
+        # Compare with older compressed srclist.
+        if [ -f $basedir/srclist.$comp.bz2.old ]; then
+            if cmp -s $basedir/srclist.$comp.bz2.old $basedir/srclist.$comp.bz2; then
+                mv -f $basedir/srclist.$comp.bz2.old $basedir/srclist.$comp.bz2
+            fi
+        fi
+
+        rm -f $basedir/srclist.$comp.old
+        rm -f $basedir/srclist.$comp.bz2.old
+    fi
+
+    rm -f $srcidxdir/srcidx.$comp
+done
+
+if [ -n "$meta" -a -f $basedir/srclist.$meta ]; then
+
+	# Compare with older srclist.
+	if [ -f $basedir/srclist.$meta.old ]; then
+		if cmp -s $basedir/srclist.$meta.old $basedir/srclist.$meta; then
+			mv -f $basedir/srclist.$meta.old $basedir/srclist.$meta
+		fi
+	fi
+
+	# Save older compressed srclist
+	if [ -f $basedir/srclist.$meta.bz2 ]; then
+		mv -f $basedir/srclist.$meta.bz2 $basedir/srclist.$meta.bz2.old
+	fi
+
+	bzip2 $bz2opts -c $basedir/srclist.$meta > $basedir/srclist.$meta.bz2
+
+	# Compare with older compressed srclist.
+	if [ -f $basedir/srclist.$meta.bz2.old ]; then
+		if cmp -s $basedir/srclist.$meta.bz2.old $basedir/srclist.$meta.bz2; then
+			mv -f $basedir/srclist.$meta.bz2.old $basedir/srclist.$meta.bz2
+		fi
+	fi
+
+	rm -f $basedir/srclist.$meta.old
+	rm -f $basedir/srclist.$meta.bz2.old
+fi
+
+echo " [done]"
+
+fi
+
+rm -rf $srcidxdir
+
+if [ -n "$meta" ]; then
+	components=$meta
+fi
+
+if [ $listonly -ne 0 ]; then
+	if [ $bz2only -eq 1 -a -f $pkglist.$comp ]; then
+		rm -f $pkglist.$comp
+	fi
+	if [ $bz2only -eq 1 -a -f $srclist.$comp ]; then
+		rm -f $srclist.$comp
+	fi
+else
+	# component release file
+	# ----------------------
+
+	echo -n "Updating component releases..."
+	for comp in $components; do
+		echo -n " $comp"
+		if [ -f $release.$comp ]; then
+			mv -f $release.$comp $release.$comp.old
+			sed -e "/\(Package\|Source\)Count:/d" \
+				$release.$comp.old > $release.$comp
+			rm -f $release.$comp.old
+		else
+			echo "Archive: Unknown"      >> $release.$comp
+			echo "Component: $comp"      >> $release.$comp
+			echo "Version: Unknown"      >> $release.$comp
+			echo "Origin: Unknown"       >> $release.$comp
+			echo "Label: Unknown"        >> $release.$comp
+			echo "Architecture: unknown" >> $release.$comp
+			echo "NotAutomatic: false"   >> $release.$comp
+		fi
+		if [ -f $pkglist.$comp ]; then
+			echo "PackageCount: `countpkglist $pkglist.$comp`" \
+				>> $release.$comp
+		fi
+		if [ -f $srclist.$comp ]; then
+			echo "SourceCount: `countpkglist $srclist.$comp`" \
+				>> $release.$comp
+		fi
+	done
+	echo " [done]"
+
+	# release file
+	# ------------
+
+	if [ -f $release ]; then
+		mv -f $release $release.old
+		if [ $partial -eq 0 ]; then
+			echo -n "Updating global release file... "
+			sed -n -e "/^MD5Sum:/q" \
+				   -e "s/^Date:.*\$/Date: `date -R`/" \
+				   -e "s/^Components:.*\$/Components: $components/" \
+				   -e "p" $release.old > $release
+			echo "MD5Sum:" >> $release
+		else
+			echo -n "Partially updating global release file... "
+			sed -n -e "/^\$/q" \
+				   -e "s/^Date:.*\$/Date: `date -R`/" \
+				   -e "p" $release.old > $release.pre
+			for comp in $components; do
+				sed -e "\#^ .* $pkglist_.$comp\(.bz2\)\?\$#d" \
+				    -e "\#^ .* $srclist_.$comp\(.bz2\)\?\$#d" \
+				    -e "\#^ .* $release_.$comp\(.bz2\)\?\$#d" \
+				    -e "s/^\(Components:.*\) $comp\(.*\)\$/\1\2/" \
+					$release.pre > $release.tmp
+				mv -f $release.tmp $release.pre
+			done
+			sed -e "s/^\(Components:.*\)\$/\1 $components/" \
+				$release.pre > $release
+			rm -f $release.pre
+		fi
+		echo "[done]"
+	else
+		echo -n "Creating global release file... "
+		echo "Origin: Unknown"            >> $release
+		echo "Label: Unknown"             >> $release
+		echo "Suite: Unknown"             >> $release
+		echo "Codename: Unknown"          >> $release
+		echo "Date: `date -R`"            >> $release
+		echo "Architectures: Unknown"     >> $release
+		echo "Components: $components"    >> $release
+		echo "Description: Not available" >> $release
+		echo "MD5Sum:"                    >> $release
+		echo "[done]"
+	fi
+
+	echo -n "Appending MD5Sum..."
+
+	for comp in $components; do
+		echo -n " $comp"
+		if [ -f $pkglist.$comp ]; then
+			phashstuff $pkglist.$comp $pkglist_.$comp >> $release
+			if [ $bz2only -eq 1 ]; then
+				rm -f $pkglist.$comp
+			fi
+		fi
+		if [ -f $srclist.$comp ]; then
+			phashstuff $srclist.$comp $srclist_.$comp >> $release
+			if [ $bz2only -eq 1 ]; then
+				rm -f $srclist.$comp
+			fi
+		fi
+		if [ -f $pkglist.$comp.bz2 ]; then
+			phashstuff $pkglist.$comp.bz2 $pkglist_.$comp.bz2 >> $release
+		fi
+		if [ -f $srclist.$comp.bz2 ]; then
+			phashstuff $srclist.$comp.bz2 $srclist_.$comp.bz2 >> $release
+		fi
+		if [ -f $release.$comp ]; then
+			phashstuff $release.$comp $release_.$comp >> $release
+		fi
+	done
+	echo " [done]"
+
+	echo >> $release
+
+	if [ $signature -ne 0 ]; then
+		# Use eval because $defaultkey may contain spaces
+		eval gpg --sign -armour --detach-sign --yes --quiet $defaultkey $release
+		cat $release.asc >> $release
+		rm -f $release.asc
+	fi
+
+	# Compare with older release
+	if [ -f $release.old ]; then
+		if cmp -s $release.old $release; then
+			mv -f $release.old $release
+		fi
+		rm -f $release.old
+	fi
+fi
+
+
+# old hashfile
+# ------------
+
+if [ $oldhashfile -ne 0 -a $listonly -eq 0 ]; then
+	# Save older hashfile
+	hf=$basedir/hashfile
+	if [ -f $hf ]; then
+		mv -f $hf $hf.old
+		if [ $partial -eq 0 ]; then
+			echo -n "Updating legacy hashfile... "
+			echo "MD5SUM:" > $hf
+		else
+			echo -n "Partially updating legacy hashfile file... "
+			sed -n -e "/^\$/q;p" $hf.old > $hf.pre
+			for comp in $components; do
+				sed -e "\#^ .* $pkglist_.$comp\(.bz2\)\?\$#d" \
+				    -e "\#^ .* $srclist_.$comp\(.bz2\)\?\$#d" \
+				    -e "\#^ .* $release_.$comp\(.bz2\)\?\$#d" \
+					$hf.pre > $hf.tmp
+				mv -f $hf.tmp $hf.pre
+			done
+			mv -f $hf.pre $hf
+		fi
+	else
+		echo -n "Creating legacy hashfile... "
+		echo "MD5SUM:" > $hf
+	fi
+	echo "[done]"
+
+	echo -n "Appending MD5Sum..."
+
+	for comp in $components; do
+		echo -n " $comp"
+
+		if [ -f $pkglist.$comp ]; then
+			phashstuff $pkglist.$comp $pkglist_.$comp >> $hf
+		fi
+		if [ -f $srclist.$comp ]; then
+			phashstuff $srclist.$comp $srclist_.$comp >> $hf
+		fi
+		if [ -f $pkglist.$comp.bz2 ]; then
+			phashstuff $pkglist.$comp.bz2 $pkglist_.$comp.bz2 >> $hf
+		fi
+		if [ -f $srclist.$comp.bz2 ]; then
+			phashstuff $srclist.$comp.bz2 $srclist_.$comp.bz2 >> $hf
+		fi
+		if [ -f $release.$comp ]; then
+			phashstuff $release.$comp $release_.$comp >> $hf
+		fi
+	done
+	echo " [done]"
+
+	echo >> $hf
+
+	# Compare with older hashfile.
+	if [ -f $basedir/hashfile.old ]; then
+		if cmp -s $basedir/hashfile.old $basedir/hashfile; then
+			mv -f $basedir/hashfile.old $basedir/hashfile
+		fi
+	fi
+
+	if [ $signature -ne 0 ]; then
+
+		# Save older hashfile.gpg
+		if [ -f $basedir/hashfile.gpg ]; then
+			mv -f $basedir/hashfile.gpg $basedir/hashfile.gpg.old
+		fi
+
+		# Use eval because $defaultkey may contain spaces
+		eval gpg --sign --armour --yes --quiet $defaultkey $basedir/hashfile
+		mv -f $basedir/hashfile.asc $basedir/hashfile.gpg
+
+		# Compare with older hashfile.gpg
+		if [ -f $basedir/hashfile.gpg.old ]; then
+			if cmp -s $basedir/hashfile.gpg.old $basedir/hashfile.gpg; then
+				mv -f $basedir/hashfile.gpg.old $basedir/hashfile.gpg
+			fi
+		fi
+	fi
+
+	rm -f $basedir/hashfile.old
+	rm -f $basedir/hashfile.gpg.old
+fi
+
+echo "All your base are belong to us!!!"
+
+# vim:ts=4:sw=4

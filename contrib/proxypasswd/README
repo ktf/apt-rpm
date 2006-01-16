@@ -1,0 +1,7 @@
+Simple script that asks for the proxy password at apt startup.
+
+This script must be plugged into the APT script slot
+
+    Scripts::Init
+
+Licensed under the GPL, by pmatilai@welho.com / 2003

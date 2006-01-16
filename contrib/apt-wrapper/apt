@@ -1,0 +1,405 @@
+#!/bin/sh
+##################################################################
+#
+# Copyright (C) 2003 R Bos
+#
+# File:           $RCSfile: apt,v $
+# Revision:       $Revision: 1.20 $
+# Last change:    $Date: 2004/06/24 19:48:38 $
+#
+# Send suggestions to: apt4rpm-devel@lists.sourceforge.net
+# Homepage: http://apt4rpm.sourceforge.net
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# For a copy of the GNU General Public License, visit
+# http://www.gnu.org or write to the Free Software Foundation, Inc.,
+# 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#
+##################################################################
+
+# It should be possible to show the user which application apt (this tool)
+# is dispatching.  It can't be done via a command line option as the
+# options are passed on to the dispatched application.  Therefor an environment
+# variable is used.  Export APT_VERBOSE in your environment and set it to
+# anything, e.g. APT_VERBOSE=1, APT_VERBOSE=true, etc.  Apt will than show
+# the application that is being dispatched.
+[ -z "$APT_VERBOSE" ] && APT_VERBOSE=no
+
+function usage
+{
+	( echo "$SHORTHELP"
+	  echo "Use man $PRGNAME for extended help."
+	) >&2
+}
+
+ARGV="$@"
+
+PRGNAME=$(basename $0)
+
+readonly SHORTHELP="Usage: $PRGNAME [options] [apt-rpm options] <action> [packages]"
+
+while [ $# -gt 0 ]; do
+	case $1 in
+	shell|dump)
+		APTCMD=apt-config
+		break
+		;;
+
+	update|upgrade|install|remove|dist-upgrade|\
+	  build-dep|clean|autoclean|check|source|moo|script|reinstall|\
+	  groupinstall|groupremove)
+		APTCMD=apt-get
+		break
+		;;
+
+	add|ident)
+		APTCMD=apt-cdrom
+		break
+		;;
+
+	add|gencaches|showsrc|showpkg|stats|dump|dumpavail|\
+	  unmet|search|depends|whatdepends|dotty|show|pkgnames|policy|\
+	  rdepends|xvcg|showgroup|groupnames)
+		APTCMD="apt-cache"
+		break
+		;;
+
+	query)
+		APTCMD=query
+		break
+		;;
+
+	querytags)
+		APTCMD=querytags
+		break
+		;;
+
+	list-extras)
+		APTCMD=list-extras
+		break
+		;;
+
+	list-nodeps)
+		APTCMD=list-nodeps
+		break
+		;;
+
+	-h|--h|--he|--hel|--help)
+		APTCMD=usage
+		;;
+
+	-v|--v|--ve|--ver|--vers|--versi|--version)
+		APTCMD=version
+
+		# Workaround.  apt-config and apt-cache execute the command
+		# instead of showing the version information only.
+		DISPLAY_VERSION=yes
+		;;
+	esac
+
+	shift
+done
+
+set -- $ARGV
+
+if [ -z "$APTCMD" ]; then
+
+	if [ $# -ne 0 ]; then
+		echo "$PRGNAME: error: no or unrecognized action provided" >&2
+	fi
+	usage
+	exit 100
+fi
+
+case $APTCMD in
+
+apt-get)
+
+	# Command line argument parsing, the allowed arguments (for apt-get) are
+	# alphabetically listed, keep it this way please.
+	APTOPT="arch-only,assume-yes,build,compile,config-file:"
+	APTOPT="$APTOPT,default-release,diff-only,download-only,dry-run,fix-broken"
+	APTOPT="$APTOPT,fix-missing,force-yes,help,ignore-hold,ignore-missing"
+	APTOPT="$APTOPT,just-print,list-cleanup,no-act,no-download,no-list-cleanup"
+	APTOPT="$APTOPT,no-remove,no-upgrade,only-source,option:,print-uris,purge"
+	APTOPT="$APTOPT,quiet,recon,reinstall,remove,show-upgraded,simulate,tar-only"
+	APTOPT="$APTOPT,target-release,trivial-only,version,yes"
+	
+	# Additional options, provided by this tool
+	ADDOPT="checksig,force-rpm,hold:,sourceslist:,no-checksig,no-postscript,postscript"
+	ADDOPT="$ADDOPT,show-rpm-command,test"
+
+	# Note that we use `"$@"' to let each command-line parameter expand to a
+	# separate word. The quotes around `$@' are essential!
+	# We need TEMP as the `eval set --' would nuke the return value of getopt.
+	TEMP=$(getopt --options=bc:dDfhmo:qstuvy --long $ADDOPT,$APTOPT -n $PRGNAME -- "$@")
+	if [ $? -ne 0 ]; then
+	  echo "Terminating..." >&2
+	  exit 100
+	fi
+	
+	# Note the quotes around `$TEMP': they are essential!
+	eval set -- "$TEMP"
+	
+	while true
+	do
+		case $1 in
+		--arch-only)		ARG="$ARG $1";;
+		--assume-yes)		ARG="$ARG $1";;
+		--build|-b)		ARG="$ARG $1";;
+		--checksig)		ARG="-o RPM::GPG-Check=true $ARG";;
+		--compile)		ARG="$ARG $1";;
+		--config-file|-c)	ARG="$ARG $1 $2"; shift;;
+		 -D)			ARG="$ARG $1";;
+		--default-release)	ARG="$ARG $1";;
+		--diff-only)		ARG="$ARG $1";;
+		--download-only|-d)	ARG="$ARG $1";;
+		--dry-run)		ARG="$ARG $1";;
+		--fix-broken|-f)	APT_FIXBROKEN=yes;;
+		--fix-missing|-m)	ARG="$ARG $1";;
+		--force-rpm)		ARG="-o rpm::Install-Options::=--force $ARG";;
+		--force-yes)		ARG="$ARG $1";;
+		--help|-h)		ARG="$ARG $1";;
+		--hold)			ARG="$ARG -o rpm::hold::=$2"; shift;;
+		--ignore-hold)		ARG="$ARG $1";;
+		--ignore-missing)	ARG="$ARG $1";;
+		--just-print)		ARG="$ARG $1";;
+		--list-cleanup)		ARG="$ARG $1";;
+		--no-act)		ARG="$ARG $1";;
+		--no-checksig)		ARG="-o RPM::GPG-Check=no $ARG";;
+		--no-download)		ARG="$ARG $1";;
+		--no-list-cleanup)	ARG="$ARG $1";;
+		--no-remove)		ARG="$ARG $1";;
+		--no-postscript)	ARG="-o Scripts::Options::RunPostScript=false $ARG";;
+		--only-source)		ARG="$ARG $1";;
+		--option|-o)		ARG="$ARG $1 $2"; shift;;
+		--postscript)		ARG="-o Scripts::Options::RunPostScript=true $ARG";;
+		--print-uris)		ARG="$ARG $1";;
+		--purge)		ARG="$ARG $1";;
+		--quiet|-q)		ARG="$ARG $1";;
+		--recon)		ARG="$ARG $1";;
+		--reinstall)		ARG="$ARG $1";;
+		--remove)		ARG="$ARG $1";;
+		--show-rpm-command)	RPM_SHOW_CMD=yes;;
+		--show-upgraded)	ARG="$ARG $1";;
+		--simulate|-s)		ARG="$ARG $1";;
+		--sourceslist)		RPM_SRC_LIST=$2; shift;;
+		--tar-only)		ARG="$ARG $1";;
+		--target-release|-t)	ARG="$ARG $1";;
+		--test)			ARG="-o rpm::options::=--test $ARG";;
+		--trivial-only)		ARG="$ARG $1";;
+		--version|-v)		ARG="$ARG $1";;
+		--yes|-y)		ARG="$ARG $1";;
+		--)			shift; ARG="$ARG $@"; break;;
+		*)			echo "unknow argument \"$1\""; exit 100;;
+		esac
+		shift
+	done
+	
+	if [ -n "$RPM_SHOW_CMD" ]; then
+
+		RPM_CMD=/usr/lib/apt/show_rpm_cmd
+		if [ ! -x $RPM_CMD ]; then
+
+			if [ ! -f $RPM_CMD ]; then
+
+				if [ $(id -u) -eq 0 ]; then
+
+					# It's dirty to do this, using hardcoded
+					# path and creating an executable on
+					# the fly...
+					echo "echo rpm \$@" > $RPM_CMD
+					chmod +x $RPM_CMD
+				else
+					echo "$PRGNAME: error: you need to be root" >&2
+					exit 100
+				fi
+			else
+				( echo -n "$PRGNAME: error: the file $RPM_CMD "
+				  echo "must be executable for the option:"
+				  echo "--show-rpm-cmd"
+				) >&2
+
+				exit 100
+			fi
+		fi
+
+		# It might be possible to use -o Debug::pkgRPMPM=true, but
+		# a trial with that, did not show the rpm -Uvh command while
+		# performing a dist-upgrade involving the removal and installation
+		# of packages.
+		ARG="-o RPM::PM=external -o Dir::Bin::rpm=$RPM_CMD $ARG"
+		ARG="$ARG -o Scripts::Options::ShowRpmCmd=true"
+	fi
+
+	if [ -n "$RPM_SRC_LIST" ]; then
+
+		eval $(apt-config shell ROOT Dir DIR Dir::Etc)
+		if [ -f $ROOT$DIR$RPM_SRC_LIST ]; then
+			ARG="-o dir::etc::sourcelist=$RPM_SRC_LIST $ARG"
+		else
+			echo "error: the provided sourceslist file does not exist" >&2
+			exit 100
+		fi
+	fi
+	
+	if [ "$APT_FIXBROKEN" == "yes" ]; then
+	  echo "warning: the argument --fix-broken (-f) is not needed normally."
+	  echo "If you want to use this apt argument, use apt-get directly."
+	  exit 100
+	fi
+	
+	if [ "$APT_VERBOSE" != "no" ]; then
+		( echo "$PRGNAME dispatching: apt-get $ARG" | tr -s " "
+		  echo
+		) >&2
+	fi
+
+	apt-get $ARG
+	;;
+
+apt-config)
+
+	if [ "$APT_VERBOSE" != "no" ]; then
+		( echo "$PRGNAME dispatching: apt-config $ARGV" | tr -s " "
+		  echo
+		) >&2
+	fi
+	# Workaround.  apt-config executes the action instead of showing
+	# the version information only.
+	# e.g. apt-config --version dump, in this example "dump" is the
+	# command/action.
+	if [ "$DISPLAY_VERSION" == "yes" ]; then
+		apt-config --version
+	else
+		apt-config $ARGV
+	fi
+	;;
+
+apt-cache)
+
+	if [ "$APT_VERBOSE" != "no" ]; then
+		( echo "$PRGNAME dispatching: apt-cache $ARGV" | tr -s " "
+		  echo
+		) >&2
+	fi
+
+	# Workaround.  apt-cache executes the action instead of showing
+	# the version information only.
+	# e.g. apt-cache --version show, in this example "show" is the
+	# command/action.
+	if [ "$DISPLAY_VERSION" == "yes" ]; then
+		apt-cache --version
+	else
+		apt-cache $ARGV
+	fi
+	;;
+
+apt-cdrom)
+
+	if [ "$APT_VERBOSE" != "no" ]; then
+		( echo "$PRGNAME dispatching: apt-cdrom $ARGV" | tr -s " "
+		  echo
+		) >&2
+	fi
+	apt-cdrom $ARGV
+	;;
+
+list-extras)
+	# Like yum's list extras functionality.  As discussed on:
+	# http://lwn.net/Articles/60650/
+	apt-cache list-extras
+	;;
+
+list-nodeps)
+	apt-cache list-nodeps
+	;;
+
+query)
+	while [ $# -gt 0 ]; do
+		case $1 in
+		-a|--all)
+			RPM_ARG_ALL=yes
+			;;
+		-q|query)
+			# -q is supported for rpm users that
+			# have the habit to execute rpm -q...
+			;;
+		-*)
+			# The user provided e.g. -i or -l as rpm query argument
+			RPM_OPT="yes"
+			break
+			;;
+		*)
+			if [ -z "$QRYSTR" ]; then
+				QRYSTR=$1
+			else
+				QRYSTR="$QRYSTR|$1"
+			fi
+			;;
+		esac
+
+		shift
+	done
+
+	if [ "$RPM_OPT" == "yes" ]; then
+
+		if [ "$APT_VERBOSE" != "no" ]; then
+			( echo "$PRGNAME dispatching: rpm -q $(echo $ARGV |
+			   sed s/query//)" | tr -s " "
+			  echo
+			) >&2
+		fi
+		rpm -q $(echo $ARGV | sed s/query//)
+	else
+
+		if [ "$RPM_ARG_ALL" == "yes" ]; then
+
+			if [ "$APT_VERBOSE" != "no" ]; then
+				( echo "$PRGNAME dispatching: rpm -qa |
+				    grep -E ${QRYSTR:-^}" | tr -s " "
+				  echo
+				) >&2
+			fi
+			rpm -qa | grep -Ei -- ${QRYSTR:-^} | sort
+		else
+			if [ "$APT_VERBOSE" != "no" ]; then
+				( echo -n "$PRGNAME dispatching: rpm -q"
+				  echo "$(echo $ARGV | sed s/query//)" | tr -s " "
+				  echo
+				) >&2
+			fi
+			rpm -q $(echo $ARGV | sed s/query//)
+		fi
+	fi
+	;;
+
+querytags)
+
+	if [ "$APT_VERBOSE" != "no" ]; then
+		( echo "$PRGNAME dispatching: rpm --querytags"
+		  echo
+		) >&2
+	fi
+	rpm --querytags
+	;;
+usage)
+	usage
+	;;
+version)
+	echo "The version of this wrapper around the apt tools is: 0.22"
+	echo
+	echo "The version of the apt tools is:"
+	apt-cdrom -v
+	;;
+esac
+
