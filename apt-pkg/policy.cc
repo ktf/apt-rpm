@@ -119,8 +119,9 @@ bool pkgPolicy::InitDefaults()
 pkgCache::VerIterator pkgPolicy::GetCandidateVer(pkgCache::PkgIterator Pkg)
 {
    // Look for a package pin and evaluate it.
-   signed Max = GetPriority(Pkg);
+   // CNC:2004-05-29
    pkgCache::VerIterator Pref = GetMatch(Pkg);
+   signed Max = GetPriority(Pkg);
 
    /* Falling through to the default version.. Setting Max to zero
       effectively excludes everything <= 0 which are the non-automatic
@@ -219,8 +220,21 @@ pkgCache::VerIterator pkgPolicy::GetMatch(pkgCache::PkgIterator Pkg)
    const Pin &PPkg = Pins[Pkg->ID];
    if (PPkg.Type != pkgVersionMatch::None)
    {
-      pkgVersionMatch Match(PPkg.Data,PPkg.Type);
-      return Match.Find(Pkg);
+      // CNC:2004-05-29 - Make negative pins on individual packages
+      // behave like package<>version.
+      pkgCache::VerIterator Ver;
+      pkgVersionMatch *Match;
+      if (PPkg.Type == pkgVersionMatch::Version && PPkg.Priority < 0)
+      {
+         Match = new pkgVersionMatch(PPkg.Data,PPkg.Type, pkgCache::Dep::NotEquals);
+	 Pins[Pkg->ID].Priority = 0;
+      }
+      else
+         Match = new pkgVersionMatch(PPkg.Data,PPkg.Type);
+      Ver = Match->Find(Pkg);
+      delete Match;
+	  
+      return Ver;
    }
    return pkgCache::VerIterator(*Pkg.Cache());
 }
