@@ -16,10 +16,10 @@ all: $(MODULES)
 $(MODULES): %.py: _%.so
 
 _%.so: %_wrap.cxx
-	$(CC) -fPIC -shared -I.. $(PYTHONFLAGS) $(LUAFLAGS) -L../bin -L../build/bin -lapt-pkg -o $@ $<
+	$(CC) -fPIC -shared -I.. -I../include $(PYTHONFLAGS) $(LUAFLAGS) -L../apt-pkg/.libs -lapt-pkg -o $@ $<
 
 apt_wrap.cxx: apt.i
-	$(SWIG) $(SWIGFLAGS) -c++ -I.. $(LUAFLAGS) -python $<
+	$(SWIG) $(SWIGFLAGS) -c++ -I.. -I../include $(LUAFLAGS) -python $<
 
 clean:
 	rm -f *.cxx
