@@ -325,7 +325,7 @@
 
  <refsect1><title>Files</title>
    <variablelist>
-     <varlistentry><term><filename>/usr/lib/apt/scripts</filename></term>
+     <varlistentry><term><filename>/usr/share/apt/scripts</filename></term>
      <listitem><para>APT lua scripts.
      Configuration item: <literal>Dir::Bin::scripts</literal>.</para></listitem>
      </varlistentry>

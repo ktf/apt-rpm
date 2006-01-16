@@ -40,7 +40,7 @@ After you created the database, you can install the plugin putting
 these files in the following directories:
 
     /etc/apt/apt.conf.d/apt-files.conf
-    /usr/lib/apt/scripts/apt-files.lua
+    /usr/share/apt/scripts/apt-files.lua
     /var/state/apt/Contents.gz
 
 Bingo! It should be working. ;-)
