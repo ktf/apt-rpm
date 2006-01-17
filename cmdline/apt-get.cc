@@ -1213,7 +1213,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
 		  unsigned int &ExpectedInst,bool AllowFail = true)
 {
    // CNC:2004-03-03 - Improved virtual package handling.
-   if (Cache[Pkg].CandidateVer == 0 && Pkg->ProvidesList != 0)
+   if (Pkg->VersionList == 0 && Pkg->ProvidesList != 0)
    {
       vector<pkgCache::Package *> GoodSolutions;
       for (pkgCache::PrvIterator Prv = Pkg.ProvidesList();
