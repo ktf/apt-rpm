@@ -47,17 +47,19 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
    {
 #ifdef WITH_HASH_MAP
       SeenPackages = new SeenPackagesType(517);
-      SeenMultiPackages = new SeenMultiPackagesType(517);
 #else
       SeenPackages = new SeenPackagesType;
-      SeenMultiPackages = new SeenMultiPackagesType;
 #endif
    }
    else
-   {
       SeenPackages = NULL;
-      SeenMultiPackages = NULL;
-   }
+
+#ifdef WITH_HASH_MAP
+   SeenMultiPackages = new SeenMultiPackagesType(517);
+#else
+   SeenMultiPackages = new SeenMultiPackagesType;
+#endif
+
    RpmData = RPMPackageData::Singleton();
 }
                                                                         /*}}}*/
@@ -130,6 +132,7 @@ string rpmListParser::Package()
    else if (SeenMultiPackages != NULL) {
       if (SeenMultiPackages->find(Name.c_str()) != SeenMultiPackages->end())
       {
+	 // cout << "make multipkg " << Name << " " << Architecture() << endl;
 	 RpmData->SetMultiArchPackage(Name);
 	 MultiArchPackage(Name);
 	 IsMulti = true;
