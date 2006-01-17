@@ -424,14 +424,12 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
       if (DepMode == true) {
 	 if (flagl[i] & RPMSENSE_PREREQ)
 	    Type = pkgCache::Dep::PreDepends;
-	 else if (flagl[i] & RPMSENSE_PREREQ)
-	    Type = pkgCache::Dep::Depends;
 #if RPM_VERSION >= 0x040403
 	 else if (flagl[i] & RPMSENSE_MISSINGOK)
 	    Type = pkgCache::Dep::Suggests;
 #endif
 	 else
-	    /* WTF? */;
+	    Type = pkgCache::Dep::Depends;
       }
 
 #if RPM_VERSION >= 0x040404
@@ -567,6 +565,7 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
       res = headerGetEntry(header, RPMTAG_SUGGESTSFLAGS, &type,
 			   (void **)&flagl, &count);
       break;
+#if 0 // Enhances is not even known to apt, sigh...
    case pkgCache::Dep::Enhances:
       res = headerGetEntry(header, RPMTAG_ENHANCESNAME, &type, 
 			   (void **)&namel, &count);
@@ -577,6 +576,7 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
       res = headerGetEntry(header, RPMTAG_ENHANCESFLAGS, &type,
 			   (void **)&flagl, &count);
       break;
+#endif
 #endif
    }
    
