@@ -137,7 +137,7 @@ string rpmListParser::Package()
    }
    if (IsMulti == true)
    {
-      Name += "." + Architecture();	 
+      Name += "@" + Architecture();	 
       CurrentName = Name;
       Multilib = true;
       return Name;
@@ -707,7 +707,7 @@ bool rpmListParser::Step()
       string RealName = Package();
 
       if (Multilib == true)
-	 RealName = RealName.substr(0,RealName.find('.'));
+	 RealName = RealName.substr(0,RealName.find('@'));
       if (Duplicated == true)
 	 RealName = RealName.substr(0,RealName.find('#'));
       if (RpmData->IgnorePackage(RealName) == true)
@@ -859,7 +859,7 @@ void rpmListParser::MultiArchPackage(string Name)
 
    pkgCache::VerIterator FromVerI = FromPkgI.VersionList();
    while (FromVerI.end() == false) {
-      string MangledName = Name+"."+string(FromVerI.Arch());
+      string MangledName = Name+"@"+string(FromVerI.Arch());
 
       // Get the new package.
       pkgCache::PkgIterator ToPkgI = Owner->GetCache().FindPkg(MangledName);
