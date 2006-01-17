@@ -112,6 +112,21 @@ RPMPackageData::RPMPackageData()
 	  DuplicatedPatterns.push_back(ptrn);
    }
 
+   // Populate MultiArch packages.
+   Top = _config->Tree("RPM::MultiArch");
+   for (Top = (Top == 0?0:Top->Child); Top != 0; Top = Top->Next)
+   {
+      regex_t *ptrn = new regex_t;
+      if (regcomp(ptrn,Top->Value.c_str(),REG_EXTENDED|REG_ICASE|REG_NOSUB) != 0)
+      {
+	 _error->Warning(_("Bad regular expression '%s' in option RPM::MultiArch."),
+			 Top->Value.c_str());
+	 delete ptrn;
+      }
+      else
+	  MultiArchPatterns.push_back(ptrn);
+   }
+
    // Populate fake provides
    Top = _config->Tree("RPM::Fake-Provides");
    for (Top = (Top == 0?0:Top->Child); Top != 0; Top = Top->Next)
@@ -291,6 +306,20 @@ bool RPMPackageData::IsDupPackage(const string &Name)
    return false;
 }
 
+bool RPMPackageData::IsMultiArchPackage(const string &Name)
+{
+   if (MultiArchPackages.find(Name) != MultiArchPackages.end())
+      return true;
+   const char *name = Name.c_str();
+   for (vector<regex_t*>::iterator I = MultiArchPatterns.begin();
+	I != MultiArchPatterns.end(); I++) {
+      if (regexec(*I,name,0,0,0) == 0) {
+	 SetMultiArchPackage(Name);
+	 return true;
+      }
+   }
+   return false;
+}
 RPMPackageData *RPMPackageData::Singleton()
 {
    static RPMPackageData *data = NULL;

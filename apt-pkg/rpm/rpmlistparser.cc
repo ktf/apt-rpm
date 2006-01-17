@@ -44,13 +44,20 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
    Handler->Rewind();
    header = NULL;
    if (Handler->IsDatabase() == true)
+   {
 #ifdef WITH_HASH_MAP
       SeenPackages = new SeenPackagesType(517);
+      SeenMultiPackages = new SeenMultiPackagesType(517);
 #else
       SeenPackages = new SeenPackagesType;
+      SeenMultiPackages = new SeenMultiPackagesType;
 #endif
+   }
    else
+   {
       SeenPackages = NULL;
+      SeenMultiPackages = NULL;
+   }
    RpmData = RPMPackageData::Singleton();
 }
                                                                         /*}}}*/
@@ -58,6 +65,7 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
 rpmListParser::~rpmListParser()
 {
    delete SeenPackages;
+   delete SeenMultiPackages;
 }
 
 // ListParser::UniqFindTagWrite - Find the tag and write a unq string	/*{{{*/
@@ -113,7 +121,28 @@ string rpmListParser::Package()
    } 
 
    bool IsDup = false;
+   bool IsMulti = false;
    string Name = str;
+   string BaseArch = _config->Find("APT::Architecture");
+
+   if (RpmData->IsMultiArchPackage(Name) == true)
+      IsMulti = true;
+   else if (SeenMultiPackages != NULL) {
+      if (SeenMultiPackages->find(Name.c_str()) != SeenMultiPackages->end())
+      {
+	 RpmData->SetMultiArchPackage(Name);
+	 MultiArchPackage(Name);
+	 IsMulti = true;
+      }
+   }
+   if (IsMulti == true)
+   {
+      Name += "." + Architecture();	 
+      CurrentName = Name;
+      Multilib = true;
+      return Name;
+   }
+
    
    // If this package can have multiple versions installed at
    // the same time, then we make it so that the name of the
@@ -267,6 +296,8 @@ bool rpmListParser::UsePackage(pkgCache::PkgIterator Pkg,
 {
    if (SeenPackages != NULL)
       (*SeenPackages)[Pkg.Name()] = true;
+   if (SeenMultiPackages != NULL)
+      (*SeenMultiPackages)[Pkg.Name()] = true;
    if (Pkg->Section == 0)
       Pkg->Section = UniqFindTagWrite(RPMTAG_GROUP);
    if (_error->PendingError()) 
@@ -674,6 +705,9 @@ bool rpmListParser::Step()
 #endif
       
       string RealName = Package();
+
+      if (Multilib == true)
+	 RealName = RealName.substr(0,RealName.find('.'));
       if (Duplicated == true)
 	 RealName = RealName.substr(0,RealName.find('#'));
       if (RpmData->IgnorePackage(RealName) == true)
@@ -815,6 +849,75 @@ void rpmListParser::VirtualizePackage(string Name)
    FromPkgI->CurrentState = 0;
 }
 
+void rpmListParser::MultiArchPackage(string Name)
+{
+   pkgCache::PkgIterator FromPkgI = Owner->GetCache().FindPkg(Name);
+
+   // Should always be false
+   if (FromPkgI.end() == true)
+      return;
+
+   pkgCache::VerIterator FromVerI = FromPkgI.VersionList();
+   while (FromVerI.end() == false) {
+      string MangledName = Name+"."+string(FromVerI.Arch());
+
+      // Get the new package.
+      pkgCache::PkgIterator ToPkgI = Owner->GetCache().FindPkg(MangledName);
+      if (ToPkgI.end() == true) {
+	 // Theoretically, all packages virtualized should pass here at least
+	 // once for each new version in the list, since either the package was
+	 // already setup as Allow-Duplicated (and this method would never be
+	 // called), or the package doesn't exist before getting here. If
+	 // we discover that this assumption is false, then we must do
+	 // something to order the version list correctly, since the package
+	 // could already have some other version there.
+	 Owner->NewPackage(ToPkgI, MangledName);
+
+	 // Should it get the flags from the original package? Probably not,
+	 // or automatic Allow-Duplicated would work differently than
+	 // hardcoded ones.
+	 ToPkgI->Flags |= RpmData->PkgFlags(MangledName);
+	 ToPkgI->Section = FromPkgI->Section;
+      }
+      
+      // Move the version to the new package.
+      FromVerI->ParentPkg = ToPkgI.Index();
+
+      // Put it at the end of the version list (about ordering,
+      // read the comment above).
+      map_ptrloc *ToVerLast = &ToPkgI->VersionList;
+      for (pkgCache::VerIterator ToVerLastI = ToPkgI.VersionList();
+	   ToVerLastI.end() == false; ToVerLastI++)
+	   ToVerLast = &ToVerLastI->NextVer;
+
+      *ToVerLast = FromVerI.Index();
+
+      // Provide the real package name with the current version.
+      NewProvides(FromVerI, Name, FromVerI.VerStr());
+
+      // Is this the current version of the old package? If yes, set it
+      // as the current version of the new package as well.
+      if (FromVerI == FromPkgI.CurrentVer()) {
+	 ToPkgI->CurrentVer = FromVerI.Index();
+	 ToPkgI->SelectedState = pkgCache::State::Install;
+	 ToPkgI->InstState = pkgCache::State::Ok;
+	 ToPkgI->CurrentState = pkgCache::State::Installed;
+      }
+
+      // Move the iterator before reseting the NextVer.
+      pkgCache::Version *FromVer = (pkgCache::Version*)FromVerI;
+      FromVerI++;
+      FromVer->NextVer = 0;
+   }
+
+   // Reset original package data.
+   FromPkgI->CurrentVer = 0;
+   FromPkgI->VersionList = 0;
+   FromPkgI->Section = 0;
+   FromPkgI->SelectedState = 0;
+   FromPkgI->InstState = 0;
+   FromPkgI->CurrentState = 0;
+}
 #endif /* HAVE_RPM */
 
 // vim:sts=3:sw=3

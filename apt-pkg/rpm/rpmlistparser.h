@@ -38,12 +38,17 @@ class rpmListParser : public pkgCacheGenerator::ListParser
 #ifdef WITH_HASH_MAP
    typedef hash_map<const char*,bool,
    		    hash<const char*>,cstr_eq_pred> SeenPackagesType;
+   typedef hash_map<const char*,bool,
+   		    hash<const char*>,cstr_eq_pred> SeenMultiPackagesType;
 #else
    typedef map<const char*,bool,cstr_lt_pred> SeenPackagesType;
+   typedef map<const char*,bool,cstr_lt_pred> SeenMultiPackagesType;
 #endif
    SeenPackagesType *SeenPackages;
+   SeenMultiPackagesType *SeenMultiPackages;
    
    bool Duplicated;
+   bool Multilib;
    
    unsigned long UniqFindTagWrite(int Tag);
    bool ParseStatus(pkgCache::PkgIterator Pkg,pkgCache::VerIterator Ver);
@@ -84,6 +89,7 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    bool LoadReleaseInfo(pkgCache::PkgFileIterator FileI,FileFd &File);
 
    void VirtualizePackage(string Name);
+   void MultiArchPackage(string Name);
    
    rpmListParser(RPMHandler *Handler);
    ~rpmListParser();
