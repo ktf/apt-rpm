@@ -241,6 +241,20 @@ bool pkgAcquire::Worker::RunMessages()
 	 case 179:
 	 Config->PreferredURI = LookupTag(Message, "PreferredURI");
 	 break;
+
+	 // 103 Redirect
+	 case 103:
+	 {
+	    if (Itm == 0)
+	    {
+	       _error->Error("Method gave invalid 103 Redirect message");
+	       break;
+	    }
+
+	    string NewURI = LookupTag(Message,"New-URI",URI.c_str());
+	    Itm->URI = NewURI;
+	    break;
+	 }
 	    
 	 // 200 URI Start
 	 case 200:
@@ -344,6 +358,11 @@ bool pkgAcquire::Worker::RunMessages()
 	 case 403:
 	 MediaChange(Message); 
 	 break;
+
+	 // 404 Authenticate
+	 case 404:
+	 Authenticate(Message);
+	 break;
       }      
    }
    return true;
@@ -405,6 +424,34 @@ bool pkgAcquire::Worker::MediaChange(string Message)
 
    char S[300];
    snprintf(S,sizeof(S),"603 Media Changed\n\n");
+   if (Debug == true)
+      clog << " -> " << Access << ':' << QuoteString(S,"\n") << endl;
+   OutQueue += S;
+   OutReady = true;
+   return true;
+}
+									/*}}}*/
+// Worker::Authenticate - Request authentication       			/*{{{*/
+// ---------------------------------------------------------------------
+/* */
+bool pkgAcquire::Worker::Authenticate(string Message)
+{
+   string User, Pass;
+   if (Log == 0 || Log->Authenticate(LookupTag(Message,"Description"),
+				     User,Pass) == false)
+   {
+      char S[300];
+      snprintf(S,sizeof(S),"604 Authenticated\nFailed: true\n\n");
+      if (Debug == true)
+	 clog << " -> " << Access << ':' << QuoteString(S,"\n") << endl;
+      OutQueue += S;
+      OutReady = true;
+      return true;
+   }
+
+   char S[300];
+   snprintf(S,sizeof(S),"604 Authenticated\nUser: %s\nPassword: %s\n\n",
+	    User.c_str(), Pass.c_str());
    if (Debug == true)
       clog << " -> " << Access << ':' << QuoteString(S,"\n") << endl;
    OutQueue += S;

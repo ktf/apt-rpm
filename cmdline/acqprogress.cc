@@ -18,6 +18,8 @@
     
 #include <stdio.h>
 #include <signal.h>
+#include <termios.h>
+#include <unistd.h>
 #include <iostream>
 									/*}}}*/
 
@@ -276,6 +278,62 @@ bool AcqTextStatus::MediaChange(string Media,string Drive)
    char C = 0;
    while (C != '\n' && C != '\r')
       read(STDIN_FILENO,&C,1);
+   
+   Update = true;
+   return true;
+}
+									/*}}}*/
+// AcqTextStatus::Authenticate - Authenticate the user			/*{{{*/
+// ---------------------------------------------------------------------
+/* Prompt for a username and password */
+bool AcqTextStatus::Authenticate(string Desc,string &User,string &Pass)
+{
+   if (Quiet > 0)
+      return false;
+
+   cout << '\r' << BlankLine << '\r';
+
+   ioprintf(cout,_("Please login to %s\nUsername: "), Desc.c_str());
+   cout << flush;
+
+   char S[1024];
+   char C = 0;
+   size_t idx = 0;
+   while (C != '\n' && C != '\r' && idx < (sizeof(S) - 1))
+   {
+      read(STDIN_FILENO,&C,1);
+      S[idx++] = C;
+   }
+   S[--idx] = '\0';
+   User = S;
+
+   ioprintf(cout,_("Password: "));
+   cout << flush;
+
+   // Turn off echo for entering the password
+   struct termios TermIO;
+   tcgetattr(STDIN_FILENO, &TermIO);
+
+   struct termios TermIO_noecho;
+   TermIO_noecho = TermIO;
+   TermIO_noecho.c_lflag &= !ECHO;
+   tcsetattr(STDIN_FILENO, TCSANOW, &TermIO_noecho);
+
+   C = 0;
+   idx = 0;
+   while (C != '\n' && C != '\r' && idx < (sizeof(S) - 1))
+   {
+      read(STDIN_FILENO,&C,1);
+      S[idx++] = C;
+   }
+   S[--idx] = '\0';
+   Pass = S;
+
+   // Turn echo back on
+   tcsetattr(STDIN_FILENO, TCSANOW, &TermIO);
+
+   ioprintf(cout,_("\n"));
+   cout << flush;
    
    Update = true;
    return true;

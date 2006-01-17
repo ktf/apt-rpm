@@ -22,6 +22,7 @@ class AcqTextStatus : public pkgAcquireStatus
    public:
    
    virtual bool MediaChange(string Media,string Drive);
+   virtual bool Authenticate(string Desc,string &User,string &Pass);
    virtual void IMSHit(pkgAcquire::ItemDesc &Itm);
    virtual void Fetch(pkgAcquire::ItemDesc &Itm);
    virtual void Done(pkgAcquire::ItemDesc &Itm);

@@ -871,5 +871,17 @@ void pkgAcquireStatus::Fetched(unsigned long Size,unsigned long Resume)
 {   
    FetchedBytes += Size - Resume;
 }
+
+
+									/*}}}*/
+// AcquireStatus::Authenticate - Called to authenticate			/*{{{*/
+// ---------------------------------------------------------------------
+/* This is used to fetch a username and password from the user */
+bool pkgAcquireStatus::Authenticate(string Desc,string &User,string &Pass)
+{
+   /* The default behavior for all clients is to refuse to authenticate
+      interactively; this preserves backwards compatibility. */
+   return false;
+}
 									/*}}}*/
 // vim:sts=3:sw=3

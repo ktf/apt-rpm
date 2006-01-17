@@ -94,6 +94,8 @@ struct ServerState
    enum {Chunked,Stream,Closes} Encoding;
    enum {Header, Data} State;
    bool Persistent;
+   string Location;
+   string Realm, ProxyRealm;
    
    // This is a Persistent attribute of the server itself.
    bool Pipeline;
@@ -123,6 +125,14 @@ struct ServerState
 
 class HttpMethod : public pkgAcqMethod
 {
+   struct AuthRec
+   {
+      string Host;
+      string Realm;
+      string User;
+      string Password;
+   };
+
    void SendReq(FetchItem *Itm,CircleBuf &Out);
    bool Go(bool ToFile,ServerState *Srv);
    bool Flush(ServerState *Srv);
@@ -137,6 +147,9 @@ class HttpMethod : public pkgAcqMethod
    static int FailFd;
    static time_t FailTime;
    static void SigTerm(int);
+
+   string NextURI;
+   vector<AuthRec> AuthList;
    
    public:
    friend class ServerState;

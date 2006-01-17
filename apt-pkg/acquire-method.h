@@ -71,6 +71,7 @@ class pkgAcqMethod
    void URIStart(FetchResult &Res);
    void URIDone(FetchResult &Res,FetchResult *Alt = 0);
    bool MediaFail(string Required,string Drive);
+   bool NeedAuth(string Description,string &User,string &Pass);
    virtual void Exit() {};
    // CNC:2004-04-27
    virtual string PreferredURI() { return ""; };
@@ -85,7 +86,8 @@ class pkgAcqMethod
 
    void Log(const char *Format,...);
    void Status(const char *Format,...);
-   
+   void Redirect(const string &NewURI);
+
    int Run(bool Single = false);
    inline void SetFailExtraMsg(string Msg) {FailExtra = Msg;};
    

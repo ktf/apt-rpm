@@ -26,6 +26,7 @@
 #include <apt-pkg/hashes.h>
 
 #include <iostream>
+#include <sstream>
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -138,24 +139,22 @@ void pkgAcqMethod::URIStart(FetchResult &Res)
 {
    if (Queue == 0)
       abort();
-   
-   char S[1024] = "";
-   char *End = S;
-   
-   End += snprintf(S,sizeof(S),"200 URI Start\nURI: %s\n",Queue->Uri.c_str());
+
+   ostringstream s;
+
+   s << "200 URI Start\nURI: " << Queue->Uri << "\n";
    if (Res.Size != 0)
-      End += snprintf(End,sizeof(S)-4 - (End - S),"Size: %lu\n",Res.Size);
-   
+      s << "Size: " << Res.Size << "\n";
+
    if (Res.LastModified != 0)
-      End += snprintf(End,sizeof(S)-4 - (End - S),"Last-Modified: %s\n",
-		      TimeRFC1123(Res.LastModified).c_str());
-   
+      s << "Last-Modified: " << TimeRFC1123(Res.LastModified) << "\n";
+
    if (Res.ResumePoint != 0)
-      End += snprintf(End,sizeof(S)-4 - (End - S),"Resume-Point: %lu\n",
-		      Res.ResumePoint);
-      
-   strcat(End,"\n");
-   if (write(STDOUT_FILENO,S,strlen(S)) != (signed)strlen(S))
+      s << "Resume-Point: " << Res.ResumePoint << "\n";
+
+   s << "\n";
+   string S = s.str();
+   if (write(STDOUT_FILENO,S.c_str(),S.size()) != (ssize_t)S.size())
       exit(100);
 }
 									/*}}}*/
@@ -167,63 +166,57 @@ void pkgAcqMethod::URIDone(FetchResult &Res, FetchResult *Alt)
    if (Queue == 0)
       abort();
    
-   char S[1024] = "";
-   char *End = S;
-   
-   End += snprintf(S,sizeof(S),"201 URI Done\nURI: %s\n",Queue->Uri.c_str());
+   ostringstream s;
 
+   s << "201 URI Done\nURI: " << Queue->Uri << "\n";
+   
    if (Res.Filename.empty() == false)
-      End += snprintf(End,sizeof(S)-50 - (End - S),"Filename: %s\n",Res.Filename.c_str());
+      s << "Filename: " << Res.Filename << "\n";
    
    if (Res.Size != 0)
-      End += snprintf(End,sizeof(S)-50 - (End - S),"Size: %lu\n",Res.Size);
+      s << "Size: " << Res.Size << "\n";
    
    if (Res.LastModified != 0)
-      End += snprintf(End,sizeof(S)-50 - (End - S),"Last-Modified: %s\n",
-		      TimeRFC1123(Res.LastModified).c_str());
+      s << "Last-Modified: " << TimeRFC1123(Res.LastModified) << "\n";
 
    if (Res.MD5Sum.empty() == false)
-      End += snprintf(End,sizeof(S)-50 - (End - S),"MD5-Hash: %s\n",Res.MD5Sum.c_str());
+      s << "MD5-Hash: " << Res.MD5Sum << "\n";
    if (Res.SHA1Sum.empty() == false)
-      End += snprintf(End,sizeof(S)-50 - (End - S),"SHA1-Hash: %s\n",Res.SHA1Sum.c_str());
+      s << "SHA1-Hash: " << Res.SHA1Sum << "\n";
 
    // CNC:2002-07-04
    if (Res.SignatureFP.empty() == false)
-      End += snprintf(End,sizeof(S)-50 - (End - S),"Signature-Fingerprint: %s\n",Res.SignatureFP.c_str());
+      s << "Signature-Fingerprint: " << Res.SignatureFP << "\n";
 
    if (Res.ResumePoint != 0)
-      End += snprintf(End,sizeof(S)-50 - (End - S),"Resume-Point: %lu\n",
-		      Res.ResumePoint);
+      s << "Resume-Point: " << Res.ResumePoint << "\n";
 
    if (Res.IMSHit == true)
-      strcat(End,"IMS-Hit: true\n");
-   End = S + strlen(S);
-   
+      s << "IMS-Hit: true\n";
+      
    if (Alt != 0)
    {
       if (Alt->Filename.empty() == false)
-	 End += snprintf(End,sizeof(S)-50 - (End - S),"Alt-Filename: %s\n",Alt->Filename.c_str());
+	 s << "Alt-Filename: " << Alt->Filename << "\n";
       
       if (Alt->Size != 0)
-	 End += snprintf(End,sizeof(S)-50 - (End - S),"Alt-Size: %lu\n",Alt->Size);
+	 s << "Alt-Size: " << Alt->Size << "\n";
       
       if (Alt->LastModified != 0)
-	 End += snprintf(End,sizeof(S)-50 - (End - S),"Alt-Last-Modified: %s\n",
-			 TimeRFC1123(Alt->LastModified).c_str());
+	 s << "Alt-Last-Modified: " << TimeRFC1123(Alt->LastModified) << "\n";
       
       if (Alt->MD5Sum.empty() == false)
-	 End += snprintf(End,sizeof(S)-50 - (End - S),"Alt-MD5-Hash: %s\n",
-			 Alt->MD5Sum.c_str());
+	 s << "Alt-MD5-Hash: " << Alt->MD5Sum << "\n";
       if (Alt->SHA1Sum.empty() == false)
-	 End += snprintf(End,sizeof(S)-50 - (End - S),"Alt-SHA1-Hash: %s\n",
-			 Alt->SHA1Sum.c_str());
+	 s << "Alt-SHA1-Hash: " << Alt->SHA1Sum << "\n";
       
       if (Alt->IMSHit == true)
-	 strcat(End,"Alt-IMS-Hit: true\n");
+	 s << "Alt-IMS-Hit: true\n";
    }
    
-   strcat(End,"\n");
-   if (write(STDOUT_FILENO,S,strlen(S)) != (signed)strlen(S))
+   s << "\n";
+   string S = s.str();
+   if (write(STDOUT_FILENO,S.c_str(),S.size()) != (ssize_t)S.size())
       exit(100);
 
    // Dequeue
@@ -281,6 +274,66 @@ bool pkgAcqMethod::MediaFail(string Required,string Drive)
 	 }
 
 	 return !StringToBool(LookupTag(Message,"Fail"),false);
+      }
+      
+      Messages.push_back(Message);
+   }   
+}
+									/*}}}*/
+// AcqMethod::NeedAuth - Request authentication				/*{{{*/
+// ---------------------------------------------------------------------
+/* This sends a 404 Authenticate message to the APT and waits for it
+   to be ackd */
+bool pkgAcqMethod::NeedAuth(string Description,string &User,string &Pass)
+{
+   char S[1024];
+   snprintf(S,sizeof(S),"404 Authenticate\nDescription: %s\n\n",
+	    Description.c_str());
+
+   if (write(STDOUT_FILENO,S,strlen(S)) != (signed)strlen(S))
+      exit(100);
+   
+   vector<string> MyMessages;
+   
+   /* Here we read messages until we find a 604, each non 604 message is
+      appended to the main message list for later processing */
+   while (1)
+   {
+      if (WaitFd(STDIN_FILENO) == false)
+	 return false;
+      
+      if (ReadMessages(STDIN_FILENO,MyMessages) == false)
+	 return false;
+
+      string Message = MyMessages.front();
+      MyMessages.erase(MyMessages.begin());
+      
+      // Fetch the message number
+      char *End;
+      int Number = strtol(Message.c_str(),&End,10);
+      if (End == Message.c_str())
+      {	 
+	 cerr << "Malformed message!" << endl;
+	 exit(100);
+      }
+
+      // Change ack
+      if (Number == 604)
+      {
+	 while (MyMessages.empty() == false)
+	 {
+	    Messages.push_back(MyMessages.front());
+	    MyMessages.erase(MyMessages.begin());
+	 }
+
+	 if (StringToBool(LookupTag(Message,"Fail"),false) == false)
+	 {
+	    User = LookupTag(Message,"User");
+	    Pass = LookupTag(Message,"Password");
+	    return true;
+	 }
+	 else
+	    return false;
       }
       
       Messages.push_back(Message);
@@ -449,16 +502,49 @@ void pkgAcqMethod::Status(const char *Format,...)
    va_list args;
    va_start(args,Format);
 
-   // sprintf the description
-   char S[1024];
-   unsigned int Len = snprintf(S,sizeof(S)-4,"102 Status\nURI: %s\n"
-			       "Message: ",CurrentURI.c_str());
+   ostringstream s;
+   s << "102 Status\nURI: " << CurrentURI << "\nMessage: ";
 
-   vsnprintf(S+Len,sizeof(S)-4-Len,Format,args);
-   strcat(S,"\n\n");
-   
-   if (write(STDOUT_FILENO,S,strlen(S)) != (signed)strlen(S))
+   // sprintf the description
+   char Buf[1024];
+   vsnprintf(Buf,sizeof(Buf)-4,Format,args);
+   s << Buf << "\n\n";
+
+   string S = s.str();
+   if (write(STDOUT_FILENO,S.c_str(),S.size()) != (ssize_t)S.size())
       exit(100);
+}
+									/*}}}*/
+// AcqMethod::Redirect - Send a redirect message			/*{{{*/
+// ---------------------------------------------------------------------
+/* This method sends the redirect message and also manipulates the queue
+   to keep the pipeline synchronized. */
+void pkgAcqMethod::Redirect(const string &NewURI)
+{
+   string CurrentURI = "<UNKNOWN>";
+   if (Queue != 0)
+      CurrentURI = Queue->Uri;
+
+   ostringstream s;
+   s << "103 Redirect\nURI: " << CurrentURI << "\nNew-URI: " << NewURI 
+     << "\n\n";
+
+   string S = s.str();
+   if (write(STDOUT_FILENO,S.c_str(),S.size()) != (ssize_t)S.size())
+      exit(100);
+
+   // Change the URI for the request.
+   Queue->Uri = NewURI;
+
+   /* To keep the pipeline synchronized, move the current request to
+      the end of the queue, past the end of the current pipeline. */
+   FetchItem *I;
+   for (I = Queue; I->Next != 0; I = I->Next) ;
+   I->Next = Queue;
+   Queue = Queue->Next;
+   I->Next->Next = 0;
+   if (QueueBack == 0)
+      QueueBack = I->Next;
 }
 									/*}}}*/
 

@@ -39,6 +39,7 @@
 #include <errno.h>
 #include <string.h>
 #include <iostream>
+#include <map>
 
 // Internet stuff
 #include <netdb.h>
@@ -59,6 +60,7 @@ int HttpMethod::FailFd = -1;
 time_t HttpMethod::FailTime = 0;
 unsigned long PipelineDepth = 10;
 unsigned long TimeOut = 120;
+bool ChokePipe = true;
 bool Debug = false;
 
 // CircleBuf::CircleBuf - Circular input buffer				/*{{{*/
@@ -594,6 +596,31 @@ bool ServerState::HeaderLine(string Line)
       return true;
    }
 
+   if (stringcasecmp(Tag,"Location:") == 0)
+   {
+      Location = Val;
+      return true;
+   }
+
+   if (stringcasecmp(Tag,"WWW-Authenticate:") == 0 ||
+       stringcasecmp(Tag,"Proxy-Authenticate:") == 0)
+   {
+      string::size_type SplitPoint = Val.find(' ');
+      string AuthType = Val.substr(0, SplitPoint);
+      string RealmStr = Val.substr(SplitPoint + 1, 
+				   Val.length() - SplitPoint - 1);
+      SplitPoint = RealmStr.find('=');
+      string FoundRealm = RealmStr.substr(SplitPoint, 
+					  RealmStr.length() - SplitPoint);
+
+      if (stringcasecmp(Tag,"WWW-Authenticate:") == 0)
+	 Realm = FoundRealm;
+      else
+	 ProxyRealm = FoundRealm;
+
+      return true;
+   }
+
    return true;
 }
 									/*}}}*/
@@ -860,7 +887,8 @@ bool HttpMethod::ServerDie(ServerState *Srv)
      1 - IMS hit
      3 - Unrecoverable error 
      4 - Error with error content page
-     5 - Unrecoverable non-server error (close the connection) */
+     5 - Unrecoverable non-server error (close the connection)
+     6 - Try again with a new or changed URI  */
 int HttpMethod::DealWithHeaders(FetchResult &Res,ServerState *Srv)
 {
    // Not Modified
@@ -871,7 +899,96 @@ int HttpMethod::DealWithHeaders(FetchResult &Res,ServerState *Srv)
       Res.LastModified = Queue->LastModified;
       return 1;
    }
-   
+
+   /* Redirect
+    *
+    * Note that it is only OK for us to treat all redirection the same
+    * because we *always* use GET, not other HTTP methods.  There are
+    * three redirection codes for which it is not appropriate that we
+    * redirect.  Pass on those codes so the error handling kicks in.
+    */
+   if ((Srv->Result > 300 && Srv->Result < 400)
+       && (Srv->Result != 300       // Multiple Choices
+           && Srv->Result != 304    // Not Modified
+           && Srv->Result != 306))  // (Not part of HTTP/1.1, reserved)
+   {
+      if (!Srv->Location.empty())
+      {
+         NextURI = Srv->Location;
+         return 6;
+      }
+      else
+	 return 3;
+   }
+
+   // Authentication
+   if (Srv->Result == 401)
+   {
+      string Description;
+      string AuthUser, AuthPass;
+      vector<AuthRec>::iterator CurrentAuth;
+      URI ParsedURI(Queue->Uri);
+
+      // Have we had to log in to this site before?
+      if (ParsedURI.User.empty())
+      {
+	 for (CurrentAuth = AuthList.begin(); CurrentAuth != AuthList.end();
+	      CurrentAuth++)
+	    if (CurrentAuth->Host == Srv->ServerName.Host &&
+		CurrentAuth->Realm == Srv->Realm)
+	    {
+	       AuthUser = CurrentAuth->User;
+	       AuthPass = CurrentAuth->Password;
+	       break;
+	    }
+      }
+      else
+	 CurrentAuth = AuthList.end();
+
+      // Nope - get username and password
+      if (CurrentAuth == AuthList.end())
+      {
+	 Description = ParsedURI.Host + ":" + Srv->Realm;
+
+#ifdef WITH_SSL
+	 if (ParsedURI.Access == "https")
+	    Description += string(" (secure)");
+#endif
+
+	 if (NeedAuth(Description, AuthUser, AuthPass) == true)
+	 {
+	    // Got new credentials; save them
+	    AuthRec NewAuthInfo;
+
+	    NewAuthInfo.Host = Srv->ServerName.Host;
+	    NewAuthInfo.Realm = Srv->Realm;
+	    NewAuthInfo.User = AuthUser;
+	    NewAuthInfo.Password = AuthPass;
+
+	    for (CurrentAuth = AuthList.begin(); CurrentAuth != AuthList.end();
+		 CurrentAuth++)
+	       if (CurrentAuth->Host == Srv->ServerName.Host &&
+		   CurrentAuth->Realm == Srv->Realm)
+	       {
+		  *CurrentAuth = NewAuthInfo;
+		  break;
+	       }
+	    
+	    if (CurrentAuth == AuthList.end())
+	       AuthList.push_back(NewAuthInfo);
+	 }
+	 else
+	    // Interactive auth failed
+	    return 4;
+      }
+
+      // Try the same URI again, with credentials this time
+      ParsedURI.User = AuthUser;
+      ParsedURI.Password = AuthPass;
+      NextURI = ParsedURI;
+      return 6;
+   }
+
    /* We have a reply we dont handle. This should indicate a perm server
       failure */
    if (Srv->Result < 200 || Srv->Result >= 300)
@@ -963,10 +1080,21 @@ bool HttpMethod::Fetch(FetchItem *)
       // If pipelining is disabled, we only queue 1 request
       if (Server->Pipeline == false && Depth >= 0)
 	 break;
+
+      // If we're choking the pipeline, we only queue 1 request
+      if (ChokePipe == true && Depth >= 0)
+      {
+	 ChokePipe = false;
+	 break;
+      }
       
       // Make sure we stick with the same server
       if (Server->Comp(I->Uri) == false)
+      {
+	 ChokePipe = true;
 	 break;
+      }
+
       if (QueueBack == I)
 	 Tail = true;
       if (Tail == true)
@@ -1001,12 +1129,17 @@ bool HttpMethod::Configuration(string Message)
 /* */
 int HttpMethod::Loop()
 {
+   typedef vector<string> StringVector;
+   typedef vector<string>::iterator StringVectorIterator;
+   map<string, StringVector> Redirected;
+
    signal(SIGTERM,SigTerm);
    signal(SIGINT,SigTerm);
    
    Server = 0;
    
    int FailCounter = 0;
+
    while (1)
    {      
       // We have no commands, wait for some to arrive
@@ -1169,6 +1302,46 @@ int HttpMethod::Loop()
 	    Server->RunData();
 	    delete File;
 	    File = 0;
+	    break;
+	 }
+
+	 // Try again with a new URL
+	 case 6:
+	 {
+	    // Clear rest of response if there is content
+	    if (Server->HaveContent)
+	    {
+	       File = new FileFd("/dev/null",FileFd::WriteExists);
+	       Server->RunData();
+	       delete File;
+	       File = 0;
+	    }
+
+	    /* Detect redirect loops.  No more redirects are allowed
+	       after the same URI is seen twice in a queue item. */
+	    StringVector &R = Redirected[Queue->DestFile];
+	    bool StopRedirects = false;
+	    if (R.size() == 0)
+	       R.push_back(Queue->Uri);
+	    else if (R[0] == "STOP")
+	       StopRedirects = true;
+	    else
+	    {
+	       for (StringVectorIterator I = R.begin();	I != R.end(); I++)
+		  if (Queue->Uri == *I)
+		  {
+		     R[0] = "STOP";
+		     break;
+		  }
+
+	       R.push_back(Queue->Uri);
+	    }
+
+	    if (StopRedirects == false)
+	       Redirect(NextURI);
+	    else
+	       Fail();
+
 	    break;
 	 }
 	 

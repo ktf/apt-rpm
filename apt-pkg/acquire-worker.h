@@ -62,6 +62,7 @@ class pkgAcquire::Worker
    bool Capabilities(string Message);
    bool SendConfiguration();
    bool MediaChange(string Message);
+   bool Authenticate(string Message);
    
    bool MethodFailure();
    void ItemDone();
