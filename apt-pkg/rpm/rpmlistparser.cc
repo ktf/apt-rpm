@@ -47,16 +47,13 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
    {
 #ifdef WITH_HASH_MAP
       SeenPackages = new SeenPackagesType(517);
-      SeenMultiPackages = new SeenMultiPackagesType(517);
 #else
       SeenPackages = new SeenPackagesType;
-      SeenMultiPackages = new SeenMultiPackagesType;
 #endif
    }
    else
    {
       SeenPackages = NULL;
-      SeenMultiPackages = NULL;
    }
    RpmData = RPMPackageData::Singleton();
 }
@@ -65,7 +62,6 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
 rpmListParser::~rpmListParser()
 {
    delete SeenPackages;
-   delete SeenMultiPackages;
 }
 
 // ListParser::UniqFindTagWrite - Find the tag and write a unq string	/*{{{*/
@@ -93,6 +89,7 @@ unsigned long rpmListParser::UniqFindTagWrite(int Tag)
    
    return WriteUniqString(Start,Stop - Start);
 }
+
                                                                         /*}}}*/
 // ListParser::Package - Return the package name			/*{{{*/
 // ---------------------------------------------------------------------
@@ -121,26 +118,11 @@ string rpmListParser::Package()
    } 
 
    bool IsDup = false;
-   bool IsMulti = false;
    string Name = str;
-   string BaseArch = _config->Find("APT::Architecture");
 
-   if (RpmData->IsMultiArchPackage(Name) == true)
-      IsMulti = true;
-   else if (SeenMultiPackages != NULL) {
-      if (SeenMultiPackages->find(Name.c_str()) != SeenMultiPackages->end())
-      {
-	 RpmData->SetMultiArchPackage(Name);
-	 MultiArchPackage(Name);
-	 IsMulti = true;
-      }
-   }
-   if (IsMulti == true)
-   {
-      Name += "@" + Architecture();	 
-      CurrentName = Name;
-      Multilib = true;
-      return Name;
+   if (IsCompatArch(Architecture()) == true) {
+	 Name += ".32bit";	 
+	 CurrentName = Name;
    }
 
    
@@ -181,6 +163,22 @@ string rpmListParser::Package()
    } 
    CurrentName = Name;
    return Name;
+}
+
+bool rpmListParser::IsCompatArch(string Architecture)
+{
+   bool compat = false;
+   string BaseArch = _config->Find("APT::Architecture");
+   // ugh, gpg-pubkey doesn't have arch set
+   if (Architecture == "") {
+      return false;
+   }
+   // TODO: arch vs basearch isn't enough, should handle eg x86_64 vs ia32e
+   // and other fun..
+   if (Architecture != BaseArch && Architecture != "noarch") {
+      compat = true;
+   }
+   return compat;
 }
                                                                         /*}}}*/
 // ListParser::Arch - Return the architecture string			/*{{{*/
@@ -296,8 +294,6 @@ bool rpmListParser::UsePackage(pkgCache::PkgIterator Pkg,
 {
    if (SeenPackages != NULL)
       (*SeenPackages)[Pkg.Name()] = true;
-   if (SeenMultiPackages != NULL)
-      (*SeenMultiPackages)[Pkg.Name()] = true;
    if (Pkg->Section == 0)
       Pkg->Section = UniqFindTagWrite(RPMTAG_GROUP);
    if (_error->PendingError()) 
@@ -706,8 +702,6 @@ bool rpmListParser::Step()
       
       string RealName = Package();
 
-      if (Multilib == true)
-	 RealName = RealName.substr(0,RealName.find('@'));
       if (Duplicated == true)
 	 RealName = RealName.substr(0,RealName.find('#'));
       if (RpmData->IgnorePackage(RealName) == true)
@@ -849,7 +843,7 @@ void rpmListParser::VirtualizePackage(string Name)
    FromPkgI->CurrentState = 0;
 }
 
-void rpmListParser::MultiArchPackage(string Name)
+void rpmListParser::CompatArchPackage(string Name)
 {
    pkgCache::PkgIterator FromPkgI = Owner->GetCache().FindPkg(Name);
 
@@ -859,7 +853,7 @@ void rpmListParser::MultiArchPackage(string Name)
 
    pkgCache::VerIterator FromVerI = FromPkgI.VersionList();
    while (FromVerI.end() == false) {
-      string MangledName = Name+"@"+string(FromVerI.Arch());
+      string MangledName = Name+".32bit";
 
       // Get the new package.
       pkgCache::PkgIterator ToPkgI = Owner->GetCache().FindPkg(MangledName);
