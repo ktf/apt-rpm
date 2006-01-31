@@ -35,6 +35,9 @@
 
 #define WITH_VERSION_CACHING 1
 
+string MultilibArchs[] = {"x86_64", "ia64"};
+string CompatArchs[] = {"i386", "i486", "i586", "i686", "athlon"};
+
 // ListParser::rpmListParser - Constructor				/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -56,6 +59,15 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
       SeenPackages = NULL;
    }
    RpmData = RPMPackageData::Singleton();
+
+   BaseArch = _config->Find("APT::Architecture");
+   MultilibArch = false;
+   for (int i=0; i < sizeof(MultilibArchs) / sizeof(string); i++) {
+      if (BaseArch == MultilibArchs[i]) {
+	 MultilibArch = true;
+	 break;
+      }
+   }
 }
                                                                         /*}}}*/
 
@@ -120,7 +132,7 @@ string rpmListParser::Package()
    bool IsDup = false;
    string Name = str;
 
-   if (IsCompatArch(Architecture()) == true) {
+   if (MultilibArch && IsCompatArch(Architecture()) == true) {
 	 Name += ".32bit";	 
 	 CurrentName = Name;
    }
@@ -168,17 +180,11 @@ string rpmListParser::Package()
 bool rpmListParser::IsCompatArch(string Architecture)
 {
    bool compat = false;
-   string BaseArch = _config->Find("APT::Architecture");
-   // ugh, gpg-pubkey doesn't have arch set
-   if (Architecture == "") {
-      return false;
+   for (int i=0; i < sizeof(CompatArchs) / sizeof(string); i++) {
+      if (Architecture == CompatArchs[i])
+	 return true;
    }
-   // TODO: arch vs basearch isn't enough, should handle eg x86_64 vs ia32e
-   // and other fun..
-   if (Architecture != BaseArch && Architecture != "noarch") {
-      compat = true;
-   }
-   return compat;
+   return false;
 }
                                                                         /*}}}*/
 // ListParser::Arch - Return the architecture string			/*{{{*/

@@ -32,6 +32,9 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    RPMPackageData *RpmData;
    Header header;
 
+   string BaseArch;
+   bool MultilibArch;
+
    string CurrentName;
    const pkgCache::VerIterator *VI;
    
