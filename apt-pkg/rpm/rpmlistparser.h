@@ -45,6 +45,8 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    typedef map<const char*,bool,cstr_lt_pred> SeenPackagesType;
 #endif
    SeenPackagesType *SeenPackages;
+
+   hash_map<string, vector<string>, hash_string> CompatArch;
    
    bool Duplicated;
    

@@ -35,8 +35,7 @@
 
 #define WITH_VERSION_CACHING 1
 
-string MultilibArchs[] = {"x86_64", "ia64"};
-string CompatArchs[] = {"i386", "i486", "i586", "i686", "athlon"};
+string MultilibArchs[] = {"x86_64", "ia64", "ppc64", "sparc64"};
 
 // ListParser::rpmListParser - Constructor				/*{{{*/
 // ---------------------------------------------------------------------
@@ -60,6 +59,7 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
    }
    RpmData = RPMPackageData::Singleton();
 
+   // XXX ugh, move this stuff someplace else like rpmsystem
    BaseArch = _config->Find("APT::Architecture");
    MultilibArch = false;
    for (int i=0; i < sizeof(MultilibArchs) / sizeof(string); i++) {
@@ -67,6 +67,16 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
 	 MultilibArch = true;
 	 break;
       }
+   }
+   if (MultilibArch) {
+      CompatArch["x86_64"].push_back("i386");
+      CompatArch["x86_64"].push_back("i486");
+      CompatArch["x86_64"].push_back("i586");
+      CompatArch["x86_64"].push_back("i686");
+      CompatArch["x86_64"].push_back("athlon");
+      CompatArch["ia64"] = CompatArch["x86_64"];
+      CompatArch["ppc64"].push_back("ppc");
+      CompatArch["sparc64"].push_back("sparc");
    }
 }
                                                                         /*}}}*/
@@ -180,8 +190,9 @@ string rpmListParser::Package()
 bool rpmListParser::IsCompatArch(string Architecture)
 {
    bool compat = false;
-   for (int i=0; i < sizeof(CompatArchs) / sizeof(string); i++) {
-      if (Architecture == CompatArchs[i])
+   for (vector<string>::iterator I = CompatArch[BaseArch].begin(); 
+        I != CompatArch[BaseArch].end(); I++) {
+      if (Architecture == *I)
 	 return true;
    }
    return false;
