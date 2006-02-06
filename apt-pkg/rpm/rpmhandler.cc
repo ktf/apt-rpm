@@ -405,7 +405,9 @@ RPMDBHandler::RPMDBHandler(bool WriteLock)
    rpmdbFreeIterator(countIt);
 #else
    iSize = St.st_size;
+
 #endif
+
 
    // Restore just after opening the database, and just after closing.
    if (WriteLock) {

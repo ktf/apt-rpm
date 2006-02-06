@@ -113,6 +113,8 @@ bool pkgSourceList::Type::ParseLine(vector<pkgIndexFile *> &List,
    
    // CNC:2004-05-18 
    Dist = SubstVar(Dist,"$(ARCH)",_config->Find("APT::Architecture"));
+   // PM:2006-02-06
+   Dist = SubstVar(Dist,"$(VERSION)",_config->Find("APT::DistroVersion"));
 
    // Grab the rest of the dists
    if (ParseQuoteWord(Buffer,Section) == false)

@@ -97,6 +97,9 @@ class pkgSystem
    /* Evauluate how 'right' we are for this system based on the filesystem
       etc.. */
    virtual signed Score(Configuration const &/*Cnf*/) {return 0;};
+
+   // PM:2006-02-06 Distro version from package system
+   virtual string DistroVer(Configuration const &/*Cnf*/) {return "";};
    
    // CNC:2002-07-03
    // Do environment specific pre-processing over the Index Files
