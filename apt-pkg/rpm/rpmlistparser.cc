@@ -457,10 +457,24 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
                                namel[i], verl?verl[i]:NULL, flagl[i]);
         rpmdsUname(&unameProv, NULL);
         int res = rpmdsSearch(unameProv, ds);
-        cout << "XXXX uname require: " << namel[i] << " res " << res << endl;
         rpmdsFree(ds);
         rpmdsFree(unameProv);
         if (res) continue;
+      }
+
+      if (strlen(namel[i]) > 5 && namel[i][strlen(namel[i])-1] == ')' &&
+	  ((strchr("Rr_", namel[i][0]) != NULL &&
+	    strchr("Ww_", namel[i][1]) != NULL &&
+	    strchr("Xx_", namel[i][2]) != NULL &&
+	    namel[i][3] == '(') ||
+	    strncmp(namel[i], "exists(", sizeof("exists(")-1) == 0 ||
+	    strncmp(namel[i], "executable(", sizeof("executable(")-1) == 0 ||
+	    strncmp(namel[i], "readable(", sizeof("readable(")-1) == 0 ||
+	    strncmp(namel[i], "writable(", sizeof("writable(")-1)== 0 ))
+      {
+	 int res = rpmioAccess(namel[i], NULL, X_OK);
+	 if (res == 0)
+	    continue;
       }
 
       /* TODO
@@ -473,16 +487,6 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
 	 cout << "FIXME, ignoring soname() dependency: " << namel[i] << endl;
 	 continue;
       }
-
-      if (strncmp(namel[i], "exists(", sizeof("exists(")-1) == 0 ||
-          strncmp(namel[i], "executable(", sizeof("executable(")-1) == 0 ||
-          strncmp(namel[i], "readable(", sizeof("readable(")-1) == 0 ||
-          strncmp(namel[i], "writable(", sizeof("writable(")-1)== 0 ) 
-      {
-	 cout << "FIXME, ignoring access() dependency: " << namel[i] << endl;
-	 continue;
-      }
-
       
 
 #endif
