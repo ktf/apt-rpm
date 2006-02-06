@@ -38,6 +38,7 @@
 #include <fcntl.h>
 #include <rpm/rpmlib.h>
 #include <assert.h>
+#include <time.h>
 									/*}}}*/
 // for distrover
 #if RPM_VERSION >= 0x040101
@@ -571,6 +572,12 @@ static void HashOptionFile(unsigned long &Hash, const char *Name)
    stat(FileName.c_str(), &st);
    Hash += st.st_mtime;
 }
+
+static void HashTime(unsigned long &Hash)
+{
+   Hash += time(NULL);
+}
+
 unsigned long rpmSystem::OptionsHash() const
 {
    unsigned long Hash = 0;
@@ -582,6 +589,12 @@ unsigned long rpmSystem::OptionsHash() const
    HashEnv(Hash, "LANG");
    HashEnv(Hash, "LC_ALL");
    HashEnv(Hash, "LC_MESSAGES");
+#if RPM_VERSION >= 0x040404
+   // This is really draconian but until apt can made somehow deal with
+   // runtime dependencies the cache has to be rebuilt for each run for
+   // accuracy.
+   HashTime(Hash);
+#endif
    return Hash;
 }
 									/*}}}*/
