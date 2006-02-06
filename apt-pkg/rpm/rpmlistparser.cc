@@ -413,20 +413,81 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
       }
 
 #if RPM_VERSION >= 0x040404
-      if (namel[i][0] == 'g' && strncmp(namel[i], "getconf", 7) == 0)
+      // uhhuh, any of these changing would require full cache rebuild...
+      if (strncmp(namel[i], "getconf(", sizeof("getconf(")-1) == 0)
       {
         rpmds getconfProv = NULL;
         rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
                                namel[i], verl?verl[i]:NULL, flagl[i]);
         rpmdsGetconf(&getconfProv, NULL);
-        int res = rpmdsSearch(getconfProv, ds) >= 0;
+        int res = rpmdsSearch(getconfProv, ds);
         rpmdsFree(ds);
         rpmdsFree(getconfProv);
         if (res) continue;
       }
+
+      if (strncmp(namel[i], "cpuinfo(", sizeof("cpuinfo(")-1) == 0)
+      {
+        rpmds cpuinfoProv = NULL;
+        rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
+                               namel[i], verl?verl[i]:NULL, flagl[i]);
+        rpmdsCpuinfo(&cpuinfoProv, NULL);
+        int res = rpmdsSearch(cpuinfoProv, ds);
+        rpmdsFree(ds);
+        rpmdsFree(cpuinfoProv);
+        if (res) continue;
+      }
+
+      if (strncmp(namel[i], "sysinfo(", sizeof("sysinfo(")-1) == 0)
+      {
+        rpmds sysinfoProv = NULL;
+        rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
+                               namel[i], verl?verl[i]:NULL, flagl[i]);
+        rpmdsCpuinfo(&sysinfoProv, NULL);
+        int res = rpmdsSearch(sysinfoProv, ds);
+        rpmdsFree(ds);
+        rpmdsFree(sysinfoProv);
+        if (res) continue;
+      }
+
+      if (strncmp(namel[i], "uname(", sizeof("uname(")-1) == 0)
+      {
+        rpmds unameProv = NULL;
+        rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
+                               namel[i], verl?verl[i]:NULL, flagl[i]);
+        rpmdsUname(&unameProv, NULL);
+        int res = rpmdsSearch(unameProv, ds);
+        cout << "XXXX uname require: " << namel[i] << " res " << res << endl;
+        rpmdsFree(ds);
+        rpmdsFree(unameProv);
+        if (res) continue;
+      }
+
+      /* TODO
+       * - /etc/rpm/sysinfo provides
+       * - macro probe provides 
+       * - actually implement soname() and access() dependencies
+       */
+      if (strncmp(namel[i], "soname(", sizeof("soname(")-1) == 0)
+      {
+	 cout << "FIXME, ignoring soname() dependency: " << namel[i] << endl;
+	 continue;
+      }
+
+      if (strncmp(namel[i], "exists(", sizeof("exists(")-1) == 0 ||
+          strncmp(namel[i], "executable(", sizeof("executable(")-1) == 0 ||
+          strncmp(namel[i], "readable(", sizeof("readable(")-1) == 0 ||
+          strncmp(namel[i], "writable(", sizeof("writable(")-1)== 0 ) 
+      {
+	 cout << "FIXME, ignoring access() dependency: " << namel[i] << endl;
+	 continue;
+      }
+
+      
+
 #endif
       
-      if (namel[i][0] == 'r' && strncmp(namel[i], "rpmlib", 6) == 0)
+      if (strncmp(namel[i], "rpmlib(", sizeof("rpmlib(")-1) == 0)
       {
 #if RPM_VERSION >= 0x040404
         rpmds rpmlibProv = NULL;
