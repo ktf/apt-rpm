@@ -481,9 +481,12 @@ bool pkgCacheGenerator::ListParser::NewProvides(pkgCache::VerIterator Ver,
 {
    pkgCache &Cache = Owner->Cache;
 
+// PM:2006-02-07 allow self-referencing provides for now at least...
+#if 0
    // We do not add self referencing provides
    if (Ver.ParentPkg().Name() == PackageName)
       return true;
+#endif
    
    // Get a structure
    unsigned long Provides = Owner->Map.Allocate(sizeof(pkgCache::Provides));
