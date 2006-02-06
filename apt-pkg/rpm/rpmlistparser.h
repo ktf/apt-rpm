@@ -32,9 +32,6 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    RPMPackageData *RpmData;
    Header header;
 
-   string BaseArch;
-   bool MultilibArch;
-
    string CurrentName;
    const pkgCache::VerIterator *VI;
    
@@ -46,8 +43,6 @@ class rpmListParser : public pkgCacheGenerator::ListParser
 #endif
    SeenPackagesType *SeenPackages;
 
-   hash_map<string, vector<string>, hash_string> CompatArch;
-   
    bool Duplicated;
    
    unsigned long UniqFindTagWrite(int Tag);
@@ -68,7 +63,6 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    virtual string Package();
    virtual string Version();
    virtual string Architecture();
-   virtual bool IsCompatArch(string Architecture);
    virtual bool NewVersion(pkgCache::VerIterator Ver);
    virtual unsigned short VersionHash();
    virtual bool UsePackage(pkgCache::PkgIterator Pkg,

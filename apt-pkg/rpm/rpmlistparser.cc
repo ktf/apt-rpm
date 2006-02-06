@@ -58,26 +58,6 @@ rpmListParser::rpmListParser(RPMHandler *Handler)
       SeenPackages = NULL;
    }
    RpmData = RPMPackageData::Singleton();
-
-   // XXX ugh, move this stuff someplace else like rpmsystem
-   BaseArch = _config->Find("APT::Architecture");
-   MultilibArch = false;
-   for (int i=0; i < sizeof(MultilibArchs) / sizeof(string); i++) {
-      if (BaseArch == MultilibArchs[i]) {
-	 MultilibArch = true;
-	 break;
-      }
-   }
-   if (MultilibArch) {
-      CompatArch["x86_64"].push_back("i386");
-      CompatArch["x86_64"].push_back("i486");
-      CompatArch["x86_64"].push_back("i586");
-      CompatArch["x86_64"].push_back("i686");
-      CompatArch["x86_64"].push_back("athlon");
-      CompatArch["ia64"] = CompatArch["x86_64"];
-      CompatArch["ppc64"].push_back("ppc");
-      CompatArch["sparc64"].push_back("sparc");
-   }
 }
                                                                         /*}}}*/
 
@@ -142,7 +122,7 @@ string rpmListParser::Package()
    bool IsDup = false;
    string Name = str;
 
-   if (MultilibArch && IsCompatArch(Architecture()) == true) {
+   if (RpmData->IsMultilibSys() && RpmData->IsCompatArch(Architecture())) {
 	 Name += ".32bit";	 
 	 CurrentName = Name;
    }
@@ -187,16 +167,6 @@ string rpmListParser::Package()
    return Name;
 }
 
-bool rpmListParser::IsCompatArch(string Architecture)
-{
-   bool compat = false;
-   for (vector<string>::iterator I = CompatArch[BaseArch].begin(); 
-        I != CompatArch[BaseArch].end(); I++) {
-      if (Architecture == *I)
-	 return true;
-   }
-   return false;
-}
                                                                         /*}}}*/
 // ListParser::Arch - Return the architecture string			/*{{{*/
 // ---------------------------------------------------------------------

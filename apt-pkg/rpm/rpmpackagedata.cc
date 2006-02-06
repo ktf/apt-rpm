@@ -20,6 +20,24 @@ RPMPackageData::RPMPackageData()
    , ArchScores(31), VerMap(517)
 #endif
 {
+   BaseArch = _config->Find("APT::Architecture");
+   if (BaseArch == "x86_64" || BaseArch == "ia64" ||
+       BaseArch == "ppc64" || BaseArch == "sparc64")
+      MultilibSys = true;
+   else
+      MultilibSys = false;
+
+   if (MultilibSys) {
+      CompatArch["x86_64"].push_back("i386");
+      CompatArch["x86_64"].push_back("i486");
+      CompatArch["x86_64"].push_back("i586");
+      CompatArch["x86_64"].push_back("i686");
+      CompatArch["x86_64"].push_back("athlon");
+      CompatArch["ia64"] = CompatArch["x86_64"];
+      CompatArch["ppc64"].push_back("ppc");
+      CompatArch["sparc64"].push_back("sparc");
+   }
+
    // Populate priorities
    string FileName = _config->FindFile("Dir::Etc::rpmpriorities");
    FileFd F(FileName, FileFd::ReadOnly);
@@ -275,6 +293,18 @@ int RPMPackageData::RpmArchScore(const char *Arch)
       return Score;
    return 0;
 }
+
+bool RPMPackageData::IsCompatArch(string Arch)
+{
+   bool compat = false;
+   for (vector<string>::iterator I = CompatArch[BaseArch].begin();
+        I != CompatArch[BaseArch].end(); I++) {
+      if (Arch == *I)
+         return true;
+   }
+   return false;
+}
+
 
 bool RPMPackageData::IsDupPackage(const string &Name)
 {
