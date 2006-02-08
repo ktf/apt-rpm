@@ -1,10 +1,11 @@
 #!/usr/bin/python
 
-# apt-groupinstall v0.2
+# apt-groupinstall v0.3
 # groupinstall helper backend for for RHL/RHEL/FC systems 
-# by pmatilai@welho.com
+# by pmatilai@laiskiainen.org
 
 import rhpl.comps, sys
+import urllib2
 
 def findgroup(comps, grpname):
 	if comps.groups.has_key(grpname):
@@ -71,7 +72,8 @@ if __name__ == "__main__":
 	comps = None
 	groups = []
 	cmd = None
-	compspath = "/usr/share/comps/i386/comps.xml"
+	#compspath = "file:/usr/share/comps/x86_64/comps.xml"
+	compspath = "http://download.fedora.redhat.com/pub/fedora/linux/core/development/x86_64/Fedora/base/comps.xml"
 	
 	try:
 		optlist, args = getopt.getopt(sys.argv[1:], 'arhp:t',
@@ -105,7 +107,7 @@ if __name__ == "__main__":
 	if not cmd: usage()
 
 	try:
-		comps = rhpl.comps.Comps(compspath)
+		comps = rhpl.comps.Comps(urllib2.urlopen(compspath))
 	except:
 		print "Unable to open %s!" % compspath
 		sys.exit(1)
