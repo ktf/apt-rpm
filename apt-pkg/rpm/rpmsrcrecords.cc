@@ -456,8 +456,7 @@ bool rpmSrcRecordParser::BuildDepends(vector<pkgSrcRecords::Parser::BuildDepRec>
 	    rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
 				   namel[i], verl?verl[i]:NULL, flagl[i]);
 	    rpmdsRpmlib(&rpmlibProv, NULL);
-	    rpmdsSearch(rpmlibProv, ds);
-	    int res = rpmdsResult(ds);
+	    int res = rpmdsSearch(rpmlibProv, ds) >= 0;
 	    rpmdsFree(ds);
 	    rpmdsFree(rpmlibProv);
 #elif RPM_VERSION >= 0x040100
