@@ -592,8 +592,9 @@ unsigned long rpmSystem::OptionsHash() const
 #if RPM_VERSION >= 0x040404
    // This is really draconian but until apt can made somehow deal with
    // runtime dependencies the cache has to be rebuilt for each run for
-   // accuracy.
-   HashTime(Hash);
+   // accuracy. Allow turning it off via configuration if not needed.
+   if (_config->FindB("RPM::RuntimeDeps", true) == true)
+      HashTime(Hash);
 #endif
    return Hash;
 }
