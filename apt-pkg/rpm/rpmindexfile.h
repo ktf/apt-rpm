@@ -107,6 +107,7 @@ class rpmPkgListIndex : public rpmListIndex
    protected:
 
    virtual string MainType() const {return "pkglist";}
+   virtual string IndexPath() const {return IndexFile(MainType());};
 
    public:
 
@@ -276,4 +277,96 @@ class rpmSingleSrcIndex : public rpmSrcListIndex
 	   rpmSrcListIndex("", "", "", NULL), FilePath(File) {};
 };
 
+class rpmRepomdIndex : public rpmIndexFile
+{
+   protected:
+
+   string URI;
+   string Dist;
+   string Section;
+   pkgRepository *Repository;
+
+   string ReleaseFile(string Type) const;
+   string ReleaseURI(string Type) const;
+   string ReleaseInfo(string Type) const;
+
+   string Info(string Type) const;
+   string IndexFile(string Type) const;
+   string IndexURI(string Type) const;
+
+   virtual string MainType() const = 0;
+   virtual string IndexPath() const {return IndexFile(MainType());};
+   virtual string ReleasePath() const;
+
+   public:
+
+   // Creates a RPMHandler suitable for usage with this object
+   virtual RPMHandler *CreateHandler() const
+          { return new RPMRepomdHandler(IndexPath()); };
+
+   virtual bool GetReleases(pkgAcquire *Owner) const;
+
+   // Interface for the Cache Generator
+   virtual bool Exists() const;
+   virtual unsigned long Size() const {};
+
+   // Interface for acquire
+   virtual string Describe(bool Short) const;
+   virtual bool GetIndexes(pkgAcquire *Owner) const;
+   virtual string ChecksumType() {return "SHA1-Hash";};
+
+   virtual string ArchiveInfo(pkgCache::VerIterator Ver) const;
+   virtual string ArchiveURI(string File) const;
+
+   virtual bool Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const;
+   virtual pkgCache::PkgFileIterator FindInCache(pkgCache &Cache) const;
+
+   rpmRepomdIndex(string URI,string Dist,string Section,
+               pkgRepository *Repository) :
+                       URI(URI), Dist(Dist), Section(Section),
+               Repository(Repository)
+       {};
+
+};
+
+class rpmRepomdPkgIndex : public rpmRepomdIndex
+{
+   protected:
+
+   virtual string MainType() const {return "repomd";};
+
+   public:
+
+   virtual bool HasPackages() const {return true;};
+   virtual const Type *GetType() const;
+
+
+   rpmRepomdPkgIndex(string URI,string Dist,string Section,
+                     pkgRepository *Repository) :
+          rpmRepomdIndex(URI,Dist,Section,Repository) {};
+
+};
+
+class rpmRepomdSrcIndex : public rpmRepomdIndex
+{
+   protected:
+
+   virtual string MainType() const {return "repomd-src";};
+
+   public:
+
+   virtual const Type *GetType() const;
+
+   // Stuff for accessing files on remote items
+   virtual string SourceInfo(pkgSrcRecords::Parser const &Record,
+			     pkgSrcRecords::File const &File) const;
+
+   // Interface for the record parsers
+   virtual pkgSrcRecords::Parser *CreateSrcParser() const;
+
+   rpmRepomdSrcIndex(string URI,string Dist,string Section,
+                     pkgRepository *Repository) :
+          rpmRepomdIndex(URI,Dist,Section,Repository) {};
+
+};
 #endif

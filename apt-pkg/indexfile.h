@@ -65,6 +65,8 @@ class pkgIndexFile
    // Interface for acquire
    virtual string ArchiveURI(string /*File*/) const {return string();};
    virtual bool GetIndexes(pkgAcquire *Owner) const;
+   // LORG:2006-03-16
+   virtual string ChecksumType() {return "MD5-Hash";};
 
    // CNC:2002-07-04
    virtual bool GetReleases(pkgAcquire *Owner) const {return true;};

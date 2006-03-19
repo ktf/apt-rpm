@@ -39,6 +39,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/strutl.cc \
 	contrib/strutl.h \
 	contrib/system.h \
+	rpm/repomd.cc \
+	rpm/repomd.h \
 	rpm/rpmhandler.cc \
 	rpm/rpmhandler.h \
 	rpm/rpmindexfile.cc \

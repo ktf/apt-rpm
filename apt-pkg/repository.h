@@ -28,7 +28,9 @@ class pkgRepository
    map<string,Checksum> IndexChecksums; // path -> checksum data   
 
    bool GotRelease;
-   
+   string ComprMethod;
+   string CheckMethod;
+
    public:   
 
    string URI;
@@ -38,11 +40,15 @@ class pkgRepository
 
    bool Acquire;
    
-   bool ParseRelease(string File);
-   bool HasRelease() const { return GotRelease; }
+   // LORG:2006-02-21 make these methods virtual
+   virtual bool ParseRelease(string File);
+   virtual bool HasRelease() const { return GotRelease; }
 
-   bool IsAuthenticated() const { return !FingerPrint.empty(); };
-   bool FindChecksums(string URI,unsigned long &Size, string &MD5);
+   virtual bool IsAuthenticated() const { return !FingerPrint.empty(); };
+   virtual bool FindChecksums(string URI,unsigned long &Size, string &MD5);
+   // LORG:2006-02-23 
+   virtual string GetComprMethod() {return ComprMethod;};
+   virtual string GetCheckMethod() {return CheckMethod;};
    
    pkgRepository(string URI,string Dist, const pkgSourceList::Vendor *Vendor,
 		 string RootURI)
@@ -50,6 +56,8 @@ class pkgRepository
    	Acquire(1)
    {
       if (Vendor) FingerPrint = Vendor->FingerPrint;
+      ComprMethod = "bz2";
+      CheckMethod = "MD5-Hash";
    };
 
 };

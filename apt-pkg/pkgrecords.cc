@@ -19,6 +19,7 @@
     
 #include <apti18n.h>   
 									/*}}}*/
+using namespace std;
 
 // Records::pkgRecords - Constructor					/*{{{*/
 // ---------------------------------------------------------------------

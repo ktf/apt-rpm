@@ -244,6 +244,7 @@ struct pkgAcquire::MethodConfig
    bool HasPreferredURI;
    bool DonePreferredURI;
    string PreferredURI;
+   string CheckMethod;
    
    MethodConfig();
 };

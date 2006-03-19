@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.54)
-AC_INIT([apt],[0.5.15lorg2])
+AC_INIT([apt],[0.5.15lorg3])
 dnl Check the archs, we want the target type.
 AC_CONFIG_AUX_DIR([buildlib])
 AC_CANONICAL_HOST
@@ -91,6 +91,12 @@ else
    AC_MSG_RESULT($RPMLIBS)
    AC_SUBST(RPMLIBS)
 fi
+
+dnl repomd support needs libxml2, not sure about the minimal version - I've
+dnl only tested it with 2.6.20
+PKG_CHECK_MODULES([LIBXML2],[libxml-2.0 >= 2.4])
+RPMLIBS="$LIBXML2_LIBS $RPMLIBS"
+CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
 
 dnl Can we use g++ hash_map?
 AH_TEMPLATE(WITH_GNU_HASH_MAP,

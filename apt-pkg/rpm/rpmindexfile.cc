@@ -30,7 +30,7 @@
 #include <apt-pkg/error.h>
 #include <apt-pkg/strutl.h>
 #include <apt-pkg/acquire-item.h>
-#include <apt-pkg/repository.h>
+#include <apt-pkg/repomd.h>
 
 #include <apti18n.h>
 
@@ -533,7 +533,243 @@ string rpmSingleSrcIndex::ArchiveURI(string File) const
    free(cwd);
    return URI;
 }
+
+string rpmRepomdIndex::ArchiveURI(string File) const
+{
+   RPMPackageData *rpmdata = RPMPackageData::Singleton();
+   string Res;
+
+   //cout << Dist << File << endl;
+
+   Res += URI + '/' + Dist + '/' + File;
+   //cout << "repomd archiveuri " << " " << Res << endl;
+
+   return Res;
+}
+
+string rpmRepomdIndex::ArchiveInfo(pkgCache::VerIterator Ver) const
+{
+   string Res = ::URI::SiteOnly(URI) + ' ';
+   if (Dist[Dist.size() - 1] == '/')
+   {
+      if (Dist != "/")
+	 Res += Dist;
+   }
+   else
+      Res += Dist + '/';
+   
+   Res += " ";
+   Res += Ver.ParentPkg().Name();
+   Res += " ";
+   Res += Ver.VerStr();
+   return Res;
+}
+pkgCache::PkgFileIterator rpmRepomdIndex::FindInCache(pkgCache &Cache) const
+{
+   string FileName = IndexPath();
+   pkgCache::PkgFileIterator File = Cache.FileBegin();
+   for (; File.end() == false; File++)
+   {
+      if (FileName != File.FileName())
+	 continue;
+      
+      struct stat St;
+      if (stat(File.FileName(),&St) != 0)
+	 return pkgCache::PkgFileIterator(Cache);
+
+      if ((unsigned)St.st_size != File->Size || St.st_mtime != File->mtime)
+	 return pkgCache::PkgFileIterator(Cache);
+      return File;
+   }
+   
+   return File;
+}
+string rpmRepomdIndex::ReleaseURI(string Type) const
+{
+   RPMPackageData *rpmdata = RPMPackageData::Singleton();
+   string Res;
+   Res = URI + Dist + "/repodata/" + "repomd.xml";
+
+   //cout << "XXXXX repomd releaseuri " << Res << endl;
+   
+   return Res;
+}
+
+string rpmRepomdIndex::ReleaseInfo(string Type) const
+{
+   string Info = ::URI::SiteOnly(URI) + ' ';
+   if (Dist[Dist.size() - 1] == '/')
+   {
+      if (Dist != "/")
+	 Info += Dist;
+   }
+   else
+      Info += Dist;   
+   Info += " ";
+   Info += Type;
+   //cout << "repomd releaseinfo " << Info << endl;
+   return Info;
+};
+
+string rpmRepomdIndex::Info(string Type) const 
+{
+   string Info = ::URI::SiteOnly(URI) + ' ';
+   if (Dist[Dist.size() - 1] == '/')
+   {
+      if (Dist != "/")
+	 Info += Dist;
+   }
+   else
+      Info += Dist + '/' ;   
+   Info += " ";
+   Info += Type;
+   //cout << "repomd info " << Info << endl;
+   return Info;
+}
+
+string rpmRepomdIndex::IndexURI(string Type) const
+{
+   RPMPackageData *rpmdata = RPMPackageData::Singleton();
+   string Res = URI + Dist;
+   if (Dist[Dist.size() - 1] != '/') {
+	 Res += "/";
+   }
+   Res += "repodata/primary.xml";
+   return Res;
+}
 									/*}}}*/
+bool rpmRepomdIndex::GetReleases(pkgAcquire *Owner) const
+{
+   if (!Repository->Acquire)
+      return true;
+   Repository->Acquire = false;
+   // ignore for now - we need to parse the file for checksum and 
+   // optimally for location of other xml files as well
+   new pkgAcqIndexRel(Owner,Repository,ReleaseURI("repomd.xml"),
+                      ReleaseInfo("repomd.xml"), "repomd.xml", true);
+   return true;
+}
+
+bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
+{
+   new pkgAcqIndex(Owner,Repository,IndexURI("primary.xml"),
+	           Info("primary.xml"), "primary.xml");
+// wont be needing these for a while...
+#if 0
+   new pkgAcqIndex(Owner,Repository,IndexURI("filelists.xml"),
+		   Info("filelists.xml"), "filelists.xml");
+   new pkgAcqIndex(Owner,Repository,IndexURI("other.xml"),
+   		   Info("other.xml"), "other.xml");
+#endif
+   return true;
+}
+
+string rpmRepomdIndex::Describe(bool Short) const
+{
+   char S[300];
+   if (Short == true)
+      snprintf(S,sizeof(S),"%s",Info(MainType()).c_str());
+   else
+      snprintf(S,sizeof(S),"%s (%s)",Info(MainType()).c_str(),
+         IndexFile(MainType()).c_str());
+   return S;
+}
+
+string rpmRepomdIndex::IndexFile(string Type) const
+{
+   //cout << "XXX indexfile " << _config->FindDir("Dir::State::lists")+URItoFileName(IndexURI(Type)) << endl;
+   return _config->FindDir("Dir::State::lists")+URItoFileName(IndexURI(Type));
+};
+
+
+bool rpmRepomdIndex::Exists() const
+{
+   return FileExists(IndexPath());
+}
+
+string rpmRepomdIndex::ReleasePath() const
+{
+   return _config->FindDir("Dir::State::lists")+URItoFileName(ReleaseURI("release.xml"));
+}
+
+
+bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
+{
+   //cout << "repomd MERGE" << endl;
+   string PackageFile = IndexPath();
+   RPMHandler *Handler = CreateHandler();
+
+   Prog.SubProgress(0,Info(MainType()));
+   ::URI Tmp(URI);
+   if (Gen.SelectFile(PackageFile,Tmp.Host,*this) == false)
+   {
+      delete Handler;
+      return _error->Error(_("Problem with SelectFile %s"),PackageFile.c_str());
+   }
+
+   // Store the IMS information
+   pkgCache::PkgFileIterator File = Gen.GetCurFile();
+   //cout << "merge pkgfile " << PackageFile << endl;
+   struct stat St;
+   if (stat(PackageFile.c_str(),&St) != 0) 
+   {
+      delete Handler;
+      return _error->Errno("stat",_("Failed to stat %s"), PackageFile.c_str());
+   }
+   File->Size = St.st_size;
+   File->mtime = St.st_mtime;
+   
+   rpmRepomdParser Parser(Handler);
+   if (_error->PendingError() == true) 
+   {
+      delete Handler;
+      return _error->Error(_("Problem opening %s"),PackageFile.c_str());
+   }
+   
+   if (Gen.MergeList(Parser) == false)
+   {
+      delete Handler;
+      return _error->Error(_("Problem with MergeList %s"),PackageFile.c_str());
+   }
+   
+   delete Handler;
+
+   // Check the release file
+   string RelFile = ReleasePath();
+   if (FileExists(RelFile) == true)
+   {
+      Parser.LoadReleaseInfo(File,RelFile);
+   }
+
+   return true;
+}
+
+pkgSrcRecords::Parser *rpmRepomdSrcIndex::CreateSrcParser() const
+{
+   return new rpmSrcRecordParser(IndexPath(), this);
+}
+
+string rpmRepomdSrcIndex::SourceInfo(pkgSrcRecords::Parser const &Record,
+		  		     pkgSrcRecords::File const &File) const
+{
+   string Res;
+   Res = ::URI::SiteOnly(URI) + ' ';
+   if (Dist[Dist.size() - 1] == '/')
+   {
+      if (Dist != "/")
+	 Res += Dist;
+   }      
+   else
+      Res += Dist + '/' + Section;
+   
+   Res += " ";
+   Res += Record.Package();
+   Res += " ";
+   Res += Record.Version();
+   if (File.Type.empty() == false)
+      Res += " (" + File.Type + ")";
+   return Res;
+}
 
 // DatabaseIndex::rpmDatabaseIndex - Constructor			/*{{{*/
 // ---------------------------------------------------------------------
@@ -670,6 +906,7 @@ class rpmSLTypeGen : public pkgSourceList::Type
       else
 	 BaseURI = URI + Dist + '/';
 
+      //cout << "XXXX GetRepo " << URI << " " << Dist << " " << BaseURI << endl;
       Rep = new pkgRepository(URI,Dist,Vendor,BaseURI);
       RepList.push_back(Rep);
       return Rep;
@@ -757,10 +994,99 @@ class rpmSLTypeSrpmDir : public rpmSLTypeGen
    }   
 };
 
+class rpmSLTypeRepomd : public rpmSLTypeGen
+{
+   public:
+
+   pkgRepository *GetRepository(string URI,string Dist,
+				const pkgSourceList::Vendor *Vendor) const
+   {
+      pkgRepository *Rep = FindRepository(URI,Dist,Vendor);
+      if (Rep != NULL)
+	 return Rep;
+
+      string BaseURI;
+      if (Dist[Dist.size() - 1] == '/')
+      {
+	 if (Dist != "/")
+	    BaseURI = URI + Dist;
+	 else 
+	    BaseURI = URI + '/';
+      }
+      else
+	 BaseURI = URI + Dist + '/';
+
+      Rep = new repomdRepository(URI,Dist,Vendor,BaseURI);
+      RepList.push_back(Rep);
+      return Rep;
+   }
+
+   bool CreateItem(vector<pkgIndexFile *> &List,
+		   string URI, string Dist, string Section,
+		   pkgSourceList::Vendor const *Vendor) const 
+   {
+      pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
+      List.push_back(new rpmRepomdPkgIndex(URI,Dist,Section,Rep));
+      return true;
+   };
+
+   bool ParseLine(vector<pkgIndexFile *> &List,
+                  pkgSourceList::Vendor const *Vendor,
+                  const char *Buffer,
+                  unsigned long CurLine,string File) const
+   {
+      string URI;
+      string Dist;
+      if (ParseQuoteWord(Buffer,URI) == false)
+	 return _error->Error(_("Malformed line %lu in source list %s (URI)"),CurLine,File.c_str());
+      if (ParseQuoteWord(Buffer,Dist) == false)
+	 return _error->Error(_("Malformed line %lu in source list %s (dist)"),CurLine,File.c_str());
+
+      if (FixupURI(URI) == false)
+	 return _error->Error(_("Malformed line %lu in source list %s (URI parse)"),CurLine,File.c_str());
+      
+      Dist = SubstVar(Dist,"$(ARCH)",_config->Find("APT::Architecture"));
+      Dist = SubstVar(Dist,"$(VERSION)",_config->Find("APT::DistroVersion"));
+
+      if (CreateItem(List,URI,Dist,"",Vendor) == false)
+	 return false;
+
+      return true;
+   };
+
+
+   rpmSLTypeRepomd()
+   {
+      Name = "repomd";
+      Label = "RepoMD tree";
+   }   
+};
+class rpmSLTypeRepomdSrc : public rpmSLTypeRepomd
+{
+   public:
+
+   bool CreateItem(vector<pkgIndexFile *> &List,
+		   string URI, string Dist, string Section,
+		   pkgSourceList::Vendor const *Vendor) const 
+   {
+      pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
+      List.push_back(new rpmRepomdSrcIndex(URI,Dist,Section,Rep));
+      return true;
+   };
+
+   rpmSLTypeRepomdSrc()
+   {
+      Name = "repomd-src";
+      Label = "RepoMD src tree";
+   }   
+};
+
 rpmSLTypeRpm _apt_rpmType;
 rpmSLTypeSrpm _apt_rpmSrcType;
 rpmSLTypeRpmDir _apt_rpmDirType;
 rpmSLTypeSrpmDir _apt_rpmSrcDirType;
+rpmSLTypeRepomd _apt_repomdType;
+rpmSLTypeRepomdSrc _apt_repomdSrcType;
 									/*}}}*/
 // Index File types for rpm						/*{{{*/
 class rpmIFTypeSrc : public pkgIndexFile::Type
@@ -820,6 +1146,14 @@ const pkgIndexFile::Type *rpmSingleSrcIndex::GetType() const
 const pkgIndexFile::Type *rpmDatabaseIndex::GetType() const
 {
    return &_apt_DB;
+}
+const pkgIndexFile::Type *rpmRepomdPkgIndex::GetType() const
+{
+   return &_apt_Pkg;
+}
+const pkgIndexFile::Type *rpmRepomdSrcIndex::GetType() const
+{
+   return &_apt_Src;
 }
 
 									/*}}}*/

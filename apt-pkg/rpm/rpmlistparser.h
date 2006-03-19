@@ -17,6 +17,9 @@
 #include <apt-pkg/rpmhandler.h>
 #include <apt-pkg/rpmmisc.h>
 #include <rpm/rpmlib.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+
 #include <map>
 #include <vector>
 #include <regex.h>
@@ -30,7 +33,6 @@ class rpmListParser : public pkgCacheGenerator::ListParser
 {
    RPMHandler *Handler;
    RPMPackageData *RpmData;
-   Header header;
 
    string CurrentName;
    const pkgCache::VerIterator *VI;
@@ -45,7 +47,6 @@ class rpmListParser : public pkgCacheGenerator::ListParser
 
    bool Duplicated;
    
-   unsigned long UniqFindTagWrite(int Tag);
    bool ParseStatus(pkgCache::PkgIterator Pkg,pkgCache::VerIterator Ver);
    bool ParseDepends(pkgCache::VerIterator Ver,
 		     char **namel, char **verl, int_32 *flagl,
@@ -88,6 +89,23 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    
    rpmListParser(RPMHandler *Handler);
    ~rpmListParser();
+};
+
+class rpmRepomdParser : public rpmListParser
+{
+   protected:
+
+   string Primary;
+   string Filelist;
+   string Other;
+
+   xmlNode *FindNode(xmlNode *n, const string Name);
+
+   public:
+ 
+   bool LoadReleaseInfo(pkgCache::PkgFileIterator FileI,string File);
+
+   rpmRepomdParser(RPMHandler *Handler) : rpmListParser(Handler) {};
 };
 
 #endif

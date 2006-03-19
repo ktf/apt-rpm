@@ -509,6 +509,7 @@ pkgAcquire::MethodConfig::MethodConfig()
    // CNC:2004-04-27
    HasPreferredURI = false;
    DonePreferredURI = false;
+   CheckMethod = "SHA1-Hash";
 }
 									/*}}}*/
 

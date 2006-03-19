@@ -31,17 +31,21 @@
 #include <rpm/rpmds.h>
 #endif
 
+using namespace std;
+
 // SrcRecordParser::rpmSrcRecordParser - Constructor			/*{{{*/
 // ---------------------------------------------------------------------
 /* */
 rpmSrcRecordParser::rpmSrcRecordParser(string File,pkgIndexFile const *Index)
-    : Parser(Index), HeaderP(0), Buffer(0), BufSize(0), BufUsed(0)
+    : Parser(Index), Buffer(0), BufSize(0), BufUsed(0)
 {
    struct stat Buf;
    if (stat(File.c_str(),&Buf) == 0 && S_ISDIR(Buf.st_mode))
       Handler = new RPMDirHandler(File);
    else if (flExtension(File) == "rpm")
       Handler = new RPMSingleFileHandler(File);
+   else if (flExtension(File) == "xml")
+      Handler = new RPMRepomdHandler(File);
    else
       Handler = new RPMFileHandler(File);
 }
@@ -63,6 +67,12 @@ rpmSrcRecordParser::~rpmSrcRecordParser()
    reused by the next Binaries function call. */
 const char **rpmSrcRecordParser::Binaries()
 {
+   return NULL;
+
+// WTF is this ?!? If we're looking for sources why would be interested
+// in binaries? Maybe there's an inner Zen to this all but
+// apt-cache showsrc seems to work without just fine so disabled for now...
+#if 0
    int i = 0;
    char **bins;
    int type, count;
@@ -76,6 +86,7 @@ const char **rpmSrcRecordParser::Binaries()
       StaticBinList[i] = bins[i];
    StaticBinList[i] = 0;
    return StaticBinList;
+#endif
 }
 									/*}}}*/
 // SrcRecordParser::Files - Return a list of files for this source	/*{{{*/
@@ -84,8 +95,6 @@ const char **rpmSrcRecordParser::Binaries()
    a complete source package */
 bool rpmSrcRecordParser::Files(vector<pkgSrcRecords::File> &List)
 {
-   assert(HeaderP != NULL);
-    
    List.clear();
    
    pkgSrcRecords::File F;
@@ -109,64 +118,31 @@ bool rpmSrcRecordParser::Restart()
 
 bool rpmSrcRecordParser::Step() 
 {
-   if (Handler->Skip() == false)
-       return false;
-   HeaderP = Handler->GetHeader();
-   return true;
+   return Handler->Skip();
 }
 
 bool rpmSrcRecordParser::Jump(unsigned long Off)
 {
-   if (!Handler->Jump(Off))
-       return false;
-   HeaderP = Handler->GetHeader();
-   return true;
+   return Handler->Jump(Off);
 }
 
 string rpmSrcRecordParser::Package() const
 {
-   char *str;
-   int_32 count, type;
-   int rc = headerGetEntry(HeaderP, RPMTAG_NAME,
-			   &type, (void**)&str, &count);
-   return string(rc?str:"");
+   return Handler->Name();
 }
 
 string rpmSrcRecordParser::Version() const
 {
-   char *version, *release;
-   int_32 *epoch;
-   int type, count;
-   int rc;
-   
-   rc = headerGetEntry(HeaderP, RPMTAG_VERSION,
-		       &type, (void **)&version, &count);
-   if (rc != 1)
-   {
-      _error->Error(_("error parsing source list %s"), "(RPMTAG_VERSION)");
-      return "";
-   }
-   rc = headerGetEntry(HeaderP, RPMTAG_RELEASE,
-		       &type, (void **)&release, &count);
-   if (rc != 1)
-   {
-      _error->Error(_("error parsing source list %s"), "(RPMTAG_RELEASE)");
-      return "";
-   }
+   string e, v, r, verstr;
+   e = Handler->Epoch();
+   v = Handler->Version();
+   r = Handler->Release();
 
-   rc = headerGetEntry(HeaderP, RPMTAG_EPOCH,
-			   &type, (void **)&epoch, &count);
-   string ret;
-   if (rc == 1 && count > 0) 
-   {
-      char buf[32];
-      sprintf(buf, "%i", *epoch);
-      ret = string(buf)+":"+string(version)+"-"+string(release);
-   }
-   else 
-      ret = string(version)+"-"+string(release);
-   
-   return ret;
+   if (e.empty() == false)
+      verstr = e + ":" + v + "-" + r;
+   else
+      verstr = v + "-" + r;
+   return verstr;
 }
     
 
@@ -175,20 +151,12 @@ string rpmSrcRecordParser::Version() const
 /* */
 string rpmSrcRecordParser::Maintainer() const
 {
-   char *str;
-   int_32 count, type;
-   int rc = headerGetEntry(HeaderP, RPMTAG_PACKAGER,
-			   &type, (void**)&str, &count);
-   return string(rc?str:"");
+   return Handler->Packager();
 }
 
 string rpmSrcRecordParser::Section() const
 {
-   char *str;
-   int_32 count, type;
-   int rc = headerGetEntry(HeaderP, RPMTAG_GROUP,
-			   &type, (void**)&str, &count);
-   return string(rc?str:"");
+   return Handler->Group();
 }
 
 unsigned long rpmSrcRecordParser::Offset() 
@@ -196,13 +164,13 @@ unsigned long rpmSrcRecordParser::Offset()
     return Handler->Offset();
 }
 
-void rpmSrcRecordParser::BufCat(char *text)
+void rpmSrcRecordParser::BufCat(const char *text)
 {
    if (text != NULL)
       BufCat(text, text+strlen(text));
 }
 
-void rpmSrcRecordParser::BufCat(char *begin, char *end)
+void rpmSrcRecordParser::BufCat(const char *begin, const char *end)
 {
    unsigned len = end - begin;
     
@@ -222,52 +190,47 @@ void rpmSrcRecordParser::BufCat(char *begin, char *end)
    BufUsed += len;
 }
 
-void rpmSrcRecordParser::BufCatTag(char *tag, char *value)
+void rpmSrcRecordParser::BufCatTag(const char *tag, const char *value)
 {
    BufCat(tag);
    BufCat(value);
 }
 
-void rpmSrcRecordParser::BufCatDep(char *pkg, char *version, int flags)
+void rpmSrcRecordParser::BufCatDep(Dependency *Dep)
 {
-   char buf[16];
-   char *ptr = (char*)buf;
+   string buf;
 
-   BufCat(pkg);
-   if (*version) 
+   BufCat(Dep->Name.c_str());
+   if (Dep->Version.empty() == false) 
    {
-      int c = 0;
-      *ptr++ = ' ';
-      *ptr++ = '(';
-      if (flags & RPMSENSE_LESS)
-      {
-	 *ptr++ = '<';
-	 c = '<';
+      BufCat(" ");
+      switch (Dep->Op) {
+	 case pkgCache::Dep::Less:
+	    buf += "<";
+	    break;
+	 case pkgCache::Dep::LessEq:
+	    buf += "<=";
+	    break;
+	 case pkgCache::Dep::Equals: 
+	    buf += "=";
+	    break;
+	 case pkgCache::Dep::Greater:
+	    buf += ">";
+	    break;
+	 case pkgCache::Dep::GreaterEq:
+	    buf += ">=";
+	    break;
       }
-      if (flags & RPMSENSE_GREATER) 
-      {
-	 *ptr++ = '>';
-	 c = '>';
-      }
-      if (flags & RPMSENSE_EQUAL) 
-      {
-	 *ptr++ = '=';
-      }/* else {
-	 if (c)
-	   fputc(c, f);
-      }*/
-      *ptr++ = ' ';
-      *ptr = '\0';
 
-      BufCat(buf);
-      BufCat(version);
-      BufCat(")");
+      BufCat(buf.c_str());
+      BufCat(" ");
+      BufCat(Dep->Version.c_str());
    }
 }
 
-void rpmSrcRecordParser::BufCatDescr(char *descr)
+void rpmSrcRecordParser::BufCatDescr(const char *descr)
 {
-   char *begin = descr;
+   const char *begin = descr;
 
    while (*descr) 
    {
@@ -288,114 +251,86 @@ void rpmSrcRecordParser::BufCatDescr(char *descr)
 // -----------------------------------------------
 string rpmSrcRecordParser::AsStr() 
 {
-   // FIXME: This method is leaking memory from headerGetEntry().
    int type, type2, type3, count;
    char *str;
    char **strv;
    char **strv2;
-   int num;
    int_32 *numv;
    char buf[32];
 
    BufUsed = 0;
-   
-   headerGetEntry(HeaderP, RPMTAG_NAME, &type, (void **)&str, &count);
-   BufCatTag("Package: ", str);
 
-   headerGetEntry(HeaderP, RPMTAG_GROUP, &type, (void **)&str, &count);
-   BufCatTag("\nSection: ", str);
+   BufCatTag("Package: ", Handler->Name().c_str());
 
-   headerGetEntry(HeaderP, RPMTAG_SIZE, &type, (void **)&numv, &count);
-   snprintf(buf, sizeof(buf), "%d", numv[0]);
+   BufCatTag("\nSection: ", Handler->Group().c_str());
+
+   snprintf(buf, sizeof(buf), "%d", Handler->InstalledSize());
    BufCatTag("\nInstalled Size: ", buf);
 
-   str = NULL;
-   headerGetEntry(HeaderP, RPMTAG_PACKAGER, &type, (void **)&str, &count);
-   if (!str)
-       headerGetEntry(HeaderP, RPMTAG_VENDOR, &type, (void **)&str, &count);
-   BufCatTag("\nMaintainer: ", str);
-   
+   BufCatTag("\nPackager: ", Handler->Packager().c_str());
+   //BufCatTag("\nVendor: ", Handler->Vendor().c_str());
+
    BufCat("\nVersion: ");
-   headerGetEntry(HeaderP, RPMTAG_VERSION, &type, (void **)&str, &count);
-   if (headerGetEntry(HeaderP, RPMTAG_EPOCH, &type, (void **)&numv, &count)==1)
-       snprintf(buf, sizeof(buf), "%i:%s-", numv[0], str);
+   // XXX FIXME: handle the epoch madness somewhere central instead of
+   // figuring it out on every damn occasion separately
+
+   string e, v, r, verstr;
+   e = Handler->Epoch();
+   v = Handler->Version();
+   r = Handler->Release();
+
+   if (e.empty() == false)
+      verstr = e + ":" + v + "-" + r;
    else
-       snprintf(buf, sizeof(buf), "%s-", str);
-   BufCat(buf);
-   headerGetEntry(HeaderP, RPMTAG_RELEASE, &type, (void **)&str, &count);
-   BufCat(str);
+      verstr = v + "-" + r;
 
-   headerGetEntry(HeaderP, RPMTAG_REQUIRENAME, &type, (void **)&strv, &count);
-   assert(type == RPM_STRING_ARRAY_TYPE || count == 0);
+   BufCat(verstr.c_str());
 
-   headerGetEntry(HeaderP, RPMTAG_REQUIREVERSION, &type2, (void **)&strv2, &count);
-   headerGetEntry(HeaderP, RPMTAG_REQUIREFLAGS, &type3, (void **)&numv, &count);
-   
-   if (count > 0)
-   {
-      int i, j;
+   vector<Dependency*> Deps, Conflicts;
+   vector<Dependency*>::iterator I;
+   bool start = true;
 
-      for (j = i = 0; i < count; i++) 
-      {
-	 if ((numv[i] & RPMSENSE_PREREQ))
-	 {
-	    if (j == 0) 
-		BufCat("\nPre-Depends: ");
-	    else
-		BufCat(", ");
-	    BufCatDep(strv[i], strv2[i], numv[i]);
-	    j++;
-	 }
+   Handler->Depends(pkgCache::Dep::Depends, Deps);
+   for (I = Deps.begin(); I != Deps.end(); I++) {
+      if ((*I)->Type != pkgCache::Dep::Depends)
+	 continue;
+      if (start) {
+	 BufCat("\nBuild-Depends: ");
+	 start = false;
+      } else {
+	 BufCat(", ");
       }
-
-      for (j = 0, i = 0; i < count; i++) 
-      {
-	 if (!(numv[i] & RPMSENSE_PREREQ)) 
-	 {
-	    if (j == 0)
-		BufCat("\nDepends: ");
-	    else
-		BufCat(", ");
-	    BufCatDep(strv[i], strv2[i], numv[i]);
-	    j++;
-	 }
-      }
-   }
-   
-   headerGetEntry(HeaderP, RPMTAG_CONFLICTNAME, &type, (void **)&strv, &count);
-   assert(type == RPM_STRING_ARRAY_TYPE || count == 0);
-
-   headerGetEntry(HeaderP, RPMTAG_CONFLICTVERSION, &type2, (void **)&strv2, &count);
-   headerGetEntry(HeaderP, RPMTAG_CONFLICTFLAGS, &type3, (void **)&numv, &count);
-   
-   if (count > 0) 
-   {
-      BufCat("\nConflicts: ");
-      for (int i = 0; i < count; i++) 
-      {
-	 if (i > 0)
-	     BufCat(", ");
-	 BufCatDep(strv[i], strv2[i], numv[i]);
-      }
+      BufCatDep(*I);
    }
 
-   headerGetEntry(HeaderP, CRPMTAG_FILESIZE, &type, (void **)&num, &count);
-   snprintf(buf, sizeof(buf), "%d", num);
+   // Doesn't do anything yet, build conflicts aren't recorded yet...
+   Handler->Depends(pkgCache::Dep::Conflicts, Conflicts);
+   start = true;
+   for (I = Conflicts.begin(); I != Conflicts.end(); I++) {
+      if (start) {
+	 BufCat("\nBuild-Conflicts: ");
+	 start = false;
+      } else {
+	 BufCat(", ");
+      }
+      BufCatDep(*I);
+   }
+
+   BufCatTag("\nArchitecture: ", Handler->Arch().c_str());
+
+   snprintf(buf, sizeof(buf), "%d", Handler->FileSize());
    BufCatTag("\nSize: ", buf);
 
-   headerGetEntry(HeaderP, CRPMTAG_MD5, &type, (void **)&str, &count);
-   BufCatTag("\nMD5Sum: ", str);
+   BufCatTag("\nMD5Sum: ", Handler->MD5Sum().c_str());
 
-   headerGetEntry(HeaderP, CRPMTAG_FILENAME, &type, (void **)&str, &count);
-   BufCatTag("\nFilename: ", str);
+   BufCatTag("\nFilename: ", Handler->FileName().c_str());
 
-   headerGetEntry(HeaderP, RPMTAG_SUMMARY, &type, (void **)&str, &count);
-   BufCatTag("\nDescription: ", str);
+   BufCatTag("\nSummary: ", Handler->Summary().c_str());
+   BufCat("\nDescription: ");
    BufCat("\n");
-   headerGetEntry(HeaderP, RPMTAG_DESCRIPTION, &type, (void **)&str, &count);
-   BufCatDescr(str);
+   BufCatDescr(Handler->Description().c_str());
    BufCat("\n");
-   
+
    return string(Buffer, BufUsed);
 }
 
@@ -405,108 +340,28 @@ string rpmSrcRecordParser::AsStr()
 bool rpmSrcRecordParser::BuildDepends(vector<pkgSrcRecords::Parser::BuildDepRec> &BuildDeps,
 				      bool ArchOnly)
 {
-   // FIXME: This method is leaking memory from headerGetEntry().
-   int RpmTypeTag[] = {RPMTAG_REQUIRENAME,
-		       RPMTAG_REQUIREVERSION,
-		       RPMTAG_REQUIREFLAGS,
-		       RPMTAG_CONFLICTNAME,
-		       RPMTAG_CONFLICTVERSION,
-		       RPMTAG_CONFLICTFLAGS};
-   int BuildType[] = {pkgSrcRecords::Parser::BuildDepend,
-		      pkgSrcRecords::Parser::BuildConflict};
    BuildDepRec rec;
-
    BuildDeps.clear();
 
-   for (unsigned char Type = 0; Type != 2; Type++)
-   {
-      char **namel = NULL;
-      char **verl = NULL;
-      int *flagl = NULL;
-      int res, type, count;
+   vector<Dependency*> Deps, Conflicts;
+   Handler->Depends(pkgCache::Dep::Depends, Deps);
 
-      res = headerGetEntry(HeaderP, RpmTypeTag[0+Type*3], &type, 
-			 (void **)&namel, &count);
-      if (res != 1)
-	 return true;
-      res = headerGetEntry(HeaderP, RpmTypeTag[1+Type*3], &type, 
-			 (void **)&verl, &count);
-      res = headerGetEntry(HeaderP, RpmTypeTag[2+Type*3], &type,
-			 (void **)&flagl, &count);
+   for (vector<Dependency*>::iterator I = Deps.begin(); I != Deps.end(); I++) {
+      rec.Package = (*I)->Name;
+      rec.Version = (*I)->Version;
+      rec.Op = (*I)->Op;
+      rec.Type = pkgSrcRecords::Parser::BuildDepend;
+      BuildDeps.push_back(rec);
+   }
       
-      for (int i = 0; i < count; i++) 
-      {
-#if RPM_VERSION >= 0x040404
-         if (namel[i][0] == 'g' && strncmp(namel[i], "getconf", 7) == 0)
-         {
-            rpmds getconfProv = NULL;
-            rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
-                                   namel[i], verl?verl[i]:NULL, flagl[i]);
-            rpmdsGetconf(&getconfProv, NULL);
-            int res = rpmdsSearch(getconfProv, ds) >= 0;
-            rpmdsFree(ds);
-            rpmdsFree(getconfProv);
-            if (res) continue;
-         }
-#endif
-	 if (strncmp(namel[i], "rpmlib", 6) == 0) 
-	 {
-#if RPM_VERSION >= 0x040404
-	    rpmds rpmlibProv = NULL;
-	    rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
-				   namel[i], verl?verl[i]:NULL, flagl[i]);
-	    rpmdsRpmlib(&rpmlibProv, NULL);
-	    int res = rpmdsSearch(rpmlibProv, ds) >= 0;
-	    rpmdsFree(ds);
-	    rpmdsFree(rpmlibProv);
-#elif RPM_VERSION >= 0x040100
-	    rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
-				   namel[i], verl?verl[i]:NULL, flagl[i]);
-	    int res = rpmCheckRpmlibProvides(ds);
-	    rpmdsFree(ds);
-#else
-	    int res = rpmCheckRpmlibProvides(namel[i], verl?verl[i]:NULL,
-					     flagl[i]);
-#endif
-	    if (res) continue;
-	 }
+   Handler->Depends(pkgCache::Dep::Conflicts, Conflicts);
 
-	 if (verl) 
-	 {
-	    if (!*verl[i]) 
-	       rec.Op = pkgCache::Dep::NoOp;
-	    else 
-	    {
-	       if (flagl[i] & RPMSENSE_LESS) 
-	       {
-		  if (flagl[i] & RPMSENSE_EQUAL)
-		      rec.Op = pkgCache::Dep::LessEq;
-		  else
-		      rec.Op = pkgCache::Dep::Less;
-	       } 
-	       else if (flagl[i] & RPMSENSE_GREATER) 
-	       {
-		  if (flagl[i] & RPMSENSE_EQUAL)
-		      rec.Op = pkgCache::Dep::GreaterEq;
-		  else
-		      rec.Op = pkgCache::Dep::Greater;
-	       } 
-	       else if (flagl[i] & RPMSENSE_EQUAL) 
-		  rec.Op = pkgCache::Dep::Equals;
-	    }
-	    
-	    rec.Version = verl[i];
-	 }
-	 else
-	 {
-	    rec.Op = pkgCache::Dep::NoOp;
-	    rec.Version = "";
-	 }
-
-	 rec.Type = BuildType[Type];
-	 rec.Package = namel[i];
-	 BuildDeps.push_back(rec);
-      }
+   for (vector<Dependency*>::iterator I = Conflicts.begin(); I != Conflicts.end(); I++) {
+      rec.Package = (*I)->Name;
+      rec.Version = (*I)->Version;
+      rec.Op = (*I)->Op;
+      rec.Type = pkgSrcRecords::Parser::BuildConflict;
+      BuildDeps.push_back(rec);
    }
    return true;
 }

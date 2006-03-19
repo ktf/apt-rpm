@@ -75,15 +75,16 @@ am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	contrib/configuration.lo contrib/crc-16.lo contrib/error.lo \
 	contrib/fileutl.lo contrib/hashes.lo contrib/md5.lo \
 	contrib/mmap.lo contrib/progress.lo contrib/sha1.lo \
-	contrib/strutl.lo rpm/rpmhandler.lo rpm/rpmindexfile.lo \
-	rpm/rpmlistparser.lo rpm/rpmpackagedata.lo rpm/rpmpm.lo \
-	rpm/rpmrecords.lo rpm/rpmsrcrecords.lo rpm/rpmsystem.lo \
-	rpm/rpmversion.lo acquire.lo acquire-item.lo acquire-method.lo \
-	acquire-worker.lo algorithms.lo cachefile.lo clean.lo \
-	depcache.lo indexfile.lo init.lo luaiface.lo orderlist.lo \
-	packagemanager.lo pkgcache.lo pkgcachegen.lo pkgrecords.lo \
-	pkgsystem.lo policy.lo repository.lo sourcelist.lo \
-	srcrecords.lo tagfile.lo version.lo versionmatch.lo
+	contrib/strutl.lo rpm/repomd.lo rpm/rpmhandler.lo \
+	rpm/rpmindexfile.lo rpm/rpmlistparser.lo rpm/rpmpackagedata.lo \
+	rpm/rpmpm.lo rpm/rpmrecords.lo rpm/rpmsrcrecords.lo \
+	rpm/rpmsystem.lo rpm/rpmversion.lo acquire.lo acquire-item.lo \
+	acquire-method.lo acquire-worker.lo algorithms.lo cachefile.lo \
+	clean.lo depcache.lo indexfile.lo init.lo luaiface.lo \
+	orderlist.lo packagemanager.lo pkgcache.lo pkgcachegen.lo \
+	pkgrecords.lo pkgsystem.lo policy.lo repository.lo \
+	sourcelist.lo srcrecords.lo tagfile.lo version.lo \
+	versionmatch.lo
 libapt_pkg_la_OBJECTS = $(am_libapt_pkg_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/buildlib/depcomp
@@ -172,6 +173,8 @@ LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBSTDCPP_VER = @LIBSTDCPP_VER@
 LIBTOOL = @LIBTOOL@
+LIBXML2_CFLAGS = @LIBXML2_CFLAGS@
+LIBXML2_LIBS = @LIBXML2_LIBS@
 LN_S = @LN_S@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
@@ -198,6 +201,7 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
 POSUB = @POSUB@
 PTHREADLIB = @PTHREADLIB@
 RANLIB = @RANLIB@
@@ -219,6 +223,7 @@ ac_ct_CXX = @ac_ct_CXX@
 ac_ct_F77 = @ac_ct_F77@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
+ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -288,6 +293,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/strutl.cc \
 	contrib/strutl.h \
 	contrib/system.h \
+	rpm/repomd.cc \
+	rpm/repomd.h \
 	rpm/rpmhandler.cc \
 	rpm/rpmhandler.h \
 	rpm/rpmindexfile.cc \
@@ -478,6 +485,7 @@ rpm/$(am__dirstamp):
 rpm/$(DEPDIR)/$(am__dirstamp):
 	@$(mkdir_p) rpm/$(DEPDIR)
 	@: > rpm/$(DEPDIR)/$(am__dirstamp)
+rpm/repomd.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmhandler.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmindexfile.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmlistparser.lo: rpm/$(am__dirstamp) \
@@ -519,6 +527,8 @@ mostlyclean-compile:
 	-rm -f contrib/sha1.lo
 	-rm -f contrib/strutl.$(OBJEXT)
 	-rm -f contrib/strutl.lo
+	-rm -f rpm/repomd.$(OBJEXT)
+	-rm -f rpm/repomd.lo
 	-rm -f rpm/rpmhandler.$(OBJEXT)
 	-rm -f rpm/rpmhandler.lo
 	-rm -f rpm/rpmindexfile.$(OBJEXT)
@@ -577,6 +587,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/progress.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/sha1.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/strutl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/repomd.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmhandler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmindexfile.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmlistparser.Plo@am__quote@

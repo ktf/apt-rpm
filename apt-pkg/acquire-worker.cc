@@ -303,8 +303,11 @@ bool pkgAcquire::Worker::RunMessages()
 	       _error->Warning("Bizarre Error - File size is not what the server reported %s %lu",
 			       LookupTag(Message,"Size","0").c_str(),TotalSize);
 
+	    // LORG:2006-03-09
+	    // Look up the checksum type from owner
 	    Owner->Done(Message,atoi(LookupTag(Message,"Size","0").c_str()),
-			LookupTag(Message,"MD5-Hash"),Config);
+			LookupTag(Message,Owner->ChecksumType().c_str()),Config);
+	    
 	    ItemDone();
 	    
 	    // Log that we are done

@@ -26,6 +26,7 @@
 // CNC:2002-07-03
 #include <apt-pkg/repository.h>
 #include <apt-pkg/md5.h>
+#include <apt-pkg/sha1.h>
 #include <config.h>
 #include <apt-pkg/luaiface.h>
 #include <iostream>
@@ -48,14 +49,17 @@ using std::string;
 // ---------------------------------------------------------------------
 /* Returns false only if the checksums fail (the file not existing is not
    a checksum mismatch) */
-bool VerifyChecksums(string File,unsigned long Size,string MD5)
+bool VerifyChecksums(string File,unsigned long Size,string MD5, string method)
 {
    struct stat Buf;
    
    if (stat(File.c_str(),&Buf) != 0) 
       return true;
 
-   if (Buf.st_size != Size)
+   // LORG:2006-03-09
+   // XXX hack alert: repomd doesn't have index sizes so ignore it and
+   // rely on checksum
+   if (Size > 0 && Buf.st_size != Size)
    {
       if (_config->FindB("Acquire::Verbose", false) == true)
 	 cout << "Size of "<<File<<" did not match what's in the checksum list and was redownloaded."<<endl;
@@ -64,16 +68,30 @@ bool VerifyChecksums(string File,unsigned long Size,string MD5)
 
    if (MD5.empty() == false)
    {
-      MD5Summation md5sum = MD5Summation();
-      FileFd F(File, FileFd::ReadOnly);
-      
-      md5sum.AddFD(F.Fd(), F.Size());
-      if (md5sum.Result().Value() != MD5)
-      {
-         if (_config->FindB("Acquire::Verbose", false) == true)
-	    cout << "MD5Sum of "<<File<<" did not match what's in the checksum list and was redownloaded."<<endl;
-         return false;
-      }
+      if (method == "MD5-Hash") {
+	 MD5Summation md5sum = MD5Summation();
+	 FileFd F(File, FileFd::ReadOnly);
+	 
+	 md5sum.AddFD(F.Fd(), F.Size());
+	 if (md5sum.Result().Value() != MD5)
+	 {
+	    if (_config->FindB("Acquire::Verbose", false) == true)
+	       cout << "MD5Sum of "<<File<<" did not match what's in the checksum list and was redownloaded."<<endl;
+	    return false;
+	 }
+      } else if (method == "SHA1-Hash") {
+	 SHA1Summation sha1sum = SHA1Summation();
+	 FileFd F(File, FileFd::ReadOnly);
+	 
+	 sha1sum.AddFD(F.Fd(), F.Size());
+	 if (sha1sum.Result().Value() != MD5)
+	 {
+	    if (_config->FindB("Acquire::Verbose", false) == true)
+	       cout << "SHASum of "<<File<<" did not match what's in the checksum list and was redownloaded."<<endl;
+	    return false;
+	 }
+      } 
+	 
    }
    
    return true;
@@ -191,7 +209,7 @@ pkgAcqIndex::pkgAcqIndex(pkgAcquire *Owner,pkgRepository *Repository,
 
    // Create the item
    // CNC:2002-07-03
-   Desc.URI = URI + _config->Find("Acquire::ComprExtension", ".bz2");
+   Desc.URI = URI + "." + Repository->GetComprMethod();
    Desc.Description = URIDesc;
    Desc.Owner = this;
    Desc.ShortDesc = ShortDesc;
@@ -222,7 +240,7 @@ pkgAcqIndex::pkgAcqIndex(pkgAcquire *Owner,pkgRepository *Repository,
 	 string FinalFile = _config->FindDir("Dir::State::lists");
 	 FinalFile += URItoFileName(RealURI);
 
-	 if (VerifyChecksums(FinalFile,Size,MD5Hash) == false)
+	 if (VerifyChecksums(FinalFile,Size,MD5Hash,Repository->GetCheckMethod()) == false)
 	 {
 	    unlink(FinalFile.c_str());
 	    unlink(DestFile.c_str());
@@ -239,6 +257,11 @@ pkgAcqIndex::pkgAcqIndex(pkgAcquire *Owner,pkgRepository *Repository,
    QueueURI(Desc);
 }
 									/*}}}*/
+string pkgAcqIndex::ChecksumType()
+{
+   return Repository->GetCheckMethod();
+}
+   
 // AcqIndex::Custom600Headers - Insert custom request headers		/*{{{*/
 // ---------------------------------------------------------------------
 /* The only header we use is the last-modified header. */
@@ -277,7 +300,10 @@ void pkgAcqIndex::Done(string Message,unsigned long Size,string MD5,
       {
 	 // We must always get here if the repository is authenticated
 	 
-	 if (FSize != Size)
+	 // LORG:2006-03-09
+	 // XXX hack alert: repomd doesn't know index sizes so it returns
+	 // zero for them, don't check but rely on checksums instead
+	 if (FSize > 0 && FSize != Size)
 	 {
 	    Status = StatError;
 	    ErrorText = _("Size mismatch");
@@ -360,11 +386,18 @@ void pkgAcqIndex::Done(string Message,unsigned long Size,string MD5,
    
    Decompression = true;
    DestFile += ".decomp";
-   // CNC:2002-07-03
-   Desc.URI = "bzip2:" + FileName;
+   // LORG:2006-02-23 compression is a feature of repository type
+   if (Repository->GetComprMethod() == "gz") {
+      Desc.URI = "gzip:" + FileName;
+      Mode = "gzip";
+   } else if (Repository->GetComprMethod() == "bz2") {
+      Desc.URI = "bzip2:" + FileName;
+      Mode = "bzip2";
+   } else {
+      _error->Warning(_("Uknown compression extension, trying uncompressed"));
+      Desc.URI = FileName;
+   }
    QueueURI(Desc);
-   // CNC:2002-07-03
-   Mode = "bzip2";
 }
 									/*}}}*/
 
@@ -415,7 +448,7 @@ pkgAcqIndexRel::pkgAcqIndexRel(pkgAcquire *Owner,pkgRepository *Repository,
 	 string FinalFile = _config->FindDir("Dir::State::lists");
 	 FinalFile += URItoFileName(RealURI);
 
-	 if (VerifyChecksums(FinalFile,Size,MD5Hash) == false)
+	 if (VerifyChecksums(FinalFile,Size,MD5Hash,Repository->GetCheckMethod()) == false)
 	 {
 	    unlink(FinalFile.c_str());
 	    unlink(DestFile.c_str()); // Necessary?
@@ -638,6 +671,8 @@ pkgAcqArchive::pkgAcqArchive(pkgAcquire *Owner,pkgSourceList *Sources,
 {
    Retries = _config->FindI("Acquire::Retries",0);
 
+   ChkType = "";
+
    if (Version.Arch() == 0)
    {
       _error->Error(_("I wasn't able to locate a file for the %s package. "
@@ -697,14 +732,22 @@ bool pkgAcqArchive::QueueNext()
       pkgIndexFile *Index;
       if (Sources->FindIndex(Vf.File(),Index) == false)
 	    continue;
-      
+
       // Grab the text package record
       pkgRecords::Parser &Parse = Recs->Lookup(Vf);
       if (_error->PendingError() == true)
 	 return false;
       
       string PkgFile = Parse.FileName();
-      MD5 = Parse.MD5Hash();
+      // LORG:2006-03-16 
+      // Repomd uses SHA checksums for packages wheras others use MD5..
+      ChkType = Index->ChecksumType();
+      if (Index->ChecksumType() == "SHA1-Hash") {
+	 MD5 = Parse.SHA1Hash();
+      } else {
+	 MD5 = Parse.MD5Hash();
+      }
+
       if (PkgFile.empty() == true)
 	 return _error->Error(_("The package index files are corrupted. No Filename: "
 			      "field for package %s."),

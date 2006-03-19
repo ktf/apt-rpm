@@ -98,7 +98,7 @@ class pkgSystem
       etc.. */
    virtual signed Score(Configuration const &/*Cnf*/) {return 0;};
 
-   // PM:2006-02-06 Distro version from package system
+   // LORG:2006-02-06 Distro version from package system
    virtual string DistroVer(Configuration const &/*Cnf*/) {return "";};
    
    // CNC:2002-07-03

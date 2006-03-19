@@ -21,6 +21,7 @@
 
 #include <apt-pkg/pkgrecords.h>
 #include <apt-pkg/fileutl.h>
+#include <apt-pkg/rpmhandler.h>
 #include <rpm/rpmlib.h>
 
   
@@ -31,8 +32,6 @@ class rpmRecordParser : public pkgRecords::Parser
    RPMHandler *Handler;
    bool IsDatabase;
 
-   Header HeaderP;
-
    char *Buffer;
    unsigned BufSize;
    unsigned BufUsed;
@@ -40,7 +39,7 @@ class rpmRecordParser : public pkgRecords::Parser
    void BufCat(const char *text);
    void BufCat(const char *begin, const char *end);
    void BufCatTag(const char *tag, const char *value);
-   void BufCatDep(const char *pkg, const char *version, int flags);
+   void BufCatDep(Dependency *Dep);
    void BufCatDescr(const char *descr);
 
    protected:
@@ -52,6 +51,7 @@ class rpmRecordParser : public pkgRecords::Parser
    // These refer to the archive file for the Version
    virtual string FileName();
    virtual string MD5Hash();
+   virtual string SHA1Hash();
    virtual string SourcePkg();
    
    // These are some general stats about the package
@@ -60,8 +60,6 @@ class rpmRecordParser : public pkgRecords::Parser
    virtual string LongDesc();
    virtual string Name();
    
-   inline Header GetRecord() { return HeaderP; };
-
    // The record in raw text, in standard Debian format
    virtual void GetRec(const char *&Start,const char *&Stop);
 

@@ -17,6 +17,7 @@
 
 #include <apt-pkg/srcrecords.h>
 #include <apt-pkg/fileutl.h>
+#include <apt-pkg/rpmhandler.h>
 #include <rpm/rpmlib.h>
 
   
@@ -25,7 +26,6 @@ class RPMHandler;
 class rpmSrcRecordParser : public pkgSrcRecords::Parser
 {
    RPMHandler *Handler;
-   Header HeaderP;
 
    const char *StaticBinList[400];
 
@@ -33,11 +33,11 @@ class rpmSrcRecordParser : public pkgSrcRecords::Parser
    unsigned int BufSize;
    unsigned int BufUsed;
    
-   void BufCat(char *text);
-   void BufCat(char *begin, char *end);
-   void BufCatTag(char *tag, char *value);
-   void BufCatDep(char *pkg, char *version, int flags);
-   void BufCatDescr(char *descr);
+   void BufCat(const char *text);
+   void BufCat(const char *begin, const char *end);
+   void BufCatTag(const char *tag, const char *value);
+   void BufCatDep(Dependency *Dep);
+   void BufCatDescr(const char *descr);
 
 public:
    virtual bool Restart();
