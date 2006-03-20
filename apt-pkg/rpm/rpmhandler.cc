@@ -1133,6 +1133,7 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
    }
    for (n = dco->children; n; n = n->next) {
       unsigned int Op;
+      int_32 RpmOp;
       string deptype, depver;
       char *ver, *rel, *epoch, *depname, *flags, *pre;
       if ((depname = (char*)xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
@@ -1152,21 +1153,27 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
 
          deptype = flags;
 
-         if (deptype == "EQ")
+         if (deptype == "EQ") {
             Op = pkgCache::Dep::Equals;
-         else if (deptype == "GE")
+	    RpmOp = RPMSENSE_EQUAL;
+	 } else if (deptype == "GE") {
             Op = pkgCache::Dep::GreaterEq;
-         else if (deptype == "GT")
+	    RpmOp = RPMSENSE_GREATER | RPMSENSE_EQUAL;
+	 } else if (deptype == "GT") {
             Op = pkgCache::Dep::Greater;
-         else if (deptype == "LE")
+	    RpmOp = RPMSENSE_GREATER;
+	 } else if (deptype == "LE") {
             Op = pkgCache::Dep::LessEq;
-         else if (deptype == "LT")
+	    RpmOp = RPMSENSE_LESS | RPMSENSE_EQUAL;
+	 } else if (deptype == "LT") {
             Op = pkgCache::Dep::Less;
-      } else {
-         Op = pkgCache::Dep::NoOp;
+	    RpmOp = RPMSENSE_LESS;
+	 } else {
+	    Op = pkgCache::Dep::NoOp;
+	    RpmOp = RPMSENSE_ANY;
+	 }
       }
-      // XXX FIXME: Op isn't right here.. convert to rpm dep flag
-      if (InternalDep(depname, depver.c_str(), Op) == true) {
+      if (InternalDep(depname, depver.c_str(), RpmOp) == true) {
 	 continue;
       }
       if (Type == pkgCache::Dep::Depends) {
