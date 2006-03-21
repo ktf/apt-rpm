@@ -634,7 +634,11 @@ string rpmRepomdIndex::IndexURI(string Type) const
    if (Dist[Dist.size() - 1] != '/') {
 	 Res += "/";
    }
-   Res += "repodata/primary.xml";
+   // XXXX eh, this doesn't look sane .. 
+   if (Type == "repomd")
+      Res += "repodata/primary.xml";
+   else
+      Res += "repodata/" + Type;
    return Res;
 }
 									/*}}}*/
@@ -654,10 +658,9 @@ bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 {
    new pkgAcqIndex(Owner,Repository,IndexURI("primary.xml"),
 	           Info("primary.xml"), "primary.xml");
-// wont be needing these for a while...
-#if 0
    new pkgAcqIndex(Owner,Repository,IndexURI("filelists.xml"),
 		   Info("filelists.xml"), "filelists.xml");
+#if 0
    new pkgAcqIndex(Owner,Repository,IndexURI("other.xml"),
    		   Info("other.xml"), "other.xml");
 #endif
@@ -677,7 +680,6 @@ string rpmRepomdIndex::Describe(bool Short) const
 
 string rpmRepomdIndex::IndexFile(string Type) const
 {
-   //cout << "XXX indexfile " << _config->FindDir("Dir::State::lists")+URItoFileName(IndexURI(Type)) << endl;
    return _config->FindDir("Dir::State::lists")+URItoFileName(IndexURI(Type));
 };
 
@@ -925,7 +927,6 @@ class rpmSLTypeGen : public pkgSourceList::Type
       else
 	 BaseURI = URI + Dist + '/';
 
-      //cout << "XXXX GetRepo " << URI << " " << Dist << " " << BaseURI << endl;
       Rep = new pkgRepository(URI,Dist,Vendor,BaseURI);
       RepList.push_back(Rep);
       return Rep;

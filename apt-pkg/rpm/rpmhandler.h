@@ -219,9 +219,11 @@ class RPMDirHandler : public RPMHandler
 class RPMRepomdHandler : public RPMHandler
 {
 
-   xmlDocPtr Primary;
+   xmlDocPtr Primary, Filelist;
    xmlNode *Root;
    xmlNode *NodeP;
+   xmlNode *FlRoot;
+   xmlNode *FlNodeP;
 
    xmlNode *FindNode(const string Name);
    xmlNode *FindNode(xmlNode *Node, const string Name);

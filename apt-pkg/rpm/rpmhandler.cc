@@ -891,8 +891,21 @@ void RPMDBHandler::Rewind()
 RPMRepomdHandler::RPMRepomdHandler(string File)
 {
    //cout << "Repomd handler constr. " << File << endl;
+   string FilelistFile;
    ID = File;
    Root = NULL;
+   FlRoot = NULL;
+
+   FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
+   if (FileExists(FilelistFile)) {
+      Filelist = xmlReadFile(FilelistFile.c_str(), NULL, XML_PARSE_NONET);
+      if ((FlRoot = xmlDocGetRootElement(Filelist)) == NULL ) {
+	 xmlFreeDoc(Primary);
+	 cout << "getting root element failed" << endl;
+      } 
+   } else {
+      cout << "no filelist " << FilelistFile << endl;
+   }
 
    Primary = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET);
    if ((Root = xmlDocGetRootElement(Primary)) == NULL) {
@@ -900,6 +913,7 @@ RPMRepomdHandler::RPMRepomdHandler(string File)
       cout << "getting root element failed" << endl;
    }
    NodeP = Root->children;
+   FlNodeP = FlRoot->children;
    iSize = atoi((char*)xmlGetProp(Root, (xmlChar*)"packages"));
 
    if (NodeP == NULL)
@@ -912,6 +926,7 @@ bool RPMRepomdHandler::Skip()
    //cout << "Repomd handler skip, offset " << iOffset << endl;
    for (NodeP = NodeP->next; NodeP; NodeP = NodeP->next) {
       //cout << "skip() current  " << NodeP << endl;
+      FlNodeP = FlNodeP->next;
       if (NodeP->type != XML_ELEMENT_NODE || strcmp((char*)NodeP->name, "package") != 0) {
 	 continue;
       } else {
@@ -927,8 +942,10 @@ bool RPMRepomdHandler::Skip()
 bool RPMRepomdHandler::Jump(unsigned int Offset)
 {
    NodeP = Root->children;
+   FlNodeP = FlRoot->children;
    iOffset = 0;
    for (NodeP = NodeP->next; NodeP; NodeP = NodeP->next) {
+      FlNodeP = FlNodeP->next;
       if (iOffset+1 == Offset) {
 	 return Skip();
       }
@@ -948,6 +965,7 @@ void RPMRepomdHandler::Rewind()
    //cout << "Repomd handler rewind" << endl;
    iOffset = 0;
    NodeP = Root->children;
+   FlNodeP = FlRoot->children;
 }
 
 xmlNode *RPMRepomdHandler::FindNode(const string Name)
@@ -1103,14 +1121,22 @@ bool RPMRepomdHandler::HasFile(const char *File)
       if (strcmp((char*)n->name, "file") != 0) 
 	 continue;
       if (strcmp(File, (char*)xmlNodeGetContent(n)) == 0) {
-	 //cout << "file in primary: " << File << endl;
-	 inprimary = true;
+	 found = true;
 	 break;
       }
    }
-   // XXX FIXME: should plunge into filelist.xml if not found
-   // in primary.xml
-   found = inprimary;
+
+   // look through filelists.xml for the file if not in primary.xml
+   if (! found) {
+      for (xmlNode *n = FlNodeP->children; n; n = n->next) {
+	 if (strcmp((char*)n->name, "file") != 0) 
+	    continue;
+	 if (strcmp(File, (char*)xmlNodeGetContent(n)) == 0) {
+	    found = true;
+	    break;
+	 }
+      }
+   }
    return found;
 
 }
@@ -1244,6 +1270,13 @@ bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
       if (strcmp((char*)n->name, "file") != 0)  continue;
       FileProvs.push_back((char*)xmlNodeGetContent(n));
    }
+#if 1 // XXX maybe this should be made configurable?
+   for (xmlNode *n = FlNodeP->children; n; n = n->next) {
+      if (strcmp((char*)n->name, "file") != 0) 
+	    continue;
+      FileProvs.push_back((char*)xmlNodeGetContent(n));
+   }
+#endif
    return true;
 }
 
@@ -1262,6 +1295,7 @@ unsigned short RPMRepomdHandler::VersionHash()
 RPMRepomdHandler::~RPMRepomdHandler()
 {
    xmlFreeDoc(Primary);
+   xmlFreeDoc(Filelist);
 }
 
 // vim:sts=3:sw=3
