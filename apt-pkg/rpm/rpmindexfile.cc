@@ -744,6 +744,25 @@ bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
    return true;
 }
 
+bool rpmRepomdIndex::MergeFileProvides(pkgCacheGenerator &Gen,
+					OpProgress &Prog) const
+{
+   string PackageFile = IndexPath();
+   RPMHandler *Handler = CreateHandler();
+   rpmListParser Parser(Handler);
+   if (_error->PendingError() == true) {
+      delete Handler;
+      return _error->Error(_("Problem opening %s"),PackageFile.c_str());
+   }
+   // We call SubProgress with Size(), since we won't call SelectFile() here.
+   Prog.SubProgress(Size(),Info("pkglist"));
+   if (Gen.MergeFileProvides(Parser) == false)
+      return _error->Error(_("Problem with MergeFileProvides %s"),
+			   PackageFile.c_str());
+   delete Handler;
+   return true;
+}
+
 pkgSrcRecords::Parser *rpmRepomdSrcIndex::CreateSrcParser() const
 {
    return new rpmSrcRecordParser(IndexPath(), this);
