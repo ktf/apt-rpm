@@ -1024,8 +1024,14 @@ string RPMRepomdHandler::Version()
 
 string RPMRepomdHandler::Epoch()
 {
+   string epoch;
    xmlNode *n = FindNode("version");
-   return GetProp(n, "epoch");
+   epoch = GetProp(n, "epoch");
+   // XXX createrepo stomps epoch zero on packages without epoch, hide
+   // them. Rpm treats zero and empty equally anyway so it doesn't matter.
+   if (epoch == "0")
+      epoch = "";
+   return epoch;
 }
 
 string RPMRepomdHandler::FileName()
