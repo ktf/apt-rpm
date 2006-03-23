@@ -943,8 +943,12 @@ bool RPMRepomdHandler::Skip()
 
 bool RPMRepomdHandler::Jump(unsigned int Offset)
 {
-   NodeP = Root->children;
-   iOffset = 0;
+   if (Offset == iOffset) {
+      return true;
+   } else if (Offset > iOffset) {
+      NodeP = Root->children;
+      iOffset = 0;
+   }
 // cout << __PRETTY_FUNCTION__ << " Offset: " << Offset << endl;
    while (NodeP && (iOffset < Offset) ) {
       if ((NodeP->type == XML_ELEMENT_NODE) && 
