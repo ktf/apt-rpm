@@ -945,7 +945,7 @@ bool RPMRepomdHandler::Jump(unsigned int Offset)
 {
    if (Offset == iOffset) {
       return true;
-   } else if (Offset > iOffset) {
+   } else if (Offset < iOffset) {
       NodeP = Root->children;
       iOffset = 0;
    }
