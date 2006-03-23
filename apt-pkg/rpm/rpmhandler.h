@@ -13,6 +13,7 @@
 #include <apt-pkg/fileutl.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include <libxml/xmlreader.h>
 
 #include <rpm/rpmlib.h>
 #include <rpm/rpmmacro.h>
@@ -219,11 +220,13 @@ class RPMDirHandler : public RPMHandler
 class RPMRepomdHandler : public RPMHandler
 {
 
-   xmlDocPtr Primary, Filelist;
+   xmlDocPtr Primary;
+   xmlTextReaderPtr Filelist;
    xmlNode *Root;
    xmlNode *NodeP;
-   xmlNode *FlRoot;
-   xmlNode *FlNodeP;
+
+   bool WithFilelist;
+   string PrimaryFile, FilelistFile;
 
    xmlNode *FindNode(const string Name);
    xmlNode *FindNode(xmlNode *Node, const string Name);
@@ -265,7 +268,7 @@ class RPMRepomdHandler : public RPMHandler
    virtual bool FileProvides(vector<string> &FileProvs);
    virtual unsigned short VersionHash();
 
-   RPMRepomdHandler(string File);
+   RPMRepomdHandler(string File, bool useFilelist);
    virtual ~RPMRepomdHandler();
 };
 

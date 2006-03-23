@@ -20,6 +20,7 @@ apt-pkg/contrib/progress.cc
 apt-pkg/contrib/sha1.cc
 apt-pkg/contrib/strutl.cc
 
+apt-pkg/rpm/repomd.cc
 apt-pkg/rpm/rpmhandler.cc
 apt-pkg/rpm/rpmindexfile.cc
 apt-pkg/rpm/rpmlistparser.cc

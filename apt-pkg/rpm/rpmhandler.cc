@@ -28,6 +28,7 @@
 #include <apt-pkg/rpmpackagedata.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include <libxml/xmlreader.h>
 
 #include <apti18n.h>
 
@@ -888,32 +889,35 @@ void RPMDBHandler::Rewind()
 }
 #endif
 
-RPMRepomdHandler::RPMRepomdHandler(string File)
+RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
 {
    //cout << "Repomd handler constr. " << File << endl;
-   string FilelistFile;
+   WithFilelist = useFilelist;
+   PrimaryFile = File;
+   FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
+
    ID = File;
    Root = NULL;
-   FlRoot = NULL;
 
-   FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
-   if (FileExists(FilelistFile)) {
-      Filelist = xmlReadFile(FilelistFile.c_str(), NULL, XML_PARSE_NONET);
-      if ((FlRoot = xmlDocGetRootElement(Filelist)) == NULL ) {
-	 xmlFreeDoc(Primary);
-	 cout << "getting root element failed" << endl;
-      } 
-   } else {
-      cout << "no filelist " << FilelistFile << endl;
-   }
-
-   Primary = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET);
+   Primary = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET|XML_PARSE_NOBLANKS);
    if ((Root = xmlDocGetRootElement(Primary)) == NULL) {
       xmlFreeDoc(Primary);
       cout << "getting root element failed" << endl;
    }
+   if (WithFilelist && FileExists(FilelistFile)) {
+      Filelist = xmlReaderForFile(FilelistFile.c_str(), NULL,
+                                  XML_PARSE_NONET|XML_PARSE_NOBLANKS);
+      if (Filelist == NULL) {
+	 xmlFreeTextReader(Filelist);
+	 cout << "opening filelist failed" << endl;
+	 WithFilelist = false;
+      } 
+      // Ugh.. "initialize" it to correct position
+      xmlTextReaderRead(Filelist);
+      xmlTextReaderRead(Filelist);
+   }	 
+
    NodeP = Root->children;
-   FlNodeP = FlRoot->children;
    iSize = atoi((char*)xmlGetProp(Root, (xmlChar*)"packages"));
 
    if (NodeP == NULL)
@@ -926,8 +930,11 @@ bool RPMRepomdHandler::Skip()
    //cout << "Repomd handler skip, offset " << iOffset << endl;
    for (NodeP = NodeP->next; NodeP; NodeP = NodeP->next) {
       //cout << "skip() current  " << NodeP << endl;
-      FlNodeP = FlNodeP->next;
-      if (NodeP->type != XML_ELEMENT_NODE || strcmp((char*)NodeP->name, "package") != 0) {
+      //FlNodeP = FlNodeP->next;
+      if (WithFilelist)
+	 xmlTextReaderNext(Filelist);
+      if (NodeP->type != XML_ELEMENT_NODE || 
+	  xmlStrcmp(NodeP->name, (xmlChar*)"package") != 0) {
 	 continue;
       } else {
 	 iOffset++;
@@ -942,21 +949,22 @@ bool RPMRepomdHandler::Skip()
 bool RPMRepomdHandler::Jump(unsigned int Offset)
 {
    NodeP = Root->children;
-   FlNodeP = FlRoot->children;
+   //FlNodeP = FlRoot->children;
    iOffset = 0;
-   for (NodeP = NodeP->next; NodeP; NodeP = NodeP->next) {
-      FlNodeP = FlNodeP->next;
-      if (iOffset+1 == Offset) {
-	 return Skip();
-      }
-      if (NodeP->type != XML_ELEMENT_NODE || 
-	  strcmp((char*)NodeP->name, "package") != 0) {
-	 continue;
-      } else {
-	 iOffset++;
-	 //cout << "at offset " << iOffset << " of " << Offset << endl;
-      }
-   }
+// cout << __PRETTY_FUNCTION__ << " Offset: " << Offset << endl;
+   while (NodeP && (iOffset < Offset) ) {
+      if ((NodeP->type == XML_ELEMENT_NODE) && 
+          (xmlStrcmp(NodeP->name, (xmlChar*)"package") == 0)) {
+         iOffset++;
+	 if (iOffset == Offset) {
+	    return Skip();
+	 }
+       }
+      NodeP = NodeP->next;
+      if (WithFilelist)
+	 xmlTextReaderNext(Filelist);
+   } // while
+
    return false;
 }
 
@@ -965,7 +973,7 @@ void RPMRepomdHandler::Rewind()
    //cout << "Repomd handler rewind" << endl;
    iOffset = 0;
    NodeP = Root->children;
-   FlNodeP = FlRoot->children;
+   //FlNodeP = FlRoot->children;
 }
 
 xmlNode *RPMRepomdHandler::FindNode(const string Name)
@@ -1126,6 +1134,7 @@ bool RPMRepomdHandler::HasFile(const char *File)
       }
    }
 
+#if 0
    // look through filelists.xml for the file if not in primary.xml
    if (! found) {
       for (xmlNode *n = FlNodeP->children; n; n = n->next) {
@@ -1137,6 +1146,7 @@ bool RPMRepomdHandler::HasFile(const char *File)
 	 }
       }
    }
+#endif
    return found;
 
 }
@@ -1268,13 +1278,21 @@ bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
    xmlNode *format = FindNode("format");
    for (xmlNode *n = format->children; n; n = n->next) {
       if (strcmp((char*)n->name, "file") != 0)  continue;
-      FileProvs.push_back((char*)xmlNodeGetContent(n));
+      xmlChar *Filename = xmlNodeGetContent(n);
+      FileProvs.push_back(string((char*)Filename));
+      xmlFree(Filename);
    }
+   if (! WithFilelist) return true;
+
 #if 1 // XXX maybe this should be made configurable?
-   for (xmlNode *n = FlNodeP->children; n; n = n->next) {
+   xmlNode *FlP = xmlTextReaderExpand(Filelist);
+   for (xmlNode *n = FlP->children; n; n = n->next) {
       if (strcmp((char*)n->name, "file") != 0) 
 	    continue;
-      FileProvs.push_back((char*)xmlNodeGetContent(n));
+      //cout << "adding fileprovide " << (char*)xmlNodeGetContent(n) << endl;
+      xmlChar *Filename = xmlNodeGetContent(n);
+      FileProvs.push_back(string((char*)Filename));
+      xmlFree(Filename);
    }
 #endif
    return true;
@@ -1295,7 +1313,8 @@ unsigned short RPMRepomdHandler::VersionHash()
 RPMRepomdHandler::~RPMRepomdHandler()
 {
    xmlFreeDoc(Primary);
-   xmlFreeDoc(Filelist);
+   if (WithFilelist)
+      xmlFreeTextReader(Filelist);
 }
 
 // vim:sts=3:sw=3
