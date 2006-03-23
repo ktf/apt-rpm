@@ -912,7 +912,7 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
 	 cout << "opening filelist failed" << endl;
 	 WithFilelist = false;
       } 
-      // Ugh.. "initialize" it to correct position
+      // XXX FIXME: Ugh.. "initialize" filelist to correct position
       xmlTextReaderRead(Filelist);
       xmlTextReaderRead(Filelist);
    }	 
@@ -926,11 +926,7 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
 
 bool RPMRepomdHandler::Skip()
 {
-   //iOffset++;
-   //cout << "Repomd handler skip, offset " << iOffset << endl;
    for (NodeP = NodeP->next; NodeP; NodeP = NodeP->next) {
-      //cout << "skip() current  " << NodeP << endl;
-      //FlNodeP = FlNodeP->next;
       if (WithFilelist)
 	 xmlTextReaderNext(Filelist);
       if (NodeP->type != XML_ELEMENT_NODE || 
@@ -938,7 +934,6 @@ bool RPMRepomdHandler::Skip()
 	 continue;
       } else {
 	 iOffset++;
-	 //cout << "in node " << xmlNodePGetContent(node) << endl;
 	 return true;
       }
    } 
@@ -949,7 +944,6 @@ bool RPMRepomdHandler::Skip()
 bool RPMRepomdHandler::Jump(unsigned int Offset)
 {
    NodeP = Root->children;
-   //FlNodeP = FlRoot->children;
    iOffset = 0;
 // cout << __PRETTY_FUNCTION__ << " Offset: " << Offset << endl;
    while (NodeP && (iOffset < Offset) ) {
@@ -970,16 +964,18 @@ bool RPMRepomdHandler::Jump(unsigned int Offset)
 
 void RPMRepomdHandler::Rewind()
 {
-   //cout << "Repomd handler rewind" << endl;
    iOffset = 0;
    NodeP = Root->children;
-   //FlNodeP = FlRoot->children;
+   if (WithFilelist) {
+      // TODO...
+      ;
+   }
 }
 
 xmlNode *RPMRepomdHandler::FindNode(const string Name)
 {
    for (xmlNode *n = NodeP->children; n; n = n->next) {
-      if (strcmp((char*)n->name, Name.c_str()) == 0) {
+      if (xmlStrcmp(n->name, (xmlChar*)Name.c_str()) == 0) {
          return n;
       }
    }
@@ -989,7 +985,7 @@ xmlNode *RPMRepomdHandler::FindNode(const string Name)
 xmlNode *RPMRepomdHandler::FindNode(xmlNode *Node, const string Name)
 {
    for (xmlNode *n = Node->children; n; n = n->next) {
-      if (strcmp((char*)n->name, Name.c_str()) == 0) {
+      if (xmlStrcmp(n->name, (xmlChar*)Name.c_str()) == 0) {
          return n;
       }
    }
@@ -1126,9 +1122,9 @@ bool RPMRepomdHandler::HasFile(const char *File)
 
    xmlNode *format = FindNode("format");
    for (xmlNode *n = format->children; n; n = n->next) {
-      if (strcmp((char*)n->name, "file") != 0) 
+      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
 	 continue;
-      if (strcmp(File, (char*)xmlNodeGetContent(n)) == 0) {
+      if (xmlStrcmp(xmlNodeGetContent(n), (xmlChar*)File) == 0) {
 	 found = true;
 	 break;
       }
@@ -1177,23 +1173,30 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
       unsigned int Op;
       int_32 RpmOp;
       string deptype, depver;
-      char *ver, *rel, *epoch, *depname, *flags, *pre;
-      if ((depname = (char*)xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
+      xmlChar *ver, *rel, *epoch, *depname, *flags, *pre;
+      if ((depname = xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
 
-      if ((flags = (char*)xmlGetProp(n, (xmlChar*)"flags"))) {
-         ver = (char*)xmlGetProp(n, (xmlChar*)"ver");
-         rel = (char*)xmlGetProp(n, (xmlChar*)"rel");
-         epoch = (char*)xmlGetProp(n, (xmlChar*)"epoch");
-         if (epoch)
-            depver += string(epoch) + ":";
-         ver = (char*)xmlGetProp(n, (xmlChar*)"ver");
-         if (ver)
-            depver += string(ver);
-         rel = (char*)xmlGetProp(n, (xmlChar*)"rel");
-         if (rel)
-            depver += "-" + string(rel);
+      if ((flags = xmlGetProp(n, (xmlChar*)"flags"))) {
+         deptype = string((char*)flags);
+	 xmlFree(flags);
+         ver = xmlGetProp(n, (xmlChar*)"ver");
+         rel = xmlGetProp(n, (xmlChar*)"rel");
+         epoch = xmlGetProp(n, (xmlChar*)"epoch");
+         if (epoch) {
+            depver += string((char*)epoch) + ":";
+	    xmlFree(epoch);
+	 }
+         ver = xmlGetProp(n, (xmlChar*)"ver");
+         if (ver) {
+            depver += string((char*)ver);
+	    xmlFree(ver);
+	 }
+         rel = xmlGetProp(n, (xmlChar*)"rel");
+         if (rel) {
+            depver += "-" + string((char*)rel);
+	    xmlFree(rel);
+	 }
 
-         deptype = flags;
 
          if (deptype == "EQ") {
             Op = pkgCache::Dep::Equals;
@@ -1215,17 +1218,19 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
 	    RpmOp = RPMSENSE_ANY;
 	 }
       }
-      if (InternalDep(depname, depver.c_str(), RpmOp) == true) {
+      if (InternalDep((char*)depname, depver.c_str(), RpmOp) == true) {
 	 continue;
       }
       if (Type == pkgCache::Dep::Depends) {
-	 pre = (char*)xmlGetProp(n, (xmlChar*)"pre"); 
+	 pre = xmlGetProp(n, (xmlChar*)"pre"); 
 	 if (pre) {
 	    Type = pkgCache::Dep::PreDepends;
+	    xmlFree(pre);
 	 }
       }
       Dependency *Dep = new Dependency;
-      Dep->Name = depname;
+      Dep->Name = string((char*)depname);
+      xmlFree(depname);
       Dep->Version = depver;
       Dep->Op = Op;
       Dep->Type = Type;
@@ -1245,26 +1250,34 @@ bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
 
    for (xmlNode *n = provides->children; n; n = n->next) {
       string depver = "";
-      char *ver, *rel, *epoch, *depname, *flags;
+      xmlChar *ver, *rel, *epoch, *depname, *flags;
 
-      if (strcmp((char*)n->name, "entry") != 0)  continue;
+      if (xmlStrcmp(n->name, (xmlChar*)"entry") != 0)  continue;
 
       Dependency *Dep = new Dependency;
-      if ((depname = (char*)xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
+      if ((depname = xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
+      Dep->Name = string((char*)depname);
+      xmlFree(depname);
 
-      if ((flags = (char*)xmlGetProp(n, (xmlChar*)"flags"))) {
-         epoch = (char*)xmlGetProp(n, (xmlChar*)"epoch");
-         if (epoch)
-            depver += string(epoch) + ":";
-         ver = (char*)xmlGetProp(n, (xmlChar*)"ver");
-         if (ver)
-            depver += string(ver);
-         rel = (char*)xmlGetProp(n, (xmlChar*)"rel");
-         if (rel)
-            depver += "-" + string(rel);
+      if ((flags = xmlGetProp(n, (xmlChar*)"flags"))) {
+	 xmlFree(flags);
+         epoch = xmlGetProp(n, (xmlChar*)"epoch");
+         if (epoch) {
+            depver += string((char*)epoch) + ":";
+	    xmlFree(epoch);
+	 }
+         ver = xmlGetProp(n, (xmlChar*)"ver");
+         if (ver) {
+            depver += string((char*)ver);
+	    xmlFree(ver);
+	 }
+         rel = xmlGetProp(n, (xmlChar*)"rel");
+         if (rel) {
+            depver += "-" + string((char*)rel);
+	    xmlFree(rel);
+	 }
 
       }
-      Dep->Name = depname;
       Dep->Version = depver;
       if (depver.empty() == false)
 	 Dep->Op = pkgCache::Dep::Equals;
@@ -1277,24 +1290,22 @@ bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
 {
    xmlNode *format = FindNode("format");
    for (xmlNode *n = format->children; n; n = n->next) {
-      if (strcmp((char*)n->name, "file") != 0)  continue;
+      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
       xmlChar *Filename = xmlNodeGetContent(n);
       FileProvs.push_back(string((char*)Filename));
       xmlFree(Filename);
    }
+   // XXX maybe this should be made runtime configurable?
    if (! WithFilelist) return true;
 
-#if 1 // XXX maybe this should be made configurable?
    xmlNode *FlP = xmlTextReaderExpand(Filelist);
    for (xmlNode *n = FlP->children; n; n = n->next) {
-      if (strcmp((char*)n->name, "file") != 0) 
+      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
 	    continue;
-      //cout << "adding fileprovide " << (char*)xmlNodeGetContent(n) << endl;
       xmlChar *Filename = xmlNodeGetContent(n);
       FileProvs.push_back(string((char*)Filename));
       xmlFree(Filename);
    }
-#endif
    return true;
 }
 
