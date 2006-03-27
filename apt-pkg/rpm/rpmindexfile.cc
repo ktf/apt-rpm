@@ -536,7 +536,6 @@ string rpmSingleSrcIndex::ArchiveURI(string File) const
 
 string rpmRepomdIndex::ArchiveURI(string File) const
 {
-   RPMPackageData *rpmdata = RPMPackageData::Singleton();
    string Res;
 
    //cout << Dist << File << endl;
@@ -586,7 +585,6 @@ pkgCache::PkgFileIterator rpmRepomdIndex::FindInCache(pkgCache &Cache) const
 }
 string rpmRepomdIndex::ReleaseURI(string Type) const
 {
-   RPMPackageData *rpmdata = RPMPackageData::Singleton();
    string Res;
    Res = URI + Dist + "/repodata/" + "repomd.xml";
 
@@ -629,7 +627,6 @@ string rpmRepomdIndex::Info(string Type) const
 
 string rpmRepomdIndex::IndexURI(string Type) const
 {
-   RPMPackageData *rpmdata = RPMPackageData::Singleton();
    string Res = URI + Dist;
    if (Dist[Dist.size() - 1] != '/') {
 	 Res += "/";
@@ -694,6 +691,14 @@ string rpmRepomdIndex::ReleasePath() const
    return _config->FindDir("Dir::State::lists")+URItoFileName(ReleaseURI("release.xml"));
 }
 
+unsigned long rpmRepomdIndex::Size() const
+{
+   // ugh.. all this just to get the package count ;(
+   RPMHandler *Handler = CreateHandler();
+   unsigned long Res = Handler->Size();
+   delete Handler;
+   return Res;
+}
 
 bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
 {

@@ -1223,7 +1223,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
 	 // Check if it's a different version of a package already
 	 // considered as a good solution.
 	 bool AlreadySeen = false;
-	 for (int i = 0; i != GoodSolutions.size(); i++)
+	 for (size_t i = 0; i != GoodSolutions.size(); i++)
 	 {
 	    pkgCache::PkgIterator GoodPkg(Cache, GoodSolutions[i]);
 	    if (PrvPkg == GoodPkg)
@@ -1259,7 +1259,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
 	 }
       }
       vector<string> GoodSolutionNames;
-      for (int i = 0; i != GoodSolutions.size(); i++)
+      for (size_t i = 0; i != GoodSolutions.size(); i++)
       {
 	 pkgCache::PkgIterator GoodPkg(Cache, GoodSolutions[i]);
 	 GoodSolutionNames.push_back(GoodPkg.Name());
@@ -1307,7 +1307,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
       {
 	 ioprintf(c1out,_("Package %s is a virtual package provided by:\n"),
 		  Pkg.Name());
-	 for (int i = 0; i != GoodSolutions.size(); i++)
+	 for (size_t i = 0; i != GoodSolutions.size(); i++)
 	 {
 	    pkgCache::PkgIterator GoodPkg(Cache, GoodSolutions[i]);
 	    if (GoodPkg.CurrentVer().end() == false)
@@ -1615,6 +1615,8 @@ class UpdateLogCleaner : public pkgArchiveCleaner
       c1out << "Del " << Pkg << " " << Ver << " [" << SizeToStr(St.st_size) << "B]" << endl;
       unlink(File);      
    };
+   public:
+   virtual ~UpdateLogCleaner() {};
 };
 
 bool DoUpdate(CommandLine &CmdL)
@@ -2374,6 +2376,8 @@ class LogCleaner : public pkgArchiveCleaner
       if (_config->FindB("APT::Get::Simulate") == false)
 	 unlink(File);      
    };
+   public:
+   virtual ~LogCleaner() {};
 };
 
 bool DoAutoClean(CommandLine &CmdL)

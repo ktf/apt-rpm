@@ -226,11 +226,6 @@ void rpmRecordParser::BufCatDescr(const char *descr)
 void rpmRecordParser::GetRec(const char *&Start,const char *&Stop) 
 {
    // FIXME: This method is leaking memory from headerGetEntry().
-   int type, type2, type3, count;
-   char *str;
-   char **strv;
-   char **strv2;
-   int_32 *numv;
    char buf[32];
 
    BufUsed = 0;
@@ -239,7 +234,7 @@ void rpmRecordParser::GetRec(const char *&Start,const char *&Stop)
 
    BufCatTag("\nSection: ", Handler->Group().c_str());
 
-   snprintf(buf, sizeof(buf), "%d", Handler->InstalledSize());
+   snprintf(buf, sizeof(buf), "%lu", Handler->InstalledSize());
    BufCatTag("\nInstalled Size: ", buf);
 
    BufCatTag("\nPackager: ", Handler->Packager().c_str());
@@ -325,7 +320,7 @@ void rpmRecordParser::GetRec(const char *&Start,const char *&Stop)
 
    BufCatTag("\nArchitecture: ", Handler->Arch().c_str());
    
-   snprintf(buf, sizeof(buf), "%d", Handler->FileSize());
+   snprintf(buf, sizeof(buf), "%lu", Handler->FileSize());
    BufCatTag("\nSize: ", buf);
 
    BufCatTag("\nMD5Sum: ", Handler->MD5Sum().c_str());

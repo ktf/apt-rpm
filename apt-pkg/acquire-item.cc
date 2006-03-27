@@ -59,7 +59,7 @@ bool VerifyChecksums(string File,unsigned long Size,string MD5, string method)
    // LORG:2006-03-09
    // XXX hack alert: repomd doesn't have index sizes so ignore it and
    // rely on checksum
-   if (Size > 0 && Buf.st_size != Size)
+   if (Size > 0 && (unsigned long)Buf.st_size != Size)
    {
       if (_config->FindB("Acquire::Verbose", false) == true)
 	 cout << "Size of "<<File<<" did not match what's in the checksum list and was redownloaded."<<endl;
@@ -309,7 +309,7 @@ void pkgAcqIndex::Done(string Message,unsigned long Size,string MD5,
 	    ErrorText = _("Size mismatch");
 	    Rename(DestFile,DestFile + ".FAILED");
 	    if (_config->FindB("Acquire::Verbose",false) == true) 
-	       _error->Warning("Size mismatch of index file %s: %ul was supposed to be %ul",
+	       _error->Warning("Size mismatch of index file %s: %lu was supposed to be %lu",
 			       RealURI.c_str(), Size, FSize);
 	    return;
 	 }
@@ -592,7 +592,7 @@ void pkgAcqIndexRel::Done(string Message,unsigned long Size,string MD5,
 	 ErrorText = _("Size mismatch");
 	 Rename(DestFile,DestFile + ".FAILED");
 	 if (_config->FindB("Acquire::Verbose",false) == true) 
-	    _error->Warning("Size mismatch of index file %s: %ul was supposed to be %ul",
+	    _error->Warning("Size mismatch of index file %s: %lu was supposed to be %lu",
 			    RealURI.c_str(), Size, FSize);
 	 return;
       }

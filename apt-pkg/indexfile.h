@@ -51,6 +51,7 @@ class pkgIndexFile
       const char *Label;
 
       virtual pkgRecords::Parser *CreatePkgParser(pkgCache::PkgFileIterator /*File*/) const {return 0;};
+      virtual ~Type() {};
       Type();
    };
 

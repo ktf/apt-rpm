@@ -255,7 +255,7 @@ char *getFileSigner(const char *file, const char *sigfile,
       {
 	 char *sig;
 	 ptr = sig = ptr1 + sizeof(SIGPACK);
-	 while (isxdigit(*ptr) && (ptr-sig) < sizeof(keyid)) ptr++;
+	 while (isxdigit(*ptr) && (size_t)(ptr-sig) < sizeof(keyid)) ptr++;
 	 *ptr = 0;
 	 strcpy(keyid, sig);
       }

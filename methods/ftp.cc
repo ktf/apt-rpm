@@ -1104,7 +1104,7 @@ int main(int argc,const char *argv[])
 	 
 	 // Run the http method
 	 string Path = flNotFile(argv[0]) + "http";
-	 execl(Path.c_str(),Path.c_str(),0);
+	 execl(Path.c_str(),Path.c_str(),NULL);
 	 cerr << _("Unable to invoke ") << Path << endl;
 	 exit(100);
       }      

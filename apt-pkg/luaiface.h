@@ -55,7 +55,7 @@ class Lua {
 	 { RunInteractive(PlaceHint.c_str()); };
 
    bool RunScript(const string &Script, const string &ChunkCacheKey="")
-	 { RunScript(Script.c_str(), (ChunkCacheKey.length() == 0) ?
+	 { return RunScript(Script.c_str(), (ChunkCacheKey.length() == 0) ?
 				      NULL : ChunkCacheKey.c_str()); };
    bool RunScript(const char *Script, const char *ChunkCacheKey=NULL);
    bool RunScripts(const char *ConfListKey, bool CacheChunks=false);

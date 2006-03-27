@@ -378,7 +378,7 @@ void Lua::SetGlobal(const char *Name, vector<const char *> &Value,
 {
    lua_pushstring(L, Name);
    lua_newtable(L);
-   if (Total == -1 || Total > Value.size())
+   if (Total == -1 || (size_t)Total > Value.size())
       Total = Value.size();
    for (int i=0; i != Total && Value[i] != NULL; i++) {
       lua_pushstring(L, Value[i]);
@@ -393,7 +393,7 @@ void Lua::SetGlobal(const char *Name, vector<string> &Value,
 {
    lua_pushstring(L, Name);
    lua_newtable(L);
-   if (Total == -1 || Total > Value.size())
+   if (Total == -1 || (size_t)Total > Value.size())
       Total = Value.size();
    for (int i=0; i != Total; i++) {
       lua_pushstring(L, Value[i].c_str());
@@ -408,7 +408,7 @@ void Lua::SetGlobal(const char *Name, vector<pkgCache::Package*> &Value,
 {
    lua_pushstring(L, Name);
    lua_newtable(L);
-   if (Total == -1 || Total > Value.size())
+   if (Total == -1 || (size_t)Total > Value.size())
       Total = Value.size();
    for (int i=0; i != Total && Value[i] != NULL; i++) {
       pushudata(pkgCache::Package*, Value[i]);
@@ -1161,19 +1161,9 @@ static int AptLua_markremove(lua_State *L)
    return AptAux_mark(L, MARK_REMOVE);
 }
 
-static int AptLua_marksimplekeep(lua_State *L)
-{
-   return AptAux_marksimple(L, MARK_KEEP);
-}
-
 static int AptLua_marksimpleinstall(lua_State *L)
 {
    return AptAux_marksimple(L, MARK_INSTALL);
-}
-
-static int AptLua_marksimpleremove(lua_State *L)
-{
-   return AptAux_marksimple(L, MARK_REMOVE);
 }
 
 static int AptLua_markdistupgrade(lua_State *L)

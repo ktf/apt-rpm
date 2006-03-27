@@ -60,6 +60,7 @@ class pkgRepository
       CheckMethod = "MD5-Hash";
    };
 
+   virtual ~pkgRepository() {};
 };
 
 #endif

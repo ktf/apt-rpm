@@ -58,7 +58,6 @@ string RPMHandler::Epoch()
 
 unsigned long RPMHandler::GetITag(rpmTag Tag)
 {
-   char *str;
    int_32 count, type, *num;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, Tag,
@@ -711,7 +710,7 @@ string RPMDirHandler::MD5Sum()
 
 
 RPMDBHandler::RPMDBHandler(bool WriteLock)
-   : WriteLock(WriteLock), Handler(0)
+   : Handler(0), WriteLock(WriteLock)
 {
 #if RPM_VERSION >= 0x040000
    RpmIter = NULL;
@@ -1121,7 +1120,6 @@ bool RPMRepomdHandler::HasFile(const char *File)
    if (*File == '\0')
       return false;
 
-   bool inprimary = false;
    bool found = false;
 
    xmlNode *format = FindNode("format");
@@ -1247,7 +1245,6 @@ bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
 {
    xmlNode *format = FindNode("format");
    xmlNode *provides = FindNode(format, "provides");
-   bool ret = true;
 
    if (! provides)
       return true;

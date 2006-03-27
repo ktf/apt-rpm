@@ -308,7 +308,7 @@ class rpmRepomdIndex : public rpmIndexFile
 
    // Interface for the Cache Generator
    virtual bool Exists() const;
-   virtual unsigned long Size() const {};
+   virtual unsigned long Size() const;
 
    // Interface for acquire
    virtual string Describe(bool Short) const;

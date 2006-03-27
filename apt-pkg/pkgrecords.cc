@@ -57,7 +57,7 @@ pkgRecords::~pkgRecords()
 {
    // CNC:2002-11-28
    // See comments above.
-   for (unsigned I = 0; I != PackageFileCount; I++)
+   for (unsigned I = 0; I != (unsigned)PackageFileCount; I++)
       delete Files[I];
    delete [] Files;
 }

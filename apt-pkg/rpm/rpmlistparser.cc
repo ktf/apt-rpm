@@ -83,7 +83,6 @@ string rpmListParser::Package()
 #endif
 
    string Name = Handler->Name();
-   int type, count;
    
    Duplicated = false;
    
@@ -184,9 +183,6 @@ string rpmListParser::Version()
 /* */
 bool rpmListParser::NewVersion(pkgCache::VerIterator Ver)
 {
-   int count, type;
-   int_32 *num;
-
 #if WITH_VERSION_CACHING
    // Cache it for future usage.
    RpmData->SetVersion(Handler->GetID(), Offset(), Ver);

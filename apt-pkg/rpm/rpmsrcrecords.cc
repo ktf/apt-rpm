@@ -251,11 +251,6 @@ void rpmSrcRecordParser::BufCatDescr(const char *descr)
 // -----------------------------------------------
 string rpmSrcRecordParser::AsStr() 
 {
-   int type, type2, type3, count;
-   char *str;
-   char **strv;
-   char **strv2;
-   int_32 *numv;
    char buf[32];
 
    BufUsed = 0;
@@ -264,7 +259,7 @@ string rpmSrcRecordParser::AsStr()
 
    BufCatTag("\nSection: ", Handler->Group().c_str());
 
-   snprintf(buf, sizeof(buf), "%d", Handler->InstalledSize());
+   snprintf(buf, sizeof(buf), "%lu", Handler->InstalledSize());
    BufCatTag("\nInstalled Size: ", buf);
 
    BufCatTag("\nPackager: ", Handler->Packager().c_str());
@@ -318,7 +313,7 @@ string rpmSrcRecordParser::AsStr()
 
    BufCatTag("\nArchitecture: ", Handler->Arch().c_str());
 
-   snprintf(buf, sizeof(buf), "%d", Handler->FileSize());
+   snprintf(buf, sizeof(buf), "%lu", Handler->FileSize());
    BufCatTag("\nSize: ", buf);
 
    BufCatTag("\nMD5Sum: ", Handler->MD5Sum().c_str());
