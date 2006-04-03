@@ -916,8 +916,10 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
       xmlTextReaderRead(Filelist);
    }	 
 
-   iSize = atoi((char*)xmlGetProp(Root, (xmlChar*)"packages"));
-   int cnt = 0;
+   xmlChar *prop = xmlGetProp(Root, (xmlChar*)"packages");
+   iSize = atoi((char*)prop);
+   xmlFree(prop);
+   unsigned int cnt = 0;
    for (xmlNode *n = Root->children; n; n = n->next) {
       if (n->type != XML_ELEMENT_NODE ||
           xmlStrcmp(n->name, (xmlChar*)"package") != 0)
@@ -990,29 +992,24 @@ xmlNode *RPMRepomdHandler::FindNode(xmlNode *Node, const string Name)
 string RPMRepomdHandler::FindTag(xmlNode *Node, string Tag)
 {
    xmlNode *n = FindNode(Node, Tag);
+   string str = "";
    if (n) {
-      return (char*)xmlNodeGetContent(n);
-   } else {
-      return "";
+      xmlChar *content = xmlNodeGetContent(n);
+      str = (char*)content;
+      xmlFree(content);
    }
-}
-
-string RPMRepomdHandler::GetContent(xmlNode *Node, string Tag)
-{
-   if (Node) {
-      return (char*)xmlNodeGetContent(Node);
-   } else {
-      return "";
-   }
+   return str;
 }
 
 string RPMRepomdHandler::GetProp(xmlNode *Node, char *Prop)
 {
+   string str = "";
    if (Node) {
-      return (char*)xmlGetProp(Node, (xmlChar*)Prop);
-   } else {
-      return "";
+      xmlChar *prop = xmlGetProp(Node, (xmlChar*)Prop);
+      str = (char*)prop;
+      xmlFree(prop);
    }
+   return str;
 }
 
 string RPMRepomdHandler::Group()
@@ -1054,21 +1051,25 @@ string RPMRepomdHandler::Epoch()
 string RPMRepomdHandler::FileName()
 {
    xmlNode *n;
+   string str = "";
    if ((n = FindNode("location"))) {
-      return basename((char*)xmlGetProp(n, (xmlChar*)"href"));
-   } else {
-      return "";
+      xmlChar *prop = xmlGetProp(n, (xmlChar*)"href");
+      str = basename((char*)prop);
+      xmlFree(prop);
    }
+   return str;
 }
 
 string RPMRepomdHandler::Directory()
 {
    xmlNode *n;
-   char *dir = "";
+   string str = "";
    if ((n = FindNode("location"))) {
-      dir = dirname((char*)xmlGetProp(n, (xmlChar*)"href"));
+      xmlChar *prop = xmlGetProp(n, (xmlChar*)"href");
+      str = dirname((char*)prop);
+      xmlFree(prop);
    }
-   return dir;
+   return str;
 }
 
 string RPMRepomdHandler::MD5Sum()
@@ -1081,30 +1082,36 @@ string RPMRepomdHandler::MD5Sum()
 string RPMRepomdHandler::SHA1Sum()
 {
    xmlNode *n;
+   string str = "";
    if ((n = FindNode("checksum"))) {
-      return (char*)xmlNodeGetContent(n);
-   } else {
-      return "";
+      xmlChar *content = xmlNodeGetContent(n);
+      str = (char*)content;
+      xmlFree(content);
    }
+   return str;
 }
 unsigned long RPMRepomdHandler::FileSize()
 {
    xmlNode *n;
+   unsigned long size = 0;
    if ((n = FindNode("size"))) {
-      return atol((char*)xmlGetProp(n, (xmlChar*)"package"));
-   } else {
-      return 0;
-   }
+      xmlChar *prop = xmlGetProp(n, (xmlChar*)"package");
+      size = atol((char*)prop);
+      xmlFree(prop);
+   } 
+   return size;
 }
 
 unsigned long RPMRepomdHandler::InstalledSize()
 {
    xmlNode *n;
+   unsigned long size = 0;
    if ((n = FindNode("size"))) {
-      return atol((char*)xmlGetProp(n, (xmlChar*)"installed"));
-   } else {
-      return 0;
-   }
+      xmlChar *prop = xmlGetProp(n, (xmlChar*)"installed");
+      size = atol((char*)prop);
+      xmlFree(prop);
+   } 
+   return size;
 }
 
 bool RPMRepomdHandler::HasFile(const char *File)
@@ -1167,25 +1174,24 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
       unsigned int Op;
       int_32 RpmOp;
       string deptype, depver;
-      xmlChar *ver, *rel, *epoch, *depname, *flags, *pre;
+      xmlChar *depname, *flags;
       if ((depname = xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
 
       if ((flags = xmlGetProp(n, (xmlChar*)"flags"))) {
          deptype = string((char*)flags);
 	 xmlFree(flags);
-         ver = xmlGetProp(n, (xmlChar*)"ver");
-         rel = xmlGetProp(n, (xmlChar*)"rel");
-         epoch = xmlGetProp(n, (xmlChar*)"epoch");
+
+         xmlChar *epoch = xmlGetProp(n, (xmlChar*)"epoch");
          if (epoch) {
             depver += string((char*)epoch) + ":";
 	    xmlFree(epoch);
 	 }
-         ver = xmlGetProp(n, (xmlChar*)"ver");
+         xmlChar *ver = xmlGetProp(n, (xmlChar*)"ver");
          if (ver) {
             depver += string((char*)ver);
 	    xmlFree(ver);
 	 }
-         rel = xmlGetProp(n, (xmlChar*)"rel");
+         xmlChar *rel = xmlGetProp(n, (xmlChar*)"rel");
          if (rel) {
             depver += "-" + string((char*)rel);
 	    xmlFree(rel);
@@ -1216,7 +1222,7 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
 	 continue;
       }
       if (Type == pkgCache::Dep::Depends) {
-	 pre = xmlGetProp(n, (xmlChar*)"pre"); 
+	 xmlChar *pre = xmlGetProp(n, (xmlChar*)"pre"); 
 	 if (pre) {
 	    Type = pkgCache::Dep::PreDepends;
 	    xmlFree(pre);
@@ -1243,7 +1249,7 @@ bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
 
    for (xmlNode *n = provides->children; n; n = n->next) {
       string depver = "";
-      xmlChar *ver, *rel, *epoch, *depname, *flags;
+      xmlChar *depname, *flags;
 
       if (xmlStrcmp(n->name, (xmlChar*)"entry") != 0)  continue;
 
@@ -1254,17 +1260,18 @@ bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
 
       if ((flags = xmlGetProp(n, (xmlChar*)"flags"))) {
 	 xmlFree(flags);
-         epoch = xmlGetProp(n, (xmlChar*)"epoch");
+
+         xmlChar *epoch = xmlGetProp(n, (xmlChar*)"epoch");
          if (epoch) {
             depver += string((char*)epoch) + ":";
 	    xmlFree(epoch);
 	 }
-         ver = xmlGetProp(n, (xmlChar*)"ver");
+         xmlChar *ver = xmlGetProp(n, (xmlChar*)"ver");
          if (ver) {
             depver += string((char*)ver);
 	    xmlFree(ver);
 	 }
-         rel = xmlGetProp(n, (xmlChar*)"rel");
+         xmlChar *rel = xmlGetProp(n, (xmlChar*)"rel");
          if (rel) {
             depver += "-" + string((char*)rel);
 	    xmlFree(rel);

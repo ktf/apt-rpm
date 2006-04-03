@@ -56,8 +56,11 @@ bool repomdRepository::ParseRelease(string File)
       xmlNode *n = NULL;
 
       n = FindNode(Node, "location");
-      if (n)
-	 Path = (char*)xmlGetProp(n, (xmlChar*)"href");
+      if (n) {
+	 xmlChar *href = xmlGetProp(n, (xmlChar*)"href");
+	 Path = (char*)href;
+	 xmlFree(href);
+      }
 
       n = NULL;
       if (flExtension(Path) == "gz") {
@@ -67,9 +70,14 @@ bool repomdRepository::ParseRelease(string File)
 	 n = FindNode(Node, "checksum");
       }
       if (n) {
-	 Hash = (char*)xmlNodeGetContent(n);
-	 Type = (char*)xmlGetProp(n, (xmlChar*)"type");
+	 xmlChar *hash = xmlNodeGetContent(n);
+	 xmlChar *type = xmlGetProp(n, (xmlChar*)"type");
+	 Hash = (char*)hash;
+	 Type = (char*)type;
+	 xmlFree(hash);
+	 xmlFree(type);
       }
+
       IndexChecksums[Path].MD5 = Hash;
       IndexChecksums[Path].Size = 0;
       if (Type == "sha") {

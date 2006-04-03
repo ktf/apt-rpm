@@ -234,7 +234,6 @@ class RPMRepomdHandler : public RPMHandler
    xmlNode *FindNode(xmlNode *Node, const string Name);
 
    string FindTag(xmlNode *Node, const string Tag);
-   string GetContent(xmlNode *Node, string Tag);
    string GetProp(xmlNode *Node, char *Prop);
 
    public:
