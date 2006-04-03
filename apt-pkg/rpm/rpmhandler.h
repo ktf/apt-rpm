@@ -225,6 +225,8 @@ class RPMRepomdHandler : public RPMHandler
    xmlNode *Root;
    xmlNode *NodeP;
 
+   vector<xmlNode *> Pkgs;
+
    bool WithFilelist;
    string PrimaryFile, FilelistFile;
 

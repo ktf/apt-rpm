@@ -916,8 +916,20 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
       xmlTextReaderRead(Filelist);
    }	 
 
-   NodeP = Root->children;
    iSize = atoi((char*)xmlGetProp(Root, (xmlChar*)"packages"));
+   int cnt = 0;
+   for (xmlNode *n = Root->children; n; n = n->next) {
+      if (n->type != XML_ELEMENT_NODE ||
+          xmlStrcmp(n->name, (xmlChar*)"package") != 0)
+         continue;
+      Pkgs.push_back(n);
+      cnt++;
+   }
+   if (cnt != iSize) {
+      cout << "error, found " << cnt << " packages, should be " << iSize << endl;
+   }
+
+   NodeP = Pkgs[0];
 
    if (NodeP == NULL)
       cout << "NodeP is null, ugh..." << endl;
@@ -925,54 +937,34 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
 
 bool RPMRepomdHandler::Skip()
 {
-   for (NodeP = NodeP->next; NodeP; NodeP = NodeP->next) {
-      if (WithFilelist)
-	 xmlTextReaderNext(Filelist);
-      if (NodeP->type != XML_ELEMENT_NODE || 
-	  xmlStrcmp(NodeP->name, (xmlChar*)"package") != 0) {
-	 continue;
-      } else {
-	 iOffset++;
-	 return true;
-      }
-   } 
-   return false;
-   
+   if (iOffset >= iSize-1) {
+      //cout << "skip over end " << iOffset << " " << iSize << endl;
+      return false;
+   }
+   iOffset++;
+   NodeP = Pkgs[iOffset];
+   if (WithFilelist)
+      xmlTextReaderNext(Filelist);
+   return true;
 }
 
 bool RPMRepomdHandler::Jump(unsigned int Offset)
 {
-   if (Offset == iOffset) {
-      return true;
-   } else if (Offset < iOffset) {
-      NodeP = Root->children;
-      iOffset = 0;
+   //cout << "jump " << iOffset << " offset " << Offset << endl;
+   if (Offset > iSize-1) {
+      //cout << "jump over end " << iOffset << " " << iSize << endl;
+      return false;
    }
-// cout << __PRETTY_FUNCTION__ << " Offset: " << Offset << endl;
-   while (NodeP && (iOffset < Offset) ) {
-      if ((NodeP->type == XML_ELEMENT_NODE) && 
-          (xmlStrcmp(NodeP->name, (xmlChar*)"package") == 0)) {
-         iOffset++;
-	 if (iOffset == Offset) {
-	    return Skip();
-	 }
-       }
-      NodeP = NodeP->next;
-      if (WithFilelist)
-	 xmlTextReaderNext(Filelist);
-   } // while
+   iOffset = Offset;
+   NodeP = Pkgs[Offset];
+   return true;
 
-   return false;
 }
 
 void RPMRepomdHandler::Rewind()
 {
    iOffset = 0;
-   NodeP = Root->children;
-   if (WithFilelist) {
-      // TODO...
-      ;
-   }
+   NodeP = Pkgs[0];
 }
 
 xmlNode *RPMRepomdHandler::FindNode(const string Name)
