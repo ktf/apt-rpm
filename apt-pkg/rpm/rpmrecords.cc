@@ -286,35 +286,38 @@ void rpmRecordParser::GetRec(const char *&Start,const char *&Stop)
    }
       
    Handler->Depends(pkgCache::Dep::Conflicts, Conflicts);
-   I = Conflicts.begin();
-   if (I != Conflicts.end()) {
-      BufCat("\nConflicts: ");
-      BufCatDep(*I);
-   }
-   for (; I != Conflicts.end(); I++) {
-      BufCat(", ");
+   start = true;
+   for (I = Conflicts.begin(); I != Conflicts.end(); I++) {
+      if (start) {
+	 BufCat("\nConflicts: ");
+	 start = false;
+      } else {
+	 BufCat(", ");
+      }
       BufCatDep(*I);
    }
 
    Handler->Provides(Provides);
-   I = Provides.begin();
-   if (I != Provides.end()) {
-      BufCat("\nProvides: ");
-      BufCatDep(*I);
-   }
-   for (; I != Provides.end(); I++) {
-      BufCat(", ");
+   start = true;
+   for (I = Provides.begin(); I != Provides.end(); I++) {
+      if (start) {
+	 BufCat("\nProvides: ");
+	 start = false;
+      } else {
+	 BufCat(", ");
+      }
       BufCatDep(*I);
    }
 
    Handler->Depends(pkgCache::Dep::Obsoletes, Obsoletes);
-   I = Obsoletes.begin();
-   if (I != Obsoletes.end()) {
-      BufCat("\nObsoletes: ");
-      BufCatDep(*I);
-   }
-   for (; I != Obsoletes.end(); I++) {
-      BufCat(", ");
+   start = true;
+   for (I = Obsoletes.begin(); I != Obsoletes.end(); I++) {
+      if (start) {
+	 BufCat("\nObsoletes: ");
+	 start = false;
+      } else {
+	 BufCat(", ");
+      }
       BufCatDep(*I);
    }
 
