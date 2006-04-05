@@ -95,7 +95,7 @@ bool RPMHandler::HasFile(const char *File)
 
 bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag) 
 {
-   if (strncmp(name, "rpmlib(", sizeof("rpmlib(")-1) == 0) {
+   if (strncmp(name, "rpmlib(", strlen("rpmlib(")) == 0) {
 #if RPM_VERSION >= 0x040404
      rpmds rpmlibProv = NULL;
      rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
@@ -119,7 +119,7 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
 
 #if RPM_VERSION >= 0x040404
    // uhhuh, any of these changing would require full cache rebuild...
-   if (strncmp(name, "getconf(", sizeof("getconf(")-1) == 0)
+   if (strncmp(name, "getconf(", strlen("getconf(")) == 0)
    {
      rpmds getconfProv = NULL;
      rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
@@ -132,7 +132,7 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
 	 return true;
    }
 
-   if (strncmp(name, "cpuinfo(", sizeof("cpuinfo(")-1) == 0)
+   if (strncmp(name, "cpuinfo(", strlen("cpuinfo(")) == 0)
    {
      rpmds cpuinfoProv = NULL;
      rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
@@ -145,7 +145,7 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
 	 return true;
    }
 
-   if (strncmp(name, "sysinfo(", sizeof("sysinfo(")-1) == 0)
+   if (strncmp(name, "sysinfo(", strlen("sysinfo(")) == 0)
    {
      rpmds sysinfoProv = NULL;
      rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
@@ -158,7 +158,7 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
 	 return true;
    }
 
-   if (strncmp(name, "uname(", sizeof("uname(")-1) == 0)
+   if (strncmp(name, "uname(", strlen("uname(")) == 0)
    {
      rpmds unameProv = NULL;
      rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
@@ -176,10 +176,10 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
 	 strchr("Ww_", name[1]) != NULL &&
 	 strchr("Xx_", name[2]) != NULL &&
 	 name[3] == '(') ||
-	 strncmp(name, "exists(", sizeof("exists(")-1) == 0 ||
-	 strncmp(name, "executable(", sizeof("executable(")-1) == 0 ||
-	 strncmp(name, "readable(", sizeof("readable(")-1) == 0 ||
-	 strncmp(name, "writable(", sizeof("writable(")-1)== 0 ))
+	 strncmp(name, "exists(", strlen("exists(")) == 0 ||
+	 strncmp(name, "executable(", strlen("executable(")) == 0 ||
+	 strncmp(name, "readable(", strlen("readable(")) == 0 ||
+	 strncmp(name, "writable(", strlen("writable("))== 0 ))
    {
       int res = rpmioAccess(name, NULL, X_OK);
       if (res == 0)
@@ -191,7 +191,7 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
     * - macro probe provides 
     * - actually implement soname() and access() dependencies
     */
-   if (strncmp(name, "soname(", sizeof("soname(")-1) == 0)
+   if (strncmp(name, "soname(", strlen("soname(")) == 0)
    {
       cout << "FIXME, ignoring soname() dependency: " << name << endl;
       return true;
