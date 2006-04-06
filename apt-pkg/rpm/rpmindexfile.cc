@@ -631,8 +631,9 @@ string rpmRepomdIndex::IndexURI(string Type) const
    if (Dist[Dist.size() - 1] != '/') {
 	 Res += "/";
    }
-   // XXXX eh, this doesn't look sane .. 
-   if (Type == "repomd")
+   // When called with the main type it's primary.xml we want, at other
+   // times it could be eg filelists.xml
+   if (Type == "repomd" || Type == "repomd-src")
       Res += "repodata/primary.xml";
    else
       Res += "repodata/" + Type;
