@@ -99,7 +99,9 @@ bool rpmSrcRecordParser::Files(vector<pkgSrcRecords::File> &List)
    
    pkgSrcRecords::File F;
 
-   F.MD5Hash = Handler->MD5Sum();
+   // XXX FIXME: Ignoring the md5sum for source packages for now 
+   //F.MD5Hash = Handler->MD5Sum();
+   F.MD5Hash = "";
    F.Size = Handler->FileSize();
    F.Path = flCombine(Handler->Directory(), Handler->FileName());
    F.Type = "srpm";
