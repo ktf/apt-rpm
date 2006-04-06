@@ -133,16 +133,7 @@ string rpmSrcRecordParser::Package() const
 
 string rpmSrcRecordParser::Version() const
 {
-   string e, v, r, verstr;
-   e = Handler->Epoch();
-   v = Handler->Version();
-   r = Handler->Release();
-
-   if (e.empty() == false)
-      verstr = e + ":" + v + "-" + r;
-   else
-      verstr = v + "-" + r;
-   return verstr;
+   return Handler->EVR();
 }
     
 

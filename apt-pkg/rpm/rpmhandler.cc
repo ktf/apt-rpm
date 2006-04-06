@@ -75,6 +75,20 @@ string RPMHandler::GetSTag(rpmTag Tag)
    return string(rc?str:"");
 }
 
+string RPMHandler::EVR()
+{
+   string e = Epoch();
+   string v = Version();
+   string r = Release();
+   string evr = "";
+   if (e.empty() == true) {
+      evr = v + '-' + r;
+   } else {
+      evr = e + ':' + v + '-' + r;
+   }
+   return evr;
+} 
+
 bool RPMHandler::HasFile(const char *File)
 {
    if (*File == '\0')

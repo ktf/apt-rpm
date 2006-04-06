@@ -164,18 +164,7 @@ string rpmListParser::Version()
       return VI->VerStr();
 #endif
 
-   string epoch, ver, rel, verstr;
-   
-   epoch = Handler->Epoch();
-   ver = Handler->Version();
-   rel = Handler->Release();
-
-   if (epoch.empty() == true)
-      verstr = ver + "-" + rel;
-   else
-      verstr = epoch + ":" + ver + "-" + rel;
-
-   return verstr;
+   return Handler->EVR();
 }
                                                                         /*}}}*/
 // ListParser::NewVersion - Fill in the version structure		/*{{{*/

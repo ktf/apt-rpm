@@ -242,17 +242,7 @@ void rpmRecordParser::GetRec(const char *&Start,const char *&Stop)
    
    BufCat("\nVersion: ");
    
-   string e, v, r, verstr;
-   e = Handler->Epoch();
-   v = Handler->Version();
-   r = Handler->Release();
-   
-   if (e.empty() == false)
-      verstr = e + ":" + v + "-" + r;
-   else
-      verstr = v + "-" + r;
-      
-   BufCat(verstr.c_str());
+   BufCat(Handler->EVR().c_str());
 
 
    vector<Dependency*> Deps, Provides, Obsoletes, Conflicts;
