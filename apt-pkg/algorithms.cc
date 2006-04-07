@@ -566,16 +566,10 @@ void pkgProblemResolver::MakeScores()
       if (Cache[I].InstVerIter(Cache)->Priority <= 5)
 	 Score += PrioMap[Cache[I].InstVerIter(Cache)->Priority];
       
-      // This appears to CAUSE oddball problems on large upgrades with
-      // lots of package reorganizations as it causes apt to prefer the
-      // installed package instead of whatever it should be updated 
-      // (or replaced or so) to. At least that's my humble guess.
-#if 0
       /* This helps to fix oddball problems with conflicting packages
          on the same level. We enhance the score of installed packages */
       if (I->CurrentVer != 0)
 	 Score += 1;
-#endif
    }
 
    // Now that we have the base scores we go and propogate dependencies
