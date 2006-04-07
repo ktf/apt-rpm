@@ -1228,10 +1228,13 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
             Op = pkgCache::Dep::Less;
 	    RpmOp = RPMSENSE_LESS;
 	 } else {
-	    Op = pkgCache::Dep::NoOp;
-	    RpmOp = RPMSENSE_ANY;
+	    // erm, unknown dependency type?
 	 }
+      } else {
+	 Op = pkgCache::Dep::NoOp;
+	 RpmOp = RPMSENSE_ANY;
       }
+
       if (InternalDep((char*)depname, depver.c_str(), RpmOp) == true) {
 	 continue;
       }
