@@ -904,71 +904,80 @@ void RPMDBHandler::Rewind()
 
 RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
 {
-   //cout << "Repomd handler constr. " << File << endl;
    WithFilelist = useFilelist;
    PrimaryFile = File;
    FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
 
    ID = File;
    Root = NULL;
+   Primary = NULL;
+   Filelist = NULL;
+   xmlChar *packages = NULL;
+   unsigned int pkgcount = 0;
+   
 
    Primary = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET|XML_PARSE_NOBLANKS);
    if ((Root = xmlDocGetRootElement(Primary)) == NULL) {
-      xmlFreeDoc(Primary);
-      cout << "getting root element failed" << endl;
+      _error->Error(_("Failed to open package index %s"), PrimaryFile.c_str());
+      goto error;
    }
+   if (xmlStrncmp(Root->name, (xmlChar*)"metadata", strlen("metadata")) != 0) {
+      _error->Error(_("Corrupted package index %s"), PrimaryFile.c_str());
+      goto error;
+   }
+
    if (WithFilelist && FileExists(FilelistFile)) {
       Filelist = xmlReaderForFile(FilelistFile.c_str(), NULL,
                                   XML_PARSE_NONET|XML_PARSE_NOBLANKS);
       if (Filelist == NULL) {
 	 xmlFreeTextReader(Filelist);
-	 cout << "opening filelist failed" << endl;
-	 WithFilelist = false;
+	 _error->Error(_("Failed to open filelist index %s"), FilelistFile.c_str());
+	 goto error;
       } 
       // XXX FIXME: Ugh.. "initialize" filelist to correct position
       xmlTextReaderRead(Filelist);
       xmlTextReaderRead(Filelist);
    }	 
 
-   xmlChar *prop = xmlGetProp(Root, (xmlChar*)"packages");
-   iSize = atoi((char*)prop);
-   xmlFree(prop);
-   unsigned int cnt = 0;
+   packages = xmlGetProp(Root, (xmlChar*)"packages");
+   iSize = atoi((char*)packages);
+   xmlFree(packages);
    for (xmlNode *n = Root->children; n; n = n->next) {
       if (n->type != XML_ELEMENT_NODE ||
           xmlStrcmp(n->name, (xmlChar*)"package") != 0)
          continue;
       Pkgs.push_back(n);
-      cnt++;
+      pkgcount++;
    }
-   if (cnt != iSize) {
-      cout << "error, found " << cnt << " packages, should be " << iSize << endl;
-   }
-
    NodeP = Pkgs[0];
 
-   if (NodeP == NULL)
-      cout << "NodeP is null, ugh..." << endl;
+   return;
+
+error:
+   if (Primary) {
+      xmlFreeDoc(Primary);
+   }
+   if (Filelist) {
+      xmlFreeTextReader(Filelist);
+   }
 }
 
 bool RPMRepomdHandler::Skip()
 {
    if (iOffset >= iSize-1) {
-      //cout << "skip over end " << iOffset << " " << iSize << endl;
       return false;
    }
    iOffset++;
    NodeP = Pkgs[iOffset];
-   if (WithFilelist)
+   if (WithFilelist) {
       xmlTextReaderNext(Filelist);
+   }
    return true;
 }
 
 bool RPMRepomdHandler::Jump(unsigned int Offset)
 {
-   //cout << "jump " << iOffset << " offset " << Offset << endl;
    if (Offset > iSize-1) {
-      //cout << "jump over end " << iOffset << " " << iSize << endl;
       return false;
    }
    iOffset = Offset;
@@ -1332,7 +1341,6 @@ unsigned short RPMRepomdHandler::VersionHash()
    unsigned long Result = INIT_FCS;
    string nevra = Name() + Version() + Arch();
    Result = AddCRC16(Result, nevra.c_str(), nevra.length());
-   //cout << "versionhash: " << Result << endl;
    return Result;
 }
 

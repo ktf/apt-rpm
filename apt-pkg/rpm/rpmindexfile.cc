@@ -538,11 +538,7 @@ string rpmRepomdIndex::ArchiveURI(string File) const
 {
    string Res;
 
-   //cout << Dist << File << endl;
-
    Res += URI + '/' + Dist + '/' + File;
-   //cout << "repomd archiveuri " << " " << Res << endl;
-
    return Res;
 }
 
@@ -587,9 +583,6 @@ string rpmRepomdIndex::ReleaseURI(string Type) const
 {
    string Res;
    Res = URI + Dist + "/repodata/" + "repomd.xml";
-
-   //cout << "XXXXX repomd releaseuri " << Res << endl;
-   
    return Res;
 }
 
@@ -605,7 +598,6 @@ string rpmRepomdIndex::ReleaseInfo(string Type) const
       Info += Dist;   
    Info += " ";
    Info += Type;
-   //cout << "repomd releaseinfo " << Info << endl;
    return Info;
 };
 
@@ -621,7 +613,6 @@ string rpmRepomdIndex::Info(string Type) const
       Info += Dist + '/' ;   
    Info += " ";
    Info += Type;
-   //cout << "repomd info " << Info << endl;
    return Info;
 }
 
@@ -703,7 +694,6 @@ unsigned long rpmRepomdIndex::Size() const
 
 bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
 {
-   //cout << "repomd MERGE" << endl;
    string PackageFile = IndexPath();
    RPMHandler *Handler = CreateHandler();
 
@@ -717,7 +707,6 @@ bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
 
    // Store the IMS information
    pkgCache::PkgFileIterator File = Gen.GetCurFile();
-   //cout << "merge pkgfile " << PackageFile << endl;
    struct stat St;
    if (stat(PackageFile.c_str(),&St) != 0) 
    {

@@ -290,7 +290,6 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
    for (vector<Dependency*>::iterator I = Deps.begin(); I != Deps.end(); I++) {
       if (NewDepends(Ver,(*I)->Name,(*I)->Version,
 		    (*I)->Op,(*I)->Type) == false) {
-	 cout << "failed adding dep!" << endl; 
 	 return false;
       }
    }
@@ -362,7 +361,6 @@ bool rpmListParser::ParseProvides(pkgCache::VerIterator Ver)
    }
    for (vector<Dependency*>::iterator I = Provs.begin(); I != Provs.end(); I++) {
       if (NewProvides(Ver,(*I)->Name,(*I)->Version) == false) {
-	 cout << "failed adding provide!" << endl; 
 	 return false;
       }
    }
@@ -539,7 +537,6 @@ bool rpmRepomdParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
    xmlDocPtr RepoMD = NULL;
    xmlNode *Root = NULL;
 
-   //cout << "Load repomd release " << endl;
    RepoMD = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET);
    if ((Root = xmlDocGetRootElement(RepoMD)) == NULL) {
       xmlFreeDoc(RepoMD);
@@ -554,18 +551,15 @@ bool rpmRepomdParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
            xmlNode *loc = FindNode(n, "location");
            if (loc) {
               Primary = (char*)xmlGetProp(loc, (xmlChar*)"href");
-             //cout << "found primary " << Primary << endl;
            }
        } else if (type == "filelists") {
            xmlNode *loc = FindNode(n, "location");
            if (loc) {
               Filelist = (char*)xmlGetProp(loc, (xmlChar*)"href");
-              //cout << "found filelist " << Filelist << endl;
            }
         }
       }
 
-      //cout << "XXXX " << n->name << endl;
    }
 
    xmlFreeDoc(RepoMD);
