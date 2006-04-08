@@ -379,61 +379,6 @@ bool RPMHandler::FileProvides(vector<string> &FileProvs)
 
 }
 
-unsigned short RPMHandler::VersionHash()
-{
-   int Sections[] = {
-          RPMTAG_VERSION,
-          RPMTAG_RELEASE,
-          RPMTAG_ARCH,
-          RPMTAG_REQUIRENAME,
-          RPMTAG_OBSOLETENAME,
-          RPMTAG_CONFLICTNAME,
-          0
-   };
-   unsigned long Result = INIT_FCS;
-
-   for (const int *sec = Sections; *sec != 0; sec++)
-   {
-      char *Str;
-      int Len;
-      int type, count;
-      int res;
-      char **strings = NULL;
-
-      res = headerGetEntry(HeaderP, *sec, &type, (void **)&strings, &count);
-      if (res != 1)
-         continue;
-
-      switch (type)
-      {
-      case RPM_STRING_ARRAY_TYPE:
-         //qsort(strings, count, sizeof(char*), compare);
-         while (count-- > 0)
-         {
-            Str = strings[count];
-            Len = strlen(Str);
-            /* Suse patch.rpm hack. */
-            if (Len == 17 && *Str == 'r' && *sec == RPMTAG_REQUIRENAME &&
-                strcmp(Str, "rpmlib(PatchRPMs)") == 0)
-               continue;
-
-            Result = AddCRC16(Result,Str,Len);
-         }
-         free(strings);
-         break;
-
-      case RPM_STRING_TYPE:
-         Str = (char*)strings;
-         Len = strlen(Str);
-         Result = AddCRC16(Result,Str,Len);
-         break;
-      }
-   }
-
-   return Result;
-}
-
-
 RPMFileHandler::RPMFileHandler(string File)
 {
    ID = File;
@@ -1334,17 +1279,6 @@ bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
    }
    return true;
 }
-
-unsigned short RPMRepomdHandler::VersionHash()
-{
-   // XXX FIXME: rpmlistparser versionhash for all the things we should do here
-   unsigned long Result = INIT_FCS;
-   string nevra = Name() + Version() + Arch();
-   Result = AddCRC16(Result, nevra.c_str(), nevra.length());
-   return Result;
-}
-
-
 
 RPMRepomdHandler::~RPMRepomdHandler()
 {

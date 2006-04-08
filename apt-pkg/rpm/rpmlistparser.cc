@@ -238,21 +238,46 @@ bool rpmListParser::UsePackage(pkgCache::PkgIterator Pkg,
 // ---------------------------------------------------------------------
 /* */
 
-/*
-static int compare(const void *a, const void *b)
+static bool depsort(const Dependency *a, const Dependency *b)
 {   
-   return strcmp(*(char**)a, *(char**)b);
+   return a->Name < b->Name;
 }
-*/
 
+static bool depuniq(const Dependency *a, const Dependency *b)
+{   
+   return a->Name == b->Name;
+}
 unsigned short rpmListParser::VersionHash()
 {
 #ifdef WITH_VERSION_CACHING
    if (VI != NULL)
       return (*VI)->Hash;
 #endif
-      
-   return Handler->VersionHash();
+
+   unsigned long Result = INIT_FCS;
+   Result = AddCRC16(Result, Package().c_str(), Package().length());
+   Result = AddCRC16(Result, Version().c_str(), Version().length());
+   Result = AddCRC16(Result, Architecture().c_str(), Architecture().length());
+
+   int DepSections[] = { 
+      pkgCache::Dep::Depends,
+      pkgCache::Dep::Conflicts,
+      pkgCache::Dep::Obsoletes,
+   };
+   
+   for (int i = 0; i < sizeof(DepSections)/sizeof(int); i++) {
+      vector<Dependency*> Deps;
+      if (Handler->Depends(DepSections[i], Deps) == false) continue;
+
+      sort(Deps.begin(), Deps.end(), depsort);
+      // rpmdb can give out dupes for scriptlet dependencies, filter them out
+      vector<Dependency*>::iterator DepEnd = unique(Deps.begin(), Deps.end(), depuniq);
+      vector<Dependency*>::iterator I = Deps.begin();
+      for (; I != DepEnd; I++) { 
+	 Result = AddCRC16(Result, (*I)->Name.c_str(), (*I)->Name.length());
+      }
+   }
+   return Result;
 }
                                                                         /*}}}*/
 // ListParser::ParseStatus - Parse the status field			/*{{{*/

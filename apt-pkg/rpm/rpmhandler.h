@@ -100,7 +100,6 @@ class RPMHandler
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool Provides(vector<Dependency*> &Provs);
    virtual bool FileProvides(vector<string> &FileProvs);
-   virtual unsigned short VersionHash();
 
    virtual bool HasFile(const char *File);
 
@@ -268,7 +267,6 @@ class RPMRepomdHandler : public RPMHandler
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool Provides(vector<Dependency*> &Provs);
    virtual bool FileProvides(vector<string> &FileProvs);
-   virtual unsigned short VersionHash();
 
    RPMRepomdHandler(string File, bool useFilelist);
    virtual ~RPMRepomdHandler();

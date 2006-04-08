@@ -202,7 +202,7 @@ bool DumpPackage(CommandLine &CmdL)
       cout << "Versions: " << endl;
       for (pkgCache::VerIterator Cur = Pkg.VersionList(); Cur.end() != true; Cur++)
       {
-	 cout << Cur.VerStr();
+	 cout << Cur.VerStr() << "." << Cur.Arch();
 	 for (pkgCache::VerFileIterator Vf = Cur.FileList(); Vf.end() == false; Vf++)
 	    cout << "(" << Vf.File().FileName() << ")";
 	 cout << endl;
