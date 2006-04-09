@@ -2,16 +2,13 @@ Essential:
   apt
   basesystem
   bash
-  conectiva-release
-  dev
+  coreutils
   e2fsprogs
   filesystem
-  fileutils
-  glibc-base
+  glibc
   initscripts
-  modutils
-  mount
+  module-init-tools
   pam
-  passwd
   rpm
   setup
+  util-linux

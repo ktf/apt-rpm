@@ -89,7 +89,7 @@
      
 <informalexample><programlisting>
 Package: libreadline2
-Versions: 2.1-12(/var/state/apt/lists/foo_Packages),
+Versions: 2.1-12(/var/lib/apt/lists/foo_Packages),
 Reverse Depends: 
   libreadlineg2,libreadline2
   libreadline2-altdev,libreadline2

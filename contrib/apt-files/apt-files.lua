@@ -5,7 +5,7 @@
 --
 -- Data sample:
 --   argument = "/usr/bin/python"
---   contents = "/var/state/apt/Contents.gz"
+--   contents = "/var/lib/apt/Contents.gz"
 --   translated = {}
 
 if string.sub(argument, 1, 1) == "/" then

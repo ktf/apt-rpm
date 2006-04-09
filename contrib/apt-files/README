@@ -41,7 +41,7 @@ these files in the following directories:
 
     /etc/apt/apt.conf.d/apt-files.conf
     /usr/share/apt/scripts/apt-files.lua
-    /var/state/apt/Contents.gz
+    /var/lib/apt/Contents.gz
 
 Bingo! It should be working. ;-)
 
