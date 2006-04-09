@@ -12,8 +12,10 @@ sparc64	sparc
 alpha.*	alpha
 m68k	m68k
 arm.*	arm
-powerpc	powerpc
 ppc	powerpc
+powerpc	powerpc
+ppc64		powerpc64
+powerpc64	powerpc64
 mipsel  mipsel
 mipseb	mips
 mips	mips
