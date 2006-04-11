@@ -2757,15 +2757,3 @@ msgstr "ファイルがみつかりません"
 #: methods/rsh.cc:333
 msgid "Connection closed prematurely"
 msgstr ""
-
-#~ msgid "Note, selecting %s instead of %s\n"
-#~ msgstr "注意: %2$s のかわりに %1$s を選択しました\n"
-
-#~ msgid "Note, selecting %s for regex '%s'\n"
-#~ msgstr "注意: 指定された正規表現 '%2$s' として %1$s を選択しました\n"
-
-#~ msgid "error parsing file record %s"
-#~ msgstr "ファイルレコード %s のパース中にエラーが発生しました"
-
-#~ msgid "The following packages will be kept back"
-#~ msgstr "以下のパッケージは保留されます"

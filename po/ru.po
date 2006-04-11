@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt-0.5.15cnc4-alt0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-20 16:12-0300\n"
+"POT-Creation-Date: 2006-04-11 10:48+0200\n"
 "PO-Revision-Date: 2003-12-08 17:41+1200\n"
 "Last-Translator: Anton V. Denisov <avd@altlinux.org>\n"
 "Language-Team: ALT Linux Team <devel@altlinux.org>\n"
@@ -17,32 +17,33 @@ msgstr ""
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: cmdline/acqprogress.cc:55
+#: cmdline/acqprogress.cc:57
 msgid "Hit "
 msgstr "Найдено "
 
-#: cmdline/acqprogress.cc:79
+#: cmdline/acqprogress.cc:81
 msgid "Get:"
 msgstr "Получено: "
 
-#: cmdline/acqprogress.cc:110
+#: cmdline/acqprogress.cc:112
 msgid "Ign "
 msgstr "Пропущено "
 
-#: cmdline/acqprogress.cc:114
+#: cmdline/acqprogress.cc:116
 msgid "Err "
 msgstr "Ошибка "
 
-#: cmdline/acqprogress.cc:135
+#: cmdline/acqprogress.cc:137
 #, c-format
 msgid "Fetched %sB in %s (%sB/s)\n"
 msgstr "Получено %sB за %s (%sB/s).\n"
 
-#: cmdline/acqprogress.cc:225
+#: cmdline/acqprogress.cc:227
+#, c-format
 msgid " [Working]"
 msgstr " [Подождите]"
 
-#: cmdline/acqprogress.cc:271
+#: cmdline/acqprogress.cc:273
 #, c-format
 msgid ""
 "Media Change: Please insert the disc labeled\n"
@@ -52,7 +53,22 @@ msgstr ""
 "Смена диска: Вставьте, пожалуйста, диск с меткой '%s'\n"
 "в устройство '%s' и нажмите <Enter>.\n"
 
-#: cmdline/apt-cache.cc:157 cmdline/apt-shell.cc:3209
+#: cmdline/acqprogress.cc:296
+#, c-format
+msgid ""
+"Please login to %s\n"
+"Username: "
+msgstr ""
+
+#: cmdline/acqprogress.cc:310
+msgid "Password: "
+msgstr ""
+
+#: cmdline/acqprogress.cc:335
+msgid "\n"
+msgstr ""
+
+#: cmdline/apt-cache.cc:157 cmdline/apt-shell.cc:3210
 #, c-format
 msgid "Package %s version %s has an unmet dep:\n"
 msgstr "Пакет %s версии %s имеет неудовлетворенные зависимости:\n"
@@ -60,9 +76,9 @@ msgstr "Пакет %s версии %s имеет неудовлетворенные зависимости:\n"
 #: cmdline/apt-cache.cc:197 cmdline/apt-cache.cc:565 cmdline/apt-cache.cc:660
 #: cmdline/apt-cache.cc:750 cmdline/apt-cache.cc:1024
 #: cmdline/apt-cache.cc:1242 cmdline/apt-cache.cc:1624
-#: cmdline/apt-cache.cc:1775 cmdline/apt-shell.cc:2761
-#: cmdline/apt-shell.cc:2859 cmdline/apt-shell.cc:2952
-#: cmdline/apt-shell.cc:3252 cmdline/apt-shell.cc:3671
+#: cmdline/apt-cache.cc:1796 cmdline/apt-shell.cc:2762
+#: cmdline/apt-shell.cc:2860 cmdline/apt-shell.cc:2953
+#: cmdline/apt-shell.cc:3253 cmdline/apt-shell.cc:3672
 #, c-format
 msgid "Unable to locate package %s"
 msgstr "Невозможно найти пакет %s"
@@ -124,72 +140,88 @@ msgid "Total Space Accounted for: "
 msgstr "Всего будет занято места: "
 
 #: cmdline/apt-cache.cc:484 cmdline/apt-cache.cc:1452
-#: cmdline/apt-shell.cc:3330
+#: cmdline/apt-shell.cc:3331
 #, c-format
 msgid "Package file %s is out of sync."
 msgstr "Файл пакета %s вышел из под контроля."
 
-#: cmdline/apt-cache.cc:1495 cmdline/apt-shell.cc:3376
+#: cmdline/apt-cache.cc:1495 cmdline/apt-shell.cc:3377
 msgid "You must give exactly one pattern"
 msgstr "Необходимо указать только один образец"
 
-#: cmdline/apt-cache.cc:1652 cmdline/apt-shell.cc:3699
+#: cmdline/apt-cache.cc:1634 cmdline/apt-get.cc:1308 cmdline/apt-get.cc:1364
+#: cmdline/apt-shell.cc:1378 cmdline/apt-shell.cc:1434
+#, c-format
+msgid "Package %s is a virtual package provided by:\n"
+msgstr "Виртуальный пакет %s предоставляется следующими пакетами:\n"
+
+#: cmdline/apt-cache.cc:1646
+#, fuzzy
+msgid "You should explicitly select one to show."
+msgstr "Необходимо точно указать, какой из пакетов должен быть установлен."
+
+#: cmdline/apt-cache.cc:1647
+#, fuzzy, c-format
+msgid "Package %s is a virtual package with multiple providers."
+msgstr "Виртуальный пакет %s предоставляется следующими пакетами:\n"
+
+#: cmdline/apt-cache.cc:1673 cmdline/apt-shell.cc:3700
 msgid "No packages found"
 msgstr "Не найдено ни одного пакета"
 
-#: cmdline/apt-cache.cc:1729
+#: cmdline/apt-cache.cc:1750
 msgid "Package Files:"
 msgstr "Файлы пакетов:"
 
-#: cmdline/apt-cache.cc:1736 cmdline/apt-cache.cc:1822
+#: cmdline/apt-cache.cc:1757 cmdline/apt-cache.cc:1847
 msgid "Cache is out of sync, can't x-ref a package file"
 msgstr "Содержимое кэша устарело, невозможно получить данные о пакете."
 
-#: cmdline/apt-cache.cc:1737
+#: cmdline/apt-cache.cc:1758
 #, c-format
 msgid "%4i %s\n"
 msgstr "%4i %s\n"
 
-#: cmdline/apt-cache.cc:1749
+#: cmdline/apt-cache.cc:1770
 msgid "Pinned Packages:"
 msgstr "Предпочитаемые пакеты:"
 
-#: cmdline/apt-cache.cc:1761 cmdline/apt-cache.cc:1802
+#: cmdline/apt-cache.cc:1782 cmdline/apt-cache.cc:1823
 msgid "(not found)"
 msgstr "(не найдено)"
 
-#: cmdline/apt-cache.cc:1782
+#: cmdline/apt-cache.cc:1803
 msgid "  Installed: "
 msgstr "  Установлен: "
 
-#: cmdline/apt-cache.cc:1784 cmdline/apt-cache.cc:1792
+#: cmdline/apt-cache.cc:1805 cmdline/apt-cache.cc:1813
 msgid "(none)"
 msgstr "(нет)"
 
-#: cmdline/apt-cache.cc:1789
+#: cmdline/apt-cache.cc:1810
 msgid "  Candidate: "
 msgstr "  Кандидат: "
 
-#: cmdline/apt-cache.cc:1799
+#: cmdline/apt-cache.cc:1820
 msgid "  Package Pin: "
 msgstr "  Предпочтение: "
 
-#: cmdline/apt-cache.cc:1808
+#: cmdline/apt-cache.cc:1829
 msgid "  Version Table:"
 msgstr "  Таблица версий:"
 
-#: cmdline/apt-cache.cc:1823
+#: cmdline/apt-cache.cc:1848
 #, c-format
 msgid "       %4i %s\n"
 msgstr "       %4i %s\n"
 
-#: cmdline/apt-cache.cc:1850 cmdline/apt-cdrom.cc:847 cmdline/apt-config.cc:72
-#: cmdline/apt-get.cc:2985 cmdline/apt-shell.cc:3718
+#: cmdline/apt-cache.cc:1875 cmdline/apt-cdrom.cc:847 cmdline/apt-config.cc:72
+#: cmdline/apt-get.cc:3024 cmdline/apt-shell.cc:3719
 #, c-format
 msgid "%s %s for %s %s compiled on %s %s\n"
 msgstr "%s %s для %s %s собран %s %s\n"
 
-#: cmdline/apt-cache.cc:1857
+#: cmdline/apt-cache.cc:1882
 msgid ""
 "Usage: apt-cache [options] command\n"
 "       apt-cache [options] add file1 [file2 ...]\n"
@@ -245,7 +277,7 @@ msgstr ""
 "   xvcg - Построить граф зависимостей в формате xvcg\n"
 "   policy - Сообщить сведения о приоритетности источников пакетов\n"
 
-#: cmdline/apt-cache.cc:1889
+#: cmdline/apt-cache.cc:1914
 msgid ""
 "\n"
 "Options:\n"
@@ -276,7 +308,7 @@ msgstr ""
 msgid "Failed to rename %s.new to %s"
 msgstr "Не удалось переименовать %s.new в %s"
 
-#: cmdline/apt-cdrom.cc:425 apt-pkg/sourcelist.cc:300
+#: cmdline/apt-cdrom.cc:425 apt-pkg/sourcelist.cc:302
 #, c-format
 msgid "Opening %s"
 msgstr "Открытие %s"
@@ -459,8 +491,8 @@ msgstr ""
 msgid "Y"
 msgstr "Y"
 
-#: cmdline/apt-get.cc:180 cmdline/apt-get.cc:2006 cmdline/apt-shell.cc:202
-#: cmdline/apt-shell.cc:2078
+#: cmdline/apt-get.cc:180 cmdline/apt-get.cc:2008 cmdline/apt-shell.cc:202
+#: cmdline/apt-shell.cc:2079
 #, c-format
 msgid "Regex compilation error - %s"
 msgstr "Ошибка компиляции регулярного выражения - %s"
@@ -596,12 +628,14 @@ msgid " Done"
 msgstr " Завершено"
 
 #: cmdline/apt-get.cc:828
-msgid "You might want to run `apt-get -f install' to correct these."
+#, fuzzy
+msgid "You might want to run `apt-get --fix-broken install' to correct these."
 msgstr ""
 "Возможно, Вам потребуется запустить `apt-get -f install' для исправления."
 
 #: cmdline/apt-get.cc:831 cmdline/apt-shell.cc:936
-msgid "Unmet dependencies. Try using -f."
+#, fuzzy
+msgid "Unmet dependencies. Try using --fix-broken."
 msgstr "Неудовлетворенные зависимости. Попробуйте добавить параметр -f."
 
 #: cmdline/apt-get.cc:889 cmdline/apt-shell.cc:994
@@ -610,14 +644,14 @@ msgstr ""
 "Необходимо удалить некоторые пакеты, но это было запрещено параметром No "
 "Remove (не удалять)."
 
-#: cmdline/apt-get.cc:915 cmdline/apt-get.cc:2353 cmdline/apt-get.cc:2386
-#: cmdline/apt-shell.cc:1020 cmdline/apt-shell.cc:2340
-#: cmdline/apt-shell.cc:2376
+#: cmdline/apt-get.cc:915 cmdline/apt-get.cc:2356 cmdline/apt-get.cc:2391
+#: cmdline/apt-shell.cc:1020 cmdline/apt-shell.cc:2341
+#: cmdline/apt-shell.cc:2377
 msgid "Unable to lock the download directory"
 msgstr "Невозможно разблокировать временный каталог для скачиваемых файлов"
 
-#: cmdline/apt-get.cc:925 cmdline/apt-get.cc:2434 cmdline/apt-get.cc:2678
-#: cmdline/apt-shell.cc:1030 cmdline/apt-shell.cc:2435 apt-pkg/cachefile.cc:71
+#: cmdline/apt-get.cc:925 cmdline/apt-get.cc:2439 cmdline/apt-get.cc:2713
+#: cmdline/apt-shell.cc:1030 cmdline/apt-shell.cc:2436 apt-pkg/cachefile.cc:71
 msgid "The list of sources could not be read."
 msgstr "Невозможно прочитать список исходных пакетов."
 
@@ -682,8 +716,8 @@ msgstr "Прервано."
 msgid "Do you want to continue? [Y/n] "
 msgstr "Продолжить? [Y/n] "
 
-#: cmdline/apt-get.cc:1092 cmdline/apt-get.cc:1197 cmdline/apt-get.cc:1724
-#: cmdline/apt-get.cc:2545 cmdline/apt-shell.cc:1196 cmdline/apt-shell.cc:1789
+#: cmdline/apt-get.cc:1092 cmdline/apt-get.cc:1197 cmdline/apt-get.cc:1726
+#: cmdline/apt-get.cc:2580 cmdline/apt-shell.cc:1196 cmdline/apt-shell.cc:1790
 #, c-format
 msgid "Failed to fetch %s  %s\n"
 msgstr "Невозможно получить %s  %s\n"
@@ -692,7 +726,7 @@ msgstr "Невозможно получить %s  %s\n"
 msgid "Some files failed to download"
 msgstr "Некоторые файлы не удалось получить"
 
-#: cmdline/apt-get.cc:1111 cmdline/apt-get.cc:2554 cmdline/apt-shell.cc:1215
+#: cmdline/apt-get.cc:1111 cmdline/apt-get.cc:2589 cmdline/apt-shell.cc:1215
 msgid "Download complete and in download only mode"
 msgstr "Скачивание пакетов завершено в режиме 'только скачать'."
 
@@ -717,55 +751,49 @@ msgstr "Невозможно исправить отсутствующие пакеты."
 msgid "Aborting Install."
 msgstr "Прерывание установки."
 
-#: cmdline/apt-get.cc:1202 cmdline/apt-get.cc:2550
+#: cmdline/apt-get.cc:1202 cmdline/apt-get.cc:2585
 msgid "Failed to fetch some archives."
 msgstr "Невозможно скачать некоторые архивы."
 
-#: cmdline/apt-get.cc:1296 cmdline/apt-get.cc:1919 cmdline/apt-get.cc:1982
-#: cmdline/apt-get.cc:2017 cmdline/apt-shell.cc:1365 cmdline/apt-shell.cc:2054
-#: cmdline/apt-shell.cc:2089
+#: cmdline/apt-get.cc:1296 cmdline/apt-get.cc:1921 cmdline/apt-get.cc:1984
+#: cmdline/apt-get.cc:2019 cmdline/apt-get.cc:2478 cmdline/apt-shell.cc:1366
+#: cmdline/apt-shell.cc:2055 cmdline/apt-shell.cc:2090
 #, c-format
 msgid "Selecting %s for '%s'\n"
 msgstr "Выбрано %s для '%s'\n"
 
-#: cmdline/apt-get.cc:1302 cmdline/apt-shell.cc:1371
+#: cmdline/apt-get.cc:1302 cmdline/apt-shell.cc:1372
 #, fuzzy, c-format
 msgid "Package %s is a virtual package with no good providers.\n"
 msgstr "Виртуальный пакет %s предоставляется следующими пакетами:\n"
 
-#: cmdline/apt-get.cc:1308 cmdline/apt-get.cc:1364 cmdline/apt-shell.cc:1377
-#: cmdline/apt-shell.cc:1433
-#, c-format
-msgid "Package %s is a virtual package provided by:\n"
-msgstr "Виртуальный пакет %s предоставляется следующими пакетами:\n"
-
-#: cmdline/apt-get.cc:1316 cmdline/apt-get.cc:1376 cmdline/apt-shell.cc:1385
-#: cmdline/apt-shell.cc:1445
+#: cmdline/apt-get.cc:1316 cmdline/apt-get.cc:1376 cmdline/apt-shell.cc:1386
+#: cmdline/apt-shell.cc:1446
 msgid " [Installed]"
 msgstr " [Установлено]"
 
-#: cmdline/apt-get.cc:1321 cmdline/apt-get.cc:1381 cmdline/apt-shell.cc:1390
-#: cmdline/apt-shell.cc:1450
+#: cmdline/apt-get.cc:1321 cmdline/apt-get.cc:1381 cmdline/apt-shell.cc:1391
+#: cmdline/apt-shell.cc:1451
 msgid "You should explicitly select one to install."
 msgstr "Необходимо точно указать, какой из пакетов должен быть установлен."
 
-#: cmdline/apt-get.cc:1322 cmdline/apt-shell.cc:1391
+#: cmdline/apt-get.cc:1322 cmdline/apt-shell.cc:1392
 #, fuzzy, c-format
 msgid "Package %s is a virtual package with multiple good providers.\n"
 msgstr "Виртуальный пакет %s предоставляется следующими пакетами:\n"
 
-#: cmdline/apt-get.cc:1333 cmdline/apt-shell.cc:1402
+#: cmdline/apt-get.cc:1333 cmdline/apt-shell.cc:1403
 #, c-format
 msgid "Skipping %s, it is already installed and upgrade is not set.\n"
 msgstr ""
 "Пакет %s пропущен, так как он уже установлен, а команды обновления не было.\n"
 
-#: cmdline/apt-get.cc:1351 cmdline/apt-shell.cc:1420
+#: cmdline/apt-get.cc:1351 cmdline/apt-shell.cc:1421
 #, c-format
 msgid "Package %s is not installed, so not removed\n"
 msgstr "Пакет %s не установлен, и не может быть удалён.\n"
 
-#: cmdline/apt-get.cc:1387 cmdline/apt-shell.cc:1456
+#: cmdline/apt-get.cc:1387 cmdline/apt-shell.cc:1457
 #, c-format
 msgid ""
 "Package %s has no available version, but exists in the database.\n"
@@ -778,64 +806,64 @@ msgstr ""
 "он отсутствует в репозитории, был вытеснен, либо в sources.list нет адреса\n"
 "репозитория, содержащего пакет.\n"
 
-#: cmdline/apt-get.cc:1409 cmdline/apt-shell.cc:1478
+#: cmdline/apt-get.cc:1409 cmdline/apt-shell.cc:1479
 msgid "However the following packages replace it:"
 msgstr "Тем не менее, следующие пакеты заменяют его:"
 
-#: cmdline/apt-get.cc:1412 cmdline/apt-shell.cc:1481
+#: cmdline/apt-get.cc:1412 cmdline/apt-shell.cc:1482
 #, c-format
 msgid "Package %s has no installation candidate"
 msgstr "Для пакета %s не найдено подходящего кандидата для установки"
 
-#: cmdline/apt-get.cc:1432 cmdline/apt-shell.cc:1507
+#: cmdline/apt-get.cc:1432 cmdline/apt-shell.cc:1508
 #, c-format
 msgid "Reinstallation of %s is not possible, it cannot be downloaded.\n"
 msgstr "Переустановить %s невозможно, потому что этот пакет нельзя скачать.\n"
 
-#: cmdline/apt-get.cc:1440 cmdline/apt-shell.cc:1515
+#: cmdline/apt-get.cc:1440 cmdline/apt-shell.cc:1516
 #, c-format
 msgid "%s is already the newest version.\n"
 msgstr "Последняя версия %s уже установлена.\n"
 
-#: cmdline/apt-get.cc:1486 cmdline/apt-shell.cc:1561
+#: cmdline/apt-get.cc:1486 cmdline/apt-shell.cc:1562
 #, c-format
 msgid "Release %s'%s' for '%s' was not found"
 msgstr "Описание %s'%s' для '%s' не найдено."
 
-#: cmdline/apt-get.cc:1488 cmdline/apt-shell.cc:1563
+#: cmdline/apt-get.cc:1488 cmdline/apt-shell.cc:1564
 #, c-format
 msgid "Version %s'%s' for '%s' was not found"
 msgstr "Версия %s'%s' для '%s' не найдена"
 
-#: cmdline/apt-get.cc:1496 cmdline/apt-shell.cc:1571
+#: cmdline/apt-get.cc:1496 cmdline/apt-shell.cc:1572
 #, c-format
 msgid "Selected version %s (%s) for %s\n"
 msgstr "Выбрана версия %s (%s) для %s\n"
 
-#: cmdline/apt-get.cc:1499 cmdline/apt-shell.cc:1574
+#: cmdline/apt-get.cc:1499 cmdline/apt-shell.cc:1575
 #, c-format
 msgid "Selected version %s for %s\n"
 msgstr "Выбрана версия %s для %s\n"
 
-#: cmdline/apt-get.cc:1625
+#: cmdline/apt-get.cc:1627
 msgid "The update command takes no arguments"
 msgstr "Для команды обновления не требуются аргументы"
 
-#: cmdline/apt-get.cc:1648 cmdline/apt-shell.cc:1716
+#: cmdline/apt-get.cc:1650 cmdline/apt-shell.cc:1717
 #, c-format
 msgid "Sources list %s could not be read"
 msgstr "Невозможно прочитать список источников из %s"
 
-#: cmdline/apt-get.cc:1651 cmdline/apt-shell.cc:1719
+#: cmdline/apt-get.cc:1653 cmdline/apt-shell.cc:1720
 #, c-format
 msgid "Sources list %s doesn't exist"
 msgstr "Список источников %s отсутствует."
 
-#: cmdline/apt-get.cc:1664 cmdline/apt-shell.cc:1731
+#: cmdline/apt-get.cc:1666 cmdline/apt-shell.cc:1732
 msgid "Unable to lock the list directory"
 msgstr "Невозможно заблокировать каталог"
 
-#: cmdline/apt-get.cc:1696 cmdline/apt-shell.cc:1761
+#: cmdline/apt-get.cc:1698 cmdline/apt-shell.cc:1762
 msgid ""
 "Release files for some repositories could not be retrieved or authenticated. "
 "Such repositories are being ignored."
@@ -843,7 +871,7 @@ msgstr ""
 "Невозможно получить или проверить файлы описания некоторых репозиториев. Эти "
 "репозитории будут игнорироваться."
 
-#: cmdline/apt-get.cc:1764 cmdline/apt-shell.cc:1823
+#: cmdline/apt-get.cc:1766 cmdline/apt-shell.cc:1824
 msgid ""
 "Some index files failed to download, they have been ignored, or old ones "
 "used instead."
@@ -851,36 +879,38 @@ msgstr ""
 "Некоторые индексные файлы не удалось скачать, они либо были проигнорированы, "
 "либо вместо них были использованы старые версии."
 
-#: cmdline/apt-get.cc:1783 cmdline/apt-shell.cc:1852
+#: cmdline/apt-get.cc:1785 cmdline/apt-shell.cc:1853
 msgid "Internal Error, AllUpgrade broke stuff"
 msgstr "Внутренняя ошибка, результат работы AllUpgrade все испортил"
 
-#: cmdline/apt-get.cc:1880 cmdline/apt-get.cc:1897 cmdline/apt-shell.cc:1954
-#: cmdline/apt-shell.cc:1971
+#: cmdline/apt-get.cc:1882 cmdline/apt-get.cc:1899 cmdline/apt-shell.cc:1955
+#: cmdline/apt-shell.cc:1972
 #, c-format
 msgid "Couldn't parse name '%s'"
 msgstr "Невозможно разобрать имя '%s'"
 
-#: cmdline/apt-get.cc:1992 cmdline/apt-get.cc:2031 cmdline/apt-shell.cc:2064
-#: cmdline/apt-shell.cc:2104
+#: cmdline/apt-get.cc:1994 cmdline/apt-get.cc:2033 cmdline/apt-shell.cc:2065
+#: cmdline/apt-shell.cc:2105
 #, c-format
 msgid "Couldn't find package %s"
 msgstr "Невозможно найти пакет %s"
 
-#: cmdline/apt-get.cc:2061
-msgid "You might want to run `apt-get -f install' to correct these:"
+#: cmdline/apt-get.cc:2063
+#, fuzzy
+msgid "You might want to run `apt-get --fix-broken install' to correct these:"
 msgstr ""
 "Возможно, Вам потребуется запустить `apt-get -f install' для исправления:"
 
-#: cmdline/apt-get.cc:2064
+#: cmdline/apt-get.cc:2066
+#, fuzzy
 msgid ""
-"Unmet dependencies. Try 'apt-get -f install' with no packages (or specify a "
-"solution)."
+"Unmet dependencies. Try 'apt-get --fix-broken install' with no packages (or "
+"specify a solution)."
 msgstr ""
 "Некоторые зависимости не были найдены. Попробуйте `apt-get -f install' без "
 "указания пакетов или укажите пакет-решение."
 
-#: cmdline/apt-get.cc:2086 cmdline/apt-shell.cc:2167
+#: cmdline/apt-get.cc:2088 cmdline/apt-shell.cc:2168
 msgid ""
 "Some packages could not be installed. This may mean that you have\n"
 "requested an impossible situation or if you are using the unstable\n"
@@ -892,7 +922,7 @@ msgstr ""
 "Часть необходимых пакетов либо ещё не создана, либо была удалена\n"
 "из каталога 'Входящие'."
 
-#: cmdline/apt-get.cc:2094 cmdline/apt-shell.cc:2175
+#: cmdline/apt-get.cc:2096 cmdline/apt-shell.cc:2176
 msgid ""
 "Since you only requested a single operation it is extremely likely that\n"
 "the package is simply not installable and a bug report against\n"
@@ -902,102 +932,102 @@ msgstr ""
 "скорее всего этот пакет просто невозможно установить. Сообщите, пожалуйста,\n"
 "об этом как о найденной ошибке в пакете."
 
-#: cmdline/apt-get.cc:2099 cmdline/apt-shell.cc:2180
+#: cmdline/apt-get.cc:2101 cmdline/apt-shell.cc:2181
 msgid "The following information may help to resolve the situation:"
 msgstr "Эти сведения могут помочь найти выход из ситуации:"
 
-#: cmdline/apt-get.cc:2102 cmdline/apt-shell.cc:2184
+#: cmdline/apt-get.cc:2104 cmdline/apt-shell.cc:2185
 msgid "Broken packages"
 msgstr "Извините, `битые' пакеты"
 
-#: cmdline/apt-get.cc:2128
+#: cmdline/apt-get.cc:2131
 msgid "The following extra packages will be installed:"
 msgstr "Следующие дополнительные пакеты будут установлены:"
 
-#: cmdline/apt-get.cc:2208
+#: cmdline/apt-get.cc:2211
 msgid "Suggested packages:"
 msgstr "Предпочитаемые пакеты:"
 
-#: cmdline/apt-get.cc:2209
+#: cmdline/apt-get.cc:2212
 msgid "Recommended packages:"
 msgstr "Рекомендуемые пакеты"
 
-#: cmdline/apt-get.cc:2233 cmdline/apt-shell.cc:2211
+#: cmdline/apt-get.cc:2236 cmdline/apt-shell.cc:2212
 msgid "Calculating Upgrade... "
 msgstr "Подсчет обновлений... "
 
-#: cmdline/apt-get.cc:2236 cmdline/apt-shell.cc:2214 methods/connect.cc:102
+#: cmdline/apt-get.cc:2239 cmdline/apt-shell.cc:2215 methods/connect.cc:102
 #: methods/ftp.cc:706
 msgid "Failed"
 msgstr "Ошибка"
 
-#: cmdline/apt-get.cc:2252 cmdline/apt-shell.cc:2226
+#: cmdline/apt-get.cc:2255 cmdline/apt-shell.cc:2227
 msgid "Done"
 msgstr "Завершено"
 
-#: cmdline/apt-get.cc:2429
+#: cmdline/apt-get.cc:2434
 msgid "Must specify at least one package to fetch source for"
 msgstr "Для скачивания исходника необходимо указать хотя бы один пакет."
 
-#: cmdline/apt-get.cc:2456 cmdline/apt-get.cc:2696 cmdline/apt-shell.cc:2453
+#: cmdline/apt-get.cc:2491 cmdline/apt-get.cc:2731 cmdline/apt-shell.cc:2454
 #, c-format
 msgid "Unable to find a source package for %s"
 msgstr "Невозможно найти исходный пакет для %s"
 
-#: cmdline/apt-get.cc:2505
+#: cmdline/apt-get.cc:2540
 #, c-format
 msgid "You don't have enough free space in %s"
 msgstr "Недостаточно свободного места в %s"
 
-#: cmdline/apt-get.cc:2510
+#: cmdline/apt-get.cc:2545
 #, c-format
 msgid "Need to get %sB/%sB of source archives.\n"
 msgstr "Необходимо получить %sB/%sB исходных архивов.\n"
 
-#: cmdline/apt-get.cc:2513
+#: cmdline/apt-get.cc:2548
 #, c-format
 msgid "Need to get %sB of source archives.\n"
 msgstr "Необходимо получить %sB исходных архивов.\n"
 
-#: cmdline/apt-get.cc:2519
+#: cmdline/apt-get.cc:2554
 #, c-format
 msgid "Fetch Source %s\n"
 msgstr "Получение исходника пакета %s\n"
 
-#: cmdline/apt-get.cc:2584 cmdline/apt-get.cc:2635
+#: cmdline/apt-get.cc:2619 cmdline/apt-get.cc:2670
 #, c-format
 msgid "Build command '%s' failed.\n"
 msgstr "Команда сборки пакета '%s' вызвала ошибку.\n"
 
-#: cmdline/apt-get.cc:2596 cmdline/apt-get.cc:2618
+#: cmdline/apt-get.cc:2631 cmdline/apt-get.cc:2653
 #, c-format
 msgid "Unpack command '%s' failed.\n"
 msgstr "Команда распаковки '%s' вызвала ошибку.\n"
 
-#: cmdline/apt-get.cc:2606
+#: cmdline/apt-get.cc:2641
 #, c-format
 msgid "Skipping unpack of already unpacked source in %s\n"
 msgstr "Пропуск распаковки уже распакованных исходников пакета в %s\n"
 
-#: cmdline/apt-get.cc:2655
+#: cmdline/apt-get.cc:2690
 msgid "Child process failed"
 msgstr "Вспомогательный процесс завершился с ошибкой"
 
-#: cmdline/apt-get.cc:2673 cmdline/apt-shell.cc:2430
+#: cmdline/apt-get.cc:2708 cmdline/apt-shell.cc:2431
 msgid "Must specify at least one package to check builddeps for"
 msgstr "Укажите хотя бы один пакет для проверки его сборочных зависимостей."
 
-#: cmdline/apt-get.cc:2701 cmdline/apt-shell.cc:2458
+#: cmdline/apt-get.cc:2736 cmdline/apt-shell.cc:2459
 #, c-format
 msgid "Unable to get build-dependency information for %s"
 msgstr "Невозможно определить сборочные зависимости для %s."
 
-#: cmdline/apt-get.cc:2721 cmdline/apt-shell.cc:2478
+#: cmdline/apt-get.cc:2756 cmdline/apt-shell.cc:2479
 #, c-format
 msgid "%s has no build depends.\n"
 msgstr "%s не имеет сборочных зависимостей.\n"
 
-#: cmdline/apt-get.cc:2792 cmdline/apt-shell.cc:2549
+#: cmdline/apt-get.cc:2827 cmdline/apt-shell.cc:2550
 #, c-format
 msgid ""
 "%s dependency for %s cannot be satisfied because the package %s cannot be "
@@ -1006,7 +1036,7 @@ msgstr ""
 "зависимость %s для %s не может быть удовлетворена, потому что отсутствует "
 "пакет %s."
 
-#: cmdline/apt-get.cc:2844 cmdline/apt-shell.cc:2601
+#: cmdline/apt-get.cc:2879 cmdline/apt-shell.cc:2602
 #, c-format
 msgid ""
 "%s dependency for %s cannot be satisfied because no available versions of "
@@ -1015,37 +1045,37 @@ msgstr ""
 "зависимость %s для %s не может быть удовлетворена, потому что ни одна из "
 "доступных версий пакета %s, не может её удовлетворить."
 
-#: cmdline/apt-get.cc:2879 cmdline/apt-shell.cc:2635
+#: cmdline/apt-get.cc:2914 cmdline/apt-shell.cc:2636
 #, c-format
 msgid "Failed to satisfy %s dependency for %s: Installed package %s is too new"
 msgstr ""
 "Невозможно удовлетворить %s зависимость для %s: Установленный пакет %s "
 "слишком нов."
 
-#: cmdline/apt-get.cc:2904 cmdline/apt-shell.cc:2660
+#: cmdline/apt-get.cc:2939 cmdline/apt-shell.cc:2661
 #, c-format
 msgid "Failed to satisfy %s dependency for %s: %s"
 msgstr "Невозможно удовлетворить %s зависимость для %s: %s"
 
-#: cmdline/apt-get.cc:2918 cmdline/apt-shell.cc:2674
-#, c-format
+#: cmdline/apt-get.cc:2956 cmdline/apt-shell.cc:2675
+#, fuzzy, c-format
 msgid ""
 "Some broken packages were found while trying to process build-dependencies "
 "for %s.\n"
-"You might want to run `apt-get -f install' to correct these."
+"You might want to run `apt-get --fix-broken install' to correct these."
 msgstr ""
 "Обнаружены повреждённые пакеты при обработке сборочных зависимостей для %s.\n"
 "Возможно, потребуется запустить `apt-get -f install' для исправления."
 
-#: cmdline/apt-get.cc:2923
+#: cmdline/apt-get.cc:2962
 msgid "Failed to process build dependencies"
 msgstr "Ошибка обработки сборочных зависимостей"
 
-#: cmdline/apt-get.cc:2990 cmdline/apt-shell.cc:3723
+#: cmdline/apt-get.cc:3029 cmdline/apt-shell.cc:3724
 msgid "Supported Modules:"
 msgstr "Поддерживаемые модули:"
 
-#: cmdline/apt-get.cc:3031
+#: cmdline/apt-get.cc:3070
 msgid ""
 "Usage: apt-get [options] command\n"
 "       apt-get [options] install|remove pkg1 [pkg2 ...]\n"
@@ -1087,7 +1117,7 @@ msgstr ""
 "   autoclean - Удалить давно скачанные архивные файлы\n"
 "   check - Удостовериться в отсутствии неудовлетворённых зависимостей\n"
 
-#: cmdline/apt-get.cc:3059
+#: cmdline/apt-get.cc:3098
 msgid ""
 "\n"
 "Options:\n"
@@ -1131,18 +1161,18 @@ msgstr ""
 "Более полное описание доступно на страницах руководства man:\n"
 "apt-get(8), sources.list(5) и apt.conf(5).\n"
 
-#: cmdline/apt-shell.cc:151 cmdline/apt-shell.cc:4445
+#: cmdline/apt-shell.cc:151 cmdline/apt-shell.cc:4446
 msgid "There are broken packages. "
 msgstr "Присутствуют пакеты с нарушенными зависимостями."
 
-#: cmdline/apt-shell.cc:152 cmdline/apt-shell.cc:2137
-#: cmdline/apt-shell.cc:4446
+#: cmdline/apt-shell.cc:152 cmdline/apt-shell.cc:2138
+#: cmdline/apt-shell.cc:4447
 msgid "Run `check' to see them."
 msgstr "Запустите команду `check', чтобы увидеть их."
 
-#: cmdline/apt-shell.cc:153 cmdline/apt-shell.cc:2138
-#: cmdline/apt-shell.cc:4447
-msgid "You can try to fix them automatically with `install -f'."
+#: cmdline/apt-shell.cc:153
+#, fuzzy
+msgid "You can try to fix them automatically with `install --fix-broken'0."
 msgstr ""
 "Вы можете попробовать исправить их автоматически, используя команду `install "
 "-f'."
@@ -1187,32 +1217,40 @@ msgstr ""
 "Чтобы выполнить эту операцию необходимы изменения, которые не были запрошены."
 
 #: cmdline/apt-shell.cc:933
-msgid "You might want to run `install -f' to correct these."
+#, fuzzy
+msgid "You might want to run `install --fix-broken' to correct these."
 msgstr "Возможно, Вам потребуется запустить `install -f' для исправления."
 
-#: cmdline/apt-shell.cc:1839 cmdline/apt-shell.cc:1877
-#: cmdline/apt-shell.cc:2202 cmdline/apt-shell.cc:2243
-#: cmdline/apt-shell.cc:2420 cmdline/apt-shell.cc:4035
+#: cmdline/apt-shell.cc:1840 cmdline/apt-shell.cc:1878
+#: cmdline/apt-shell.cc:2203 cmdline/apt-shell.cc:2244
+#: cmdline/apt-shell.cc:2421 cmdline/apt-shell.cc:4036
 msgid "You have no permissions for that"
 msgstr "Вы не имеете необходимых разрешений для этого"
 
-#: cmdline/apt-shell.cc:2136
+#: cmdline/apt-shell.cc:2137
 msgid "There are still broken packages. "
 msgstr "Всё ещё есть пакеты с нарушенными зависимостями."
 
-#: cmdline/apt-shell.cc:3552
+#: cmdline/apt-shell.cc:2139 cmdline/apt-shell.cc:4448
+#, fuzzy
+msgid "You can try to fix them automatically with `install --fix-broken'."
+msgstr ""
+"Вы можете попробовать исправить их автоматически, используя команду `install "
+"-f'."
+
+#: cmdline/apt-shell.cc:3553
 msgid "Name"
 msgstr "Имя"
 
-#: cmdline/apt-shell.cc:3553
+#: cmdline/apt-shell.cc:3554
 msgid "Installed"
 msgstr "Установлено"
 
-#: cmdline/apt-shell.cc:3554
+#: cmdline/apt-shell.cc:3555
 msgid "Candidate"
 msgstr "Кандидат"
 
-#: cmdline/apt-shell.cc:3764
+#: cmdline/apt-shell.cc:3765
 msgid ""
 "\n"
 "Main commands:\n"
@@ -1276,7 +1314,7 @@ msgstr ""
 "\n"
 "                       This APT has Super Cow Powers.\n"
 
-#: cmdline/apt-shell.cc:3806
+#: cmdline/apt-shell.cc:3807
 msgid ""
 "Usage: install [options] pkg1[=ver] [pkg2 ...]\n"
 "\n"
@@ -1310,7 +1348,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3824
+#: cmdline/apt-shell.cc:3825
 msgid ""
 "Usage: remove [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1343,7 +1381,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3842
+#: cmdline/apt-shell.cc:3843
 msgid ""
 "Usage: keep [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1377,7 +1415,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3861
+#: cmdline/apt-shell.cc:3862
 msgid ""
 "Usage: upgrade [options]\n"
 "\n"
@@ -1408,7 +1446,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3877
+#: cmdline/apt-shell.cc:3878
 msgid ""
 "Usage: dist-upgrade [options]\n"
 "\n"
@@ -1439,7 +1477,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3893
+#: cmdline/apt-shell.cc:3894
 msgid ""
 "Usage: showpkg [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1460,7 +1498,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3906
+#: cmdline/apt-shell.cc:3907
 msgid ""
 "Usage: show [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1483,7 +1521,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3920
+#: cmdline/apt-shell.cc:3921
 msgid ""
 "Usage: depends [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1504,7 +1542,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3933
+#: cmdline/apt-shell.cc:3934
 msgid ""
 "Usage: whatdepends [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1525,7 +1563,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3946
+#: cmdline/apt-shell.cc:3947
 msgid ""
 "Usage: unmet [options]\n"
 "\n"
@@ -1546,7 +1584,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3959
+#: cmdline/apt-shell.cc:3960
 msgid ""
 "Usage: search [options] <regex>\n"
 "\n"
@@ -1572,7 +1610,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3976
+#: cmdline/apt-shell.cc:3977
 msgid ""
 "Usage: list/ls [options] [pattern ...]\n"
 "\n"
@@ -1603,7 +1641,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:3994
+#: cmdline/apt-shell.cc:3995
 msgid ""
 "Usage: commit [options]\n"
 "\n"
@@ -1624,7 +1662,7 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:4007
+#: cmdline/apt-shell.cc:4008
 msgid ""
 "Usage: script [options] script1 [script2]\n"
 "\n"
@@ -1645,17 +1683,17 @@ msgstr ""
 "tmp)\n"
 "\n"
 
-#: cmdline/apt-shell.cc:4018
+#: cmdline/apt-shell.cc:4019
 msgid "No help for that"
 msgstr "Нет справки для этого"
 
-#: cmdline/apt-shell.cc:4455
+#: cmdline/apt-shell.cc:4456
 msgid "Welcome to the APT shell. Type \"help\" for more information."
 msgstr ""
 "Добро пожаловать в APT shell. Используйте команду \"help\" для "
 "дополнительной информации."
 
-#: cmdline/apt-shell.cc:4495
+#: cmdline/apt-shell.cc:4496
 msgid "Exceeded maximum number of command arguments"
 msgstr "Превышено максимальное количество аргументов команды"
 
@@ -1670,7 +1708,7 @@ msgid "Unable to change to %s"
 msgstr "Невозможно перейти к %s"
 
 #: apt-pkg/contrib/cdromutl.cc:178 apt-pkg/contrib/configuration.cc:735
-#: apt-pkg/acquire.cc:412 apt-pkg/clean.cc:38 apt-pkg/sourcelist.cc:427
+#: apt-pkg/acquire.cc:412 apt-pkg/clean.cc:38 apt-pkg/sourcelist.cc:429
 #, c-format
 msgid "Unable to read %s"
 msgstr "Невозможно прочитать %s"
@@ -1879,67 +1917,107 @@ msgstr "%c%s... Завершено"
 msgid "Selection %s not found"
 msgstr "Строк, соответствующих %s, не найдено."
 
-#: apt-pkg/rpm/rpmhandler.cc:101
+#: apt-pkg/rpm/repomd.cc:44 apt-pkg/rpm/rpmlistparser.cc:568
+#: apt-pkg/repository.cc:40
+#, c-format
+msgid "could not open Release file '%s'"
+msgstr "Невозможно открыть файл описания '%s'."
+
+#: apt-pkg/rpm/rpmhandler.cc:445
 msgid "could not rewind RPMFileHandler"
 msgstr "откат RPMFileHandler невозможен"
 
-#: apt-pkg/rpm/rpmhandler.cc:160 apt-pkg/rpm/rpmhandler.cc:167
-#: apt-pkg/rpm/rpmpm.cc:685 apt-pkg/rpm/rpmpm.cc:690
+#: apt-pkg/rpm/rpmhandler.cc:482 apt-pkg/rpm/rpmhandler.cc:489
+#: apt-pkg/rpm/rpmpm.cc:684 apt-pkg/rpm/rpmpm.cc:689
 #, c-format
 msgid "Failed reading file %s"
 msgstr "Ошибка чтения файла %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:327
+#: apt-pkg/rpm/rpmhandler.cc:653
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Невозможно определить имя удалённой системы"
 
-#: apt-pkg/rpm/rpmhandler.cc:372 apt-pkg/rpm/rpmhandler.cc:381
+#: apt-pkg/rpm/rpmhandler.cc:698 apt-pkg/rpm/rpmhandler.cc:707
 msgid "could not open RPM database"
 msgstr "невозможно открыть базу данных RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:388
+#: apt-pkg/rpm/rpmhandler.cc:714
 msgid "could not create RPM database iterator"
 msgstr "невозможно создать итератор базы данных RPM"
 
-#: apt-pkg/rpm/rpmindexfile.cc:374
+#: apt-pkg/rpm/rpmhandler.cc:866
+#, fuzzy, c-format
+msgid "Failed to open package index %s"
+msgstr "Невозможно прочитать пакетный файл %s (1)"
+
+#: apt-pkg/rpm/rpmhandler.cc:870
+#, fuzzy, c-format
+msgid "Corrupted package index %s"
+msgstr "Невозможно найти пакет %s"
+
+#: apt-pkg/rpm/rpmhandler.cc:879
+#, fuzzy, c-format
+msgid "Failed to open filelist index %s"
+msgstr "Не удалось открыть %s.new"
+
+#: apt-pkg/rpm/rpmindexfile.cc:374 apt-pkg/rpm/rpmindexfile.cc:705
 #, c-format
 msgid "Problem with SelectFile %s"
 msgstr "Ошибка SelectFile %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:383 apt-pkg/rpm/rpmindexfile.cc:578
+#: apt-pkg/rpm/rpmindexfile.cc:383 apt-pkg/rpm/rpmindexfile.cc:714
+#: apt-pkg/rpm/rpmindexfile.cc:830
 #, fuzzy, c-format
 msgid "Failed to stat %s"
 msgstr "Невозможно получить информацию"
 
 #: apt-pkg/rpm/rpmindexfile.cc:392 apt-pkg/rpm/rpmindexfile.cc:428
+#: apt-pkg/rpm/rpmindexfile.cc:723 apt-pkg/rpm/rpmindexfile.cc:752
 #, c-format
 msgid "Problem opening %s"
 msgstr "Ошибка открытия %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:398 apt-pkg/rpm/rpmindexfile.cc:583
+#: apt-pkg/rpm/rpmindexfile.cc:398 apt-pkg/rpm/rpmindexfile.cc:729
+#: apt-pkg/rpm/rpmindexfile.cc:835
 #, c-format
 msgid "Problem with MergeList %s"
 msgstr "Ошибка с MergeList %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:433 apt-pkg/rpm/rpmindexfile.cc:601
+#: apt-pkg/rpm/rpmindexfile.cc:433 apt-pkg/rpm/rpmindexfile.cc:757
+#: apt-pkg/rpm/rpmindexfile.cc:853
 #, c-format
 msgid "Problem with MergeFileProvides %s"
 msgstr "Ошибка с MergeFileProvides %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:568 apt-pkg/rpm/rpmindexfile.cc:597
+#: apt-pkg/rpm/rpmindexfile.cc:820 apt-pkg/rpm/rpmindexfile.cc:849
 msgid "Problem opening RPM database"
 msgstr "Ошибка открытия базы данных RPM"
 
-#: apt-pkg/rpm/rpmindexfile.cc:572
+#: apt-pkg/rpm/rpmindexfile.cc:824
 msgid "Problem with SelectFile RPM Database"
 msgstr "Ошибка SelectFile базы данных RPM."
 
-#: apt-pkg/rpm/rpmlistparser.cc:111
+#: apt-pkg/rpm/rpmindexfile.cc:1056 apt-pkg/sourcelist.cc:98
+#, c-format
+msgid "Malformed line %lu in source list %s (URI)"
+msgstr "Неправильная строка %lu в списке источников %s (URI)"
+
+#: apt-pkg/rpm/rpmindexfile.cc:1058 apt-pkg/sourcelist.cc:100
+#, c-format
+msgid "Malformed line %lu in source list %s (dist)"
+msgstr "Неправильная строка %lu в списке источников %s (дистрибутив)"
+
+#: apt-pkg/rpm/rpmindexfile.cc:1061 apt-pkg/sourcelist.cc:103
+#, c-format
+msgid "Malformed line %lu in source list %s (URI parse)"
+msgstr "Неправильная строка %lu в списке источников %s (обработка URI)"
+
+#: apt-pkg/rpm/rpmlistparser.cc:92
 msgid "Corrupt pkglist: no RPMTAG_NAME in header entry"
 msgstr ""
 
-#: apt-pkg/rpm/rpmlistparser.cc:130
+#: apt-pkg/rpm/rpmlistparser.cc:116
 #, c-format
 msgid ""
 "There are multiple versions of \"%s\" in your system.\n"
@@ -1970,37 +2048,37 @@ msgstr ""
 "\n"
 "RPM::Allow-Duplicated-Warning \"false\";\n"
 
-#: apt-pkg/rpm/rpmlistparser.cc:680
+#: apt-pkg/rpm/rpmlistparser.cc:465
 msgid "Bad NotAutomatic flag"
 msgstr ""
 
-#: apt-pkg/rpm/rpmpackagedata.cc:28
+#: apt-pkg/rpm/rpmpackagedata.cc:46
 #, c-format
 msgid "could not open package priority file %s"
 msgstr "невозможно открыть файл c описанием приоритетов пакетов %s"
 
-#: apt-pkg/rpm/rpmpackagedata.cc:37
+#: apt-pkg/rpm/rpmpackagedata.cc:55
 #, c-format
 msgid "no data in %s"
 msgstr "нет данных в %s"
 
-#: apt-pkg/rpm/rpmpackagedata.cc:87
+#: apt-pkg/rpm/rpmpackagedata.cc:105
 #, c-format
 msgid "Bad regular expression '%s' in option RPM::Hold."
 msgstr "Недопустимое регулярное выражение '%s' в параметре RPM::Hold."
 
-#: apt-pkg/rpm/rpmpackagedata.cc:107
+#: apt-pkg/rpm/rpmpackagedata.cc:125
 #, c-format
 msgid "Bad regular expression '%s' in option RPM::Allow-Duplicated."
 msgstr ""
 "Недопустимое регулярное выражение '%s' в параметре RPM::Allow-Duplicated."
 
-#: apt-pkg/rpm/rpmpackagedata.cc:124
+#: apt-pkg/rpm/rpmpackagedata.cc:142
 #, c-format
 msgid "Bad entry '%s' in option RPM::FakeProvides."
 msgstr "Недопустимая запись '%s' в параметре RPM::FakeProvides."
 
-#: apt-pkg/rpm/rpmpackagedata.cc:178
+#: apt-pkg/rpm/rpmpackagedata.cc:196
 #, c-format
 msgid "Bad regular expression '%s' in URI translation"
 msgstr "Недопустимое регулярное выражение '%s' в URI translation"
@@ -2051,59 +2129,54 @@ msgstr "Невозможно открыть канал для %s."
 msgid "Sub-process %s recieved a segmentation fault."
 msgstr "Подпроцесс %s выполнил недопустимую операцию."
 
-#: apt-pkg/rpm/rpmpm.cc:630 apt-pkg/rpm/rpmpm.cc:878
+#: apt-pkg/rpm/rpmpm.cc:630 apt-pkg/rpm/rpmpm.cc:897
 #, fuzzy
 msgid "Done."
 msgstr "Завершено"
 
-#: apt-pkg/rpm/rpmpm.cc:681
+#: apt-pkg/rpm/rpmpm.cc:680
 #, c-format
 msgid "Failed opening %s"
 msgstr "Ошибка открытия %s"
 
-#: apt-pkg/rpm/rpmpm.cc:694 apt-pkg/rpm/rpmpm.cc:718
+#: apt-pkg/rpm/rpmpm.cc:693 apt-pkg/rpm/rpmpm.cc:717
 #, c-format
 msgid "Failed adding %s to transaction %s"
 msgstr "Ошибка добавления %s в транзакцию %s"
 
-#: apt-pkg/rpm/rpmpm.cc:770 apt-pkg/rpm/rpmpm.cc:780
+#: apt-pkg/rpm/rpmpm.cc:768 apt-pkg/rpm/rpmpm.cc:778
 msgid "Could not open RPM database"
 msgstr "Невозможно открыть базу данных RPM"
 
-#: apt-pkg/rpm/rpmpm.cc:817 apt-pkg/rpm/rpmpm.cc:830
+#: apt-pkg/rpm/rpmpm.cc:836 apt-pkg/rpm/rpmpm.cc:849
 msgid "Transaction set check failed"
 msgstr "Проверка группы транзакций не удалась"
 
-#: apt-pkg/rpm/rpmpm.cc:850
+#: apt-pkg/rpm/rpmpm.cc:869
 #, c-format
 msgid "Ordering failed for %d packages"
 msgstr "Упорядочивание не удалось для %d пакетов"
 
-#: apt-pkg/rpm/rpmpm.cc:854
+#: apt-pkg/rpm/rpmpm.cc:873
 msgid "Committing changes..."
 msgstr "Совершаем изменения..."
 
-#: apt-pkg/rpm/rpmpm.cc:870
+#: apt-pkg/rpm/rpmpm.cc:889
 msgid "Error while running transaction"
 msgstr "Ошибка во время исполнения транзакции"
 
-#: apt-pkg/rpm/rpmpm.cc:876
+#: apt-pkg/rpm/rpmpm.cc:895
 msgid "Some errors occurred while running transaction"
 msgstr "Произошли ошибки при выполнении транзакции"
 
-#: apt-pkg/rpm/rpmrecords.cc:201 apt-pkg/rpm/rpmsrcrecords.cc:215
+#: apt-pkg/rpm/rpmrecords.cc:156 apt-pkg/rpm/rpmsrcrecords.cc:176
 #, fuzzy
 msgid "Could not allocate buffer for record text"
 msgstr "Невозможно выделить память"
 
-#: apt-pkg/rpm/rpmsrcrecords.cc:146 apt-pkg/rpm/rpmsrcrecords.cc:153
-#, c-format
-msgid "error parsing source list %s"
-msgstr "ошибка обработки списка источников %s"
-
-#: apt-pkg/rpm/rpmsystem.cc:411 apt-pkg/pkgcachegen.cc:714
-#: apt-pkg/pkgcachegen.cc:741 apt-pkg/pkgcachegen.cc:783
-#: apt-pkg/pkgcachegen.cc:788 apt-pkg/pkgcachegen.cc:992
+#: apt-pkg/rpm/rpmsystem.cc:470 apt-pkg/pkgcachegen.cc:717
+#: apt-pkg/pkgcachegen.cc:744 apt-pkg/pkgcachegen.cc:786
+#: apt-pkg/pkgcachegen.cc:791 apt-pkg/pkgcachegen.cc:995
 msgid "Reading Package Lists"
 msgstr "Чтение списков пакетов"
 
@@ -2121,48 +2194,52 @@ msgstr "Директория со списками пакетов %spartial отсутствует."
 msgid "Archive directory %spartial is missing."
 msgstr "Директория с архивными пакетами %spartial отсутствует."
 
-#: apt-pkg/acquire-item.cc:169
+#: apt-pkg/acquire-item.cc:187
 #, c-format
 msgid "rename failed, %s (%s -> %s)."
 msgstr "Ошибка переименования, %s (%s -> %s)."
 
-#: apt-pkg/acquire-item.cc:213 apt-pkg/acquire-item.cc:406
+#: apt-pkg/acquire-item.cc:231 apt-pkg/acquire-item.cc:439
 #, c-format
 msgid "%s is not listed in the checksum list for its repository"
 msgstr "%s отсутствует в списке контрольных сумм своего репозитория."
 
-#: apt-pkg/acquire-item.cc:233 apt-pkg/acquire-item.cc:426
+#: apt-pkg/acquire-item.cc:251 apt-pkg/acquire-item.cc:459
 #, c-format
 msgid "Release information not available for %s"
 msgstr "Описание %s не найдено."
 
-#: apt-pkg/acquire-item.cc:283 apt-pkg/acquire-item.cc:559
-#: apt-pkg/acquire-item.cc:818
+#: apt-pkg/acquire-item.cc:309 apt-pkg/acquire-item.cc:592
+#: apt-pkg/acquire-item.cc:861
 msgid "Size mismatch"
 msgstr "Несовпадение размера"
 
-#: apt-pkg/acquire-item.cc:294 apt-pkg/acquire-item.cc:569
-#: apt-pkg/acquire-item.cc:828
+#: apt-pkg/acquire-item.cc:320 apt-pkg/acquire-item.cc:602
+#: apt-pkg/acquire-item.cc:871
 msgid "MD5Sum mismatch"
 msgstr "Несовпадение контрольной суммы MD5"
 
-#: apt-pkg/acquire-item.cc:475
+#: apt-pkg/acquire-item.cc:397
+msgid "Uknown compression extension, trying uncompressed"
+msgstr ""
+
+#: apt-pkg/acquire-item.cc:508
 msgid "No valid signatures found in Release file"
 msgstr "Не найдено пригодных подписей в файле описания"
 
-#: apt-pkg/acquire-item.cc:483
+#: apt-pkg/acquire-item.cc:516
 msgid "Signature fingerprint of Release file does not match (expected "
 msgstr "Неверная подпись файла описания (должно быть "
 
-#: apt-pkg/acquire-item.cc:484
+#: apt-pkg/acquire-item.cc:517
 msgid ", got "
 msgstr ", а получено "
 
-#: apt-pkg/acquire-item.cc:509
+#: apt-pkg/acquire-item.cc:542
 msgid "Could not read checksum list from Release file"
 msgstr "Невозможно прочитать список контрольных сумм из файла описания."
 
-#: apt-pkg/acquire-item.cc:643
+#: apt-pkg/acquire-item.cc:678
 #, c-format
 msgid ""
 "I wasn't able to locate a file for the %s package. This might mean you need "
@@ -2171,7 +2248,7 @@ msgstr ""
 "Невозможно найти файл пакета %s. Возможно, потребуется исправить пакет "
 "вручную (в связи с отсутствием нужной платформы)."
 
-#: apt-pkg/acquire-item.cc:678
+#: apt-pkg/acquire-item.cc:713
 #, c-format
 msgid ""
 "I wasn't able to locate file for the %s package. This might mean you need to "
@@ -2180,7 +2257,7 @@ msgstr ""
 "Невозможно найти файл пакета %s. Возможно, потребуется исправить пакет "
 "вручную."
 
-#: apt-pkg/acquire-item.cc:709
+#: apt-pkg/acquire-item.cc:752
 #, c-format
 msgid ""
 "The package index files are corrupted. No Filename: field for package %s."
@@ -2242,12 +2319,12 @@ msgstr "Определение необходимых версий"
 msgid "Dependency Generation"
 msgstr "Создание зависимостей"
 
-#: apt-pkg/init.cc:142
+#: apt-pkg/init.cc:141
 #, c-format
 msgid "Packaging system '%s' is not supported"
 msgstr "Пакетная система '%s' не поддерживается."
 
-#: apt-pkg/init.cc:158
+#: apt-pkg/init.cc:157
 msgid "Unable to determine a suitable system type"
 msgstr "Невозможно определить тип системы."
 
@@ -2404,42 +2481,37 @@ msgstr "При обработке %s (CollectFileProvides) произошла ошибка."
 msgid "Package %s %s was not found while processing file dependencies"
 msgstr "Не найден пакет %s %s при обработке файловых зависимостей."
 
-#: apt-pkg/pkgcachegen.cc:781
+#: apt-pkg/pkgcachegen.cc:784
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Запись в %s невозможна"
 
-#: apt-pkg/pkgcachegen.cc:796
+#: apt-pkg/pkgcachegen.cc:799
 msgid "Error pre-processing package lists"
 msgstr "Во время предварительной обработки списков пакетов произошла ошибка."
 
-#: apt-pkg/pkgcachegen.cc:913 apt-pkg/pkgcachegen.cc:920
+#: apt-pkg/pkgcachegen.cc:916 apt-pkg/pkgcachegen.cc:923
 msgid "IO Error saving source cache"
 msgstr "Ошибка ввода-вывода в момент сохранения кэша репозитория"
 
-#: apt-pkg/pkgrecords.cc:37
+#: apt-pkg/pkgrecords.cc:38
 #, c-format
 msgid "Index file type '%s' is not supported"
 msgstr "Тип индексного файла '%s' не поддерживается"
 
-#: apt-pkg/policy.cc:312
+#: apt-pkg/policy.cc:326
 msgid "Invalid record in the preferences file, no Package header"
 msgstr ""
 "Ошибочная запись в конфигурационном файле. Отсутствует заголовок пакета."
 
-#: apt-pkg/policy.cc:334
+#: apt-pkg/policy.cc:348
 #, c-format
 msgid "Did not understand pin type %s"
 msgstr "Непригодный критерий отбора предпочитаемых пакетов %s."
 
-#: apt-pkg/policy.cc:342
+#: apt-pkg/policy.cc:356
 msgid "No priority (or zero) specified for pin"
 msgstr "Не указан (или указан нулевой) приоритет для предпочтения"
-
-#: apt-pkg/repository.cc:40
-#, c-format
-msgid "could not open Release file '%s'"
-msgstr "Невозможно открыть файл описания '%s'."
 
 #: apt-pkg/repository.cc:55
 #, c-format
@@ -2451,59 +2523,44 @@ msgstr "В файле описания '%s' нет контрольной суммы MD5."
 msgid "Error parsing MD5Sum hash record on Release file '%s'"
 msgstr "Ошибка получения хэш записи MD5 из файла описания '%s'."
 
-#: apt-pkg/sourcelist.cc:98
-#, c-format
-msgid "Malformed line %lu in source list %s (URI)"
-msgstr "Неправильная строка %lu в списке источников %s (URI)"
-
-#: apt-pkg/sourcelist.cc:100
-#, c-format
-msgid "Malformed line %lu in source list %s (dist)"
-msgstr "Неправильная строка %lu в списке источников %s (дистрибутив)"
-
-#: apt-pkg/sourcelist.cc:103
-#, c-format
-msgid "Malformed line %lu in source list %s (URI parse)"
-msgstr "Неправильная строка %lu в списке источников %s (обработка URI)"
-
 #: apt-pkg/sourcelist.cc:109
 #, c-format
 msgid "Malformed line %lu in source list %s (Absolute dist)"
 msgstr ""
 "Неправильная строка %lu в списке источников %s (абсолютный дистрибутив)"
 
-#: apt-pkg/sourcelist.cc:119
+#: apt-pkg/sourcelist.cc:121
 #, c-format
 msgid "Malformed line %lu in source list %s (dist parse)"
 msgstr ""
 "Неправильная строка %lu в списке источников %s (обработка дистрибутива)"
 
-#: apt-pkg/sourcelist.cc:209 apt-pkg/sourcelist.cc:233
+#: apt-pkg/sourcelist.cc:211 apt-pkg/sourcelist.cc:235
 #, c-format
 msgid "Vendor block %s is invalid"
 msgstr "Неверный блок данных поставщика %s."
 
-#: apt-pkg/sourcelist.cc:317
+#: apt-pkg/sourcelist.cc:319
 #, c-format
 msgid "Line %u too long in source list %s."
 msgstr "Слишком длинная запись %u в списке источников %s."
 
-#: apt-pkg/sourcelist.cc:337
+#: apt-pkg/sourcelist.cc:339
 #, c-format
 msgid "Malformed line %u in source list %s (type)"
 msgstr "Ошибочная запись в строке %u в списке источников %s (тип источника)"
 
-#: apt-pkg/sourcelist.cc:341
+#: apt-pkg/sourcelist.cc:343
 #, c-format
 msgid "Type '%s' is not known in on line %u in source list %s"
 msgstr "Неизвестный тип '%s' в строке %u списка источников %s."
 
-#: apt-pkg/sourcelist.cc:350 apt-pkg/sourcelist.cc:353
+#: apt-pkg/sourcelist.cc:352 apt-pkg/sourcelist.cc:355
 #, c-format
 msgid "Malformed line %u in source list %s (vendor id)"
 msgstr "Неправильная строка %u в списке источников %s (ID поставщика)"
 
-#: apt-pkg/sourcelist.cc:367
+#: apt-pkg/sourcelist.cc:369
 #, c-format
 msgid "Unknown vendor ID '%s' in line %u of source list %s"
 msgstr "Неизвестный ID поставщика '%s' в строке %u списка источников %s."
@@ -2726,7 +2783,7 @@ msgstr "Время соединения с сокетом данных истекло"
 msgid "Unable to accept connection"
 msgstr "Невозможно принять соединение"
 
-#: methods/ftp.cc:868 methods/http.cc:919 methods/rsh.cc:306
+#: methods/ftp.cc:868 methods/http.cc:1036 methods/rsh.cc:306
 msgid "Problem hashing file"
 msgstr "Ошибка получения хэша файла"
 
@@ -2770,76 +2827,76 @@ msgstr "Невозможно открыть канал для %s."
 msgid "Read error from %s process"
 msgstr "Ошибка чтения из %s процесса"
 
-#: methods/http.cc:343
+#: methods/http.cc:345
 msgid "Waiting for headers"
 msgstr "Ожидаем заголовки"
 
-#: methods/http.cc:489
+#: methods/http.cc:491
 #, c-format
 msgid "Got a single header line over %u chars"
 msgstr "Получена единичная строка заголовка больше, чем %u символов"
 
-#: methods/http.cc:497
+#: methods/http.cc:499
 msgid "Bad header line"
 msgstr "Плохая строка заголовка"
 
-#: methods/http.cc:516 methods/http.cc:523
+#: methods/http.cc:518 methods/http.cc:525
 msgid "The http server sent an invalid reply header"
 msgstr "От http сервера получен неправильный ответный заголовок"
 
-#: methods/http.cc:552
+#: methods/http.cc:554
 msgid "The http server sent an invalid Content-Length header"
 msgstr "От http сервера получен неправильный Content-Length заголовок"
 
-#: methods/http.cc:567
+#: methods/http.cc:569
 msgid "The http server sent an invalid Content-Range header"
 msgstr "От http сервера получен неправильный Content-Range заголовок"
 
-#: methods/http.cc:569
+#: methods/http.cc:571
 msgid "This http server has broken range support"
 msgstr "Этот http сервер имеет неправильную поддержку диапазонов"
 
-#: methods/http.cc:593
+#: methods/http.cc:595
 msgid "Unknown date format"
 msgstr "Неизвестный формат даты"
 
-#: methods/http.cc:740
+#: methods/http.cc:767
 msgid "Select failed"
 msgstr "Выбор невозможен"
 
-#: methods/http.cc:745
+#: methods/http.cc:772
 msgid "Connection timed out"
 msgstr "Время соединение истекло"
 
-#: methods/http.cc:768
+#: methods/http.cc:795
 msgid "Error writing to output file"
 msgstr "Ошибка записи в выходной файл"
 
-#: methods/http.cc:796
+#: methods/http.cc:823
 msgid "Error writing to file"
 msgstr "Ошибка записи в файл"
 
-#: methods/http.cc:821
+#: methods/http.cc:848
 msgid "Error writing to the file"
 msgstr "Ошибка записи в файл"
 
-#: methods/http.cc:835
+#: methods/http.cc:862
 msgid "Error reading from server Remote end closed connection"
 msgstr "Ошибка чтения с сервера, удаленная сторона закрыла соединение"
 
-#: methods/http.cc:837
+#: methods/http.cc:864
 msgid "Error reading from server"
 msgstr "Ошибка чтения с сервера"
 
-#: methods/http.cc:1068
+#: methods/http.cc:1201
 msgid "Bad header Data"
 msgstr "Плохие данные заголовка"
 
-#: methods/http.cc:1085
+#: methods/http.cc:1218
 msgid "Connection failed"
 msgstr "Соединение завершилось неудачно"
 
-#: methods/http.cc:1176
+#: methods/http.cc:1349
 msgid "Internal error"
 msgstr "Внутренняя ошибка"
 
@@ -2850,48 +2907,3 @@ msgstr "Файл не найден"
 #: methods/rsh.cc:333
 msgid "Connection closed prematurely"
 msgstr "Соединение закрылось prematurely"
-
-#~ msgid "Internal error. Package %s doesn't provide %s\n"
-#~ msgstr "Внутренняя ошибка. Пакет %s не предоставляет %s\n"
-
-#~ msgid "Note, selecting %s instead of %s\n"
-#~ msgstr "Обратите внимание: пакет %s выбран вместо %s.\n"
-
-#~ msgid "Note, selecting %s for regex '%s'\n"
-#~ msgstr "Обратите внимание: %s соответствует регулярному выражению '%s'\n"
-
-#~ msgid "Release '%s' for '%s' was not found"
-#~ msgstr "Описание '%s' для '%s' не найдено."
-
-#~ msgid "Version '%s' for '%s' was not found"
-#~ msgstr "Версия '%s' для '%s' не найдена"
-
-#~ msgid "error parsing file record %s"
-#~ msgstr "ошибка обработки файловой записи %s"
-
-#~ msgid "%s %s'%s' for '%s' was not found"
-#~ msgstr "%s %s'%s' для '%s' не найден(а)"
-
-#~ msgid "Release"
-#~ msgstr "Релиз"
-
-#~ msgid "Version"
-#~ msgstr "Версия"
-
-#~ msgid "Selected %s %s (%s) for %s\n"
-#~ msgstr "Выбран(а) %s %s (%s) для %s\n"
-
-#~ msgid "release"
-#~ msgstr "релиз"
-
-#~ msgid "version"
-#~ msgstr "версия"
-
-#~ msgid "The following packages will be kept back"
-#~ msgstr "Следующие пакеты будут СОХРАНЕНЫ:"
-
-#~ msgid "The list of sources from %s could not be read."
-#~ msgstr "Невозможно прочитать список источников из %s."
-
-#~ msgid "Collecting File Provides"
-#~ msgstr "Создание списка имён"
