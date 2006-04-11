@@ -312,7 +312,7 @@ void ShowBroken(ostream &out,CacheFile &Cache,bool Now,pkgDepCache::State *State
       
       // Print out each package and the failed dependencies
       out <<"  " <<  I.Name() << ":";
-      unsigned Indent = strlen(I.Name()) + 3;
+      size_t Indent = strlen(I.Name()) + 3;
       bool First = true;
       pkgCache::VerIterator Ver;
       
@@ -366,7 +366,7 @@ void ShowBroken(ostream &out,CacheFile &Cache,bool Now,pkgDepCache::State *State
 
 	    if (FirstOr == false)
 	    {
-	       for (unsigned J = 0; J != strlen(End.DepType()) + 3; J++)
+	       for (size_t J = 0; J != strlen(End.DepType()) + 3; J++)
 		  out << ' ';
 	    }
 	    else
@@ -1292,7 +1292,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
 	 // Check if it's a different version of a package already
 	 // considered as a good solution.
 	 bool AlreadySeen = false;
-	 for (int i = 0; i != GoodSolutions.size(); i++)
+	 for (vector<pkgCache::Package *>::size_type i = 0; i != GoodSolutions.size(); i++)
 	 {
 	    pkgCache::PkgIterator GoodPkg(Cache, GoodSolutions[i]);
 	    if (PrvPkg == GoodPkg)
@@ -1328,7 +1328,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
 	 }
       }
       vector<string> GoodSolutionNames;
-      for (int i = 0; i != GoodSolutions.size(); i++)
+      for (vector<string>::size_type i = 0; i != GoodSolutions.size(); i++)
       {
 	 pkgCache::PkgIterator GoodPkg(Cache, GoodSolutions[i]);
 	 GoodSolutionNames.push_back(GoodPkg.Name());
@@ -1377,7 +1377,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
       {
 	 ioprintf(c1out,_("Package %s is a virtual package provided by:\n"),
 		  Pkg.Name());
-	 for (int i = 0; i != GoodSolutions.size(); i++)
+	 for (vector<pkgCache::Package *>::size_type i = 0; i != GoodSolutions.size(); i++)
 	 {
 	    pkgCache::PkgIterator GoodPkg(Cache, GoodSolutions[i]);
 	    if (GoodPkg.CurrentVer().end() == false)
@@ -1901,7 +1901,7 @@ bool DoInstall(CommandLine &CmdL)
    for (const char **I = CmdL.FileList + 1; *I != 0; I++)
    {
       // Duplicate the string
-      unsigned int Length = strlen(*I);
+      size_t Length = strlen(*I);
       char S[300];
       if (Length >= sizeof(S))
 	 continue;
@@ -3510,8 +3510,8 @@ bool DoList(CommandLine &CmdL)
 
    const char *PkgName;
    int Matches[Cache->Head().PackageCount];
-   int NumMatches = 0;
-   int Len, NameMaxLen = 0, VerMaxLen = 0;
+   unsigned int NumMatches = 0;
+   size_t Len, NameMaxLen = 0, VerMaxLen = 0;
    bool Matched;
    for (unsigned int J = 0; J < Cache->Head().PackageCount; J++)
    {
@@ -3553,9 +3553,9 @@ bool DoList(CommandLine &CmdL)
       const char *NameLabel = _("Name");
       const char *InstalledLabel = _("Installed");
       const char *CandidateLabel = _("Candidate");
-      int NameLen = strlen(NameLabel);
-      int InstalledLen = strlen(InstalledLabel);
-      int CandidateLen = strlen(CandidateLabel);
+      size_t NameLen = strlen(NameLabel);
+      size_t InstalledLen = strlen(InstalledLabel);
+      size_t CandidateLen = strlen(CandidateLabel);
 
       unsigned int FirstColumn = NameMaxLen+2;
       if (FirstColumn < NameLen+2)
@@ -3585,7 +3585,7 @@ bool DoList(CommandLine &CmdL)
 	    << Bar+(ScreenWidth-CandidateLen) << endl;
 
       const char *Str;
-      int StrLen;
+      size_t StrLen;
       for (unsigned int K = 0; K != NumMatches; K++) {
 	 pkgCache::PkgIterator Pkg(Cache,Cache.List[Matches[K]]);
 	 Str = Pkg.Name();
@@ -3629,7 +3629,7 @@ bool DoList(CommandLine &CmdL)
       Blank[ColumnLen] = 0;
 
       const char *Str;
-      int StrLen;
+      size_t StrLen;
       unsigned int K;
       for (unsigned int Line = 0; Line != NumLines; Line++) {
 	 for (unsigned int Entry = 0; Entry != PerLine; Entry++) {
@@ -4089,7 +4089,7 @@ char *ReadLineCompCommands(const char *Text, int State)
 	 "showpkg", "unmet", "search", "depends", "whatdepends", "rdepends",
 	 "show", "script", 0};
    static int Last;
-   static int Len;
+   static size_t Len;
    if (State == 0) {
       Last = 0;
       Len = strlen(Text);
@@ -4108,7 +4108,7 @@ char *ReadLineCompPackages(const char *Text, int State)
 {
    CacheFile &Cache = *GCache;
    static pkgCache::PkgIterator Pkg;
-   static int Len;
+   static size_t Len;
    if (State == 0) {
       Pkg = Cache->PkgBegin();
       Len = strlen(Text);
@@ -4464,7 +4464,7 @@ int main(int argc,const char *argv[])
 			 _lua->HasScripts("Scripts::AptCache::Command"));
 #endif
 
-   int largc;
+   size_t largc;
    const char *largv[1024];
    char *line, *p, *q;
    largv[0] = "";

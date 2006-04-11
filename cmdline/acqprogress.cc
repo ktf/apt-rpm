@@ -238,8 +238,8 @@ bool AcqTextStatus::Pulse(pkgAcquire *Owner)
       char Tmp[300];
       unsigned long ETA = (unsigned long)((TotalBytes - CurrentBytes)/CurrentCPS);
       sprintf(Tmp," %sB/s %s",SizeToStr(CurrentCPS).c_str(),TimeToStr(ETA).c_str());
-      unsigned int Len = strlen(Buffer);
-      unsigned int LenT = strlen(Tmp);
+      size_t Len = strlen(Buffer);
+      size_t LenT = strlen(Tmp);
       if (Len + LenT < ScreenWidth)
       {	 
 	 memset(Buffer + Len,' ',ScreenWidth - Len);

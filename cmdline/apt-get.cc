@@ -290,7 +290,7 @@ void ShowBroken(ostream &out,CacheFile &Cache,bool Now)
       
       // Print out each package and the failed dependencies
       out <<"  " <<  I.Name() << ":";
-      unsigned Indent = strlen(I.Name()) + 3;
+      size_t Indent = strlen(I.Name()) + 3;
       bool First = true;
       pkgCache::VerIterator Ver;
       
@@ -344,7 +344,7 @@ void ShowBroken(ostream &out,CacheFile &Cache,bool Now)
 
 	    if (FirstOr == false)
 	    {
-	       for (unsigned J = 0; J != strlen(End.DepType()) + 3; J++)
+	       for (size_t J = 0; J != strlen(End.DepType()) + 3; J++)
 		  out << ' ';
 	    }
 	    else
@@ -1828,7 +1828,7 @@ bool DoInstall(CommandLine &CmdL)
    for (const char **I = CmdL.FileList + 1; *I != 0; I++)
    {
       // Duplicate the string
-      unsigned int Length = strlen(*I);
+      size_t Length = strlen(*I);
       char S[300];
       if (Length >= sizeof(S))
 	 continue;
@@ -2455,7 +2455,7 @@ bool DoSource(CommandLine &CmdL)
    for (const char **I = CmdL.FileList + 1; *I != 0; I++, J++)
    {
       // CNC:2004-09-23 - Try to handle unknown file items.
-      unsigned int Length = strlen(*I);
+      size_t Length = strlen(*I);
       char S[300];
       if (Length >= sizeof(S))
         continue;

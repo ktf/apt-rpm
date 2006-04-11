@@ -543,7 +543,7 @@ int stringcasecmp(string::const_iterator A,string::const_iterator AEnd,
 string LookupTag(string Message,const char *Tag,const char *Default)
 {
    // Look for a matching tag.
-   int Length = strlen(Tag);
+   size_t Length = strlen(Tag);
    for (string::iterator I = Message.begin(); I + Length < Message.end(); I++)
    {
       // Found the tag

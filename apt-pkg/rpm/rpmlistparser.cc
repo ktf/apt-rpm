@@ -265,7 +265,7 @@ unsigned short rpmListParser::VersionHash()
       pkgCache::Dep::Obsoletes,
    };
    
-   for (int i = 0; i < sizeof(DepSections)/sizeof(int); i++) {
+   for (size_t i = 0; i < sizeof(DepSections)/sizeof(int); i++) {
       vector<Dependency*> Deps;
       if (Handler->Depends(DepSections[i], Deps) == false) continue;
 
