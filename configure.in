@@ -1,12 +1,12 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.54)
+AC_PREREQ(2.59)
 AC_INIT([apt],[0.5.15lorg3])
 dnl Check the archs, we want the target type.
 AC_CONFIG_AUX_DIR([buildlib])
 AC_CANONICAL_HOST
 AC_CONFIG_SRCDIR([configure.in])
-AM_INIT_AUTOMAKE([foreign subdir-objects dist-bzip2 1.7])
+AM_INIT_AUTOMAKE([foreign subdir-objects dist-bzip2 1.9.5])
 AM_MAINTAINER_MODE
 
 AC_CONFIG_HEADER([include/config.h:buildlib/config.h.in])
@@ -254,7 +254,7 @@ AC_CONFIG_COMMANDS([fixintl],[
 	mv -f intl/Makefile{.tmp,}
 ])
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 	  Makefile
 	  buildlib/Makefile
 	  intl/Makefile 
@@ -264,6 +264,6 @@ AC_OUTPUT([
 	  cmdline/Makefile
 	  tools/Makefile
 	  doc/Makefile
-	  m4/Makefile 
 	  po/Makefile.in
 	  ])
+AC_OUTPUT
