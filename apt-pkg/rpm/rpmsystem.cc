@@ -592,10 +592,12 @@ static void HashOptionFile(unsigned long &Hash, const char *Name)
    Hash += st.st_mtime;
 }
 
+#if RPM_VERSION >= 0x040404
 static void HashTime(unsigned long &Hash)
 {
    Hash += time(NULL);
 }
+#endif
 
 unsigned long rpmSystem::OptionsHash() const
 {

@@ -909,7 +909,7 @@ error:
 
 bool RPMRepomdHandler::Skip()
 {
-   if (iOffset >= iSize-1) {
+   if (iOffset + 1 >= iSize) {
       return false;
    }
    iOffset++;
@@ -922,7 +922,7 @@ bool RPMRepomdHandler::Skip()
 
 bool RPMRepomdHandler::Jump(unsigned int Offset)
 {
-   if (Offset > iSize-1) {
+   if (Offset >= iSize) {
       return false;
    }
    iOffset = Offset;
