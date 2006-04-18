@@ -21,6 +21,7 @@
 #include <apt-pkg/tagfile.h>
 #include <apt-pkg/configuration.h>
 #include <apt-pkg/rpmhandler.h>
+#include <config.h>
 
 #include "cached_md5.h"
 

@@ -18,8 +18,6 @@
 #include <rpm/rpmlib.h>
 #include <rpm/rpmmacro.h>
 
-#include <config.h>
-
 #include <vector>
 
 // Our Extra RPM tags. These should not be accessed directly. Use
