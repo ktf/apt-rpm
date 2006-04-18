@@ -704,12 +704,12 @@ unsigned long rpmRepomdIndex::Size() const
 			  XML_PARSE_NONET|XML_PARSE_NOBLANKS);
    if (Index == NULL) return 0;
 
-   if (xmlTextReaderRead(Index) == 0) {
-      Res = 0;
-   } else {
+   if (xmlTextReaderRead(Index) == 1) {
       xmlChar *pkgs = xmlTextReaderGetAttribute(Index, (xmlChar*)"packages");
       Res = atoi((char*)pkgs);
       xmlFree(pkgs);
+   } else {
+      Res = 0;
    }
    xmlFreeTextReader(Index);
    return Res;
