@@ -17,6 +17,8 @@
 
 #ifdef HAVE_RPM
 
+#include <cassert>
+
 #include <apt-pkg/rpmindexfile.h>
 #include <apt-pkg/rpmsrcrecords.h>
 #include <apt-pkg/rpmlistparser.h>
@@ -581,14 +583,19 @@ pkgCache::PkgFileIterator rpmRepomdIndex::FindInCache(pkgCache &Cache) const
 }
 string rpmRepomdIndex::ReleaseURI(string Type) const
 {
-   string Res;
-   Res = URI + Dist + "/repodata/" + "repomd.xml";
+   string Res = URI + Dist;
+   assert( Res.size() > 0 );
+   if ( Res[Res.size() - 1] != '/' )
+     Res += '/';
+   Res += "repodata/";
+   Res += "repomd.xml";
    return Res;
 }
 
 string rpmRepomdIndex::ReleaseInfo(string Type) const
 {
    string Info = ::URI::SiteOnly(URI) + ' ';
+   assert( Dist.size() > 0 );
    if (Dist[Dist.size() - 1] == '/')
    {
       if (Dist != "/")
@@ -604,6 +611,7 @@ string rpmRepomdIndex::ReleaseInfo(string Type) const
 string rpmRepomdIndex::Info(string Type) const 
 {
    string Info = ::URI::SiteOnly(URI) + ' ';
+   assert( Dist.size() > 0 );
    if (Dist[Dist.size() - 1] == '/')
    {
       if (Dist != "/")
@@ -619,6 +627,7 @@ string rpmRepomdIndex::Info(string Type) const
 string rpmRepomdIndex::IndexURI(string Type) const
 {
    string Res = URI + Dist;
+   assert( Dist.size() > 0 );
    if (Dist[Dist.size() - 1] != '/') {
 	 Res += "/";
    }
