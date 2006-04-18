@@ -692,12 +692,26 @@ string rpmRepomdIndex::ReleasePath() const
    return _config->FindDir("Dir::State::lists")+URItoFileName(ReleaseURI("release.xml"));
 }
 
+// This gets called several times per each index during cache generation,
+// only for progress percentage reporting. A rough estimate would do just
+// fine but using xmlReader appears to be cheap enough. OTOH creating a new 
+// handler like is done for rpmPkgDirIndex is hideously expensive.
 unsigned long rpmRepomdIndex::Size() const
 {
-   // ugh.. all this just to get the package count ;(
-   RPMHandler *Handler = CreateHandler();
-   unsigned long Res = Handler->Size();
-   delete Handler;
+   xmlTextReaderPtr Index;
+   unsigned long Res;
+   Index = xmlReaderForFile(IndexPath().c_str(), NULL,
+			  XML_PARSE_NONET|XML_PARSE_NOBLANKS);
+   if (Index == NULL) return 0;
+
+   if (xmlTextReaderRead(Index) == 0) {
+      Res = 0;
+   } else {
+      xmlChar *pkgs = xmlTextReaderGetAttribute(Index, (xmlChar*)"packages");
+      Res = atoi((char*)pkgs);
+      xmlFree(pkgs);
+   }
+   xmlFreeTextReader(Index);
    return Res;
 }
 

@@ -894,7 +894,9 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
       Pkgs.push_back(n);
       pkgcount++;
    }
-   NodeP = Pkgs[0];
+   if (iSize > 0) {
+      NodeP = Pkgs[0];
+   }
 
    return;
 
@@ -934,7 +936,9 @@ bool RPMRepomdHandler::Jump(unsigned int Offset)
 void RPMRepomdHandler::Rewind()
 {
    iOffset = 0;
-   NodeP = Pkgs[0];
+   if (iSize > 0) {
+      NodeP = Pkgs[0];
+   }
 }
 
 xmlNode *RPMRepomdHandler::FindNode(const string Name)
