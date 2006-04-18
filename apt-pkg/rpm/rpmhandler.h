@@ -183,6 +183,9 @@ class RPMDBHandler : public RPMHandler
    virtual time_t Mtime() {return DbFileMtime;}
    virtual bool OrderedOffset() {return false;};
 
+   // used by rpmSystem::DistroVer()
+   bool JumpByName(string PkgName);
+
    RPMDBHandler(bool WriteLock=false);
    virtual ~RPMDBHandler();
 };

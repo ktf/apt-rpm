@@ -829,6 +829,20 @@ bool RPMDBHandler::Jump(unsigned int Offset)
    return true;
 }
 
+bool RPMDBHandler::JumpByName(string PkgName)
+{
+   if (RpmIter == NULL) return false;
+   rpmdbFreeIterator(RpmIter);
+#if RPM_VERSION >= 0x040100
+   RpmIter = rpmtsInitIterator(Handler, (rpmTag)RPMDBI_LABEL, PkgName.c_str(), 0);
+#else
+   RpmIter = rpmdbInitIterator(Handler, RPMDBI_LABEL, PkgName.c_str(), 0);
+#endif
+
+   HeaderP = rpmdbNextIterator(RpmIter);
+   return (HeaderP != NULL);
+}
+
 void RPMDBHandler::Rewind()
 {
 #if RPM_VERSION >= 0x040000

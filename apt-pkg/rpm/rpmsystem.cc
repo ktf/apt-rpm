@@ -246,52 +246,20 @@ signed rpmSystem::Score(Configuration const &Cnf)
    return Score;
 }
 
-string rpmSystem::DistroVer(Configuration const &Cnf)
+string rpmSystem::DistroVer()
 {
-   string DistroVerPkg = _config->Find("Apt::DistroVerPkg");
-   string DistroVersion;
+   string DistroVerPkg = _config->Find("APT::DistroVerPkg", "");
+   if (DistroVerPkg.empty() || LockRead() == false)
+      return "";
 
-   if (DistroVerPkg.empty())
-      return DistroVersion;
-
-#if RPM_VERSION >= 0x040100
-   rpmts ts;
-   ts = rpmtsCreate();
-   rpmtsSetVSFlags(ts, (rpmVSFlags_e)-1);
-   rpmtsSetRootDir(ts, NULL);
-   if (rpmtsOpenDB(ts, O_RDONLY))
-      return DistroVersion;
-#else
-   rpmdb DB;
-   string RootDir = _config->Find("RPM::RootDir");
-   const char *RootDirStr = RootDir.empty() ? NULL : RootDir.c_str();
-   if (rpmdbOpen(RootDirStr, &DB, O_RDONLY, 0644))
-      return DistroVersion;
-#endif
-
-   rpmdbMatchIterator iter;
-#if RPM_VERSION >= 0x040100
-   iter = rpmtsInitIterator(ts, (rpmTag)RPMDBI_LABEL, DistroVerPkg.c_str(), 0);
-#else
-   iter = rpmdbInitIterator(DB, RPMDBI_LABEL, DistroVerPkg.c_str(), 0);
-#endif
-   Header hdr;
-   while ((hdr = rpmdbNextIterator(iter)) != NULL) {
-      void *version;
-      int type, count;
-
-      if (headerGetEntry(hdr, RPMTAG_VERSION, &type, &version, &count)) {
-         DistroVersion = (char *)version;
-         headerFreeData(&version, (rpmTagType)type);
-         break;
-      }
+   string DistroVersion = "";
+   if (RpmDB->JumpByName(DistroVerPkg) == true) {
+      DistroVersion = RpmDB->Version();
+   } else {
+      _error->Error(_("Unable to determine version for package %s"),
+		      DistroVerPkg.c_str());
    }
-   rpmdbFreeIterator(iter);
-#if RPM_VERSION >= 0x040100
-   rpmtsFree(ts);
-#else
-   rpmdbClose(DB);
-#endif
+   UnLock(true);
 
    return DistroVersion;
 }

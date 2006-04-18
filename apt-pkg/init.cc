@@ -157,13 +157,11 @@ bool pkgInitSystem(Configuration &Cnf,pkgSystem *&Sys)
 	 return _error->Error(_("Unable to determine a suitable system type"));
    }
 
-   // LORG:2006-02-06
-   if (Cnf.Find("APT::DistroVersion", "").empty()) {
-   	Cnf.Set("APT::DistroVersion", Sys->DistroVer(Cnf));
-   }
-
    // CNC:2003-03-15
    bool Ret = Sys->Initialize(Cnf);
+   // LORG:2006-02-06
+   Cnf.CndSet("APT::DistroVersion", Sys->DistroVer());
+
 #ifdef WITH_LUA
    _lua->RunScripts("Scripts::Init");
 #endif
