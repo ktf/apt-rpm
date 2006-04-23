@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-11 19:16+0200\n"
+"POT-Creation-Date: 2006-04-23 08:48+0300\n"
 "PO-Revision-Date: 2001-01-11 15:40-02:00\n"
 "Last-Translator: Jorge Carrasquilla Soares <jorge@conectiva.com.br>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1619,71 +1619,71 @@ msgstr "no se pudo abrir índice hash"
 msgid "could not create RPM database iterator"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:866
+#: apt-pkg/rpm/rpmhandler.cc:880
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Imposible analizar el paquete %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:870
+#: apt-pkg/rpm/rpmhandler.cc:884
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "No se encontró el paquete %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:879
+#: apt-pkg/rpm/rpmhandler.cc:893
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Falló al abrir %s.new"
 
-#: apt-pkg/rpm/rpmindexfile.cc:374 apt-pkg/rpm/rpmindexfile.cc:705
+#: apt-pkg/rpm/rpmindexfile.cc:376 apt-pkg/rpm/rpmindexfile.cc:728
 #, c-format
 msgid "Problem with SelectFile %s"
 msgstr "Problema con SelectFile %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:383 apt-pkg/rpm/rpmindexfile.cc:714
-#: apt-pkg/rpm/rpmindexfile.cc:830
+#: apt-pkg/rpm/rpmindexfile.cc:385 apt-pkg/rpm/rpmindexfile.cc:737
+#: apt-pkg/rpm/rpmindexfile.cc:853
 #, fuzzy, c-format
 msgid "Failed to stat %s"
 msgstr "Falló en la carga "
 
-#: apt-pkg/rpm/rpmindexfile.cc:392 apt-pkg/rpm/rpmindexfile.cc:428
-#: apt-pkg/rpm/rpmindexfile.cc:723 apt-pkg/rpm/rpmindexfile.cc:752
+#: apt-pkg/rpm/rpmindexfile.cc:394 apt-pkg/rpm/rpmindexfile.cc:430
+#: apt-pkg/rpm/rpmindexfile.cc:746 apt-pkg/rpm/rpmindexfile.cc:775
 #, c-format
 msgid "Problem opening %s"
 msgstr "Problema al abrir %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:398 apt-pkg/rpm/rpmindexfile.cc:729
-#: apt-pkg/rpm/rpmindexfile.cc:835
+#: apt-pkg/rpm/rpmindexfile.cc:400 apt-pkg/rpm/rpmindexfile.cc:752
+#: apt-pkg/rpm/rpmindexfile.cc:858
 #, c-format
 msgid "Problem with MergeList %s"
 msgstr "Problema con MergeList %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:433 apt-pkg/rpm/rpmindexfile.cc:757
-#: apt-pkg/rpm/rpmindexfile.cc:853
+#: apt-pkg/rpm/rpmindexfile.cc:435 apt-pkg/rpm/rpmindexfile.cc:780
+#: apt-pkg/rpm/rpmindexfile.cc:876
 #, fuzzy, c-format
 msgid "Problem with MergeFileProvides %s"
 msgstr "Problema con MergeList %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:820 apt-pkg/rpm/rpmindexfile.cc:849
+#: apt-pkg/rpm/rpmindexfile.cc:843 apt-pkg/rpm/rpmindexfile.cc:872
 #, fuzzy
 msgid "Problem opening RPM database"
 msgstr "Problema al abrir %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:824
+#: apt-pkg/rpm/rpmindexfile.cc:847
 #, fuzzy
 msgid "Problem with SelectFile RPM Database"
 msgstr "Problema con SelectFile %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1056 apt-pkg/sourcelist.cc:98
+#: apt-pkg/rpm/rpmindexfile.cc:1079 apt-pkg/sourcelist.cc:98
 #, fuzzy, c-format
 msgid "Malformed line %lu in source list %s (URI)"
 msgstr "Línea %u equivocada en la lista fuente %s (URI)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1058 apt-pkg/sourcelist.cc:100
+#: apt-pkg/rpm/rpmindexfile.cc:1081 apt-pkg/sourcelist.cc:100
 #, fuzzy, c-format
 msgid "Malformed line %lu in source list %s (dist)"
 msgstr "Línea %u equivocada en la lista fuente %s (dist)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1061 apt-pkg/sourcelist.cc:103
+#: apt-pkg/rpm/rpmindexfile.cc:1084 apt-pkg/sourcelist.cc:103
 #, fuzzy, c-format
 msgid "Malformed line %lu in source list %s (URI parse)"
 msgstr "Línea %u equivocada en la lista fuente %s (URI)"
@@ -1836,7 +1836,12 @@ msgstr "Error ocurrido al procesar %s (NewVersion1)"
 msgid "Could not allocate buffer for record text"
 msgstr "No se pudo esperar al subproceso"
 
-#: apt-pkg/rpm/rpmsystem.cc:470 apt-pkg/pkgcachegen.cc:717
+#: apt-pkg/rpm/rpmsystem.cc:259
+#, fuzzy, c-format
+msgid "Unable to determine version for package %s"
+msgstr "Imposible minimizar el grupo de actualización"
+
+#: apt-pkg/rpm/rpmsystem.cc:438 apt-pkg/pkgcachegen.cc:717
 #: apt-pkg/pkgcachegen.cc:744 apt-pkg/pkgcachegen.cc:786
 #: apt-pkg/pkgcachegen.cc:791 apt-pkg/pkgcachegen.cc:995
 msgid "Reading Package Lists"
