@@ -1107,6 +1107,12 @@ unsigned long RPMRepomdHandler::InstalledSize()
    return size;
 }
 
+string RPMRepomdHandler::SourceRpm()
+{
+   xmlNode *n = FindNode("format");
+   return FindTag(n, "sourcerpm");
+}
+
 bool RPMRepomdHandler::HasFile(const char *File)
 {
    if (*File == '\0')

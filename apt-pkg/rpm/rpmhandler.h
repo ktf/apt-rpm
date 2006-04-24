@@ -93,6 +93,7 @@ class RPMHandler
    virtual string Summary() {return GetSTag(RPMTAG_SUMMARY);};
    virtual string Description() {return GetSTag(RPMTAG_DESCRIPTION);};
    virtual unsigned long InstalledSize() {return GetITag(RPMTAG_SIZE);};
+   virtual string SourceRpm() {return GetSTag(RPMTAG_SOURCERPM);};
 
    bool InternalDep(const char *name, const char *ver, int_32 flag);
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
@@ -263,6 +264,7 @@ class RPMRepomdHandler : public RPMHandler
    virtual string Vendor();
    virtual string Summary() {return FindTag(NodeP, "summary");};
    virtual string Description() {return FindTag(NodeP, "description");};
+   virtual string SourceRpm();
 
    virtual bool HasFile(const char *File);
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);

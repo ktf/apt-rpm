@@ -133,7 +133,25 @@ string rpmRecordParser::SourcePkg()
 {
    // This must be the *package* name, not the *file* name. We have no
    // current way to extract it safely from the file name.
-   return "";
+
+// A wild guess, hopefully covering most cases:
+// Check for string "-$(version)-$(release)." in string srpm
+   string srpm = Handler->SourceRpm();
+   string versarch = "-" + Handler->Version() + "-" + Handler->Release() + ".";
+   string::size_type idx1 = srpm.find(versarch);
+
+// not found
+   if ( idx1 < 0 )
+     return "";
+
+// check if the first dot in "srpm" is the dot at the end of versarch
+   string::size_type idx2 = srpm.find('.');
+
+   if ( idx2 < idx1 )
+// no, the packager is playing dirty tricks with srpm names
+     return "";
+
+   return srpm.substr(0,idx1);
 }
 									/*}}}*/
 
