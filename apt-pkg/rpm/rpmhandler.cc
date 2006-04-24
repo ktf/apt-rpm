@@ -912,6 +912,13 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
       NodeP = Pkgs[0];
    }
 
+   // There seem to be broken version(s) of createrepo around which report
+   // to have one more package than is in the repository. Warn and work around.
+   if (iSize != pkgcount) {
+      _error->Warning(_("Inconsistent metadata, package count doesn't match in %s"), File.c_str());
+      iSize = pkgcount;
+   }
+
    return;
 
 error:
