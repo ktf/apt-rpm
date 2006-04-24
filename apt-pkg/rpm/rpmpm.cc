@@ -259,23 +259,25 @@ bool pkgRPMPM::Go()
    
    for (vector<Item>::iterator I = List.begin(); I != List.end(); I++)
    {
+      string Name = I->Pkg.Name();
+      string Arch = I->Pkg.CurrentVer().Arch();
+      string RealName = Name;
+      string::size_type loc;
+
       switch (I->Op)
       {
       case Item::Purge:
       case Item::Remove:
-	 if (strchr(I->Pkg.Name(), '#') != NULL)
-	 {
-	    char *name = strdup(I->Pkg.Name());
-	    char *p = strchr(name, '#');
-	    *(p++) = '-';
-	    const char *epoch = strchr(p, ':');
-	    if (epoch != NULL)
-	       memmove(p, epoch+1, strlen(epoch+1)+1);
-	    unalloc.push_back(name);
-	    uninstall.push_back(name);
+	 // Unmunge our package names so rpm can find them...
+	 if ((loc = Name.rfind(".32bit", Name.length())) != string::npos) {
+	    RealName = Name.substr(0,loc) + "." + Arch;
+	 } else if ((loc = Name.rfind("#", Name.length())) != string::npos) {
+	    RealName = Name.substr(0,loc) + "-" + I->Pkg.CurrentVer().VerStr() + "." + Arch;
+	 } else {
+	    RealName = Name + "." + Arch;
 	 }
-	 else
-	    uninstall.push_back(I->Pkg.Name());
+	 uninstall.push_back(strdup(RealName.c_str()));
+	 unalloc.push_back(strdup(RealName.c_str()));
 	 pkgs_uninstall.push_back(I->Pkg);
 	 break;
 
@@ -283,12 +285,11 @@ bool pkgRPMPM::Go()
 	 break;
 
        case Item::Install:
-	 if (strchr(I->Pkg.Name(), '#') != NULL) {
-	    char *name = strdup(I->Pkg.Name());
-	    char *p = strchr(name, '#');
-	    *p = 0;
-	    PkgIterator Pkg = Cache.FindPkg(name);
-	    free(name);
+	 if ((loc = Name.rfind("#", Name.length())) != string::npos) {
+	    RealName = Name.substr(0,loc);
+	 } 
+	 if (Name != RealName) {
+	    PkgIterator Pkg = Cache.FindPkg(RealName);
 	    PrvIterator Prv = Pkg.ProvidesList();
 	    bool Installed = false;
 	    for (; Prv.end() == false; Prv++) {
