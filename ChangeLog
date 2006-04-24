@@ -1,0 +1,413 @@
+------------------------------------------------------------------------
+r126 | pmatilai | 2006-04-24 10:07:55 +0300 (Mon, 24 Apr 2006) | 3 lines
+
+- work around broken createrepo version(s) reporting more packages in the
+  repository than there are in reality
+
+------------------------------------------------------------------------
+r124 | pmatilai | 2006-04-23 08:59:23 +0300 (Sun, 23 Apr 2006) | 2 lines
+
+- update translations
+
+------------------------------------------------------------------------
+r123 | pmatilai | 2006-04-19 00:56:41 +0300 (Wed, 19 Apr 2006) | 3 lines
+
+- return 1, not 0 from luaopen_init() in case somebody happens to check 
+  the return value some day
+
+------------------------------------------------------------------------
+r122 | pmatilai | 2006-04-19 00:48:22 +0300 (Wed, 19 Apr 2006) | 2 lines
+
+- remove unused private include from rpmhandler.h (RH bugzilla #157734)
+
+------------------------------------------------------------------------
+r121 | pmatilai | 2006-04-19 00:33:34 +0300 (Wed, 19 Apr 2006) | 4 lines
+
+- add method to find a package by name from rpmdb
+- use rpmdb handler methods for getting to distroverpkg
+- clean up the logic for setting distroversion
+
+------------------------------------------------------------------------
+r120 | pmatilai | 2006-04-18 23:10:11 +0300 (Tue, 18 Apr 2006) | 2 lines
+
+- xmlTextReaderRead() can fail with non-zero values as well
+
+------------------------------------------------------------------------
+r119 | pmatilai | 2006-04-18 22:28:48 +0300 (Tue, 18 Apr 2006) | 3 lines
+
+- optimize rpmRepomdIndex::Size() shaving circa 30% from cache generation time
+- avoid segfaulting on empty repositories
+
+------------------------------------------------------------------------
+r118 | pmatilai | 2006-04-18 10:26:05 +0300 (Tue, 18 Apr 2006) | 2 lines
+
+- correctly handle trailing slash for repomd ReleaseURI (Ralf)
+
+------------------------------------------------------------------------
+r117 | pmatilai | 2006-04-13 08:40:33 +0300 (Thu, 13 Apr 2006) | 2 lines
+
+- updated german translation (Ralf)
+
+------------------------------------------------------------------------
+r116 | pmatilai | 2006-04-13 08:39:34 +0300 (Thu, 13 Apr 2006) | 4 lines
+
+- patch from Ralf:
+  - avoid unused function warning with rpm < 4.4.3
+  - avoid unsigned int wraparound with empty repositories
+
+------------------------------------------------------------------------
+r115 | pmatilai | 2006-04-12 22:53:56 +0300 (Wed, 12 Apr 2006) | 2 lines
+
+- remove leftover cvs-cruft
+
+------------------------------------------------------------------------
+r114 | pmatilai | 2006-04-12 22:51:11 +0300 (Wed, 12 Apr 2006) | 2 lines
+
+- remove the empty Makefile.* from previous commit, duh
+
+------------------------------------------------------------------------
+r113 | pmatilai | 2006-04-12 22:49:40 +0300 (Wed, 12 Apr 2006) | 2 lines
+
+- auto*foo fixes (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r112 | pmatilai | 2006-04-12 09:22:17 +0300 (Wed, 12 Apr 2006) | 2 lines
+
+- more i18n cleanups (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r111 | pmatilai | 2006-04-11 18:12:48 +0300 (Tue, 11 Apr 2006) | 2 lines
+
+- i18n cleanup (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r110 | pmatilai | 2006-04-11 18:12:01 +0300 (Tue, 11 Apr 2006) | 2 lines
+
+- convert several private uses of unsigned int etc to size_t  (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r109 | pmatilai | 2006-04-10 23:40:51 +0300 (Mon, 10 Apr 2006) | 2 lines
+
+- add preserve-conf script to contrib
+
+------------------------------------------------------------------------
+r108 | pmatilai | 2006-04-09 12:03:53 +0300 (Sun, 09 Apr 2006) | 2 lines
+
+- update sources.list to document the types we support these days
+
+------------------------------------------------------------------------
+r107 | pmatilai | 2006-04-09 10:06:45 +0300 (Sun, 09 Apr 2006) | 4 lines
+
+- trim out conectiva-specific stuff from rpmpriorities, modernize a bit
+- refer to /var/lib/apt instead of /var/state/apt in documentation (Philipp 
+  Thomas ?)
+
+------------------------------------------------------------------------
+r106 | pmatilai | 2006-04-09 09:38:01 +0300 (Sun, 09 Apr 2006) | 2 lines
+
+- add ppc64 to archtable (Philipp Thomas ?)
+
+------------------------------------------------------------------------
+r105 | pmatilai | 2006-04-08 21:30:32 +0300 (Sat, 08 Apr 2006) | 4 lines
+
+- implement and use generic VersionHash() method in rpmlistparser instead
+  of handler-specific hashes
+- show architecture in addition to version in apt-cache showpkg versions list 
+
+------------------------------------------------------------------------
+r104 | pmatilai | 2006-04-07 19:43:08 +0300 (Fri, 07 Apr 2006) | 3 lines
+
+- some error handling + sanity checks for repomd parsing
+- clean up debugging junk
+
+------------------------------------------------------------------------
+r103 | pmatilai | 2006-04-07 15:50:51 +0300 (Fri, 07 Apr 2006) | 3 lines
+
+- Oops... versionless dependencies were not entered into depcache at all, 
+  small miracle *anything* worked before
+
+------------------------------------------------------------------------
+r102 | pmatilai | 2006-04-07 15:39:44 +0300 (Fri, 07 Apr 2006) | 2 lines
+
+- revert the tweak, real issue was elsewhere...
+
+------------------------------------------------------------------------
+r101 | pmatilai | 2006-04-07 12:16:29 +0300 (Fri, 07 Apr 2006) | 4 lines
+
+- experimental tweak to the upgrade algorithm to make apt not favor installed
+  package versions over others in case of conflicts, this *seems* to have fixed
+  the "resolve generated breaks" errors on fc4 -> fc5 upgrade
+
+------------------------------------------------------------------------
+r100 | pmatilai | 2006-04-07 00:20:35 +0300 (Fri, 07 Apr 2006) | 3 lines
+
+- ignore md5sums for source packages for now, the md5 vs sha1 sum issue
+  in various places needs fixing for real sooner or later though
+
+------------------------------------------------------------------------
+r99 | pmatilai | 2006-04-06 17:59:30 +0300 (Thu, 06 Apr 2006) | 3 lines
+
+- add EVR() method for rpmhandler instead of having the same algorithm in
+  four different places
+
+------------------------------------------------------------------------
+r98 | pmatilai | 2006-04-06 17:28:22 +0300 (Thu, 06 Apr 2006) | 2 lines
+
+- resurrect source operations for repomd repositories
+
+------------------------------------------------------------------------
+r97 | pmatilai | 2006-04-05 19:34:49 +0300 (Wed, 05 Apr 2006) | 2 lines
+
+- use strlen() instead of sizeof() for determining string sizes (Ralf)
+
+------------------------------------------------------------------------
+r96 | pmatilai | 2006-04-05 15:18:59 +0300 (Wed, 05 Apr 2006) | 2 lines
+
+- Avoid printing the first entry on deplist lists twice (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r95 | pmatilai | 2006-04-05 12:19:02 +0300 (Wed, 05 Apr 2006) | 2 lines
+
+- fix various issues with distroverpkg (Dmitry V. Levin)
+
+------------------------------------------------------------------------
+r94 | pmatilai | 2006-04-05 12:17:33 +0300 (Wed, 05 Apr 2006) | 2 lines
+
+- update maintainter status
+
+------------------------------------------------------------------------
+r92 | pmatilai | 2006-04-03 23:10:54 +0300 (Mon, 03 Apr 2006) | 3 lines
+
+- clean up xml-related memory handling
+- std::min is pickier about types...
+
+------------------------------------------------------------------------
+r91 | pmatilai | 2006-04-03 21:04:04 +0300 (Mon, 03 Apr 2006) | 2 lines
+
+- use a vector into primary.xml to simplify skip/jump etc
+
+------------------------------------------------------------------------
+r90 | pmatilai | 2006-03-28 00:29:46 +0300 (Tue, 28 Mar 2006) | 4 lines
+
+- Huge pile of cleanups for compiler warnings mostly from Philipp Thomas and
+  Ralf Corsepius
+- Add missing Size() implementation for repomd index
+
+------------------------------------------------------------------------
+r89 | pmatilai | 2006-03-24 00:22:35 +0200 (Fri, 24 Mar 2006) | 2 lines
+
+- DOH, reversed condition .. brown paperbag
+
+------------------------------------------------------------------------
+r88 | pmatilai | 2006-03-23 23:45:27 +0200 (Thu, 23 Mar 2006) | 2 lines
+
+- avoid unnecessary jumping in repomd handler, it's slow enough as is :-/
+
+------------------------------------------------------------------------
+r87 | pmatilai | 2006-03-23 23:12:14 +0200 (Thu, 23 Mar 2006) | 4 lines
+
+- use xmlStrcmp instead of strcmp when dealing with xml data
+- some memory freeing fixes
+- remove some debug junk
+
+------------------------------------------------------------------------
+r86 | pmatilai | 2006-03-23 22:37:52 +0200 (Thu, 23 Mar 2006) | 3 lines
+
+- optimize filelists access so it's only used in cache generation and use
+  xmlreader instead of DOM to pull it in, saves HUGE amount of memory
+
+------------------------------------------------------------------------
+r85 | pmatilai | 2006-03-21 23:48:08 +0200 (Tue, 21 Mar 2006) | 2 lines
+
+- implement filelists.xml processing for file dependencies
+
+------------------------------------------------------------------------
+r84 | pmatilai | 2006-03-21 14:38:04 +0200 (Tue, 21 Mar 2006) | 2 lines
+
+- actually process file provides for repomd
+
+------------------------------------------------------------------------
+r83 | pmatilai | 2006-03-21 12:04:43 +0200 (Tue, 21 Mar 2006) | 2 lines
+
+- treat zero epochs from repomd as no epoch
+
+------------------------------------------------------------------------
+r82 | pmatilai | 2006-03-20 16:12:35 +0200 (Mon, 20 Mar 2006) | 2 lines
+
+- oops, fix versioned rpm internal dependencies with repomd
+
+------------------------------------------------------------------------
+r81 | pmatilai | 2006-03-19 14:13:41 +0200 (Sun, 19 Mar 2006) | 2 lines
+
+- allow turning off cache regeneration on each run for rpm >= 4.4.4
+
+------------------------------------------------------------------------
+r80 | pmatilai | 2006-03-19 12:16:06 +0200 (Sun, 19 Mar 2006) | 2 lines
+
+- merge repomd branch
+
+------------------------------------------------------------------------
+r62 | pmatilai | 2006-03-06 23:21:50 +0200 (Mon, 06 Mar 2006) | 2 lines
+
+- Fix thinko in srpm dependency parsing
+
+------------------------------------------------------------------------
+r33 | pmatilai | 2006-02-08 18:51:18 +0200 (Wed, 08 Feb 2006) | 2 lines
+
+- allow arbitrary url for comps.xml location
+
+------------------------------------------------------------------------
+r32 | pmatilai | 2006-02-07 01:21:02 +0200 (Tue, 07 Feb 2006) | 2 lines
+
+- enable self-referencing provides and see what breaks...
+
+------------------------------------------------------------------------
+r31 | pmatilai | 2006-02-07 01:16:20 +0200 (Tue, 07 Feb 2006) | 2 lines
+
+- force cache rebuild for each run on rpm >= 4.4.4 for runtime dependencies :-/
+
+------------------------------------------------------------------------
+r30 | pmatilai | 2006-02-07 00:43:39 +0200 (Tue, 07 Feb 2006) | 2 lines
+
+- basic implementation of runtime access() dependencies
+
+------------------------------------------------------------------------
+r29 | pmatilai | 2006-02-06 23:45:49 +0200 (Mon, 06 Feb 2006) | 3 lines
+
+- implement some rpm >= 4.4.4 runtime probe dependencies
+- add stubs for the rest
+
+------------------------------------------------------------------------
+r27 | pmatilai | 2006-02-06 21:14:02 +0200 (Mon, 06 Feb 2006) | 2 lines
+
+- prepare for lorg2
+
+------------------------------------------------------------------------
+r26 | pmatilai | 2006-02-06 21:12:19 +0200 (Mon, 06 Feb 2006) | 3 lines
+
+
+- bump version
+
+------------------------------------------------------------------------
+r25 | pmatilai | 2006-02-06 21:11:06 +0200 (Mon, 06 Feb 2006) | 4 lines
+
+- add support for yum-style distroverpkg package whose version can be
+  read from rpmdb (or overwritten with config) and new variable substitution
+  $(VERSION) -> distrover in sources.list
+
+------------------------------------------------------------------------
+r24 | pmatilai | 2006-02-06 19:21:43 +0200 (Mon, 06 Feb 2006) | 2 lines
+
+- move the multilib-stuff to where it belongs to
+
+------------------------------------------------------------------------
+r22 | pmatilai | 2006-02-01 20:58:54 +0200 (Wed, 01 Feb 2006) | 2 lines
+
+- handle the rest of multilib systems .. at least in theory
+
+------------------------------------------------------------------------
+r21 | pmatilai | 2006-01-31 22:05:14 +0200 (Tue, 31 Jan 2006) | 2 lines
+
+- a bit more generic compatarch stuff for multilib
+
+------------------------------------------------------------------------
+r20 | pmatilai | 2006-01-31 19:54:02 +0200 (Tue, 31 Jan 2006) | 2 lines
+
+- remove unused code
+
+------------------------------------------------------------------------
+r19 | pmatilai | 2006-01-31 18:25:36 +0200 (Tue, 31 Jan 2006) | 2 lines
+
+- much simpler multilib handling by renaming only non-native packages
+
+------------------------------------------------------------------------
+r18 | pmatilai | 2006-01-17 21:44:49 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- back to multilibbing only rpmdb packages, for repos its way too wacky
+
+------------------------------------------------------------------------
+r17 | pmatilai | 2006-01-17 20:42:37 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- apply Progeny's redir and authentication patch
+
+------------------------------------------------------------------------
+r16 | pmatilai | 2006-01-17 20:41:29 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- virtual packages can have candidate versions
+
+------------------------------------------------------------------------
+r15 | pmatilai | 2006-01-17 04:50:08 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- thinko in suggests-support
+
+------------------------------------------------------------------------
+r14 | pmatilai | 2006-01-17 03:25:18 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- oops, wrong multilib patch applied, previous only multilibs installed pkgs
+
+------------------------------------------------------------------------
+r13 | pmatilai | 2006-01-17 03:05:13 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- use @ as arch separator instead of .
+
+------------------------------------------------------------------------
+r12 | pmatilai | 2006-01-17 02:31:19 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- initial multilib support (only packages in the same repository are considered)
+
+------------------------------------------------------------------------
+r11 | pmatilai | 2006-01-17 02:04:24 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- libtoolize -c -f && autoreconf
+
+------------------------------------------------------------------------
+r10 | pmatilai | 2006-01-17 02:01:33 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- autoreconf, so this stuff builds sanely on fc4..
+
+------------------------------------------------------------------------
+r9 | pmatilai | 2006-01-17 01:56:03 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- initial support for enhances/suggests in rpm >= 4.4.3
+
+------------------------------------------------------------------------
+r8 | pmatilai | 2006-01-17 01:24:59 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- negative pin on a package is equal to "any version but this"
+
+------------------------------------------------------------------------
+r7 | pmatilai | 2006-01-17 01:22:11 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- initial rpm 4.4.4 support
+
+------------------------------------------------------------------------
+r6 | pmatilai | 2006-01-17 01:18:56 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- appease aclocal >= 1.8 (Ville Skyttä)
+
+------------------------------------------------------------------------
+r5 | pmatilai | 2006-01-17 01:17:30 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- read-only, not exclusive rpmdb lock for the initial dependency processing
+
+------------------------------------------------------------------------
+r4 | pmatilai | 2006-01-17 01:16:46 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- more python make issues
+
+------------------------------------------------------------------------
+r3 | pmatilai | 2006-01-17 01:16:18 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- Fix some issues in python binding build
+
+------------------------------------------------------------------------
+r2 | pmatilai | 2006-01-17 01:14:40 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- change scriptdir to /usr/share/apt
+
+------------------------------------------------------------------------
+r1 | pmatilai | 2006-01-17 01:10:47 +0200 (Tue, 17 Jan 2006) | 2 lines
+
+- initial import of revision 374 from cnc
+
+------------------------------------------------------------------------
