@@ -4,9 +4,8 @@ lib_LTLIBRARIES = libapt-pkg.la
 libapt_pkg_la_LIBADD = @RPMLIBS@
 libapt_pkg_la_LDFLAGS = -version-info 2:0:0 -release @GLIBC_VER@-@LIBSTDCPP_VER@
 
-AM_CPPFLAGS = -DLIBDIR=\"$(libdir)\"
-
-INCLUDES = -I$(top_srcdir)/lua/include -I$(top_srcdir)/lua/local
+AM_CPPFLAGS = -DLIBDIR=\"$(libdir)\" -DPKGDATADIR=\"$(pkgdatadir)\"
+AM_CPPFLAGS += -I$(top_srcdir)/lua/include -I$(top_srcdir)/lua/local
 
 if WITH_LUA
 libapt_pkg_la_LIBADD += $(top_builddir)/lua/liblua.la

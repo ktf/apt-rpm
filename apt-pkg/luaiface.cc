@@ -76,7 +76,7 @@ static int AptLua_pkgcomp(lua_State *L);
 Lua::Lua()
       : DepCache(0), Cache(0), CacheControl(0), Fix(0), DontFix(0)
 {
-   _config->CndSet("Dir::Bin::scripts", "/usr/share/apt/scripts");
+   _config->CndSet("Dir::Bin::scripts", PKGDATADIR "/scripts");
 
    const luaL_reg lualibs[] = {
       {"base", luaopen_base},
