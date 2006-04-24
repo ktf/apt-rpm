@@ -24,6 +24,8 @@
 #include <apt-pkg/pkgcache.h>
 #include <apt-pkg/fileutl.h>
 
+#include <vector>
+
 class pkgRecords
 {
    public:
@@ -32,11 +34,8 @@ class pkgRecords
    private:
    
    pkgCache &Cache;
-   Parser **Files;
-      
-   // CNC:2002-11-28
-   int PackageFileCount;
-   
+   std::vector<Parser *>Files;
+
    public:
 
    // Lookup function
