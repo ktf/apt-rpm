@@ -21,11 +21,11 @@ class pkgArchiveCleaner
    protected:
    
    virtual void Erase(const char * /*File*/,string /*Pkg*/,string /*Ver*/,struct stat & /*St*/) {};
-   virtual ~pkgArchiveCleaner() {};
 
    public:   
    
    bool Go(string Dir,pkgCache &Cache);
+   virtual ~pkgArchiveCleaner() {};
 };
 
 #endif
