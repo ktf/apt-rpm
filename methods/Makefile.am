@@ -1,3 +1,4 @@
+AM_CPPFLAGS = -DGPG=\"@GPG@\"
 
 methodsdir=${libdir}/apt/methods
 methods_PROGRAMS = cdrom copy file ftp gpg gzip bzip2 http rsh ssh

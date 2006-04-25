@@ -195,7 +195,7 @@ char *getFileSigner(const char *file, const char *sigfile,
       return "could not spawn new process";
    else if (pid == 0) 
    {
-      string path = _config->Find("Dir::Bin::gpg", "/usr/bin/gpg");
+      string path = _config->Find("Dir::Bin::gpg", GPG );
       string pubring = "";
       const char *argv[16];
       int argc = 0;
