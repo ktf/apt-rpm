@@ -1150,9 +1150,7 @@ bool RPMRepomdHandler::HasFile(const char *File)
 bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
 {
    xmlNode *format = FindNode("format");
-   xmlNode *dco;
-
-   xmlNode *n;
+   xmlNode *dco = NULL;
 
    switch (Type) {
       case pkgCache::Dep::Depends:
@@ -1169,9 +1167,9 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
    if (! dco) {
       return true;
    }
-   for (n = dco->children; n; n = n->next) {
-      unsigned int Op;
-      int_32 RpmOp;
+   for (xmlNode *n = dco->children; n; n = n->next) {
+      unsigned int Op = 0;
+      int_32 RpmOp = 0;
       string deptype, depver;
       xmlChar *depname, *flags;
       if ((depname = xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
