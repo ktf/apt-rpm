@@ -94,7 +94,8 @@ fi
 
 dnl repomd support needs libxml2, not sure about the minimal version - I've
 dnl only tested it with 2.6.20
-PKG_CHECK_MODULES([LIBXML2],[libxml-2.0 >= 2.4])
+## xmlReadFile is not available before 2.6.0
+PKG_CHECK_MODULES([LIBXML2],[libxml-2.0 >= 2.6])
 RPMLIBS="$LIBXML2_LIBS $RPMLIBS"
 CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
 
