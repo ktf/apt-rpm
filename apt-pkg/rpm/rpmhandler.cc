@@ -1290,23 +1290,24 @@ bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
 
 bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
 {
-   xmlNode *format = FindNode("format");
-   for (xmlNode *n = format->children; n; n = n->next) {
-      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
-      xmlChar *Filename = xmlNodeGetContent(n);
-      FileProvs.push_back(string((char*)Filename));
-      xmlFree(Filename);
-   }
    // XXX maybe this should be made runtime configurable?
-   if (! WithFilelist) return true;
-
-   xmlNode *FlP = xmlTextReaderExpand(Filelist);
-   for (xmlNode *n = FlP->children; n; n = n->next) {
-      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
+   if ( !WithFilelist ) {
+      xmlNode *format = FindNode("format");
+      for (xmlNode *n = format->children; n; n = n->next) {
+         if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
+         xmlChar *Filename = xmlNodeGetContent(n);
+         FileProvs.push_back(string((char*)Filename));
+         xmlFree(Filename);
+      }
+   } else {
+      xmlNode *FlP = xmlTextReaderExpand(Filelist);
+      for (xmlNode *n = FlP->children; n; n = n->next) {
+         if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
 	    continue;
-      xmlChar *Filename = xmlNodeGetContent(n);
-      FileProvs.push_back(string((char*)Filename));
-      xmlFree(Filename);
+         xmlChar *Filename = xmlNodeGetContent(n);
+         FileProvs.push_back(string((char*)Filename));
+         xmlFree(Filename);
+      }
    }
    return true;
 }
