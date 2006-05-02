@@ -103,7 +103,8 @@ class rpmRepomdParser : public rpmListParser
 
    public:
  
-   bool LoadReleaseInfo(pkgCache::PkgFileIterator FileI,string File);
+   bool LoadReleaseInfo(pkgCache::PkgFileIterator FileI,const string File,
+		   	const string Dist);
 
    rpmRepomdParser(RPMHandler *Handler) : rpmListParser(Handler) {};
 };

@@ -758,7 +758,7 @@ bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
    string RelFile = ReleasePath();
    if (FileExists(RelFile) == true)
    {
-      Parser.LoadReleaseInfo(File,RelFile);
+      Parser.LoadReleaseInfo(File,RelFile,Dist);
    }
 
    return true;

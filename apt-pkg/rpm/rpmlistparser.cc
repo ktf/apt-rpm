@@ -557,8 +557,33 @@ xmlNode *rpmRepomdParser::FindNode(xmlNode *n, const string Name)
 }
 
 bool rpmRepomdParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
-                                   string File)
+                                      const string File, const string Dist)
 {
+   size_t start, stop, size;
+   string comp;
+
+   // Munge sources.list distribution into something that can be used 
+   // as Component to allow repository pinning with repomd
+   start = Dist.find_first_not_of("/");
+   size = Dist.length();
+   while ((start >= 0) && (start < size)) {
+      stop = Dist.find_first_of("/", start);
+      string part = Dist.substr(start, stop - start);
+      if (comp.empty()) {
+	 comp = part;
+      } else {
+	 comp += "-" + part;
+      }
+      if ((stop < 0) || (stop > size)) stop = size;
+      start = Dist.find_first_not_of("/", stop + 1);
+   }
+   FileI->Component = WriteUniqString(comp);
+   // Should these be populated with something (what?) a well?
+   //FileI->Archive = WriteUniqString("Unknown");
+   //FileI->Version = WriteUniqString("Unknown");
+   //FileI->Origin = WriteUniqString("Unknown");
+   //FileI->Label = WriteUniqString("Unknown");
+
    xmlDocPtr RepoMD = NULL;
    xmlNode *Root = NULL;
 
