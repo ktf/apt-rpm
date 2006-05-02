@@ -84,7 +84,7 @@ class pkgSrcRecords
    private:
    
    // The list of files and the current parser pointer
-   Parser **Files;
+   std::vector<Parser *> Files;
    Parser **Current;
    
    public:
