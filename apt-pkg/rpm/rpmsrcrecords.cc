@@ -259,20 +259,7 @@ string rpmSrcRecordParser::AsStr()
    //BufCatTag("\nVendor: ", Handler->Vendor().c_str());
 
    BufCat("\nVersion: ");
-   // XXX FIXME: handle the epoch madness somewhere central instead of
-   // figuring it out on every damn occasion separately
-
-   string e, v, r, verstr;
-   e = Handler->Epoch();
-   v = Handler->Version();
-   r = Handler->Release();
-
-   if (e.empty() == false)
-      verstr = e + ":" + v + "-" + r;
-   else
-      verstr = v + "-" + r;
-
-   BufCat(verstr.c_str());
+   BufCat(Handler->EVR().c_str());
 
    vector<Dependency*> Deps, Conflicts;
    vector<Dependency*>::iterator I;

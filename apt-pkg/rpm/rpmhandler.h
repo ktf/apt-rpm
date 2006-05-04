@@ -82,7 +82,6 @@ class RPMHandler
 
    virtual string Name() {return GetSTag(RPMTAG_NAME);};
    virtual string Arch() {return GetSTag(RPMTAG_ARCH);};
-   //virtual string Epoch() {return GetSTag(RPMTAG_EPOCH);};
    virtual string Epoch();
    virtual string Version() {return GetSTag(RPMTAG_VERSION);};
    virtual string Release() {return GetSTag(RPMTAG_RELEASE);};
