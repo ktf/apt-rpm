@@ -75,3 +75,7 @@ EXTRA_DIST += contrib/proxypasswd/proxypasswd.lua
 EXTRA_DIST += contrib/guess/README
 EXTRA_DIST += contrib/guess/guess.conf
 EXTRA_DIST += contrib/guess/guess.lua
+
+EXTRA_DIST += contrib/list-nodeps/list-nodeps.conf
+EXTRA_DIST += contrib/list-nodeps/list-nodeps.lua
+EXTRA_DIST += contrib/list-nodeps/README

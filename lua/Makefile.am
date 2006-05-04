@@ -7,6 +7,7 @@ endif
 EXTRA_DIST = \
 	COPYRIGHT \
 	HISTORY \
+	README \
 	local/modemuncher.c \
 	local/userconfig.c \
 	local/linit.lua

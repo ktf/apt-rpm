@@ -267,7 +267,8 @@ EXTRA_DIST = AUTHORS.RPM COPYING.GPL rpmpriorities test/conf.cc \
 	contrib/preserve-conf/preserve-conf.conf \
 	contrib/proxypasswd/README contrib/proxypasswd/proxypasswd.lua \
 	contrib/guess/README contrib/guess/guess.conf \
-	contrib/guess/guess.lua
+	contrib/guess/guess.lua contrib/list-nodeps/list-nodeps.conf \
+	contrib/list-nodeps/list-nodeps.lua contrib/list-nodeps/README
 all: all-recursive
 
 .SUFFIXES:
