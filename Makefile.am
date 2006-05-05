@@ -1,5 +1,5 @@
 
-SUBDIRS = buildlib intl lua apt-pkg methods cmdline tools doc po
+SUBDIRS = buildlib lua apt-pkg methods cmdline tools doc po
 
 ACLOCAL_AMFLAGS = -I m4 -I buildlib
 

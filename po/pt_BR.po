@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-23 08:48+0300\n"
+"Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
+"POT-Creation-Date: 2006-05-05 09:07+0300\n"
 "PO-Revision-Date: 2001-12-12 17:50-0200\n"
 "Last-Translator: Gustavo Niemeyer <niemeyer@conectiva.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -1619,12 +1619,12 @@ msgstr "Esperando, por %s mas este não foi encontrado"
 msgid "Sub-process %s received a segmentation fault."
 msgstr "Subprocesso %s recebeu uma falha de segmentação."
 
-#: apt-pkg/contrib/fileutl.cc:374 apt-pkg/rpm/rpmpm.cc:623
+#: apt-pkg/contrib/fileutl.cc:374 apt-pkg/rpm/rpmpm.cc:624
 #, c-format
 msgid "Sub-process %s returned an error code (%u)"
 msgstr "Subprocesso %s retornou um código de erro (%u)"
 
-#: apt-pkg/contrib/fileutl.cc:376 apt-pkg/rpm/rpmpm.cc:626
+#: apt-pkg/contrib/fileutl.cc:376 apt-pkg/rpm/rpmpm.cc:627
 #, c-format
 msgid "Sub-process %s exited unexpectedly"
 msgstr "O subprocesso %s terminou inesperadamente"
@@ -1688,7 +1688,7 @@ msgstr "%c%s... Feito"
 msgid "Selection %s not found"
 msgstr "Seleção %s não encontrada"
 
-#: apt-pkg/rpm/repomd.cc:44 apt-pkg/rpm/rpmlistparser.cc:568
+#: apt-pkg/rpm/repomd.cc:44 apt-pkg/rpm/rpmlistparser.cc:593
 #: apt-pkg/repository.cc:40
 #, c-format
 msgid "could not open Release file '%s'"
@@ -1699,7 +1699,7 @@ msgid "could not rewind RPMFileHandler"
 msgstr "não foi possível retroceder o RPMFileHandler"
 
 #: apt-pkg/rpm/rpmhandler.cc:482 apt-pkg/rpm/rpmhandler.cc:489
-#: apt-pkg/rpm/rpmpm.cc:684 apt-pkg/rpm/rpmpm.cc:689
+#: apt-pkg/rpm/rpmpm.cc:685 apt-pkg/rpm/rpmpm.cc:690
 #, c-format
 msgid "Failed reading file %s"
 msgstr "Falha ao ler o arquivo %s"
@@ -1731,6 +1731,11 @@ msgstr "Não foi possível encontrar o pacote %s"
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Problema ao abrir %s"
+
+#: apt-pkg/rpm/rpmhandler.cc:918
+#, c-format
+msgid "Inconsistent metadata, package count doesn't match in %s"
+msgstr ""
 
 #: apt-pkg/rpm/rpmindexfile.cc:376 apt-pkg/rpm/rpmindexfile.cc:728
 #, c-format
@@ -1874,67 +1879,67 @@ msgstr "Falha ao criar pipe IPC para subprocesso"
 msgid "Failure running script %s"
 msgstr "Falha ao executar o script %s"
 
-#: apt-pkg/rpm/rpmpm.cc:312
+#: apt-pkg/rpm/rpmpm.cc:313
 msgid "Unknown pkgRPMPM operation."
 msgstr "Operação do pkgRPMPM desconhecida"
 
-#: apt-pkg/rpm/rpmpm.cc:549
+#: apt-pkg/rpm/rpmpm.cc:550
 msgid "Executing RPM ("
 msgstr "Executando RPM ("
 
-#: apt-pkg/rpm/rpmpm.cc:589
+#: apt-pkg/rpm/rpmpm.cc:590
 msgid "Could not exec "
 msgstr "Impossível executar "
 
-#: apt-pkg/rpm/rpmpm.cc:604
+#: apt-pkg/rpm/rpmpm.cc:605
 msgid "Couldn't wait for subprocess"
 msgstr "Impossível esperar por subprocesso"
 
-#: apt-pkg/rpm/rpmpm.cc:620
+#: apt-pkg/rpm/rpmpm.cc:621
 #, c-format
 msgid "Sub-process %s recieved a segmentation fault."
 msgstr "Subprocesso %s recebeu uma falha de segmentação."
 
-#: apt-pkg/rpm/rpmpm.cc:630 apt-pkg/rpm/rpmpm.cc:897
+#: apt-pkg/rpm/rpmpm.cc:631 apt-pkg/rpm/rpmpm.cc:898
 msgid "Done."
 msgstr "Feito."
 
-#: apt-pkg/rpm/rpmpm.cc:680
+#: apt-pkg/rpm/rpmpm.cc:681
 #, c-format
 msgid "Failed opening %s"
 msgstr "Problema ao abrir %s"
 
-#: apt-pkg/rpm/rpmpm.cc:693 apt-pkg/rpm/rpmpm.cc:717
+#: apt-pkg/rpm/rpmpm.cc:694 apt-pkg/rpm/rpmpm.cc:718
 #, c-format
 msgid "Failed adding %s to transaction %s"
 msgstr "Falha ao adicionar %s na transação %s"
 
-#: apt-pkg/rpm/rpmpm.cc:768 apt-pkg/rpm/rpmpm.cc:778
+#: apt-pkg/rpm/rpmpm.cc:769 apt-pkg/rpm/rpmpm.cc:779
 msgid "Could not open RPM database"
 msgstr "Não foi possível abrir a base de dados RPM"
 
-#: apt-pkg/rpm/rpmpm.cc:836 apt-pkg/rpm/rpmpm.cc:849
+#: apt-pkg/rpm/rpmpm.cc:837 apt-pkg/rpm/rpmpm.cc:850
 msgid "Transaction set check failed"
 msgstr "Verificação da transação falhou"
 
-#: apt-pkg/rpm/rpmpm.cc:869
+#: apt-pkg/rpm/rpmpm.cc:870
 #, c-format
 msgid "Ordering failed for %d packages"
 msgstr "Ordenação falhou para %d pacotes"
 
-#: apt-pkg/rpm/rpmpm.cc:873
+#: apt-pkg/rpm/rpmpm.cc:874
 msgid "Committing changes..."
 msgstr "Aplicando modificações..."
 
-#: apt-pkg/rpm/rpmpm.cc:889
+#: apt-pkg/rpm/rpmpm.cc:890
 msgid "Error while running transaction"
 msgstr "Erro enquanto rodando a transação"
 
-#: apt-pkg/rpm/rpmpm.cc:895
+#: apt-pkg/rpm/rpmpm.cc:896
 msgid "Some errors occurred while running transaction"
 msgstr "Ocorreram erros enquanto rodando a transação"
 
-#: apt-pkg/rpm/rpmrecords.cc:156 apt-pkg/rpm/rpmsrcrecords.cc:176
+#: apt-pkg/rpm/rpmrecords.cc:174 apt-pkg/rpm/rpmsrcrecords.cc:176
 msgid "Could not allocate buffer for record text"
 msgstr "Impossível alocar buffer para o texto do registro"
 
@@ -2262,7 +2267,7 @@ msgstr "Erro pré-processando listas de pacotes"
 msgid "IO Error saving source cache"
 msgstr "Erro de E/S salvando cache de fontes"
 
-#: apt-pkg/pkgrecords.cc:38
+#: apt-pkg/pkgrecords.cc:39
 #, c-format
 msgid "Index file type '%s' is not supported"
 msgstr "Tipo de arquivo de índice '%s' não é suportado"
@@ -2330,7 +2335,7 @@ msgstr "Linha inválida %u na lista de fontes %s (vendor id)"
 msgid "Unknown vendor ID '%s' in line %u of source list %s"
 msgstr "Vendor ID '%s' desconhecido na linha %u do arquivo de fontes %s"
 
-#: apt-pkg/srcrecords.cc:49
+#: apt-pkg/srcrecords.cc:46
 msgid "You must put some 'source' URIs in your sources.list"
 msgstr "Você deve colocar alguns URIs 'fonte' em seu sources.list"
 

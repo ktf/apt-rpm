@@ -241,26 +241,17 @@ AM_CONDITIONAL(COMPILE_MANPAGES, test -n "$DOCBOOK2MAN" -a "$enable_docs" != "no
 
 AC_PATH_PROG(GPG,gpg,"/usr/bin/gpg")
 
-AM_GNU_GETTEXT_VERSION([0.11.4])
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT_VERSION([0.14.5])
+AM_GNU_GETTEXT([external])
 
 dnl ah_NUM_PROCS
 rc_GLIBC_VER
 rc_LIBSTDCPP_VER
 dnl ah_GCC3DEP
 
-dnl Fix up intl/Makefile to point to the right config.h
-AC_CONFIG_COMMANDS([fixintl],[
-	sed -e 's,\.\./config.h,$(top_builddir)/include/config.h,g' \
-	    -e 's,^\(INCLUDES = .*\)$,\1 -I$(top_builddir)/include,g' \
-	    intl/Makefile > intl/Makefile.tmp
-	mv -f intl/Makefile{.tmp,}
-])
-
 AC_CONFIG_FILES([
 	  Makefile
 	  buildlib/Makefile
-	  intl/Makefile 
 	  lua/Makefile
 	  apt-pkg/Makefile
 	  methods/Makefile
