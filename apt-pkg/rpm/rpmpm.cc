@@ -812,7 +812,9 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
       probFilter |= RPMPROB_FILTER_REPLACENEWFILES;
    }
 
-   if (Interactive == true)
+   if (_config->FindI("quiet",0) >= 1)
+       notifyFlags |= INSTALL_LABEL;
+   else if (Interactive == true)
        notifyFlags |= INSTALL_LABEL | INSTALL_HASH;
    else
        notifyFlags |= INSTALL_LABEL | INSTALL_PERCENT;
