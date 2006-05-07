@@ -93,6 +93,7 @@ class RPMHandler
    virtual string Description() {return GetSTag(RPMTAG_DESCRIPTION);};
    virtual unsigned long InstalledSize() {return GetITag(RPMTAG_SIZE);};
    virtual string SourceRpm() {return GetSTag(RPMTAG_SOURCERPM);};
+   virtual bool IsSourceRpm() {return SourceRpm().empty();}
 
    bool InternalDep(const char *name, const char *ver, int_32 flag);
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);

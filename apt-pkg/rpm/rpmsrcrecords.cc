@@ -120,7 +120,12 @@ bool rpmSrcRecordParser::Restart()
 
 bool rpmSrcRecordParser::Step() 
 {
-   return Handler->Skip();
+   bool ret = Handler->Skip();
+   // Repomd can have both binaries and sources, step over any binaries
+   while (ret && ! Handler->IsSourceRpm()) {
+      ret = Handler->Skip();
+   }
+   return ret;
 }
 
 bool rpmSrcRecordParser::Jump(unsigned long Off)

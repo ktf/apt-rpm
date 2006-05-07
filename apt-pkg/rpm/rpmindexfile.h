@@ -323,6 +323,10 @@ class rpmRepomdIndex : public rpmIndexFile
 		   		  OpProgress &/*Prog*/) const;
    virtual pkgCache::PkgFileIterator FindInCache(pkgCache &Cache) const;
 
+   // Interface for the source record parsers - repomd can have both binary
+   // and source packages in the same repository!
+   virtual pkgSrcRecords::Parser *CreateSrcParser() const;
+
    rpmRepomdIndex(string URI,string Dist,string Section,
                pkgRepository *Repository) :
                        URI(URI), Dist(Dist), Section(Section),
@@ -362,9 +366,6 @@ class rpmRepomdSrcIndex : public rpmRepomdIndex
    // Stuff for accessing files on remote items
    virtual string SourceInfo(pkgSrcRecords::Parser const &Record,
 			     pkgSrcRecords::File const &File) const;
-
-   // Interface for the record parsers
-   virtual pkgSrcRecords::Parser *CreateSrcParser() const;
 
    rpmRepomdSrcIndex(string URI,string Dist,string Section,
                      pkgRepository *Repository) :

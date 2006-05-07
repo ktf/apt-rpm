@@ -783,7 +783,7 @@ bool rpmRepomdIndex::MergeFileProvides(pkgCacheGenerator &Gen,
    return true;
 }
 
-pkgSrcRecords::Parser *rpmRepomdSrcIndex::CreateSrcParser() const
+pkgSrcRecords::Parser *rpmRepomdIndex::CreateSrcParser() const
 {
    return new rpmSrcRecordParser(IndexPath(), this);
 }
