@@ -114,6 +114,9 @@ RPMPackageData::RPMPackageData()
    Top = _config->Tree("RPM::Ignore");
    for (Top = (Top == 0?0:Top->Child); Top != 0; Top = Top->Next)
       IgnorePackages[Top->Value] = 1;
+#if RPM_VERSION >= 0x040100
+   IgnorePackages["gpg-pubkey"] = 1;
+#endif
 
    // Populate Allow-Duplicated packages.
    Top = _config->Tree("RPM::Allow-Duplicated");
