@@ -8,8 +8,7 @@ EXTRA_DIST = \
 	     gettext.h \
 	     inttypes.h \
 	     statvfs.h \
-	     netdb.h \
-	     tools.m4
+	     netdb.h
 
 CLEANFILES  = $(top_builddir)/include/apti18n.h \
               $(top_builddir)/include/inttypes.h \
