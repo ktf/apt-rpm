@@ -1680,7 +1680,7 @@ bool ShowPkgNames(CommandLine &CmdL)
 {
    pkgCache &Cache = *GCache;
    pkgCache::PkgIterator I = Cache.PkgBegin();
-   bool All = _config->FindB("APT::Cache::AllNames","false");
+   bool All = _config->FindB("APT::Cache::AllNames", false);
    
    if (CmdL.FileList[1] != 0)
    {
