@@ -465,7 +465,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP F77 FFLAGS ac_ct_F77 LIBTOOL SOCKETLIBS PTHREADLIB RPM_PATH RPMLIBS PKG_CONFIG ac_pt_PKG_CONFIG LIBXML2_CFLAGS LIBXML2_LIBS WITH_LUA_TRUE WITH_LUA_FALSE COMPILE_STATIC_TRUE COMPILE_STATIC_FALSE COMPILE_APTSHELL_TRUE COMPILE_APTSHELL_FALSE NEED_INTTYPES_H_TRUE NEED_INTTYPES_H_FALSE NEED_STATVFS_H_TRUE NEED_STATVFS_H_FALSE HAVE_TIMEGM NEED_SOCKLEN_T_DEFINE NEED_NETDB_H_TRUE NEED_NETDB_H_FALSE DOCBOOK2MAN COMPILE_MANPAGES_TRUE COMPILE_MANPAGES_FALSE GPG MKINSTALLDIRS USE_NLS MSGFMT GMSGFMT XGETTEXT MSGMERGE INTL_MACOSX_LIBS LIBICONV LTLIBICONV INTLLIBS LIBINTL LTLIBINTL POSUB GLIBC_VER LIBSTDCPP_VER LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP F77 FFLAGS ac_ct_F77 LIBTOOL SOCKETLIBS PTHREADLIB RPM_PATH RPMLIBS PKG_CONFIG ac_pt_PKG_CONFIG LIBXML2_CFLAGS LIBXML2_LIBS WITH_LUA_TRUE WITH_LUA_FALSE COMPILE_STATIC_TRUE COMPILE_STATIC_FALSE COMPILE_APTSHELL_TRUE COMPILE_APTSHELL_FALSE HAVE_TIMEGM NEED_SOCKLEN_T_DEFINE DOCBOOK2MAN COMPILE_MANPAGES_TRUE COMPILE_MANPAGES_FALSE GPG MKINSTALLDIRS USE_NLS MSGFMT GMSGFMT XGETTEXT MSGMERGE INTL_MACOSX_LIBS LIBICONV LTLIBICONV INTLLIBS LIBINTL LTLIBINTL POSUB GLIBC_VER LIBSTDCPP_VER LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -22033,16 +22033,6 @@ fi
 echo "$as_me:$LINENO: result: $c9x_ints" >&5
 echo "${ECHO_T}$c9x_ints" >&6
 
-
-if test "$c9x_ints" = "no"; then
-  NEED_INTTYPES_H_TRUE=
-  NEED_INTTYPES_H_FALSE='#'
-else
-  NEED_INTTYPES_H_TRUE='#'
-  NEED_INTTYPES_H_FALSE=
-fi
-
-
 echo "$as_me:$LINENO: checking whether byte ordering is bigendian" >&5
 echo $ECHO_N "checking whether byte ordering is bigendian... $ECHO_C" >&6
 if test "${ac_cv_c_bigendian+set}" = set; then
@@ -24027,16 +24017,6 @@ fi
 
 
 
-if test "$have_statvfs" != "yes"; then
-  NEED_STATVFS_H_TRUE=
-  NEED_STATVFS_H_FALSE='#'
-else
-  NEED_STATVFS_H_TRUE='#'
-  NEED_STATVFS_H_FALSE=
-fi
-
-
-
 
 
 
@@ -24216,16 +24196,6 @@ echo "${ECHO_T}missing." >&6
 fi
 rm -f conftest*
 
-
-
-
-if test "$NEED_SOCKLEN_T_DEFINE" = "yes"; then
-  NEED_NETDB_H_TRUE=
-  NEED_NETDB_H_FALSE='#'
-else
-  NEED_NETDB_H_TRUE='#'
-  NEED_NETDB_H_FALSE=
-fi
 
 
 echo "$as_me:$LINENO: checking for h_errno" >&5
@@ -26311,7 +26281,34 @@ echo "${ECHO_T}$LIBSTDCPP_VER" >&6
 
 
 
-                                                                                          ac_config_files="$ac_config_files Makefile buildlib/Makefile lua/Makefile apt-pkg/Makefile methods/Makefile cmdline/Makefile tools/Makefile doc/Makefile po/Makefile.in"
+                                                                                ac_config_files="$ac_config_files Makefile lua/Makefile apt-pkg/Makefile methods/Makefile cmdline/Makefile tools/Makefile doc/Makefile po/Makefile.in"
+
+          ac_config_links="$ac_config_links include/apti18n.h:buildlib/gettext.h"
+
+
+if test "$c9x_ints" = "no"; then
+
+          ac_config_links="$ac_config_links include/inttypes.h:buildlib/inttypes.h"
+
+
+fi
+
+
+if test "$have_statvfs" != "yes"; then
+
+          ac_config_links="$ac_config_links include/statvfs.h:buildlib/statvfs.h"
+
+
+fi
+
+
+if test "$NEED_SOCKLEN_T_DEFINE" = "yes"; then
+
+          ac_config_links="$ac_config_links include/netdb.h:buildlib/netdb.h"
+
+
+fi
+
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -26464,27 +26461,6 @@ if test -z "${COMPILE_APTSHELL_TRUE}" && test -z "${COMPILE_APTSHELL_FALSE}"; th
   { { echo "$as_me:$LINENO: error: conditional \"COMPILE_APTSHELL\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"COMPILE_APTSHELL\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${NEED_INTTYPES_H_TRUE}" && test -z "${NEED_INTTYPES_H_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"NEED_INTTYPES_H\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"NEED_INTTYPES_H\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${NEED_STATVFS_H_TRUE}" && test -z "${NEED_STATVFS_H_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"NEED_STATVFS_H\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"NEED_STATVFS_H\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${NEED_NETDB_H_TRUE}" && test -z "${NEED_NETDB_H_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"NEED_NETDB_H\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"NEED_NETDB_H\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -26821,6 +26797,9 @@ $config_files
 Configuration headers:
 $config_headers
 
+Configuration links:
+$config_links
+
 Configuration commands:
 $config_commands
 
@@ -26947,7 +26926,6 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-  "buildlib/Makefile" ) CONFIG_FILES="$CONFIG_FILES buildlib/Makefile" ;;
   "lua/Makefile" ) CONFIG_FILES="$CONFIG_FILES lua/Makefile" ;;
   "apt-pkg/Makefile" ) CONFIG_FILES="$CONFIG_FILES apt-pkg/Makefile" ;;
   "methods/Makefile" ) CONFIG_FILES="$CONFIG_FILES methods/Makefile" ;;
@@ -26955,6 +26933,10 @@ do
   "tools/Makefile" ) CONFIG_FILES="$CONFIG_FILES tools/Makefile" ;;
   "doc/Makefile" ) CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
   "po/Makefile.in" ) CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
+  "include/apti18n.h" ) CONFIG_LINKS="$CONFIG_LINKS include/apti18n.h:buildlib/gettext.h" ;;
+  "include/inttypes.h" ) CONFIG_LINKS="$CONFIG_LINKS include/inttypes.h:buildlib/inttypes.h" ;;
+  "include/statvfs.h" ) CONFIG_LINKS="$CONFIG_LINKS include/statvfs.h:buildlib/statvfs.h" ;;
+  "include/netdb.h" ) CONFIG_LINKS="$CONFIG_LINKS include/netdb.h:buildlib/netdb.h" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "include/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS include/config.h:buildlib/config.h.in" ;;
@@ -26971,6 +26953,7 @@ done
 if $ac_need_defaults; then
   test "${CONFIG_FILES+set}" = set || CONFIG_FILES=$config_files
   test "${CONFIG_HEADERS+set}" = set || CONFIG_HEADERS=$config_headers
+  test "${CONFIG_LINKS+set}" = set || CONFIG_LINKS=$config_links
   test "${CONFIG_COMMANDS+set}" = set || CONFIG_COMMANDS=$config_commands
 fi
 
@@ -27125,14 +27108,8 @@ s,@COMPILE_STATIC_TRUE@,$COMPILE_STATIC_TRUE,;t t
 s,@COMPILE_STATIC_FALSE@,$COMPILE_STATIC_FALSE,;t t
 s,@COMPILE_APTSHELL_TRUE@,$COMPILE_APTSHELL_TRUE,;t t
 s,@COMPILE_APTSHELL_FALSE@,$COMPILE_APTSHELL_FALSE,;t t
-s,@NEED_INTTYPES_H_TRUE@,$NEED_INTTYPES_H_TRUE,;t t
-s,@NEED_INTTYPES_H_FALSE@,$NEED_INTTYPES_H_FALSE,;t t
-s,@NEED_STATVFS_H_TRUE@,$NEED_STATVFS_H_TRUE,;t t
-s,@NEED_STATVFS_H_FALSE@,$NEED_STATVFS_H_FALSE,;t t
 s,@HAVE_TIMEGM@,$HAVE_TIMEGM,;t t
 s,@NEED_SOCKLEN_T_DEFINE@,$NEED_SOCKLEN_T_DEFINE,;t t
-s,@NEED_NETDB_H_TRUE@,$NEED_NETDB_H_TRUE,;t t
-s,@NEED_NETDB_H_FALSE@,$NEED_NETDB_H_FALSE,;t t
 s,@DOCBOOK2MAN@,$DOCBOOK2MAN,;t t
 s,@COMPILE_MANPAGES_TRUE@,$COMPILE_MANPAGES_TRUE,;t t
 s,@COMPILE_MANPAGES_FALSE@,$COMPILE_MANPAGES_FALSE,;t t
@@ -27635,6 +27612,144 @@ echo X$ac_file |
   	  /^X\(\/\/\)$/{ s//\1/; q; }
   	  /^X\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`/stamp-h$_am_stamp_count
+done
+_ACEOF
+cat >>$CONFIG_STATUS <<\_ACEOF
+
+#
+# CONFIG_LINKS section.
+#
+
+for ac_file in : $CONFIG_LINKS; do test "x$ac_file" = x: && continue
+  ac_dest=`echo "$ac_file" | sed 's,:.*,,'`
+  ac_source=`echo "$ac_file" | sed 's,[^:]*:,,'`
+
+  { echo "$as_me:$LINENO: linking $srcdir/$ac_source to $ac_dest" >&5
+echo "$as_me: linking $srcdir/$ac_source to $ac_dest" >&6;}
+
+  if test ! -r $srcdir/$ac_source; then
+    { { echo "$as_me:$LINENO: error: $srcdir/$ac_source: file not found" >&5
+echo "$as_me: error: $srcdir/$ac_source: file not found" >&2;}
+   { (exit 1); exit 1; }; }
+  fi
+  rm -f $ac_dest
+
+  # Make relative symlinks.
+  ac_dest_dir=`(dirname "$ac_dest") 2>/dev/null ||
+$as_expr X"$ac_dest" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$ac_dest" : 'X\(//\)[^/]' \| \
+	 X"$ac_dest" : 'X\(//\)$' \| \
+	 X"$ac_dest" : 'X\(/\)' \| \
+	 .     : '\(.\)' 2>/dev/null ||
+echo X"$ac_dest" |
+    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
+  	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
+  	  /^X\(\/\/\)$/{ s//\1/; q; }
+  	  /^X\(\/\).*/{ s//\1/; q; }
+  	  s/.*/./; q'`
+  { if $as_mkdir_p; then
+    mkdir -p "$ac_dest_dir"
+  else
+    as_dir="$ac_dest_dir"
+    as_dirs=
+    while test ! -d "$as_dir"; do
+      as_dirs="$as_dir $as_dirs"
+      as_dir=`(dirname "$as_dir") 2>/dev/null ||
+$as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$as_dir" : 'X\(//\)[^/]' \| \
+	 X"$as_dir" : 'X\(//\)$' \| \
+	 X"$as_dir" : 'X\(/\)' \| \
+	 .     : '\(.\)' 2>/dev/null ||
+echo X"$as_dir" |
+    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
+  	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
+  	  /^X\(\/\/\)$/{ s//\1/; q; }
+  	  /^X\(\/\).*/{ s//\1/; q; }
+  	  s/.*/./; q'`
+    done
+    test ! -n "$as_dirs" || mkdir $as_dirs
+  fi || { { echo "$as_me:$LINENO: error: cannot create directory \"$ac_dest_dir\"" >&5
+echo "$as_me: error: cannot create directory \"$ac_dest_dir\"" >&2;}
+   { (exit 1); exit 1; }; }; }
+
+  ac_builddir=.
+
+if test "$ac_dest_dir" != .; then
+  ac_dir_suffix=/`echo "$ac_dest_dir" | sed 's,^\.[\\/],,'`
+  # A "../" for each directory in $ac_dir_suffix.
+  ac_top_builddir=`echo "$ac_dir_suffix" | sed 's,/[^\\/]*,../,g'`
+else
+  ac_dir_suffix= ac_top_builddir=
+fi
+
+case $srcdir in
+  .)  # No --srcdir option.  We are building in place.
+    ac_srcdir=.
+    if test -z "$ac_top_builddir"; then
+       ac_top_srcdir=.
+    else
+       ac_top_srcdir=`echo $ac_top_builddir | sed 's,/$,,'`
+    fi ;;
+  [\\/]* | ?:[\\/]* )  # Absolute path.
+    ac_srcdir=$srcdir$ac_dir_suffix;
+    ac_top_srcdir=$srcdir ;;
+  *) # Relative path.
+    ac_srcdir=$ac_top_builddir$srcdir$ac_dir_suffix
+    ac_top_srcdir=$ac_top_builddir$srcdir ;;
+esac
+
+# Do not use `cd foo && pwd` to compute absolute paths, because
+# the directories may not exist.
+case `pwd` in
+.) ac_abs_builddir="$ac_dest_dir";;
+*)
+  case "$ac_dest_dir" in
+  .) ac_abs_builddir=`pwd`;;
+  [\\/]* | ?:[\\/]* ) ac_abs_builddir="$ac_dest_dir";;
+  *) ac_abs_builddir=`pwd`/"$ac_dest_dir";;
+  esac;;
+esac
+case $ac_abs_builddir in
+.) ac_abs_top_builddir=${ac_top_builddir}.;;
+*)
+  case ${ac_top_builddir}. in
+  .) ac_abs_top_builddir=$ac_abs_builddir;;
+  [\\/]* | ?:[\\/]* ) ac_abs_top_builddir=${ac_top_builddir}.;;
+  *) ac_abs_top_builddir=$ac_abs_builddir/${ac_top_builddir}.;;
+  esac;;
+esac
+case $ac_abs_builddir in
+.) ac_abs_srcdir=$ac_srcdir;;
+*)
+  case $ac_srcdir in
+  .) ac_abs_srcdir=$ac_abs_builddir;;
+  [\\/]* | ?:[\\/]* ) ac_abs_srcdir=$ac_srcdir;;
+  *) ac_abs_srcdir=$ac_abs_builddir/$ac_srcdir;;
+  esac;;
+esac
+case $ac_abs_builddir in
+.) ac_abs_top_srcdir=$ac_top_srcdir;;
+*)
+  case $ac_top_srcdir in
+  .) ac_abs_top_srcdir=$ac_abs_builddir;;
+  [\\/]* | ?:[\\/]* ) ac_abs_top_srcdir=$ac_top_srcdir;;
+  *) ac_abs_top_srcdir=$ac_abs_builddir/$ac_top_srcdir;;
+  esac;;
+esac
+
+
+  case $srcdir in
+  [\\/$]* | ?:[\\/]* ) ac_rel_source=$srcdir/$ac_source ;;
+      *) ac_rel_source=$ac_top_builddir$srcdir/$ac_source ;;
+  esac
+
+  # Try a symlink, then a hard link, then a copy.
+  ln -s $ac_rel_source $ac_dest 2>/dev/null ||
+    ln $srcdir/$ac_source $ac_dest 2>/dev/null ||
+    cp -p $srcdir/$ac_source $ac_dest ||
+    { { echo "$as_me:$LINENO: error: cannot link or copy $srcdir/$ac_source to $ac_dest" >&5
+echo "$as_me: error: cannot link or copy $srcdir/$ac_source to $ac_dest" >&2;}
+   { (exit 1); exit 1; }; }
 done
 _ACEOF
 cat >>$CONFIG_STATUS <<\_ACEOF

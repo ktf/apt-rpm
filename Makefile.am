@@ -1,5 +1,5 @@
 
-SUBDIRS = buildlib lua apt-pkg methods cmdline tools doc po
+SUBDIRS = lua apt-pkg methods cmdline tools doc po
 
 ACLOCAL_AMFLAGS = -I m4 -I buildlib
 
@@ -79,3 +79,6 @@ EXTRA_DIST += contrib/guess/guess.lua
 EXTRA_DIST += contrib/list-nodeps/list-nodeps.conf
 EXTRA_DIST += contrib/list-nodeps/list-nodeps.lua
 EXTRA_DIST += contrib/list-nodeps/README
+
+EXTRA_DIST += buildlib/archtable
+EXTRA_DIST += buildlib/ostable

@@ -35,11 +35,17 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = .
 DIST_COMMON = $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(top_srcdir)/buildlib/config.h.in \
-	$(top_srcdir)/configure ABOUT-NLS AUTHORS COPYING ChangeLog \
-	TODO
+	$(top_srcdir)/buildlib/gettext.h \
+	$(top_srcdir)/buildlib/inttypes.h \
+	$(top_srcdir)/buildlib/netdb.h \
+	$(top_srcdir)/buildlib/statvfs.h $(top_srcdir)/configure \
+	ABOUT-NLS AUTHORS COPYING ChangeLog TODO buildlib/compile \
+	buildlib/config.guess buildlib/config.rpath \
+	buildlib/config.sub buildlib/depcomp buildlib/install-sh \
+	buildlib/ltmain.sh buildlib/missing buildlib/mkinstalldirs
+subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/buildlib/tools.m4 \
 	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/iconv.m4 \
@@ -53,7 +59,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/buildlib/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = include/apti18n.h include/inttypes.h \
+	include/statvfs.h include/netdb.h
 SOURCES =
 DIST_SOURCES =
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
@@ -142,13 +149,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 MSGMERGE = @MSGMERGE@
-NEED_INTTYPES_H_FALSE = @NEED_INTTYPES_H_FALSE@
-NEED_INTTYPES_H_TRUE = @NEED_INTTYPES_H_TRUE@
-NEED_NETDB_H_FALSE = @NEED_NETDB_H_FALSE@
-NEED_NETDB_H_TRUE = @NEED_NETDB_H_TRUE@
 NEED_SOCKLEN_T_DEFINE = @NEED_SOCKLEN_T_DEFINE@
-NEED_STATVFS_H_FALSE = @NEED_STATVFS_H_FALSE@
-NEED_STATVFS_H_TRUE = @NEED_STATVFS_H_TRUE@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -216,7 +217,7 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-SUBDIRS = buildlib lua apt-pkg methods cmdline tools doc po
+SUBDIRS = lua apt-pkg methods cmdline tools doc po
 ACLOCAL_AMFLAGS = -I m4 -I buildlib
 EXTRA_DIST = AUTHORS.RPM COPYING.GPL rpmpriorities test/conf.cc \
 	test/extract-control.cc test/hash.cc test/makefile \
@@ -254,7 +255,8 @@ EXTRA_DIST = AUTHORS.RPM COPYING.GPL rpmpriorities test/conf.cc \
 	contrib/proxypasswd/README contrib/proxypasswd/proxypasswd.lua \
 	contrib/guess/README contrib/guess/guess.conf \
 	contrib/guess/guess.lua contrib/list-nodeps/list-nodeps.conf \
-	contrib/list-nodeps/list-nodeps.lua contrib/list-nodeps/README
+	contrib/list-nodeps/list-nodeps.lua contrib/list-nodeps/README \
+	buildlib/archtable buildlib/ostable
 all: all-recursive
 
 .SUFFIXES:
