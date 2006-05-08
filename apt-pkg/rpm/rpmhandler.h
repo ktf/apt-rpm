@@ -228,6 +228,7 @@ class RPMRepomdHandler : public RPMHandler
    xmlNode *NodeP;
 
    vector<xmlNode *> Pkgs;
+   vector<xmlNode *>::iterator PkgIter;
 
    bool WithFilelist;
    string PrimaryFile, FilelistFile;

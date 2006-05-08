@@ -908,9 +908,7 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
       Pkgs.push_back(n);
       pkgcount++;
    }
-   if (iSize > 0) {
-      NodeP = Pkgs[0];
-   }
+   PkgIter = Pkgs.begin();
 
    // There seem to be broken version(s) of createrepo around which report
    // to have one more package than is in the repository. Warn and work around.
@@ -932,14 +930,16 @@ error:
 
 bool RPMRepomdHandler::Skip()
 {
-   if (iOffset + 1 >= iSize) {
+   if (PkgIter == Pkgs.end()) {
       return false;
    }
-   iOffset++;
-   NodeP = Pkgs[iOffset];
+   NodeP = *PkgIter;
+   iOffset = PkgIter - Pkgs.begin();
    if (WithFilelist) {
       xmlTextReaderNext(Filelist);
    }
+
+   PkgIter++;
    return true;
 }
 
@@ -950,6 +950,9 @@ bool RPMRepomdHandler::Jump(unsigned int Offset)
    }
    iOffset = Offset;
    NodeP = Pkgs[Offset];
+   // This isn't strictly necessary as Skip() and Jump() aren't mixed
+   // in practise but doesn't hurt either...
+   PkgIter = Pkgs.begin() + Offset + 1;
    return true;
 
 }
@@ -957,9 +960,7 @@ bool RPMRepomdHandler::Jump(unsigned int Offset)
 void RPMRepomdHandler::Rewind()
 {
    iOffset = 0;
-   if (iSize > 0) {
-      NodeP = Pkgs[0];
-   }
+   PkgIter = Pkgs.begin();
 }
 
 xmlNode *RPMRepomdHandler::FindNode(const string Name)
