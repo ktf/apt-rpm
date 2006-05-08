@@ -2611,7 +2611,7 @@ bool DoSource(CommandLine &CmdL)
 	 {
 	    char S[500];
 	    snprintf(S,sizeof(S),"%s %s %s",
-		     _config->Find("RPM::Source::Build-Command","rpm --rebuild").c_str(),
+		     _config->Find("RPM::Source::Build-Command","rpmbuild --rebuild").c_str(),
 		     _config->Find("RPM::Source::Build-Options","").c_str(),
 		     Dsc[I].Dsc.c_str());
 	    if (system(S) != 0)
