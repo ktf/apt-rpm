@@ -80,5 +80,9 @@ EXTRA_DIST += contrib/list-nodeps/list-nodeps.conf
 EXTRA_DIST += contrib/list-nodeps/list-nodeps.lua
 EXTRA_DIST += contrib/list-nodeps/README
 
+EXTRA_DIST += contrib/apt-cron/apt.cron
+EXTRA_DIST += contrib/apt-cron/apt.init
+EXTRA_DIST += contrib/apt-cron/apt.sysconfig
+
 EXTRA_DIST += buildlib/archtable
 EXTRA_DIST += buildlib/ostable

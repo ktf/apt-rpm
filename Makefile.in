@@ -256,7 +256,9 @@ EXTRA_DIST = AUTHORS.RPM COPYING.GPL rpmpriorities test/conf.cc \
 	contrib/guess/README contrib/guess/guess.conf \
 	contrib/guess/guess.lua contrib/list-nodeps/list-nodeps.conf \
 	contrib/list-nodeps/list-nodeps.lua contrib/list-nodeps/README \
-	buildlib/archtable buildlib/ostable
+	contrib/apt-cron/apt.cron contrib/apt-cron/apt.init \
+	contrib/apt-cron/apt.sysconfig buildlib/archtable \
+	buildlib/ostable
 all: all-recursive
 
 .SUFFIXES:
@@ -456,7 +458,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/buildlib $(distdir)/contrib/allow-duplicated $(distdir)/contrib/apt-files $(distdir)/contrib/apt-groupinstall $(distdir)/contrib/apt-wrapper $(distdir)/contrib/gpg-check $(distdir)/contrib/guess $(distdir)/contrib/install-devel $(distdir)/contrib/list-extras $(distdir)/contrib/list-nodeps $(distdir)/contrib/log $(distdir)/contrib/preserve-conf $(distdir)/contrib/proxypasswd $(distdir)/m4 $(distdir)/po $(distdir)/python $(distdir)/test
+	$(mkdir_p) $(distdir)/buildlib $(distdir)/contrib/allow-duplicated $(distdir)/contrib/apt-cron $(distdir)/contrib/apt-files $(distdir)/contrib/apt-groupinstall $(distdir)/contrib/apt-wrapper $(distdir)/contrib/gpg-check $(distdir)/contrib/guess $(distdir)/contrib/install-devel $(distdir)/contrib/list-extras $(distdir)/contrib/list-nodeps $(distdir)/contrib/log $(distdir)/contrib/preserve-conf $(distdir)/contrib/proxypasswd $(distdir)/m4 $(distdir)/po $(distdir)/python $(distdir)/test
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

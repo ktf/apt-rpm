@@ -1,0 +1,5 @@
+# Actually perform updates or only check what's available [yes|no]
+CHECK_ONLY=no
+
+# Any extra parameters you want to pass to dist-upgrade
+EXTRA_OPTIONS=

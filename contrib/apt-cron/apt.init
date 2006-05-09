@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# apt           This shell script enables the automatic updates by APT
+#
+# Author:       Seth Vidal <skvidal@phy.duke.edu>
+# Modified for APT by Panu Matilainen <pmatilai@welho.com>
+#
+# chkconfig:	- 50 01
+#
+# description:  Enable daily run of apt, a program updater.
+# processname:  apt-get
+# config: /etc/apt/
+#
+
+# source function library
+. /etc/rc.d/init.d/functions
+
+lockfile=/var/lock/subsys/apt
+
+RETVAL=0
+
+start() {
+	echo -n $"Enabling nightly apt update: "
+	touch "$lockfile" && success || failure
+	RETVAL=$?
+	echo
+}
+
+stop() {
+	echo -n $"Disabling nightly apt update: "
+	rm -f "$lockfile" && success || failure
+	RETVAL=$?
+	echo
+}
+
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+  start)
+	start
+	;;
+  stop) 
+	stop
+	;;
+  restart|force-reload)
+	restart
+	;;
+  reload)
+	;;
+  condrestart)
+	[ -f "$lockfile" ] && restart
+	;;
+  status)
+	if [ -f $lockfile ]; then
+		echo $"Nightly apt update is enabled."
+		RETVAL=0
+	else
+		echo $"Nightly apt update is disabled."
+		RETVAL=3
+	fi
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+	exit 1
+esac
+
+exit $RETVAL

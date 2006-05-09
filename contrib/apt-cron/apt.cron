@@ -1,0 +1,10 @@
+#!/bin/sh
+
+[ ! -f /var/lock/subsys/apt ] && exit 0
+
+[ -f /etc/sysconfig/apt ] && . /etc/sysconfig/apt
+
+[ $CHECK_ONLY == "yes" ] && OPTS="$OPTS --check-only"
+OPTS="$OPTS $EXTRA_OPTIONS"
+
+/usr/bin/apt-get -q update && /usr/bin/apt-get -q -y $OPTS dist-upgrade
