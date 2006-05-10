@@ -28,12 +28,6 @@
 
 #include <apti18n.h>
 
-#include <rpm/rpmlib.h>
-
-#if RPM_VERSION >= 0x040100
-#include <rpm/rpmds.h>
-#endif
-
 #define WITH_VERSION_CACHING 1
 
 string MultilibArchs[] = {"x86_64", "ia64", "ppc64", "sparc64"};

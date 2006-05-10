@@ -27,10 +27,6 @@
 
 #include <apti18n.h>
 
-#if RPM_VERSION >= 0x040100
-#include <rpm/rpmds.h>
-#endif
-
 using namespace std;
 
 // SrcRecordParser::rpmSrcRecordParser - Constructor			/*{{{*/

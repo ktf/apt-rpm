@@ -16,7 +16,6 @@
 #include <apt-pkg/pkgcachegen.h>
 #include <apt-pkg/rpmhandler.h>
 #include <apt-pkg/rpmmisc.h>
-#include <rpm/rpmlib.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 

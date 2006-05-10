@@ -18,8 +18,6 @@
 #include <apt-pkg/srcrecords.h>
 #include <apt-pkg/fileutl.h>
 #include <apt-pkg/rpmhandler.h>
-#include <rpm/rpmlib.h>
-
   
 class RPMHandler;
 
