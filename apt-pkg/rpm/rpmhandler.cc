@@ -45,9 +45,11 @@ string RPMHandler::Epoch()
 {
    char str[512];
    int_32 count, type, *epoch;
+   void *val;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH,
-			   &type, (void**)&epoch, &count);
+			   &type, &val, &count);
+   epoch = (int_32*)val;
    if (rc == 1 && count > 0) {
       snprintf(str, sizeof(str), "%i", epoch[0]);
       return str;
@@ -59,19 +61,23 @@ string RPMHandler::Epoch()
 unsigned long RPMHandler::GetITag(rpmTag Tag)
 {
    int_32 count, type, *num;
+   void *val;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, Tag,
-			   &type, (void**)&num, &count);
+			   &type, (void**)&val, &count);
+   num = (int_32*)val;
    return rc?num[0]:0;
 }
 
 string RPMHandler::GetSTag(rpmTag Tag)
 {
    char *str;
+   void *val;
    int_32 count, type;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, Tag,
-			   &type, (void**)&str, &count);
+			   &type, (void**)&val, &count);
+   str = (char *)val;
    return string(rc?str:"");
 }
 
@@ -94,9 +100,11 @@ bool RPMHandler::HasFile(const char *File)
    if (*File == '\0')
       return false;
    char **names = NULL;
+   void *val;
    int_32 count = 0;
    rpmHeaderGetEntry(HeaderP, RPMTAG_OLDFILENAMES,
-                     NULL, (void **) &names, &count);
+                     NULL, (void **) &val, &count);
+   names = (char **)val;
    while (count--)
    {
       char *name = names[count];
@@ -220,65 +228,71 @@ bool RPMHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
    char **verl = NULL;
    int *flagl = NULL;
    int res, type, count;
+   void *nameval = NULL;
+   void *verval = NULL;
+   void *flagval = NULL;
 
    switch (Type)
    {
    case pkgCache::Dep::Depends:
       res = headerGetEntry(HeaderP, RPMTAG_REQUIRENAME, &type,
-                           (void **)&namel, &count);
+                           (void **)&nameval, &count);
       if (res != 1)
           return true;
       res = headerGetEntry(HeaderP, RPMTAG_REQUIREVERSION, &type,
-                           (void **)&verl, &count);
+                           (void **)&verval, &count);
       res = headerGetEntry(HeaderP, RPMTAG_REQUIREFLAGS, &type,
-                           (void **)&flagl, &count);
+                           (void **)&flagval, &count);
       break;
 
    case pkgCache::Dep::Obsoletes:
       res = headerGetEntry(HeaderP, RPMTAG_OBSOLETENAME, &type,
-                           (void **)&namel, &count);
+                           (void **)&nameval, &count);
       if (res != 1)
           return true;
       res = headerGetEntry(HeaderP, RPMTAG_OBSOLETEVERSION, &type,
-                           (void **)&verl, &count);
+                           (void **)&verval, &count);
       res = headerGetEntry(HeaderP, RPMTAG_OBSOLETEFLAGS, &type,
-                           (void **)&flagl, &count);
+                           (void **)&flagval, &count);
       break;
    case pkgCache::Dep::Conflicts:
       res = headerGetEntry(HeaderP, RPMTAG_CONFLICTNAME, &type,
-                           (void **)&namel, &count);
+                           (void **)&nameval, &count);
       if (res != 1)
           return true;
       res = headerGetEntry(HeaderP, RPMTAG_CONFLICTVERSION, &type,
-                           (void **)&verl, &count);
+                           (void **)&verval, &count);
       res = headerGetEntry(HeaderP, RPMTAG_CONFLICTFLAGS, &type,
-                           (void **)&flagl, &count);
+                           (void **)&flagval, &count);
       break;
 #if RPM_VERSION >= 0x040403
    case pkgCache::Dep::Suggests:
       res = headerGetEntry(HeaderP, RPMTAG_SUGGESTSNAME, &type,
-                           (void **)&namel, &count);
+                           (void **)&nameval, &count);
       if (res != 1)
           return true; 
       res = headerGetEntry(HeaderP, RPMTAG_SUGGESTSVERSION, &type,
-                           (void **)&verl, &count);
+                           (void **)&verval, &count);
       res = headerGetEntry(HeaderP, RPMTAG_SUGGESTSFLAGS, &type,
-                           (void **)&flagl, &count);
+                           (void **)&flagval, &count);
       break;
 #if 0 // Enhances is not even known to apt, sigh...
    case pkgCache::Dep::Enhances:
       res = headerGetEntry(HeaderP, RPMTAG_ENHANCESNAME, &type,
-                           (void **)&namel, &count);
+                           (void **)&nameval, &count);
       if (res != 1)
           return true;
       res = headerGetEntry(HeaderP, RPMTAG_ENHANCESVERSION, &type,
-                           (void **)&verl, &count);
+                           (void **)&verval, &count);
       res = headerGetEntry(HeaderP, RPMTAG_ENHANCESFLAGS, &type,
-                           (void **)&flagl, &count);
+                           (void **)&flagval, &count);
       break;
 #endif
 #endif
    }
+   namel = (char**)nameval;
+   verl = (char**)verval;
+   flagl = (int*)flagval;
 
    unsigned int Op = 0;
    bool DepMode = false;
@@ -336,15 +350,19 @@ bool RPMHandler::Provides(vector<Dependency*> &Provs)
    int type, count;
    char **namel = NULL;
    char **verl = NULL;
+   void *nameval = NULL;
+   void *verval = NULL;
    int res;
 
    res = headerGetEntry(HeaderP, RPMTAG_PROVIDENAME, &type,
-                        (void **)&namel, &count);
+                        (void **)&nameval, &count);
    if (res != 1)
        return true;
+   namel = (char **)nameval;
 
    res = headerGetEntry(HeaderP, RPMTAG_PROVIDEVERSION, &type,
-                        (void **)&verl, NULL);
+                        (void **)&verval, NULL);
+   verl = (char **)verval;
 
    if (res != 1)
       verl = NULL;
@@ -367,10 +385,12 @@ bool RPMHandler::Provides(vector<Dependency*> &Provs)
 bool RPMHandler::FileProvides(vector<string> &FileProvs)
 {
    const char **names = NULL;
+   void *val = NULL;
    int_32 count = 0;
    bool ret = true;
    rpmHeaderGetEntry(HeaderP, RPMTAG_OLDFILENAMES,
-                     NULL, (void **) &names, &count);
+                     NULL, (void **) &val, &count);
+   names = (const char **)val;
    while (count--) {
       FileProvs.push_back(names[count]);
    }

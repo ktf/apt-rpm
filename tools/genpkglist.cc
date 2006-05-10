@@ -104,6 +104,7 @@ static void copyStrippedFileList(Header header, Header newHeader)
    int count1, count2, count3;
    char **dirnames = NULL, **basenames = NULL;
    int_32 *dirindexes = NULL;
+   void *dirnameval = NULL, *basenameval = NULL, *dirindexval = NULL;
    char **dnames, **bnames;
    int_32 *dindexes;
    int res1, res2, res3;
@@ -111,11 +112,14 @@ static void copyStrippedFileList(Header header, Header newHeader)
 #define FREE(a) if (a) free(a);
    
    res1 = headerGetEntry(header, RPMTAG_DIRNAMES, &type1, 
-			 (void**)&dirnames, &count1);
+			 (void**)&dirnameval, &count1);
    res2 = headerGetEntry(header, RPMTAG_BASENAMES, &type2, 
-			 (void**)&basenames, &count2);
+			 (void**)&basenameval, &count2);
    res3 = headerGetEntry(header, RPMTAG_DIRINDEXES, &type3, 
-			 (void**)&dirindexes, &count3);
+			 (void**)&dirindexval, &count3);
+   dirnames = (char **)dirnameval;
+   basenames = (char **)basenameval;
+   dirindexes = (int_32 *)dirindexval;
    
    if (res1 != 1 || res2 != 1 || res3 != 1) {
       FREE(dirnames);
@@ -254,14 +258,19 @@ bool copyFields(Header h, Header newHeader,
       int type1, type2, type3;
       int count1, count2, count3;
       char **dnames, **bnames, **dindexes;
+      void *dnameval, *bnameval, *dindexval;
       int res;
    
       res = headerGetEntry(h, RPMTAG_DIRNAMES, &type1, 
-			   (void**)&dnames, &count1);
+			   (void**)&dnameval, &count1);
       res = headerGetEntry(h, RPMTAG_BASENAMES, &type2, 
-			   (void**)&bnames, &count2);
+			   (void**)&bnameval, &count2);
       res = headerGetEntry(h, RPMTAG_DIRINDEXES, &type3, 
-			   (void**)&dindexes, &count3);
+			   (void**)&dindexval, &count3);
+
+      dnames = (char **)dnameval;
+      bnames = (char **)bnameval;
+      dindexes = (char **)dindexval;
 
       if (res == 1) {
 	 headerAddEntry(newHeader, RPMTAG_DIRNAMES, type1, dnames, count1);
@@ -275,14 +284,17 @@ bool copyFields(Header h, Header newHeader,
    // update index of srpms
    if (idxfile) {
       int_32 type, count;
-      char *srpm;
-      char *name;
+      char *srpm, *name;
+      void *srpmval, *nameval;
       int res;
       
       res = headerGetEntry(h, RPMTAG_NAME, &type, 
-			   (void**)&name, &count);
+			   (void**)&nameval, &count);
       res = headerGetEntry(h, RPMTAG_SOURCERPM, &type, 
-			   (void**)&srpm, &count);
+			   (void**)&srpmval, &count);
+      name = (char *)nameval;
+      srpm = (char *)srpmval;
+
       if (res == 1) {
 	 fprintf(idxfile, "%s %s\n", srpm, name);
       }

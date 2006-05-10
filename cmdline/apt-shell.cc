@@ -3511,7 +3511,7 @@ bool DoList(CommandLine &CmdL)
    const char *PkgName;
    int Matches[Cache->Head().PackageCount];
    unsigned int NumMatches = 0;
-   size_t Len, NameMaxLen = 0, VerMaxLen = 0;
+   size_t Len = 0, NameMaxLen = 0, VerMaxLen = 0;
    bool Matched;
    for (unsigned int J = 0; J < Cache->Head().PackageCount; J++)
    {
