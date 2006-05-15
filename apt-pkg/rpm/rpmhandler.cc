@@ -41,21 +41,27 @@
 #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
 #endif
 
+// An attempt to deal with false zero epochs from repomd. With older rpm's we 
+// can only blindly trust the repo admin created the repository with options
+// suitable for those versions.
+#if RPM_VERSION >= 0x040201
+static bool HideZeroEpoch = true;
+#else
+static bool HideZeroEpoch = false;
+#endif
+
 string RPMHandler::Epoch()
 {
-   char str[512];
+   char str[512] = "";
    int_32 count, type, *epoch;
    void *val;
    assert(HeaderP != NULL);
-   int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH,
-			   &type, &val, &count);
+   int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH, &type, &val, &count);
    epoch = (int_32*)val;
    if (rc == 1 && count > 0) {
       snprintf(str, sizeof(str), "%i", epoch[0]);
-      return str;
-   } else { 
-      return string(rc?str:"");
    }
+   return string(str);
 }
 
 unsigned long RPMHandler::GetITag(rpmTag Tag)
@@ -88,6 +94,8 @@ string RPMHandler::EVR()
    string r = Release();
    string evr = "";
    if (e.empty() == true) {
+      evr = v + '-' + r;
+   } else if (HideZeroEpoch && e == "0") {
       evr = v + '-' + r;
    } else {
       evr = e + ':' + v + '-' + r;
@@ -318,6 +326,11 @@ bool RPMHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
       Dependency *Dep = new Dependency;
       Dep->Name = namel[i];
       Dep->Version = verl[i] ? verl[i]:"";
+
+      if (HideZeroEpoch && Dep->Version.substr(0, 2) == "0:") {
+	 Dep->Version = Dep->Version.substr(2);
+      }
+
       if (!verl[i]) {
          Op = pkgCache::Dep::NoOp;
       } else {
@@ -372,6 +385,9 @@ bool RPMHandler::Provides(vector<Dependency*> &Provs)
       Dep->Name = namel[i];
       if (verl) {
 	 Dep->Version = *verl[i] ? verl[i]:"";
+	 if (HideZeroEpoch && Dep->Version.substr(0, 2) == "0:") {
+	    Dep->Version = Dep->Version.substr(2);
+	 }
 	 Dep->Op = pkgCache::Dep::Equals;
       } else {
 	 Dep->Version = "";
@@ -1253,6 +1269,11 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
       Dep->Name = string((char*)depname);
       xmlFree(depname);
       Dep->Version = depver;
+      if (HideZeroEpoch && Dep->Version.substr(0, 2) == "0:") {
+	 Dep->Version = Dep->Version.substr(2);
+      }
+
+      
       Dep->Op = Op;
       Dep->Type = Type;
       Deps.push_back(Dep);
@@ -1300,6 +1321,10 @@ bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
 
       }
       Dep->Version = depver;
+      if (HideZeroEpoch && Dep->Version.substr(0, 2) == "0:") {
+	 Dep->Version = Dep->Version.substr(2);
+      }
+
       if (depver.empty() == false)
 	 Dep->Op = pkgCache::Dep::Equals;
       Provs.push_back(Dep);
