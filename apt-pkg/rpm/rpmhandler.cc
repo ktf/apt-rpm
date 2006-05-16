@@ -929,9 +929,16 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
 	 _error->Error(_("Failed to open filelist index %s"), FilelistFile.c_str());
 	 goto error;
       } 
-      // XXX FIXME: Ugh.. "initialize" filelist to correct position
-      xmlTextReaderRead(Filelist);
-      xmlTextReaderRead(Filelist);
+
+      // seek into first package in filelists.xml
+      int ret = xmlTextReaderRead(Filelist);
+      while (ret == 1) {
+	 if (xmlStrcmp(xmlTextReaderConstName(Filelist), 
+		      (xmlChar*)"package") == 0) {
+	    break;
+	 }
+	 ret = xmlTextReaderRead(Filelist);
+      }
    }	 
 
    packages = xmlGetProp(Root, (xmlChar*)"packages");
@@ -971,8 +978,11 @@ bool RPMRepomdHandler::Skip()
    }
    NodeP = *PkgIter;
    iOffset = PkgIter - Pkgs.begin();
+
    if (WithFilelist) {
-      xmlTextReaderNext(Filelist);
+      if (iOffset > 0) {
+	 xmlTextReaderNext(Filelist);
+      }
    }
 
    PkgIter++;
@@ -1359,8 +1369,9 @@ bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
 RPMRepomdHandler::~RPMRepomdHandler()
 {
    xmlFreeDoc(Primary);
-   if (WithFilelist)
+   if (WithFilelist) {
       xmlFreeTextReader(Filelist);
+   }
 }
 
 // vim:sts=3:sw=3
