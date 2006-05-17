@@ -7,4 +7,5 @@
 [ $CHECK_ONLY == "yes" ] && OPTS="$OPTS --check-only"
 OPTS="$OPTS $EXTRA_OPTIONS"
 
+export HOME=/root
 /usr/bin/apt-get -q update && /usr/bin/apt-get -q -y $OPTS dist-upgrade
