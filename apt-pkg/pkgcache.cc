@@ -54,7 +54,7 @@ pkgCache::Header::Header()
       whenever the generator changes the minor version should be bumped. */
    // CNC:2003-11-24
    MajorVersion = 6;
-   MinorVersion = 0;
+   MinorVersion = 1;
    Dirty = false;
 
    // CNC:2003-03-18
