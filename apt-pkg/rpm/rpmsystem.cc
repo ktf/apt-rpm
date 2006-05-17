@@ -572,7 +572,6 @@ unsigned long rpmSystem::OptionsHash() const
    unsigned long Hash = 0;
    HashOption(Hash, "RPM::Architecture");
    HashOptionTree(Hash, "RPM::Allow-Duplicated");
-   HashOptionTree(Hash, "RPM::MultiArch");
    HashOptionTree(Hash, "RPM::Ignore");
    HashOptionFile(Hash, "Dir::Etc::rpmpriorities");
    HashEnv(Hash, "LANG");
