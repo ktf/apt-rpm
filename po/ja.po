@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt 0.5.15lorg3\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2006-05-05 09:07+0300\n"
+"POT-Creation-Date: 2006-05-16 17:58+0300\n"
 "PO-Revision-Date: 2006-05-05 00:08+0900\n"
 "Last-Translator: Daisuke SUZUKI <daisuke@linux.or.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -1867,50 +1867,50 @@ msgstr "%c%s... 完了"
 msgid "Selection %s not found"
 msgstr "選択された %s が見つかりません"
 
-#: apt-pkg/rpm/repomd.cc:44 apt-pkg/rpm/rpmlistparser.cc:593
+#: apt-pkg/rpm/repomd.cc:44 apt-pkg/rpm/rpmlistparser.cc:587
 #: apt-pkg/repository.cc:40
 #, c-format
 msgid "could not open Release file '%s'"
 msgstr "リリースファイル '%s' をオープンできません。"
 
-#: apt-pkg/rpm/rpmhandler.cc:445
+#: apt-pkg/rpm/rpmhandler.cc:481
 msgid "could not rewind RPMFileHandler"
 msgstr "RPMFileHandler を巻戻すことができません"
 
-#: apt-pkg/rpm/rpmhandler.cc:482 apt-pkg/rpm/rpmhandler.cc:489
+#: apt-pkg/rpm/rpmhandler.cc:518 apt-pkg/rpm/rpmhandler.cc:525
 #: apt-pkg/rpm/rpmpm.cc:685 apt-pkg/rpm/rpmpm.cc:690
 #, c-format
 msgid "Failed reading file %s"
 msgstr "ファイル %s の読み込みに失敗しました"
 
-#: apt-pkg/rpm/rpmhandler.cc:653
+#: apt-pkg/rpm/rpmhandler.cc:689
 msgid "Unable to determine the file size"
 msgstr "ファイルサイズをを特定することが出来ません"
 
-#: apt-pkg/rpm/rpmhandler.cc:698 apt-pkg/rpm/rpmhandler.cc:707
+#: apt-pkg/rpm/rpmhandler.cc:734 apt-pkg/rpm/rpmhandler.cc:743
 msgid "could not open RPM database"
 msgstr "RPMデータベースがオープンできません。"
 
-#: apt-pkg/rpm/rpmhandler.cc:714
+#: apt-pkg/rpm/rpmhandler.cc:750
 msgid "could not create RPM database iterator"
 msgstr "RPMデータベースイテレータを作成できません。"
 
-#: apt-pkg/rpm/rpmhandler.cc:880
+#: apt-pkg/rpm/rpmhandler.cc:916
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "パッケージファイル %s をパースすることができません(1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:884
+#: apt-pkg/rpm/rpmhandler.cc:920
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "パッケージ %s が見付かりません"
 
-#: apt-pkg/rpm/rpmhandler.cc:893
+#: apt-pkg/rpm/rpmhandler.cc:929
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "%s.new を開くことができません"
 
-#: apt-pkg/rpm/rpmhandler.cc:918
+#: apt-pkg/rpm/rpmhandler.cc:959
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
@@ -1967,11 +1967,11 @@ msgstr "不正なライン %lu がソースリスト %s にあります (dist)"
 msgid "Malformed line %lu in source list %s (URI parse)"
 msgstr "不正なライン %lu がソースリスト %s にあります (URI parse)"
 
-#: apt-pkg/rpm/rpmlistparser.cc:92
+#: apt-pkg/rpm/rpmlistparser.cc:86
 msgid "Corrupt pkglist: no RPMTAG_NAME in header entry"
 msgstr ""
 
-#: apt-pkg/rpm/rpmlistparser.cc:116
+#: apt-pkg/rpm/rpmlistparser.cc:110
 #, c-format
 msgid ""
 "There are multiple versions of \"%s\" in your system.\n"
@@ -2001,7 +2001,7 @@ msgstr ""
 "\n"
 "RPM::Allow-Duplicated-Warning \"false\";\n"
 
-#: apt-pkg/rpm/rpmlistparser.cc:465
+#: apt-pkg/rpm/rpmlistparser.cc:459
 msgid "Bad NotAutomatic flag"
 msgstr ""
 
@@ -2020,17 +2020,17 @@ msgstr "%s にはデータがありません"
 msgid "Bad regular expression '%s' in option RPM::Hold."
 msgstr "RPM::Hold オプションに不適切な正規表現 '%s' があります"
 
-#: apt-pkg/rpm/rpmpackagedata.cc:125
+#: apt-pkg/rpm/rpmpackagedata.cc:128
 #, c-format
 msgid "Bad regular expression '%s' in option RPM::Allow-Duplicated."
 msgstr " RPM::Allow-Dupliacted オプションに不適切な正規表現 '%s' があります。"
 
-#: apt-pkg/rpm/rpmpackagedata.cc:142
+#: apt-pkg/rpm/rpmpackagedata.cc:145
 #, c-format
 msgid "Bad entry '%s' in option RPM::FakeProvides."
 msgstr "RPM::FakeProvides オプションに不適切なエントリ '%s' があります"
 
-#: apt-pkg/rpm/rpmpackagedata.cc:196
+#: apt-pkg/rpm/rpmpackagedata.cc:199
 #, c-format
 msgid "Bad regular expression '%s' in URI translation"
 msgstr "URI 変換に不適切な正規表現 '%s' があります"
@@ -2079,7 +2079,7 @@ msgstr "サブプロセスを待機できません"
 msgid "Sub-process %s recieved a segmentation fault."
 msgstr "サブプロセス %s がセグメンテーションフォルトを起こしました"
 
-#: apt-pkg/rpm/rpmpm.cc:631 apt-pkg/rpm/rpmpm.cc:898
+#: apt-pkg/rpm/rpmpm.cc:631 apt-pkg/rpm/rpmpm.cc:900
 msgid "Done."
 msgstr "完了"
 
@@ -2097,28 +2097,28 @@ msgstr ""
 msgid "Could not open RPM database"
 msgstr "RPMデータベースがオープンできません。"
 
-#: apt-pkg/rpm/rpmpm.cc:837 apt-pkg/rpm/rpmpm.cc:850
+#: apt-pkg/rpm/rpmpm.cc:839 apt-pkg/rpm/rpmpm.cc:852
 msgid "Transaction set check failed"
 msgstr ""
 
-#: apt-pkg/rpm/rpmpm.cc:870
+#: apt-pkg/rpm/rpmpm.cc:872
 #, c-format
 msgid "Ordering failed for %d packages"
 msgstr "%d 個のパッケージの並べ替えに失敗しました"
 
-#: apt-pkg/rpm/rpmpm.cc:874
+#: apt-pkg/rpm/rpmpm.cc:876
 msgid "Committing changes..."
 msgstr "変更を適用しています..."
 
-#: apt-pkg/rpm/rpmpm.cc:890
+#: apt-pkg/rpm/rpmpm.cc:892
 msgid "Error while running transaction"
 msgstr ""
 
-#: apt-pkg/rpm/rpmpm.cc:896
+#: apt-pkg/rpm/rpmpm.cc:898
 msgid "Some errors occurred while running transaction"
 msgstr "トランザクション処理中にエラーが発生しました"
 
-#: apt-pkg/rpm/rpmrecords.cc:174 apt-pkg/rpm/rpmsrcrecords.cc:176
+#: apt-pkg/rpm/rpmrecords.cc:174 apt-pkg/rpm/rpmsrcrecords.cc:177
 msgid "Could not allocate buffer for record text"
 msgstr "レコードテキストにバッファを割り当てることができません"
 
