@@ -1,4 +1,231 @@
 ------------------------------------------------------------------------
+r166 | pmatilai | 2006-05-22 18:11:09 +0300 (Mon, 22 May 2006) | 2 lines
+
+- preparing for lorg3.1
+
+------------------------------------------------------------------------
+r165 | pmatilai | 2006-05-22 18:02:03 +0300 (Mon, 22 May 2006) | 2 lines
+
+- updates to German translation (Ralf)
+
+------------------------------------------------------------------------
+r164 | pmatilai | 2006-05-17 20:10:37 +0300 (Wed, 17 May 2006) | 3 lines
+
+- bump cache minor version number to force full cache rebuild after upgrade 
+  from previous versions
+
+------------------------------------------------------------------------
+r163 | pmatilai | 2006-05-17 20:08:36 +0300 (Wed, 17 May 2006) | 2 lines
+
+- remove unused rpm::multiarch optionhash
+
+------------------------------------------------------------------------
+r162 | pmatilai | 2006-05-17 08:53:55 +0300 (Wed, 17 May 2006) | 2 lines
+
+- set HOME in apt-cron, otherwise signed repositories wont work from apt-cron 
+
+------------------------------------------------------------------------
+r161 | pmatilai | 2006-05-16 17:32:09 +0300 (Tue, 16 May 2006) | 2 lines
+
+- fix off-by-one in filelists handling
+
+------------------------------------------------------------------------
+r160 | pmatilai | 2006-05-15 19:02:20 +0300 (Mon, 15 May 2006) | 9 lines
+
+- In rpm < 4.2.1 zero epoch isn't the same as non-existent epoch, we can't
+  but blindly assume a patched createrepo not adding false zero epochs was
+  used and treat everything as is. With newer rpm's we can deal with the
+  zero-epoch silliness but they need to be treated uniformly everywhere
+  to keep apt's version bookkeeping in order, so we remove them. The other
+  alternative of *adding* zero epochs everywhere is slightly more complex,
+  looks uglier and causes some script breakage (although the scripts could
+  be considered broken as well). 
+
+------------------------------------------------------------------------
+r159 | pmatilai | 2006-05-10 19:39:03 +0300 (Wed, 10 May 2006) | 2 lines
+
+- remove bunch of unnecessary rpmlib includes
+
+------------------------------------------------------------------------
+r158 | pmatilai | 2006-05-10 18:39:15 +0300 (Wed, 10 May 2006) | 3 lines
+
+- fix type-punning errors using temporary variables in rpmhandler + genpkglist
+- fix "might be used uninitialized" complaint in apt-shell
+
+------------------------------------------------------------------------
+r157 | pmatilai | 2006-05-09 17:15:18 +0300 (Tue, 09 May 2006) | 2 lines
+
+- add apt-cron from FE package to contrib
+
+------------------------------------------------------------------------
+r156 | pmatilai | 2006-05-08 23:55:20 +0300 (Mon, 08 May 2006) | 3 lines
+
+- ignore gpg-pubkey "packages" unconditionally on rpm >= 4.1, they can't
+  be handled with apt at all so they shouldn't be visible either
+
+------------------------------------------------------------------------
+r155 | pmatilai | 2006-05-08 23:44:22 +0300 (Mon, 08 May 2006) | 2 lines
+
+- fix default rpm::source::build-command value to match reality
+
+------------------------------------------------------------------------
+r154 | pmatilai | 2006-05-08 23:38:26 +0300 (Mon, 08 May 2006) | 2 lines
+
+- fix the default value of apt::cache::allnames to act like intended
+
+------------------------------------------------------------------------
+r153 | pmatilai | 2006-05-08 22:01:19 +0300 (Mon, 08 May 2006) | 4 lines
+
+- use iterator in repomd handler offset handling to make it behave as the 
+  handler interface requires thus fixing an off-by-one bug causing the first 
+  package of repository to go ignored
+
+------------------------------------------------------------------------
+r152 | pmatilai | 2006-05-08 17:48:12 +0300 (Mon, 08 May 2006) | 4 lines
+
+- replace the questionable magic to conditionally install headers in 
+  buildlib/Makefile.am with AC_CONFIG_LINK'ed files, get rid of 
+  buildlib/Makefile* (Ralf)
+
+------------------------------------------------------------------------
+r151 | pmatilai | 2006-05-08 09:44:16 +0300 (Mon, 08 May 2006) | 2 lines
+
+- cleanup + simplify buildlib/tools.m4 handling (Ralf)
+
+------------------------------------------------------------------------
+r150 | pmatilai | 2006-05-07 12:33:49 +0300 (Sun, 07 May 2006) | 6 lines
+
+- When stepping through source records skip binaries
+- Move CreateSrcParser() to rpmRepomdIndex class from rpmRepomdSrcIndex
+-> Mixed binary + source repomd suddenly works. repomd-src isn't strictly
+needed anymore but should be used for efficiency reasons when using pure
+source repositories.
+
+------------------------------------------------------------------------
+r149 | pmatilai | 2006-05-05 20:24:04 +0300 (Fri, 05 May 2006) | 2 lines
+
+- resurrect some gettext-upgrade victims :)
+
+------------------------------------------------------------------------
+r148 | pmatilai | 2006-05-05 14:01:27 +0300 (Fri, 05 May 2006) | 2 lines
+
+- honor quiet mode in rpm progress reporting (Daisuke Suzuki)
+
+------------------------------------------------------------------------
+r147 | pmatilai | 2006-05-05 13:54:36 +0300 (Fri, 05 May 2006) | 2 lines
+
+- remove leftover files from gettext update + add some missing bits (Ralf)
+
+------------------------------------------------------------------------
+r146 | pmatilai | 2006-05-05 09:50:56 +0300 (Fri, 05 May 2006) | 2 lines
+
+- actually remove intl/ directory + the zero-sized files
+
+------------------------------------------------------------------------
+r145 | pmatilai | 2006-05-05 09:22:10 +0300 (Fri, 05 May 2006) | 2 lines
+
+- update to gettext 0.14.5, remove internal intl (Ralf)
+
+------------------------------------------------------------------------
+r144 | pmatilai | 2006-05-04 23:00:20 +0300 (Thu, 04 May 2006) | 3 lines
+
+- kill one remaining extra e:v-r logic, use handler EVR instead
+- remove a commented leftover Epoch() definition from rpmhandler
+
+------------------------------------------------------------------------
+r143 | pmatilai | 2006-05-04 22:31:13 +0300 (Thu, 04 May 2006) | 2 lines
+
+- updated Japanese translation (Daisuke Suzuki)
+
+------------------------------------------------------------------------
+r142 | pmatilai | 2006-05-04 17:31:59 +0300 (Thu, 04 May 2006) | 2 lines
+
+- Japanese translation was not being included (Ralf)
+
+------------------------------------------------------------------------
+r141 | pmatilai | 2006-05-04 13:00:40 +0300 (Thu, 04 May 2006) | 3 lines
+
+- add bug reporting address to configure + other minor bugs in Makefile.am's
+  (Ralf)
+
+------------------------------------------------------------------------
+r140 | pmatilai | 2006-05-02 23:12:13 +0300 (Tue, 02 May 2006) | 2 lines
+
+- converts pkgSrcRecords from using arrays to std::vector (Ralf)
+
+------------------------------------------------------------------------
+r139 | pmatilai | 2006-05-02 11:43:47 +0300 (Tue, 02 May 2006) | 2 lines
+
+- populate Component of repomd repos to enable repository pinning with repomd
+
+------------------------------------------------------------------------
+r138 | pmatilai | 2006-04-26 23:49:22 +0300 (Wed, 26 Apr 2006) | 2 lines
+
+- shut up a couple of "might be used uninitialized" compiler warnings
+
+------------------------------------------------------------------------
+r137 | pmatilai | 2006-04-26 21:53:35 +0300 (Wed, 26 Apr 2006) | 3 lines
+
+- avoid redundant processing of file entries from primary.xml when
+  filelists.xml is processed (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r136 | pmatilai | 2006-04-26 17:35:15 +0300 (Wed, 26 Apr 2006) | 2 lines
+
+- remove ununsed m4/isc-posix.m4 and buildlib/sizetable files (Ralf)
+
+------------------------------------------------------------------------
+r135 | pmatilai | 2006-04-26 17:33:43 +0300 (Wed, 26 Apr 2006) | 2 lines
+
+- require libxml2-2.6.x at minimum for xmlReadFile (Ralf)
+
+------------------------------------------------------------------------
+r134 | pmatilai | 2006-04-26 17:31:11 +0300 (Wed, 26 Apr 2006) | 2 lines
+
+- fix build issue with older g++ (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r133 | pmatilai | 2006-04-25 18:29:53 +0300 (Tue, 25 Apr 2006) | 3 lines
+
+- remove hardcoded gpg path (Ralf Corsepius)
+- autoreconf
+
+------------------------------------------------------------------------
+r132 | pmatilai | 2006-04-24 22:39:15 +0300 (Mon, 24 Apr 2006) | 2 lines
+
+- pkgArchiveCleaner destructor needs to be public for synaptic
+
+------------------------------------------------------------------------
+r131 | pmatilai | 2006-04-24 21:38:00 +0300 (Mon, 24 Apr 2006) | 5 lines
+
+- clean up install/remove processing in rpmpm::Go()
+- unmunge the multilib package names when removing
+- always refer to packages with their architecture when removing, needed 
+  for multilib
+
+------------------------------------------------------------------------
+r130 | pmatilai | 2006-04-24 18:15:13 +0300 (Mon, 24 Apr 2006) | 4 lines
+
+- use automake defined pkgdata dir for lua script dir instead of hardcoded
+  /usr/share/ (Ralf Corsepius)
+- update auto*stuff (automake 1.9.6)
+
+------------------------------------------------------------------------
+r129 | pmatilai | 2006-04-24 17:34:02 +0300 (Mon, 24 Apr 2006) | 2 lines
+
+- change an array to vector for code readability + safety (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r128 | pmatilai | 2006-04-24 17:10:47 +0300 (Mon, 24 Apr 2006) | 2 lines
+
+- try to deduct srpm package name from srpm filename (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r127 | pmatilai | 2006-04-24 10:15:59 +0300 (Mon, 24 Apr 2006) | 2 lines
+
+- add ChangeLog per Ralf's request
+
+------------------------------------------------------------------------
 r126 | pmatilai | 2006-04-24 10:07:55 +0300 (Mon, 24 Apr 2006) | 3 lines
 
 - work around broken createrepo version(s) reporting more packages in the
