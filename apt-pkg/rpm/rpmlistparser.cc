@@ -28,6 +28,8 @@
 
 #include <apti18n.h>
 
+#include <algorithm>
+
 #define WITH_VERSION_CACHING 1
 
 string MultilibArchs[] = {"x86_64", "ia64", "ppc64", "sparc64"};
