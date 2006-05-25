@@ -46,12 +46,20 @@ static void printHash(const unsigned long amount, const unsigned long total)
     }
 }
 
-void * rpmShowProgress(const Header h,
+#if RPM_VERSION < 0x040000
+void * rpmpmShowProgress(const Header h,
+#else
+void * rpmpmShowProgress(const void * arg, 
+#endif
 			const rpmCallbackType what,
 			const unsigned long amount,
 			const unsigned long total,
 			const void * pkgKey, void * data)
 {
+#if RPM_VERSION >= 0x040000
+    Header h = (Header) arg;
+#endif
+
     char * s;
     int flags = (int) ((long)data);
     void * rc = NULL;
@@ -81,7 +89,7 @@ void * rpmShowProgress(const Header h,
 	if (h == NULL || !(flags & INSTALL_LABEL))
 	    break;
 	if (flags & INSTALL_HASH) {
-	    s = headerSprintf(h, "%{NAME}",
+	    s = headerSprintf(h, "%{NAME}.%{ARCH}",
 				rpmTagTable, rpmHeaderFormats, NULL);
 	    if (isatty (STDOUT_FILENO))
 		fprintf(stdout, "%4d:%-23.23s", progressCurrent + 1, s);
@@ -91,7 +99,7 @@ void * rpmShowProgress(const Header h,
 	    free(s);
 	    s = NULL;
 	} else {
-	    s = headerSprintf(h, "%{NAME}-%{VERSION}-%{RELEASE}",
+	    s = headerSprintf(h, "%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}",
 				  rpmTagTable, rpmHeaderFormats, NULL);
 	    fprintf(stdout, "%s\n", s);
 	    (void) fflush(stdout);

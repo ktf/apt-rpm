@@ -36,7 +36,6 @@
 
 #if RPM_VERSION >= 0x040100
 #include <rpm/rpmdb.h>
-#define packagesTotal rpmcliPackagesTotal 
 #else
 #define rpmpsPrint(a,b) rpmProblemSetPrint(a,b)
 #define rpmpsFree(a) rpmProblemSetFree(a)
@@ -44,9 +43,9 @@
 #if RPM_VERSION < 0x040000
 #define rpmtransFlags int
 #define rpmprobFilterFlags int
+#endif
+#endif
 #include "rpmshowprogress.h"
-#endif
-#endif
 
 // RPMPM::pkgRPMPM - Constructor					/*{{{*/
 // ---------------------------------------------------------------------
@@ -874,11 +873,11 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    probFilter |= rpmtsFilterFlags(TS);
    rpmtsSetFlags(TS, (rpmtransFlags)(rpmtsFlags(TS) | tsFlags));
    rpmtsClean(TS);
-   rc = rpmtsSetNotifyCallback(TS, rpmShowProgress, (void *)notifyFlags);
+   rc = rpmtsSetNotifyCallback(TS, rpmpmShowProgress, (void *)notifyFlags);
    rc = rpmtsRun(TS, NULL, (rpmprobFilterFlags)probFilter);
    probs = rpmtsProblems(TS);
 #else
-   rc = rpmRunTransactions(TS, rpmShowProgress, (void *)notifyFlags, NULL,
+   rc = rpmRunTransactions(TS, rpmpmShowProgress, (void *)notifyFlags, NULL,
                            &probs, (rpmtransFlags)tsFlags,
 			   (rpmprobFilterFlags)probFilter);
 #endif
