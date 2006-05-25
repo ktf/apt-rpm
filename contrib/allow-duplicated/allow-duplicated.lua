@@ -55,7 +55,9 @@ if script_slot == "Scripts::AptGet::Install::SelectPackage" then
 end
 
 if script_slot == "Scripts::AptGet::DistUpgrade" or
-   script_slot == "Scripts::Synaptic::DistUpgrade" then
+   script_slot == "Scripts::AptGet::Upgrade" or
+   script_slot == "Scripts::Synaptic::DistUpgrade" or
+   script_slot == "Scripts::Synaptic::Upgrade" then
     -- Automatically install newer versions of all packages which
     -- are registered in the Allow-Duplicated scheme and are matched
     -- by the regular expressions in RPM::Allow-Duplicated-Upgrade.
