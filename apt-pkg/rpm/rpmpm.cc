@@ -764,11 +764,6 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    // 4.1 needs this always set even if NULL,
    // otherwise all scriptlets fail
    rpmtsSetRootDir(TS, Dir.c_str());
-   if (rpmtsOpenDB(TS, O_RDWR) != 0)
-   {
-      _error->Error(_("Could not open RPM database"));
-      goto exit;
-   }
 #else
    rpmProblemSet probs;
    const char *RootDir = NULL;

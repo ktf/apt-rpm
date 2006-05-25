@@ -729,11 +729,6 @@ RPMDBHandler::RPMDBHandler(bool WriteLock)
    Handler = rpmtsCreate();
    rpmtsSetVSFlags(Handler, (rpmVSFlags_e)-1);
    rpmtsSetRootDir(Handler, Dir.c_str());
-   if (rpmtsOpenDB(Handler, O_RDONLY) != 0)
-   {
-      _error->Error(_("could not open RPM database"));
-      return;
-   }
 #else
    const char *RootDir = NULL;
    if (!Dir.empty())
