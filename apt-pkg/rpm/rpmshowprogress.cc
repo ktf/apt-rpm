@@ -66,6 +66,7 @@ void * rpmpmShowProgress(const void * arg,
     void * rc = NULL;
     const char * filename = (const char *) pkgKey;
     static FD_t fd = NULL;
+    static rpmCallbackType state;
 
     switch (what) {
     case RPMCALLBACK_INST_OPEN_FILE:
@@ -89,6 +90,13 @@ void * rpmpmShowProgress(const void * arg,
 	hashesPrinted = 0;
 	if (h == NULL || !(flags & INSTALL_LABEL))
 	    break;
+
+	if (state != what) {
+	    state = what;
+    	    fprintf(stdout, "%s\n", _("Installing / Updating..."));
+	    (void) fflush(stdout);
+	}
+
 	if (flags & INSTALL_HASH) {
 	    s = headerSprintf(h, "%{NAME}.%{ARCH}",
 				rpmTagTable, rpmHeaderFormats, NULL);
@@ -121,6 +129,7 @@ void * rpmpmShowProgress(const void * arg,
 	break;
 
     case RPMCALLBACK_TRANS_START:
+	state = what;
 	hashesPrinted = 0;
 	progressTotal = 1;
 	progressCurrent = 0;
@@ -141,11 +150,34 @@ void * rpmpmShowProgress(const void * arg,
 	break;
 
     case RPMCALLBACK_UNINST_PROGRESS:
+	break;
     case RPMCALLBACK_UNINST_START:
+	hashesPrinted = 0;
+	if (!(flags & INSTALL_LABEL))
+	    break;
+	if (state != what) {
+	    state = what;
+    	    fprintf(stdout, "%s\n", _("Removing / Cleaning up..."));
+	    (void) fflush(stdout);
+	}
+	break;
+
     case RPMCALLBACK_UNINST_STOP:
-	/* ignore */
+	if (h == NULL || !(flags & INSTALL_LABEL))
+	    break;
+	s = headerSprintf(h, "%{NAME}.%{ARCH}", rpmTagTable, rpmHeaderFormats, NULL);
+	if (flags & INSTALL_HASH) {
+	    fprintf(stdout, "%4d:%-23.23s", progressCurrent + 1, s);
+	} else {
+	    fprintf(stdout, "%-28.28s", s);
+	}
+	printHash(1, 1);
+	fflush(stdout);
+	s = NULL;
 	break;
     }
+ 
+    // TODO: add repackage callbacks
 
     return rc;
 }	
