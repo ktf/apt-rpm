@@ -244,6 +244,7 @@ Reverse Provides:
      <ListItem><Para>
      <literal/whatprovides/ shows a listing of package which provides a
      dependency.
+     </Para></ListItem>
      </VarListEntry>
 
 
