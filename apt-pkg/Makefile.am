@@ -52,6 +52,7 @@ libapt_pkg_la_SOURCES = \
 	rpm/rpmpm.cc \
 	rpm/rpmpm.h \
 	rpm/rpmshowprogress.h \
+	rpm/rpmshowprogress.cc \
 	rpm/rpmrecords.cc \
 	rpm/rpmrecords.h \
 	rpm/rpmsrcrecords.cc \

@@ -71,14 +71,14 @@ am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	contrib/mmap.lo contrib/progress.lo contrib/sha1.lo \
 	contrib/strutl.lo rpm/repomd.lo rpm/rpmhandler.lo \
 	rpm/rpmindexfile.lo rpm/rpmlistparser.lo rpm/rpmpackagedata.lo \
-	rpm/rpmpm.lo rpm/rpmrecords.lo rpm/rpmsrcrecords.lo \
-	rpm/rpmsystem.lo rpm/rpmversion.lo acquire.lo acquire-item.lo \
-	acquire-method.lo acquire-worker.lo algorithms.lo cachefile.lo \
-	clean.lo depcache.lo indexfile.lo init.lo luaiface.lo \
-	orderlist.lo packagemanager.lo pkgcache.lo pkgcachegen.lo \
-	pkgrecords.lo pkgsystem.lo policy.lo repository.lo \
-	sourcelist.lo srcrecords.lo tagfile.lo version.lo \
-	versionmatch.lo
+	rpm/rpmpm.lo rpm/rpmshowprogress.lo rpm/rpmrecords.lo \
+	rpm/rpmsrcrecords.lo rpm/rpmsystem.lo rpm/rpmversion.lo \
+	acquire.lo acquire-item.lo acquire-method.lo acquire-worker.lo \
+	algorithms.lo cachefile.lo clean.lo depcache.lo indexfile.lo \
+	init.lo luaiface.lo orderlist.lo packagemanager.lo pkgcache.lo \
+	pkgcachegen.lo pkgrecords.lo pkgsystem.lo policy.lo \
+	repository.lo sourcelist.lo srcrecords.lo tagfile.lo \
+	version.lo versionmatch.lo
 libapt_pkg_la_OBJECTS = $(am_libapt_pkg_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/buildlib/depcomp
@@ -286,6 +286,7 @@ libapt_pkg_la_SOURCES = \
 	rpm/rpmpm.cc \
 	rpm/rpmpm.h \
 	rpm/rpmshowprogress.h \
+	rpm/rpmshowprogress.cc \
 	rpm/rpmrecords.cc \
 	rpm/rpmrecords.h \
 	rpm/rpmsrcrecords.cc \
@@ -472,6 +473,8 @@ rpm/rpmlistparser.lo: rpm/$(am__dirstamp) \
 rpm/rpmpackagedata.lo: rpm/$(am__dirstamp) \
 	rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmpm.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
+rpm/rpmshowprogress.lo: rpm/$(am__dirstamp) \
+	rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmrecords.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmsrcrecords.lo: rpm/$(am__dirstamp) \
 	rpm/$(DEPDIR)/$(am__dirstamp)
@@ -520,6 +523,8 @@ mostlyclean-compile:
 	-rm -f rpm/rpmpm.lo
 	-rm -f rpm/rpmrecords.$(OBJEXT)
 	-rm -f rpm/rpmrecords.lo
+	-rm -f rpm/rpmshowprogress.$(OBJEXT)
+	-rm -f rpm/rpmshowprogress.lo
 	-rm -f rpm/rpmsrcrecords.$(OBJEXT)
 	-rm -f rpm/rpmsrcrecords.lo
 	-rm -f rpm/rpmsystem.$(OBJEXT)
@@ -573,6 +578,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmpackagedata.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmpm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmrecords.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmshowprogress.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmsrcrecords.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmsystem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmversion.Plo@am__quote@
