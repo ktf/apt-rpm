@@ -240,6 +240,13 @@ Reverse Provides:
      </Para></ListItem>
      </VarListEntry>
 
+     <VarListEntry><Term>whatprovides <replaceable/pkg(s)/</Term>
+     <ListItem><Para>
+     <literal/whatprovides/ shows a listing of package which provides a
+     dependency.
+     </VarListEntry>
+
+
      <VarListEntry><Term>pkgnames <replaceable/[ prefix ]/</Term>
      <ListItem><Para>
      This command prints the name of each package in the system. The optional

@@ -1159,6 +1159,55 @@ bool XVcg(CommandLine &CmdL)
 									/*}}}*/
 
 
+// WhatProvides - Show all packages that provide the given (virtual) package
+// ---------------------------------------------------------------------
+/* */
+bool WhatProvides(CommandLine &CmdL)
+{
+  pkgCache &Cache = *GCache;
+  bool    found;
+
+  for (const char **I = CmdL.FileList + 1; *I != 0; I++)
+  {
+       cout << "<" << *I << ">" << endl;
+       found = false;
+       for (pkgCache::PkgIterator Pkg = Cache.PkgBegin(); Pkg.end() == false; Pkg++)
+       {
+	    for (pkgCache::VerIterator Ver = Pkg.VersionList(); !Ver.end(); Ver++)
+	    {
+		 if (!strcmp(Pkg.Name(), *I))
+		 {
+		      // match on real package, ignore any provides in the package
+		      // since they would be meaningless
+		      cout << "  " << Pkg.Name() << "-" << Ver.VerStr() << endl;
+		      found = true;
+		 }
+		 else
+		 {
+		      // seach in package's provides list
+		      for (pkgCache::PrvIterator Prv = Ver.ProvidesList(); Prv.end() == false; Prv++)
+		      {
+			   if (!strcmp(Prv.Name(), *I))
+			   {
+				cout << "  " << Pkg.Name() << "-" << Ver.VerStr() << endl;
+				cout << "    Provides: <" << Prv.Name();
+				if (Prv.ProvideVersion() != 0)
+					cout << " = " << Prv.ProvideVersion();
+				cout << ">" << endl;
+				found = true;
+			   }
+		      }
+		 }
+	    }
+       }
+       
+       if (!found)
+	    cout << "  nothing provides <" << *I << ">" << endl;
+  }
+  
+  return true;
+}
+								  /*}}}*/
 // Dotty - Generate a graph for Dotty					/*{{{*/
 // ---------------------------------------------------------------------
 /* Dotty is the graphvis program for generating graphs. It is a fairly
@@ -1899,8 +1948,9 @@ bool ShowHelp(CommandLine &Cmd)
       "   search - Search the package list for a regex pattern\n"
       "   show - Show a readable record for the package\n"
       "   depends - Show raw dependency information for a package\n"
-      "   whatdepends - Show raw dependency information on a package\n"
+      "   whatdepends - Show packages depending on given items\n"
       // "   rdepends - Show reverse dependency information for a package\n"
+      "   whatprovides - Show packages that provide given items\n"
       "   pkgnames - List the names of all packages\n"
       "   dotty - Generate package graphs for GraphVis\n"
       "   xvcg - Generate package graphs for xvcg\n"
@@ -1967,6 +2017,7 @@ int main(int argc,const char *argv[])
                                     {"depends",&Depends},
                                     {"whatdepends",&WhatDepends},
                                     {"rdepends",&RDepends},
+                                    {"whatprovides",&WhatProvides},
                                     {"dotty",&Dotty},
                                     {"xvcg",&XVcg},
                                     {"show",&ShowPackage},
