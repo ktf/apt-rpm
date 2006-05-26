@@ -4,42 +4,45 @@
 #include <apti18n.h>
 
 #include "rpmshowprogress.h"
-//
-// This code was originally from rpm 4.0.3.
-//
+
+int packagesTotal;
+
 static void printHash(const unsigned long amount, const unsigned long total)
 {
     int hashesNeeded;
-    int hashesTotal = 50;
 
-    if (isatty (STDOUT_FILENO))
-	hashesTotal = 44;
+    hashesTotal = (isatty (STDOUT_FILENO) ? 44 : 50);
 
-    if (hashesPrinted != hashesTotal) {
-	hashesNeeded = (int)(hashesTotal*(total?(((float)amount)/total):1));
-	while (hashesNeeded > hashesPrinted) {
+    if (hashesCurrent != hashesTotal) {
+	float pct = (total ? (((float) amount) / total) : 1.0);
+	hashesNeeded = (hashesTotal * pct) + 0.5;
+	while (hashesNeeded > hashesCurrent) {
 	    if (isatty (STDOUT_FILENO)) {
 		int i;
-		for (i = 0; i < hashesPrinted; i++) (void) putchar ('#');
-		for (; i < hashesTotal; i++) (void) putchar (' ');
-		fprintf(stdout, "(%3d%%)",
-			(int)(100 * (total ? (((float) amount) / total) : 1)));
-		for (i = 0; i < (hashesTotal + 6); i++) (void) putchar ('\b');
+		for (i = 0; i < hashesCurrent; i++)
+		    (void) putchar ('#');
+		for (; i < hashesTotal; i++)
+		    (void) putchar (' ');
+		fprintf(stdout, "(%3d%%)", (int)((100 * pct) + 0.5));
+		for (i = 0; i < (hashesTotal + 6); i++)
+		    (void) putchar ('\b');
 	    } else
 		fprintf(stdout, "#");
 
-	    hashesPrinted++;
+	    hashesCurrent++;
 	}
 	(void) fflush(stdout);
-	hashesPrinted = hashesNeeded;
 
-	if (hashesPrinted == hashesTotal) {
+	if (hashesCurrent == hashesTotal) {
 	    int i;
 	    progressCurrent++;
 	    if (isatty(STDOUT_FILENO)) {
-	        for (i = 1; i < hashesPrinted; i++) (void) putchar ('#');
-		fprintf(stdout, " [%3d%%]", (int)(100 * (progressTotal ?
-			(((float) progressCurrent) / progressTotal) : 1)));
+	        for (i = 1; i < hashesCurrent; i++)
+		    (void) putchar ('#');
+		pct = (progressTotal
+		    ? (((float) progressCurrent) / progressTotal)
+		    : 1);
+		fprintf(stdout, " [%3d%%]", (int)((100 * pct) + 0.5));
 	    }
 	    fprintf(stdout, "\n");
 	}
@@ -87,7 +90,7 @@ void * rpmpmShowProgress(const void * arg,
 	break;
 
     case RPMCALLBACK_INST_START:
-	hashesPrinted = 0;
+	hashesCurrent = 0;
 	if (h == NULL || !(flags & INSTALL_LABEL))
 	    break;
 
@@ -130,7 +133,7 @@ void * rpmpmShowProgress(const void * arg,
 
     case RPMCALLBACK_TRANS_START:
 	state = what;
-	hashesPrinted = 0;
+	hashesCurrent = 0;
 	progressTotal = 1;
 	progressCurrent = 0;
 	if (!(flags & INSTALL_LABEL))
@@ -149,10 +152,44 @@ void * rpmpmShowProgress(const void * arg,
 	progressCurrent = 0;
 	break;
 
+    case RPMCALLBACK_REPACKAGE_START:
+        hashesCurrent = 0;
+        progressTotal = total;
+        progressCurrent = 0;
+        if (!(flags & INSTALL_LABEL))
+            break;
+        if (flags & INSTALL_HASH)
+            fprintf(stdout, "%-28s\n", _("Repackaging..."));
+        else
+            fprintf(stdout, "%s\n", _("Repackaging..."));
+        (void) fflush(stdout);
+        break;
+
+    case RPMCALLBACK_REPACKAGE_PROGRESS:
+        if (amount && (flags & INSTALL_HASH))
+            printHash(1, 1);    /* Fixes "preparing..." progress bar */
+        break;
+
+    case RPMCALLBACK_REPACKAGE_STOP:
+        progressTotal = total;
+        progressCurrent = total;
+        if (flags & INSTALL_HASH)
+            printHash(1, 1);    /* Fixes "preparing..." progress bar */
+        progressTotal = packagesTotal;
+        progressCurrent = 0;
+        if (!(flags & INSTALL_LABEL))
+            break;
+        if (flags & INSTALL_HASH)
+            fprintf(stdout, "%-28s\n", _("Upgrading..."));
+        else
+            fprintf(stdout, "%s\n", _("Upgrading..."));
+        (void) fflush(stdout);
+        break;
+
     case RPMCALLBACK_UNINST_PROGRESS:
 	break;
     case RPMCALLBACK_UNINST_START:
-	hashesPrinted = 0;
+	hashesCurrent = 0;
 	if (!(flags & INSTALL_LABEL))
 	    break;
 	if (state != what) {
@@ -168,17 +205,15 @@ void * rpmpmShowProgress(const void * arg,
 	s = headerSprintf(h, "%{NAME}.%{ARCH}", rpmTagTable, rpmHeaderFormats, NULL);
 	if (flags & INSTALL_HASH) {
 	    fprintf(stdout, "%4d:%-23.23s", progressCurrent + 1, s);
+	    printHash(1, 1);
 	} else {
 	    fprintf(stdout, "%-28.28s", s);
 	}
-	printHash(1, 1);
 	fflush(stdout);
 	s = NULL;
 	break;
     }
  
-    // TODO: add repackage callbacks
-
     return rc;
 }	
 

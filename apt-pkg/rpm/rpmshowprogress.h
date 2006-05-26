@@ -1,8 +1,9 @@
 
-static int hashesPrinted = 0;
-static int packagesTotal = 0;
+static int hashesTotal = 0;
+static int hashesCurrent = 0;
 static int progressTotal = 0;
 static int progressCurrent = 0;
+extern int packagesTotal;
 
 static void printHash(const unsigned long amount, const unsigned long total);
 

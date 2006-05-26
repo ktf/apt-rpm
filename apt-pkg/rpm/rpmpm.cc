@@ -808,9 +808,9 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
 
    if (_config->FindI("quiet",0) >= 1)
        notifyFlags |= INSTALL_LABEL;
-   else if (Interactive == true)
+   else if (Interactive == true) 
        notifyFlags |= INSTALL_LABEL | INSTALL_HASH;
-   else
+   else 
        notifyFlags |= INSTALL_LABEL | INSTALL_PERCENT;
 
    if (uninstall.empty() == false)
@@ -820,8 +820,10 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    if (upgrade.empty() == false)
        AddToTransaction(Item::RPMUpgrade, upgrade);
 
-   // Setup the gauge used by rpmShowProgress.
-   packagesTotal = install.size()+upgrade.size();
+   // FIXME: This ain't right because most things show up in upgrade 
+   // even if they're really just installs, and repackaging isn't taken
+   // into account either.
+   packagesTotal = install.size() + upgrade.size() * 2 + uninstall.size();
 
 #if RPM_VERSION >= 0x040100
    if (_config->FindB("RPM::NoDeps", false) == false) {
