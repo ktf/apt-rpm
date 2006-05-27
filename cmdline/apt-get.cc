@@ -2086,9 +2086,8 @@ bool DoInstall(CommandLine &CmdL)
    {
       c1out << 
        _("Some packages could not be installed. This may mean that you have\n" 
-	 "requested an impossible situation or if you are using the unstable\n" 
-	 "distribution that some required packages have not yet been created\n"
-	 "or been moved out of Incoming.") << endl;
+	 "requested an impossible situation or that some of the repositories\n"
+	 "in use are in an inconsistent state at the moment.") << endl;
       if (Packages == 1)
       {
 	 c1out << endl;
