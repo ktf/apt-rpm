@@ -240,11 +240,13 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
+localedir = $(datadir)/locale
 lib_LTLIBRARIES = libapt-pkg.la
 libapt_pkg_la_LIBADD = @RPMLIBS@ $(am__append_1)
 libapt_pkg_la_LDFLAGS = -version-info 2:0:0 -release @GLIBC_VER@-@LIBSTDCPP_VER@
 AM_CPPFLAGS = -DLIBDIR=\"$(libdir)\" -DPKGDATADIR=\"$(pkgdatadir)\" \
-	-I$(top_srcdir)/lua/include -I$(top_srcdir)/lua/local
+	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/lua/include \
+	-I$(top_srcdir)/lua/local
 libapt_pkg_la_SOURCES = \
 	contrib/cdromutl.cc \
 	contrib/cdromutl.h \

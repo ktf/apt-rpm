@@ -141,7 +141,7 @@ bool rpmSystem::Initialize(Configuration &Cnf)
    Cnf.CndSet("Dir::Etc::translatelist", "translate.list");
    Cnf.CndSet("Dir::Etc::translateparts", "translate.list.d");
    Cnf.CndSet("Dir::State::prefetch", "prefetch");
-   Cnf.CndSet("Dir::Locale","/usr/share/locale");
+   Cnf.CndSet("Dir::Locale",LOCALEDIR);
    Cnf.CndSet("Acquire::DistroID","Conectiva"); // hee hee
    Cnf.CndSet("Acquire::CDROM::Mount", "/mnt/cdrom");
    Cnf.CndSet("Acquire::CDROM::Copy-All", "true");
