@@ -112,6 +112,9 @@ bool RPMHandler::HasFile(const char *File)
    int_32 count = 0;
    rpmHeaderGetEntry(HeaderP, RPMTAG_OLDFILENAMES,
                      NULL, (void **) &val, &count);
+   if (count < 1)
+      return false;
+
    names = (char **)val;
    while (count--)
    {
