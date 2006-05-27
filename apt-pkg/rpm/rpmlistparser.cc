@@ -189,10 +189,6 @@ bool rpmListParser::NewVersion(pkgCache::VerIterator Ver)
        return false;
    if (ParseDepends(Ver,pkgCache::Dep::Obsoletes) == false)
        return false;
-#ifdef OLD_FILEDEPS
-   if (ProcessFileProvides(Ver) == false)
-       return false;
-#endif
 
    if (ParseProvides(Ver) == false)
        return false;
@@ -318,27 +314,6 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
 
 }
                                                                         /*}}}*/
-#ifdef OLD_FILEDEPS
-bool rpmListParser::ProcessFileProvides(pkgCache::VerIterator Ver)
-{
-   const char **names = NULL;    
-   int count = 0;
-
-   rpmHeaderGetEntry(header, RPMTAG_OLDFILENAMES, NULL, &names, &count);
-
-   while (count--) 
-   {
-      if (rpmSys.IsFileDep(string(names[count]))) 
-      {
-	 if (!NewProvides(Ver, string(names[count]), string()))
-	     return false;
-      }
-   }
-
-   return true;
-}
-#endif
-
 bool rpmListParser::CollectFileProvides(pkgCache &Cache,
 					pkgCache::VerIterator Ver)
 {
@@ -411,21 +386,9 @@ bool rpmListParser::Step()
       if (RpmData->IgnorePackage(RealName) == true)
 	 continue;
  
-#if OLD_BESTARCH
-      bool archOk = false;
-      string tmp = rpmSys.BestArchForPackage(RealName);
-      if (tmp.empty() == true && // has packages for a single arch only
-	  rpmMachineScore(RPM_MACHTABLE_INSTARCH, arch.c_str()) > 0)
-	 archOk = true;
-      else if (arch == tmp)
-	 archOk = true;
-      if (Handler->IsDatabase() == true || archOk == true)
-	 return true;
-#else
       if (Handler->IsDatabase() == true ||
 	  RpmData->ArchScore(Architecture().c_str()) > 0)
 	 return true;
-#endif
    }
    return false;
 }

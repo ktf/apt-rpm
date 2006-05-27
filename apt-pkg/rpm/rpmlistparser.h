@@ -53,10 +53,6 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    bool ParseDepends(pkgCache::VerIterator Ver, unsigned int Type);
    bool ParseProvides(pkgCache::VerIterator Ver);
    
-#ifdef OLD_FILEDEPS
-   bool ProcessFileProvides(pkgCache::VerIterator Ver);
-#endif
-   
  public:
    
    // These all operate against the current header
