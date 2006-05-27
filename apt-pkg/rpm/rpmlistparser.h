@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: rpmlistparser.h,v 1.2 2002/07/26 17:39:28 niemeyer Exp $
 /* ######################################################################

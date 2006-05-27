@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: versionmatch.cc,v 1.9 2003/05/19 17:58:26 doogie Exp $
 /* ######################################################################

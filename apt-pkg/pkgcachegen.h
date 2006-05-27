@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: pkgcachegen.h,v 1.3 2002/07/25 18:07:18 niemeyer Exp $
 /* ######################################################################

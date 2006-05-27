@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: algorithms.cc,v 1.11 2003/01/29 18:43:48 niemeyer Exp $
 /* ######################################################################

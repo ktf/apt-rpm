@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: pkgsystem.cc,v 1.1 2002/07/23 17:54:50 niemeyer Exp $
 /* ######################################################################

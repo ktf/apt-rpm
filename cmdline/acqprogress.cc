@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: acqprogress.cc,v 1.24 2003/04/27 01:56:48 doogie Exp $
 /* ######################################################################

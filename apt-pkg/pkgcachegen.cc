@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: pkgcachegen.cc,v 1.53 2003/02/02 02:44:20 doogie Exp $
 /* ######################################################################

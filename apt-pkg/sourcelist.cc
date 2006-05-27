@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: sourcelist.cc,v 1.3 2002/08/15 20:51:37 niemeyer Exp $
 /* ######################################################################

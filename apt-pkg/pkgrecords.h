@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: pkgrecords.h,v 1.2 2002/11/28 18:54:15 niemeyer Exp $
 /* ######################################################################

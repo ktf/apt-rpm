@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: rpmindexfile.cc,v 1.4 2002/11/27 16:22:40 niemeyer Exp $
 /* ######################################################################

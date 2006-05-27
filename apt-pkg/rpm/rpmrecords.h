@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: rpmrecords.h,v 1.3 2002/08/08 20:07:33 niemeyer Exp $
 /* ######################################################################

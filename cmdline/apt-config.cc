@@ -1,4 +1,4 @@
-// -*- mode: cpp; mode: fold -*-
+// -*- mode: c++; mode: fold -*-
 // Description								/*{{{*/
 // $Id: apt-config.cc,v 1.5 2003/01/29 18:43:48 niemeyer Exp $
 /* ######################################################################
