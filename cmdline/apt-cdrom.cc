@@ -216,39 +216,13 @@ bool DropBinaryArch(vector<string> &List)
 									/*}}}*/
 // Score - We compute a 'score' for a path				/*{{{*/
 // ---------------------------------------------------------------------
-/* Paths are scored based on how close they come to what I consider
-   normal. That is ones that have 'dist' 'stable' 'testing' will score
-   higher than ones without. */
 int Score(string Path)
 {
    int Res = 0;
-#ifdef HAVE_RPM
    if (Path.find("base/") != string::npos)
       Res = 1;
-#else
-   if (Path.find("stable/") != string::npos)
-      Res += 29;
-   if (Path.find("/binary-") != string::npos)
-      Res += 20;
-   if (Path.find("testing/") != string::npos)
-      Res += 28;
-   if (Path.find("unstable/") != string::npos)
-      Res += 27;
-   if (Path.find("/dists/") != string::npos)
-      Res += 40;
-   if (Path.find("/main/") != string::npos)
-      Res += 20;
-   if (Path.find("/contrib/") != string::npos)
-      Res += 20;
-   if (Path.find("/non-free/") != string::npos)
-      Res += 20;
-   if (Path.find("/non-US/") != string::npos)
-      Res += 20;
-   if (Path.find("/source/") != string::npos)
-      Res += 10;
-   if (Path.find("/debian/") != string::npos)
-      Res -= 10;
-#endif
+   if (Path.find("repodata/") != string::npos)
+      Res = 1;
    return Res;
 }
 									/*}}}*/
