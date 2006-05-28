@@ -15,7 +15,7 @@ static void printHash(const unsigned long amount, const unsigned long total)
 
     if (hashesCurrent != hashesTotal) {
 	float pct = (total ? (((float) amount) / total) : 1.0);
-	hashesNeeded = (hashesTotal * pct) + 0.5;
+	hashesNeeded = (int) ((hashesTotal * pct) + 0.5);
 	while (hashesNeeded > hashesCurrent) {
 	    if (isatty (STDOUT_FILENO)) {
 		int i;
