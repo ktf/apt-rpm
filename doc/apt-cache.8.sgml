@@ -70,7 +70,7 @@
      <ListItem><Para>
      <literal/gencaches/ performs the same operation as 
      <command/apt-get check/. It builds the source and package caches from 
-     the sources in &sources-list; and from <filename>/var/lib/dpkg/status</>.
+     the sources in &sources-list; and from <filename>/var/lib/rpm/>.
      </Para></ListItem>
      </VarListEntry>
 
@@ -192,8 +192,7 @@ Reverse Provides:
 
      <VarListEntry><Term>dumpavail</Term>
      <ListItem><Para>
-     <literal/dumpavail/ prints out an available list to stdout. This is 
-     suitable for use with &dpkg; and is used by the &dselect; method.
+     <literal/dumpavail/ prints out an available list to stdout.
      </Para></ListItem>
      </VarListEntry>
 
@@ -206,9 +205,7 @@ Reverse Provides:
 
      <VarListEntry><Term>show <replaceable/pkg(s)/</Term>
      <ListItem><Para>
-     <literal/show/ performs a function similar to 
-     <command>dpkg --print-avail</>i; it displays the package records for the 
-     named packages.
+     Displays the package records for the named packages.
      </Para></ListItem>
      </VarListEntry>
 
