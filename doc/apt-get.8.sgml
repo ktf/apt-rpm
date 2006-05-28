@@ -30,7 +30,6 @@
       <group choice=req>
          <arg>update</>
          <arg>upgrade</>
-         <arg>dselect-upgrade</>
          <arg>install <arg choice="plain" rep="repeat"><replaceable>pkg</replaceable></arg></arg>
          <arg>remove <arg choice="plain" rep="repeat"><replaceable>pkg</replaceable></arg></arg>
          <arg>source <arg choice="plain" rep="repeat"><replaceable>pkg</replaceable></arg></arg>
@@ -46,8 +45,8 @@
    <para>
    <command/apt-get/ is the command-line tool for handling packages, and may be 
    considered the user's "back-end" to other tools using the APT
-   library.  Several "front-end" interfaces exist, such as dselect(8),
-   aptitude, synaptic, gnome-apt and wajig.
+   library.  Several "front-end" interfaces exist, such as synaptic and
+   aptitude.
    </para><para>
    Unless the <option/-h/, or <option/--help/ option is given, one of the
    commands below must be present.
@@ -58,12 +57,8 @@
      <literal/update/ is used to resynchronize the package index files from
      their sources. The indexes of available packages are fetched from the
      location(s) specified in <filename>/etc/apt/sources.list</>.
-     For example, when using a Debian archive, this command retrieves and
-     scans the <filename>Packages.gz</> files, so that information about new 
-     and updated packages is available. An <literal/update/ should always be 
-     performed before an <literal/upgrade/ or <literal/dist-upgrade/. Please 
-     be aware that the overall progress meter will be incorrect as the size 
-     of the package files cannot be known in advance.
+     An <literal/update/ should always be 
+     performed before an <literal/upgrade/ or <literal/dist-upgrade/.
      </Para></ListItem>
      </VarListEntry>
      
@@ -79,18 +74,6 @@
      will be left at their current version. An <literal/update/ must be 
      performed first so that <command/apt-get/ knows that new versions of packages are 
      available.
-     </Para></ListItem>
-     </VarListEntry>
-
-     <VarListEntry><Term>dselect-upgrade</Term>
-     <ListItem><Para>   
-     <literal/dselect-upgrade/
-     is used in conjunction with the traditional Debian packaging
-     front-end, &dselect;. <literal/dselect-upgrade/
-     follows the changes made by &dselect; to the <literal/Status/
-     field of available packages, and performs the actions necessary to realize
-     that state (for instance, the removal of old and the installation of new
-     packages). 
      </Para></ListItem>
      </VarListEntry>
 
@@ -112,8 +95,9 @@
      <ListItem><Para>   
      <literal/install/ is followed by one or more packages desired for 
      installation. Each package is a package name, not a fully qualified 
-     filename (for instance, in a Debian GNU/Linux system, libc6 would be the 
-     argument provided, not <literal/libc6_1.9.6-2.deb/). All packages required 
+     filename (for instance, in a Fedora Core system, glibc would be the 
+     argument provided, not <literal/glibc-2.4.8.i686.rpm/). 
+     All packages required 
      by the package(s) specified for installation will also be retrieved and 
      installed. The <filename>/etc/apt/sources.list</> file is used to locate 
      the desired packages. If a hyphen is appended to the package name (with 
@@ -161,11 +145,11 @@
      will examine the available packages to decide which source package to 
      fetch. It will then find and download into the current directory the 
      newest available version of that source package. Source packages are 
-     tracked separately from binary packages via <literal/deb-src/ type lines 
+     tracked separately from binary packages via <literal/rpm-src/ type lines 
      in the &sources-list; file. This probably will mean that you will not 
      get the same source as the package you have installed or as you could 
      install. If the --compile options is specified then the package will be 
-     compiled to a binary .deb using dpkg-buildpackage, if --download-only is 
+     compiled to a binary using rpmbuild, if --download-only is 
      specified then the source package will not be unpacked.
      </para><para>
      A specific source version can be retrieved by postfixing the source name
@@ -199,10 +183,7 @@
      <literal/clean/ clears out the local repository of retrieved package 
      files. It removes everything but the lock file from 
      <filename>&cachedir;/archives/</> and 
-     <filename>&cachedir;/archives/partial/</>. When APT is used as a 
-     &dselect; method, <literal/clean/ is run automatically.
-     Those who do not use dselect will likely want to run <literal/apt-get clean/
-     from time to time to free up disk space.
+     <filename>&cachedir;/archives/partial/</>. 
      </Para></ListItem>
      </VarListEntry>
 
@@ -241,8 +222,7 @@
      running APT for the first time; APT itself does not allow broken package 
      dependencies to exist on a system. It is possible that a system's 
      dependency structure can be so corrupt as to require manual intervention 
-     (which usually means using &dselect; or <command/dpkg --remove/ to eliminate some of 
-     the offending packages). Use of this option together with <option/-m/ may produce an
+     Use of this option together with <option/-m/ may produce an
      error in some situations. 
      Configuration Item: <literal/APT::Get::Fix-Broken/.
      </Para></ListItem>
@@ -265,7 +245,7 @@
      <VarListEntry><term><option/--no-download/</>
      <ListItem><Para>
      Disables downloading of packages. This is best used with 
-     <option/--ignore-missing/ to force APT to use only the .debs it has 
+     <option/--ignore-missing/ to force APT to use only the .rpms it has 
      already downloaded.
      Configuration Item: <literal/APT::Get::Download/.
      </Para></ListItem>
@@ -295,7 +275,7 @@
      Configuration Item: <literal/APT::Get::Simulate/.
      </para><para>
      Simulate prints out
-     a series of lines each one representing a dpkg operation, Configure (Conf),
+     a series of lines each one representing an rpm operation, Configure (Conf),
      Remove (Remv), Unpack (Inst). Square brackets indicate broken packages with
      and empty set of square brackets meaning breaks that are of no consequence
      (rare).
@@ -535,7 +515,7 @@
 
  <RefSect1><Title>See Also</>
    <para>
-   &apt-cache;, &apt-cdrom;, &dpkg;, &dselect;, &sources-list;,
+   &apt-cache;, &apt-cdrom;, &sources-list;,
    &apt-conf;, &apt-config;,
    The APT User's guide in &docdir;, &apt-preferences;, the APT Howto.
    </para>
