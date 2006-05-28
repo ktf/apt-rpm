@@ -56,7 +56,8 @@ bool pkgArchiveCleaner::Go(string Dir,pkgCache &Cache)
       struct stat St;
       if (stat(Dir->d_name,&St) != 0)
       {
-	 chdir(StartDir.c_str());
+	 if(chdir(StartDir.c_str()) != 0)
+	    return _error->Errno("chdir",_("Failed to chdir to %s"),StartDir.c_str());
 	 closedir(D);
 	 return _error->Errno("stat",_("Unable to stat %s."),Dir->d_name);
       }
@@ -120,7 +121,8 @@ bool pkgArchiveCleaner::Go(string Dir,pkgCache &Cache)
       Erase(Dir->d_name,Pkg,Ver,St);
    };
    
-   chdir(StartDir.c_str());
+   if(chdir(StartDir.c_str()) != 0)
+      return false;
    closedir(D);
    return true;   
 }

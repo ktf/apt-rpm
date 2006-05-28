@@ -1081,9 +1081,9 @@ void URI::CopyFrom(string U)
    }   
    
    // Now we parse the RFC 2732 [] hostnames.
-   unsigned long PortEnd = 0;
+   string::size_type PortEnd = 0;
    InBracket = false;
-   for (unsigned I = 0; I != Host.length();)
+   for (string::size_type  I = 0; I != Host.length();)
    {
       if (Host[I] == '[')
       {

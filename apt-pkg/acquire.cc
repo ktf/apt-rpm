@@ -438,7 +438,8 @@ bool pkgAcquire::Clean(string Dir)
 	 unlink(Dir->d_name);
    };
    
-   chdir(StartDir.c_str());
+   if(chdir(StartDir.c_str()) != 0)
+      return false;
    closedir(D);
    return true;   
 }

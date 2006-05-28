@@ -204,7 +204,8 @@ bool IdentCdrom(string CD,string &Res,unsigned int Version)
       Hash.Add(Dir->d_name);
    };
    
-   chdir(StartDir.c_str());
+   if (chdir(StartDir.c_str()) != 0)
+      return false;
    closedir(D);
    
    // Some stats from the fsys

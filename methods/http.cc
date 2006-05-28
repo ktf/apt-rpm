@@ -1018,7 +1018,8 @@ int HttpMethod::DealWithHeaders(FetchResult &Res,ServerState *Srv)
    if (Srv->StartPos >= 0)
    {
       Res.ResumePoint = Srv->StartPos;
-      ftruncate(File->Fd(),Srv->StartPos);
+      if (ftruncate(File->Fd(),Srv->StartPos) != 0)
+         return 5;
    }
       
    // Set the start point
