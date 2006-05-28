@@ -702,10 +702,14 @@ pkgAcqArchive::pkgAcqArchive(pkgAcquire *Owner,pkgSourceList *Sources,
 	 return;
             
       // Generate the final file name as: package_version_arch.foo
-      StoreFilename = QuoteString(Version.ParentPkg().Name(),"_:") + '_' +
-	              QuoteString(Version.VerStr(),"_:") + '_' +
-     	              QuoteString(Version.Arch(),"_:.") + 
-	              "." + flExtension(Parse.FileName());
+      if (_config->FindB("Acquire::Munge-Filenames", false) == true) {
+	 StoreFilename = QuoteString(Version.ParentPkg().Name(),"_:") + '_' +
+	                 QuoteString(Version.VerStr(),"_:") + '_' +
+	                 QuoteString(Version.Arch(),"_:.") + 
+		         "." + flExtension(Parse.FileName());
+      } else {
+	 StoreFilename = Parse.FileName();
+      }
    }
       
    // Select a source
