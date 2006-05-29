@@ -48,13 +48,13 @@
     <ManVolNum/1/
   </CiteRefEntry>">
 
-<!ENTITY dpkg "<CiteRefEntry>
-    <RefEntryTitle><command/dpkg/</RefEntryTitle>
+<!ENTITY rpm "<CiteRefEntry>
+    <RefEntryTitle><command/rpm/</RefEntryTitle>
     <ManVolNum/8/
   </CiteRefEntry>">
 
-<!ENTITY dpkg-buildpackage "<CiteRefEntry>
-    <RefEntryTitle><command/dpkg-buildpackage/</RefEntryTitle>
+<!ENTITY rpmbuild "<CiteRefEntry>
+    <RefEntryTitle><command/rpmbuild/</RefEntryTitle>
     <ManVolNum/1/
   </CiteRefEntry>">
 

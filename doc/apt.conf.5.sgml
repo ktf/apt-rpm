@@ -56,7 +56,7 @@ APT {
    opening a scope and including a single word enclosed in quotes followed by a 
    semicolon. Multiple entries can be included, each separated by a semicolon.
 <informalexample><programlisting>   
-DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt";};
+RPM::Allow-Duplicated {"kernel"; "kernel-smp";};
 </programlisting></informalexample>
    </para><para>
    In general the sample configuration file in 
@@ -106,23 +106,13 @@ DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt";};
      </Para></ListItem>
      </VarListEntry>
 
-     <VarListEntry><Term>Immediate-Configure</Term>
-     <ListItem><Para>
-     Disable Immediate Configuration; This dangerous option disables some
-     of APT's ordering code to cause it to make fewer dpkg calls. Doing
-     so may be necessary on some extremely slow single user systems but 
-     is very dangerous and may cause package install scripts to fail or worse.
-     Use at your own risk.
-     </Para></ListItem>
-     </VarListEntry>
-
      <VarListEntry><Term>Force-LoopBreak</Term>
      <ListItem><Para>
      Never Enable this option unless you -really- know what you are doing. It
      permits APT to temporarily remove an essential package to break a
      Conflicts/Conflicts or Conflicts/Pre-Depend loop between two essential
      packages. SUCH A LOOP SHOULD NEVER EXIST AND IS A GRAVE BUG. This option 
-     will work if the essential packages are not tar, gzip, libc, dpkg, bash or
+     will work if the essential packages are not gzip, libc, rpm, bash or
      anything that those packages depend on.
      </Para></ListItem>
      </VarListEntry>
@@ -283,7 +273,7 @@ DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt";};
    <para>   
    The <literal/Dir::State/ section has directories that pertain to local 
    state information. <literal/lists/ is the directory to place downloaded 
-   package lists in and <literal/status/ is the name of the dpkg status file.
+   package lists in.
    <literal/preferences/ is the name of the APT preferences file.
    <literal/Dir::State/ contains the default directory to prefix on all sub 
    items if they do not start with <filename>/</> or <filename>./</>. 
@@ -309,70 +299,48 @@ DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt";};
    </para><para>
    Binary programs are pointed to by <literal/Dir::Bin/. <literal/Dir::Bin::Methods/ 
    specifies the location of the method handlers and <literal/gzip/, 
-   <literal/dpkg/, <literal/apt-get/, <literal/dpkg-source/, 
-   <literal/dpkg-buildpackage/ and <literal/apt-cache/ specify the location
+   <literal/rpm/, <literal/apt-get/, <literal/rpmbuild/
+   and <literal/apt-cache/ specify the location
    of the respective programs.
    </para>
  </RefSect1>
  
- <RefSect1><Title>APT in DSelect</>
+ <RefSect1><Title>How APT calls rpm</>
    <para>   
-   When APT is used as a &dselect; method several configuration directives
-   control the default behaviour. These are in the <literal/DSelect/ section.
-   
-   <VariableList>
-     <VarListEntry><Term>Clean</Term>
-     <ListItem><Para>
-     Cache Clean mode; this value may be one of always, prompt, auto,
-     pre-auto and never.  always and prompt will remove all packages from
-     the cache after upgrading, prompt (the default) does so conditionally. 
-     auto removes only those packages which are no longer downloadable
-     (replaced with a new version for instance).  pre-auto performs this
-     action before downloading new packages.
-     </Para></ListItem>
-     </VarListEntry>
-
-     <VarListEntry><Term>Options</Term>
-     <ListItem><Para>
-     The contents of this variable is passed to &apt-get; as command line
-     options when it is run for the install phase.
-     </Para></ListItem>
-     </VarListEntry>
-
-     <VarListEntry><Term>UpdateOptions</Term>
-     <ListItem><Para>
-     The contents of this variable is passed to &apt-get; as command line
-     options when it is run for the update phase.
-     </Para></ListItem>
-     </VarListEntry>
-
-     <VarListEntry><Term>PromptAfterUpdate</Term>
-     <ListItem><Para>
-     If true the [U]pdate operation in &dselect; will always prompt to continue. 
-     The default is to prompt only on error.
-     </Para></ListItem>
-     </VarListEntry>
-   </VariableList>
-   </para>
- </RefSect1>
- 
- <RefSect1><Title>How APT calls dpkg</>
-   <para>   
-   Several configuration directives control how APT invokes &dpkg;. These are 
-   in the <literal/DPkg/ section.
+   Several configuration directives control how APT invokes &rpm;. These are 
+   in the <literal/RPM/ section.
 
    <VariableList>
      <VarListEntry><Term>Options</Term>
      <ListItem><Para>
-     This is a list of options to pass to dpkg. The options must be specified
+     This is a list of options to pass to rpm for all install, upgrade and
+     remove operations. The options must be specified
      using the list notation and each list item is passed as a single argument
-     to &dpkg;.
+     to &rpm;.
+     </Para></ListItem>
+     </VarListEntry>
+     
+     <VarListEntry><Term>Install-Options</Term>
+     <ListItem><Para>
+     This is a list of options to pass to rpm during install and upgrade
+     operations. The options must be specified
+     using the list notation and each list item is passed as a single argument
+     to &rpm;.
+     </Para></ListItem>
+     </VarListEntry>
+     
+     <VarListEntry><Term>Erase-Options</Term>
+     <ListItem><Para>
+     This is a list of options to pass to rpm during remove operations. 
+     The options must be specified
+     using the list notation and each list item is passed as a single argument
+     to &rpm;.
      </Para></ListItem>
      </VarListEntry>
      
      <VarListEntry><Term>Pre-Invoke</Term><Term>Post-Invoke</Term>
      <ListItem><Para>
-     This is a list of shell commands to run before/after invoking &dpkg;. 
+     This is a list of shell commands to run before/after invoking &rpm;. 
      Like <literal/Options/ this must be specified in list notation. The 
      commands are invoked in order using <filename>/bin/sh</>, should any 
      fail APT will abort.
@@ -381,11 +349,11 @@ DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt";};
 
      <VarListEntry><Term>Pre-Install-Pkgs</Term>
      <ListItem><Para>
-     This is a list of shell commands to run before invoking dpkg. Like
+     This is a list of shell commands to run before invoking rpm. Like
      <literal/Options/ this must be specified in list notation. The commands
      are invoked in order using <filename>/bin/sh</>, should any fail APT 
      will abort. APT will pass to the commands on standard input the 
-     filenames of all .deb files it is going to install, one per line.
+     filenames of all .rpm files it is going to install, one per line.
      </para><para>
      Version 2 of this protocol dumps more information, including the 
      protocol version, the APT configuration space and the packages, files
@@ -397,15 +365,14 @@ DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt";};
 
      <VarListEntry><Term>Run-Directory</Term>
      <ListItem><Para>
-     APT chdirs to this directory before invoking dpkg, the default is 
+     APT chdirs to this directory before invoking rpm, the default is 
      <filename>/</>.
      </Para></ListItem>
      </VarListEntry>
 
      <VarListEntry><Term>Build-Options</Term>
      <ListItem><Para>
-     These options are passed to &dpkg-buildpackage; when compiling packages,
-     the default is to disable signing and produce all binaries.
+     These options are passed to &rpmbuild; when compiling packages.
      </Para></ListItem>
      </VarListEntry>
    </VariableList>
@@ -418,8 +385,8 @@ DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt";};
    the normal user, however <literal/Debug::pkgProblemResolver/ shows 
    interesting output about the decisions dist-upgrade makes. 
    <literal/Debug::NoLocking/ disables file locking so APT can do some 
-   operations as non-root and <literal/Debug::pkgDPkgPM/ will print out the 
-   command line for each dpkg invokation. <literal/Debug::IdentCdrom/ will 
+   operations as non-root and <literal/Debug::pkgRPMPM/ will print out the 
+   command line for each rpm invokation. <literal/Debug::IdentCdrom/ will 
    disable the inclusion of statfs data in CDROM IDs.
    </para>
  </RefSect1>
