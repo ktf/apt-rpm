@@ -1530,6 +1530,38 @@ struct ExVerFile
    bool NameMatch;
 };
 
+bool SearchFile(CommandLine &CmdL)
+{
+   pkgCache &Cache = *GCache;
+   pkgRecords Recs(Cache);
+   pkgDepCache::Policy Plcy;
+
+   for (const char **I = CmdL.FileList + 1; *I != 0; I++) {
+      pkgCache::PkgIterator Pkg = Cache.PkgBegin();
+      for (; Pkg.end() == false; Pkg++) {
+	 if (_config->FindB("APT::Cache::AllVersions", false) == true) {
+	    pkgCache::VerIterator Ver = Pkg.VersionList();
+	    for (; Ver.end() == false; Ver++) {
+	       pkgRecords::Parser &Parse = Recs.Lookup(Ver.FileList());
+	       if (Parse.HasFile(*I)) {
+		  cout << *I << " " << Pkg.Name() << "-" << Ver.VerStr() << endl;
+	       }
+	    }
+	 } else {
+	    pkgCache::VerIterator Ver = Plcy.GetCandidateVer(Pkg);
+	    if (Ver.end() == false) {
+	       pkgRecords::Parser &Parse = Recs.Lookup(Ver.FileList());
+	       if (Parse.HasFile(*I)) {
+		  cout << *I << " " << Pkg.Name() << "-" << Ver.VerStr() << endl;
+	       }
+	    }
+	 }
+      }
+   }
+
+   return true;
+}
+
 bool Search(CommandLine &CmdL)
 {
    pkgCache &Cache = *GCache;
@@ -1698,7 +1730,7 @@ bool ShowPackage(CommandLine &CmdL)
       }
 
       // Find the proper version to use.
-      if (_config->FindB("APT::Cache::AllVersions","true") == true)
+      if (_config->FindB("APT::Cache::AllVersions", false) == true)
       {
 	 pkgCache::VerIterator V;
 	 for (V = Pkg.VersionList(); V.end() == false; V++)
@@ -2014,6 +2046,7 @@ int main(int argc,const char *argv[])
                                     {"dumpavail",&DumpAvail},
                                     {"unmet",&UnMet},
                                     {"search",&Search},
+                                    {"searchfile",&SearchFile},
                                     {"depends",&Depends},
                                     {"whatdepends",&WhatDepends},
                                     {"rdepends",&RDepends},
