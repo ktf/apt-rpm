@@ -36,7 +36,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = doc
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
+DIST_COMMON = $(dist_man_MANS) $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/buildlib/tools.m4 \
 	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/iconv.m4 \
@@ -55,7 +56,7 @@ man5dir = $(mandir)/man5
 am__installdirs = "$(DESTDIR)$(man5dir)" "$(DESTDIR)$(man8dir)"
 man8dir = $(mandir)/man8
 NROFF = nroff
-MANS = $(man_MANS)
+MANS = $(dist_man_MANS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
@@ -191,65 +192,29 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-STATIC_MANPAGES = \
-		apt.8
-
-SGML_MANPAGES = \
-		apt-get.8 \
-		apt-cache.8 \
-		apt-cdrom.8 \
-		apt-config.8 \
-		apt.conf.5 \
-		sources.list.5 \
-		vendors.list.5 \
-		apt_preferences.5
-
-EXTRA_DIST = \
-		$(STATIC_MANPAGES) \
-		$(patsubst %,%.sgml, \
-		$(SGML_MANPAGES)) \
-		apt.ent \
-		style.txt \
-		cache.sgml \
-		files.sgml \
-		guide.sgml \
-		offline.sgml \
-		design.sgml \
-		guide.it.sgml \
-		method.sgml \
-		examples/apt.conf \
-		examples/configure-index \
-		examples/sources.list \
-		fr/apt-cache.fr.8.sgml \
-		fr/apt-cdrom.fr.8.sgml \
-		fr/apt-config.fr.8.sgml \
-		fr/apt-extracttemplates.fr.1.sgml \
-		fr/apt-ftparchive.fr.1.sgml \
-		fr/apt-get.fr.8.sgml \
-		fr/apt-sortpkgs.fr.1.sgml \
-		fr/apt.conf.fr.5.sgml \
-		fr/apt.ent.fr \
-		fr/apt_preferences.fr.5.sgml \
-		fr/makefile \
-		fr/sources.list.fr.5.sgml \
-		fr/vendors.list.fr.5.sgml \
-		es/apt-cache.es.8.sgml \
-		es/apt-cdrom.es.8.sgml \
-		es/apt-config.es.8.sgml \
-		es/apt-get.es.8.sgml \
-		es/apt.conf.es.5.sgml \
-		es/apt.ent.es \
-		es/apt.es.8 \
-		es/apt_preferences.es.5.sgml \
-		es/makefile \
-		es/sources.list.es.5.sgml \
-		es/vendors.list.es.5.sgml \
-		pt_BR/apt.ent.pt_BR \
-		pt_BR/apt_preferences.pt_BR.5.sgml \
-		pt_BR/makefile
-
-CLEANFILES = manpage.links manpage.refs
-@COMPILE_MANPAGES_TRUE@man_MANS = $(STATIC_MANPAGES) $(SGML_MANPAGES)
+dist_man_MANS = apt.8 apt-cache.8 apt-cdrom.8 apt.conf.5 apt-config.8 \
+	apt-get.8 apt_preferences.5 sources.list.5 vendors.list.5
+MAINTAINERCLEANFILES = apt-cache.8 apt-cdrom.8 apt.conf.5 apt-config.8 \
+	apt-get.8 apt_preferences.5 sources.list.5 vendors.list.5
+EXTRA_DIST = apt-cache.8.sgml apt-cdrom.8.sgml apt.conf.5.sgml \
+	apt-config.8.sgml apt-get.8.sgml apt_preferences.5.sgml \
+	sources.list.5.sgml vendors.list.5.sgml apt.ent style.txt \
+	cache.sgml files.sgml guide.sgml offline.sgml design.sgml \
+	guide.it.sgml method.sgml examples/apt.conf \
+	examples/configure-index examples/sources.list \
+	fr/apt-cache.fr.8.sgml fr/apt-cdrom.fr.8.sgml \
+	fr/apt-config.fr.8.sgml fr/apt-extracttemplates.fr.1.sgml \
+	fr/apt-ftparchive.fr.1.sgml fr/apt-get.fr.8.sgml \
+	fr/apt-sortpkgs.fr.1.sgml fr/apt.conf.fr.5.sgml fr/apt.ent.fr \
+	fr/apt_preferences.fr.5.sgml fr/makefile \
+	fr/sources.list.fr.5.sgml fr/vendors.list.fr.5.sgml \
+	es/apt-cache.es.8.sgml es/apt-cdrom.es.8.sgml \
+	es/apt-config.es.8.sgml es/apt-get.es.8.sgml \
+	es/apt.conf.es.5.sgml es/apt.ent.es es/apt.es.8 \
+	es/apt_preferences.es.5.sgml es/makefile \
+	es/sources.list.es.5.sgml es/vendors.list.es.5.sgml \
+	pt_BR/apt.ent.pt_BR pt_BR/apt_preferences.pt_BR.5.sgml \
+	pt_BR/makefile
 all: all-am
 
 .SUFFIXES:
@@ -419,7 +384,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(MANS) all-local
+all-am: Makefile $(MANS)
 installdirs:
 	for dir in "$(DESTDIR)$(man5dir)" "$(DESTDIR)$(man8dir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
@@ -441,7 +406,6 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
-	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -449,9 +413,10 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-local mostlyclean-am
+clean-am: clean-generic clean-libtool mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
@@ -497,29 +462,41 @@ uninstall-am: uninstall-info-am uninstall-man
 
 uninstall-man: uninstall-man5 uninstall-man8
 
-.PHONY: all all-am all-local check check-am clean clean-generic \
-	clean-libtool clean-local distclean distclean-generic \
-	distclean-libtool distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-man5 install-man8 install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am \
-	uninstall-info-am uninstall-man uninstall-man5 uninstall-man8
+.PHONY: all all-am check check-am clean clean-generic clean-libtool \
+	distclean distclean-generic distclean-libtool distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man install-man5 \
+	install-man8 install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
+	ps ps-am uninstall uninstall-am uninstall-info-am \
+	uninstall-man uninstall-man5 uninstall-man8
 
-all-local: docs
-clean-local: clean-docs
-
-@COMPILE_MANPAGES_TRUE@docs: $(man_MANS)
-
-@COMPILE_MANPAGES_TRUE@%: %.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	@echo Creating man page $@
-@COMPILE_MANPAGES_TRUE@	@$(DOCBOOK2MAN) $<
-@COMPILE_MANPAGES_FALSE@docs:
-
-clean-docs:
-	rm -f $(SGML_MANPAGES)
+@COMPILE_MANPAGES_TRUE@apt-cache.8: apt-cache.8.sgml apt.ent
+@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt-cache.8.sgml)
+@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
+@COMPILE_MANPAGES_TRUE@apt-cdrom.8: apt-cdrom.8.sgml apt.ent
+@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt-cdrom.8.sgml)
+@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
+@COMPILE_MANPAGES_TRUE@apt.conf.5: apt.conf.5.sgml apt.ent
+@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt.conf.5.sgml)
+@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
+@COMPILE_MANPAGES_TRUE@apt-config.8: apt-config.8.sgml apt.ent
+@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt-config.8.sgml)
+@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
+@COMPILE_MANPAGES_TRUE@apt-get.8: apt-get.8.sgml apt.ent
+@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt-get.8.sgml)
+@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
+@COMPILE_MANPAGES_TRUE@apt_preferences.5: apt_preferences.5.sgml apt.ent
+@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt_preferences.5.sgml)
+@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
+@COMPILE_MANPAGES_TRUE@sources.list.5: sources.list.5.sgml apt.ent
+@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) sources.list.5.sgml)
+@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
+@COMPILE_MANPAGES_TRUE@vendors.list.5: vendors.list.5.sgml apt.ent
+@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) vendors.list.5.sgml)
+@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
