@@ -8,6 +8,7 @@ EXTRA_DIST = \
 	COPYRIGHT \
 	HISTORY \
 	README \
+	lib/README \
 	local/modemuncher.c \
 	local/userconfig.c \
 	local/linit.lua

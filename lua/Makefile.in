@@ -236,6 +236,7 @@ EXTRA_DIST = \
 	COPYRIGHT \
 	HISTORY \
 	README \
+	lib/README \
 	local/modemuncher.c \
 	local/userconfig.c \
 	local/linit.lua
@@ -843,7 +844,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/local
+	$(mkdir_p) $(distdir)/lib $(distdir)/local
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
