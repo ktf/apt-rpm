@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2006-05-27 14:15+0300\n"
+"POT-Creation-Date: 2006-05-30 23:52+0300\n"
 "PO-Revision-Date: 2002-08-20 14:00+0200\n"
 "Last-Translator: Ralf Corsepius <corsepiu@users.sourceforge.net>\n"
 "Language-Team: German <de@li.org>\n"
@@ -62,17 +62,17 @@ msgstr ""
 msgid "Password: "
 msgstr ""
 
-#: cmdline/apt-cache.cc:157 cmdline/apt-shell.cc:3209
+#: cmdline/apt-cache.cc:157 cmdline/apt-shell.cc:3077
 #, c-format
 msgid "Package %s version %s has an unmet dep:\n"
 msgstr "Paket %s Version %s besitzt eine unerfüllte Abhängigkeit:\n"
 
 #: cmdline/apt-cache.cc:197 cmdline/apt-cache.cc:565 cmdline/apt-cache.cc:660
 #: cmdline/apt-cache.cc:750 cmdline/apt-cache.cc:1024
-#: cmdline/apt-cache.cc:1291 cmdline/apt-cache.cc:1673
-#: cmdline/apt-cache.cc:1845 cmdline/apt-shell.cc:2761
-#: cmdline/apt-shell.cc:2859 cmdline/apt-shell.cc:2952
-#: cmdline/apt-shell.cc:3252 cmdline/apt-shell.cc:3671
+#: cmdline/apt-cache.cc:1291 cmdline/apt-cache.cc:1705
+#: cmdline/apt-cache.cc:1877 cmdline/apt-shell.cc:2629
+#: cmdline/apt-shell.cc:2727 cmdline/apt-shell.cc:2820
+#: cmdline/apt-shell.cc:3120 cmdline/apt-shell.cc:3539
 #, c-format
 msgid "Unable to locate package %s"
 msgstr "Ausserstande Paket %s zu lokalisieren"
@@ -134,88 +134,88 @@ msgid "Total Space Accounted for: "
 msgstr "Gesamt-Platz angerechnet für: "
 
 #: cmdline/apt-cache.cc:484 cmdline/apt-cache.cc:1501
-#: cmdline/apt-shell.cc:3330
+#: cmdline/apt-shell.cc:3198
 #, c-format
 msgid "Package file %s is out of sync."
 msgstr "Paketdatei %s passt nicht zusammen."
 
-#: cmdline/apt-cache.cc:1544 cmdline/apt-shell.cc:3376
+#: cmdline/apt-cache.cc:1576 cmdline/apt-shell.cc:3244
 msgid "You must give exactly one pattern"
 msgstr "Sie müssen genau ein Muster angeben"
 
-#: cmdline/apt-cache.cc:1683 cmdline/apt-get.cc:1308 cmdline/apt-get.cc:1364
-#: cmdline/apt-shell.cc:1378 cmdline/apt-shell.cc:1434
+#: cmdline/apt-cache.cc:1715 cmdline/apt-get.cc:1193 cmdline/apt-get.cc:1249
+#: cmdline/apt-shell.cc:1263 cmdline/apt-shell.cc:1319
 #, c-format
 msgid "Package %s is a virtual package provided by:\n"
 msgstr "Paket %s ist ein virtuelles Paket bereitgestellt von:\n"
 
-#: cmdline/apt-cache.cc:1695
+#: cmdline/apt-cache.cc:1727
 msgid "You should explicitly select one to show."
 msgstr "Sie sollten explizit eines zur Anzeige auswählen."
 
-#: cmdline/apt-cache.cc:1696
+#: cmdline/apt-cache.cc:1728
 #, c-format
 msgid "Package %s is a virtual package with multiple providers."
 msgstr "Paket %s ist ein virtuelles Paket mit mehreren Bereitstellern."
 
-#: cmdline/apt-cache.cc:1722 cmdline/apt-shell.cc:3699
+#: cmdline/apt-cache.cc:1754 cmdline/apt-shell.cc:3567
 msgid "No packages found"
 msgstr "Keine Pakete gefunden"
 
-#: cmdline/apt-cache.cc:1799
+#: cmdline/apt-cache.cc:1831
 msgid "Package Files:"
 msgstr "Paketdateien:"
 
-#: cmdline/apt-cache.cc:1806 cmdline/apt-cache.cc:1896
+#: cmdline/apt-cache.cc:1838 cmdline/apt-cache.cc:1928
 msgid "Cache is out of sync, can't x-ref a package file"
 msgstr ""
 "Der Cache ist nicht synchronsiert, kann X-Referenz für Paket nicht ermitteln"
 
-#: cmdline/apt-cache.cc:1807
+#: cmdline/apt-cache.cc:1839
 #, c-format
 msgid "%4i %s\n"
 msgstr "%4i %s\n"
 
-#: cmdline/apt-cache.cc:1819
+#: cmdline/apt-cache.cc:1851
 msgid "Pinned Packages:"
 msgstr "Ange-pinnte Pakete: "
 
-#: cmdline/apt-cache.cc:1831 cmdline/apt-cache.cc:1872
+#: cmdline/apt-cache.cc:1863 cmdline/apt-cache.cc:1904
 msgid "(not found)"
 msgstr "(nicht gefunden)"
 
-#: cmdline/apt-cache.cc:1852
+#: cmdline/apt-cache.cc:1884
 msgid "  Installed: "
 msgstr "  Installiert: "
 
-#: cmdline/apt-cache.cc:1854 cmdline/apt-cache.cc:1862
+#: cmdline/apt-cache.cc:1886 cmdline/apt-cache.cc:1894
 msgid "(none)"
 msgstr "(nichts)"
 
-#: cmdline/apt-cache.cc:1859
+#: cmdline/apt-cache.cc:1891
 msgid "  Candidate: "
 msgstr "  Kandidat: "
 
-#: cmdline/apt-cache.cc:1869
+#: cmdline/apt-cache.cc:1901
 msgid "  Package Pin: "
 msgstr "  Paket-Pin: "
 
-#: cmdline/apt-cache.cc:1878
+#: cmdline/apt-cache.cc:1910
 msgid "  Version Table:"
 msgstr "  Versionstabelle: "
 
-#: cmdline/apt-cache.cc:1897
+#: cmdline/apt-cache.cc:1929
 #, c-format
 msgid "       %4i %s\n"
 msgstr "       %4i %s\n"
 
-#: cmdline/apt-cache.cc:1924 cmdline/apt-cdrom.cc:847 cmdline/apt-config.cc:72
-#: cmdline/apt-get.cc:3023 cmdline/apt-shell.cc:3718
+#: cmdline/apt-cache.cc:1956 cmdline/apt-cdrom.cc:821 cmdline/apt-config.cc:72
+#: cmdline/apt-get.cc:2891 cmdline/apt-shell.cc:3586
 #, c-format
 msgid "%s %s for %s %s compiled on %s %s\n"
 msgstr "%s %s für %s %s compiliert auf %s %s\n"
 
-#: cmdline/apt-cache.cc:1931
+#: cmdline/apt-cache.cc:1963
 msgid ""
 "Usage: apt-cache [options] command\n"
 "       apt-cache [options] add file1 [file2 ...]\n"
@@ -245,7 +245,7 @@ msgid ""
 "   policy - Show policy settings\n"
 msgstr ""
 
-#: cmdline/apt-cache.cc:1964
+#: cmdline/apt-cache.cc:1996
 msgid ""
 "\n"
 "Options:\n"
@@ -259,109 +259,109 @@ msgid ""
 "See the apt-cache(8) and apt.conf(5) manual pages for more information.\n"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:402 cmdline/apt-cdrom.cc:526
+#: cmdline/apt-cdrom.cc:376 cmdline/apt-cdrom.cc:500
 #, c-format
 msgid "Failed to rename %s.new to %s"
 msgstr "Gescheitert %s.new in %s umzubenennen"
 
-#: cmdline/apt-cdrom.cc:425 apt-pkg/sourcelist.cc:302
+#: cmdline/apt-cdrom.cc:399 apt-pkg/sourcelist.cc:302
 #, c-format
 msgid "Opening %s"
 msgstr "Öffne %s"
 
-#: cmdline/apt-cdrom.cc:432
+#: cmdline/apt-cdrom.cc:406
 #, c-format
 msgid "Failed to open %s.new"
 msgstr "Problem beim Öffnen von %s.new"
 
-#: cmdline/apt-cdrom.cc:571 cmdline/apt-cdrom.cc:812
+#: cmdline/apt-cdrom.cc:545 cmdline/apt-cdrom.cc:786
 msgid "Using CD-ROM mount point "
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:579 cmdline/apt-cdrom.cc:834 methods/cdrom.cc:81
+#: cmdline/apt-cdrom.cc:553 cmdline/apt-cdrom.cc:808 methods/cdrom.cc:81
 #: methods/cdrom.cc:193
 #, c-format
 msgid "Unable to read the cdrom database %s"
 msgstr "Ausserstande %s die CD-ROM Datenbank zu lesen"
 
-#: cmdline/apt-cdrom.cc:596
+#: cmdline/apt-cdrom.cc:570
 msgid "Unmounting CD-ROM"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:600
+#: cmdline/apt-cdrom.cc:574
 msgid "Please insert a Disc in the drive and press enter"
 msgstr "Bitte eine Disk in Laufwerk einlegen und mit Eingabe bestätigen"
 
-#: cmdline/apt-cdrom.cc:601 cmdline/apt-cdrom.cc:813
+#: cmdline/apt-cdrom.cc:575 cmdline/apt-cdrom.cc:787
 msgid "Mounting CD-ROM"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:603 cmdline/apt-cdrom.cc:815
+#: cmdline/apt-cdrom.cc:577 cmdline/apt-cdrom.cc:789
 msgid "Failed to mount the cdrom."
 msgstr "Gescheitert das CDROM zu mounten."
 
-#: cmdline/apt-cdrom.cc:607 cmdline/apt-cdrom.cc:818
+#: cmdline/apt-cdrom.cc:581 cmdline/apt-cdrom.cc:792
 msgid "Identifying.. "
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:627
+#: cmdline/apt-cdrom.cc:601
 msgid "Scanning Disc for index files..  "
 msgstr "Durchsuche Disk nach Indexdateien..  "
 
-#: cmdline/apt-cdrom.cc:644
+#: cmdline/apt-cdrom.cc:618
 msgid "I found (binary):"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:647
+#: cmdline/apt-cdrom.cc:621
 msgid "I found (source):"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:662
+#: cmdline/apt-cdrom.cc:636
 msgid "Found "
 msgstr "Gefunden "
 
-#: cmdline/apt-cdrom.cc:662
+#: cmdline/apt-cdrom.cc:636
 msgid " package indexes and "
 msgstr " Paketindizes und "
 
-#: cmdline/apt-cdrom.cc:663
+#: cmdline/apt-cdrom.cc:637
 msgid " source indexes."
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:670
+#: cmdline/apt-cdrom.cc:644
 msgid ""
 "Unable to locate any package files, perhaps this is not an APT enabled disc"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:694
+#: cmdline/apt-cdrom.cc:668
 msgid "Found label '"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:703
+#: cmdline/apt-cdrom.cc:677
 msgid "Please provide a name for this Disc, such as 'Distribution Disk 1'"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:712
+#: cmdline/apt-cdrom.cc:686
 msgid "That is not a valid name, try again "
 msgstr "Das ist kein gültiger Name, noch einmal versuchen"
 
-#: cmdline/apt-cdrom.cc:726
+#: cmdline/apt-cdrom.cc:700
 msgid "This Disc is called:"
 msgstr "Diese Disk heisst:"
 
-#: cmdline/apt-cdrom.cc:759
+#: cmdline/apt-cdrom.cc:733
 msgid "Source List entries for this Disc are:"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:792
+#: cmdline/apt-cdrom.cc:766
 msgid "Repeat this process for the rest of the CDs in your set."
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:837
+#: cmdline/apt-cdrom.cc:811
 msgid "Stored Label: '"
 msgstr ""
 
-#: cmdline/apt-cdrom.cc:853
+#: cmdline/apt-cdrom.cc:827
 msgid ""
 "Usage: apt-cdrom [options] command\n"
 "\n"
@@ -417,88 +417,74 @@ msgstr ""
 "  -c=? Lese diese Konfigurationsdatei\n"
 "  -o=? Setze eine beliebige Konfigurationsoption, z.B. -o dir::cache=/tmp\n"
 
-# Translator's notes:
-# unable .. ausserstande
-# upgrade .. upgrade
-# downgrade .. downgrade
-#: cmdline/apt-get.cc:158 cmdline/apt-shell.cc:180
-msgid "Y"
-msgstr "J"
-
-#: cmdline/apt-get.cc:180 cmdline/apt-get.cc:2008 cmdline/apt-shell.cc:202
-#: cmdline/apt-shell.cc:2079
-#, c-format
-msgid "Regex compilation error - %s"
-msgstr "Regex Compilierungsfehler - %s"
-
-#: cmdline/apt-get.cc:275 cmdline/apt-shell.cc:297
+#: cmdline/apt-get.cc:160 cmdline/apt-shell.cc:182
 msgid "The following packages have unmet dependencies:"
 msgstr "Die folgenden Pakete besitzen unerfülte Abhängigkeiten:"
 
-#: cmdline/apt-get.cc:373 cmdline/apt-shell.cc:395
+#: cmdline/apt-get.cc:258 cmdline/apt-shell.cc:280
 #, c-format
 msgid "but %s is installed"
 msgstr "aber %s ist installiert"
 
-#: cmdline/apt-get.cc:375 cmdline/apt-shell.cc:397
+#: cmdline/apt-get.cc:260 cmdline/apt-shell.cc:282
 #, c-format
 msgid "but %s is to be installed"
 msgstr "aber %s wird installiert werden"
 
-#: cmdline/apt-get.cc:382 cmdline/apt-shell.cc:404
+#: cmdline/apt-get.cc:267 cmdline/apt-shell.cc:289
 msgid "but it is not installable"
 msgstr "aber es ist nicht installierbar"
 
-#: cmdline/apt-get.cc:384 cmdline/apt-shell.cc:406
+#: cmdline/apt-get.cc:269 cmdline/apt-shell.cc:291
 msgid "but it is a virtual package"
 msgstr "aber es ist ein virtuelles Paket"
 
-#: cmdline/apt-get.cc:387 cmdline/apt-shell.cc:409
+#: cmdline/apt-get.cc:272 cmdline/apt-shell.cc:294
 msgid "but it is not installed"
 msgstr "aber es ist nicht installiert"
 
-#: cmdline/apt-get.cc:387 cmdline/apt-shell.cc:409
+#: cmdline/apt-get.cc:272 cmdline/apt-shell.cc:294
 msgid "but it is not going to be installed"
 msgstr "aber es wird nicht installiert werden"
 
-#: cmdline/apt-get.cc:392 cmdline/apt-shell.cc:414
+#: cmdline/apt-get.cc:277 cmdline/apt-shell.cc:299
 msgid " or"
 msgstr " oder"
 
-#: cmdline/apt-get.cc:421 cmdline/apt-shell.cc:444
+#: cmdline/apt-get.cc:306 cmdline/apt-shell.cc:329
 msgid "The following NEW packages will be installed:"
 msgstr "Die folgenden NEUEN Pakete werden installiert werden:"
 
-#: cmdline/apt-get.cc:473 cmdline/apt-shell.cc:497
+#: cmdline/apt-get.cc:358 cmdline/apt-shell.cc:382
 msgid "The following packages will be REPLACED:"
 msgstr "Die folgenden Pakete werden ERSETZT:"
 
-#: cmdline/apt-get.cc:474 cmdline/apt-shell.cc:498
+#: cmdline/apt-get.cc:359 cmdline/apt-shell.cc:383
 msgid "The following packages will be REMOVED:"
 msgstr "Die folgenden Pakete werden ENTFERNT:"
 
-#: cmdline/apt-get.cc:496 cmdline/apt-shell.cc:527
+#: cmdline/apt-get.cc:381 cmdline/apt-shell.cc:412
 msgid "The following packages have been kept back"
 msgstr "Die folgenden Pakete sind zurückgehalten worden"
 
-#: cmdline/apt-get.cc:517 cmdline/apt-shell.cc:555
+#: cmdline/apt-get.cc:402 cmdline/apt-shell.cc:440
 msgid "The following packages will be upgraded"
 msgstr "Die folgenden Pakete werden upgegradet werden:"
 
-#: cmdline/apt-get.cc:538 cmdline/apt-shell.cc:583
+#: cmdline/apt-get.cc:423 cmdline/apt-shell.cc:468
 msgid "The following packages will be DOWNGRADED"
 msgstr "Die folgenden Pakete werden DOWNGRADED:"
 
-#: cmdline/apt-get.cc:558 cmdline/apt-shell.cc:605
+#: cmdline/apt-get.cc:443 cmdline/apt-shell.cc:490
 msgid "The following held packages will be changed:"
 msgstr "Die folgenden zurückgehaltenen Pakete werden geändert:"
 
-#: cmdline/apt-get.cc:647 cmdline/apt-shell.cc:696
+#: cmdline/apt-get.cc:532 cmdline/apt-shell.cc:581
 #, c-format
 msgid "%s (due to %s) "
 msgstr "%s (in Folge von %s) "
 
-#: cmdline/apt-get.cc:655 cmdline/apt-shell.cc:704
+#: cmdline/apt-get.cc:540 cmdline/apt-shell.cc:589
 msgid ""
 "WARNING: The following essential packages will be removed\n"
 "This should NOT be done unless you know exactly what you are doing!"
@@ -506,124 +492,124 @@ msgstr ""
 "WARNUNG: Die folgenden grundlegenden Pakete werden entfernt werden\n"
 "Dies sollte NICHT gemacht werden, ausser Sie wissen genau was sie tun!"
 
-#: cmdline/apt-get.cc:709 cmdline/apt-shell.cc:770
+#: cmdline/apt-get.cc:594 cmdline/apt-shell.cc:655
 #, c-format
 msgid "%lu upgraded, %lu newly installed, "
 msgstr "%lu upgegradet, %lu neu installiert, "
 
-#: cmdline/apt-get.cc:713 cmdline/apt-shell.cc:774
+#: cmdline/apt-get.cc:598 cmdline/apt-shell.cc:659
 #, c-format
 msgid "%lu reinstalled, "
 msgstr "%lu reinstalliert,  "
 
-#: cmdline/apt-get.cc:715 cmdline/apt-shell.cc:776
+#: cmdline/apt-get.cc:600 cmdline/apt-shell.cc:661
 #, c-format
 msgid "%lu downgraded, "
 msgstr "%lu downgegradet, "
 
-#: cmdline/apt-get.cc:718 cmdline/apt-shell.cc:779
+#: cmdline/apt-get.cc:603 cmdline/apt-shell.cc:664
 #, c-format
 msgid "%lu replaced, "
 msgstr "%lu ersetzt, "
 
-#: cmdline/apt-get.cc:721 cmdline/apt-shell.cc:783
+#: cmdline/apt-get.cc:606 cmdline/apt-shell.cc:668
 #, c-format
 msgid "%lu removed and %lu not upgraded.\n"
 msgstr "%lu entfernt und %lu nicht upgegradet.\n"
 
-#: cmdline/apt-get.cc:725 cmdline/apt-shell.cc:790
+#: cmdline/apt-get.cc:610 cmdline/apt-shell.cc:675
 #, c-format
 msgid "%lu not fully installed or removed.\n"
 msgstr "%lu nicht vollständig installiert oder entfernt.\n"
 
-#: cmdline/apt-get.cc:747
+#: cmdline/apt-get.cc:632
 msgid "There are changes to be made"
 msgstr ""
 
-#: cmdline/apt-get.cc:813 cmdline/apt-shell.cc:918
+#: cmdline/apt-get.cc:698 cmdline/apt-shell.cc:803
 msgid "Correcting dependencies..."
 msgstr "Korrigiere Abhängigkeiten ..."
 
-#: cmdline/apt-get.cc:816 cmdline/apt-shell.cc:921
+#: cmdline/apt-get.cc:701 cmdline/apt-shell.cc:806
 msgid " failed."
 msgstr " gescheitert."
 
-#: cmdline/apt-get.cc:819 cmdline/apt-shell.cc:924
+#: cmdline/apt-get.cc:704 cmdline/apt-shell.cc:809
 msgid "Unable to correct dependencies"
 msgstr "Ausserstande, Abhängigkeiten zu korrigieren"
 
-#: cmdline/apt-get.cc:822 cmdline/apt-shell.cc:927
+#: cmdline/apt-get.cc:707 cmdline/apt-shell.cc:812
 msgid "Unable to minimize the upgrade set"
 msgstr "Ausserstande, das Upgrade-Set zu minimieren"
 
-#: cmdline/apt-get.cc:824 cmdline/apt-shell.cc:929
+#: cmdline/apt-get.cc:709 cmdline/apt-shell.cc:814
 msgid " Done"
 msgstr " Fertig"
 
-#: cmdline/apt-get.cc:828
+#: cmdline/apt-get.cc:713
 msgid "You might want to run `apt-get --fix-broken install' to correct these."
 msgstr ""
 "Sie werden `apt-get --fix-broken install' ausführen wollen um diese zu "
 "beheben."
 
-#: cmdline/apt-get.cc:831 cmdline/apt-shell.cc:936
+#: cmdline/apt-get.cc:716 cmdline/apt-shell.cc:821
 msgid "Unmet dependencies. Try using --fix-broken."
 msgstr "Unerfüllte Abhängigkeiten. Versuchen Sie --fix-broken zu benutzen."
 
-#: cmdline/apt-get.cc:889 cmdline/apt-shell.cc:994
+#: cmdline/apt-get.cc:774 cmdline/apt-shell.cc:879
 msgid "Packages need to be removed but Remove is disabled."
 msgstr "Pakete müssen entfernt werden, Remove ist aber ausgeschaltet."
 
-#: cmdline/apt-get.cc:915 cmdline/apt-get.cc:2355 cmdline/apt-get.cc:2390
-#: cmdline/apt-shell.cc:1020 cmdline/apt-shell.cc:2340
-#: cmdline/apt-shell.cc:2376
+#: cmdline/apt-get.cc:800 cmdline/apt-get.cc:2223 cmdline/apt-get.cc:2258
+#: cmdline/apt-shell.cc:905 cmdline/apt-shell.cc:2208
+#: cmdline/apt-shell.cc:2244
 msgid "Unable to lock the download directory"
 msgstr "Ausserstande das Download-Verzeichnis zu locken."
 
-#: cmdline/apt-get.cc:925 cmdline/apt-get.cc:2438 cmdline/apt-get.cc:2712
-#: cmdline/apt-shell.cc:1030 cmdline/apt-shell.cc:2435 apt-pkg/cachefile.cc:71
+#: cmdline/apt-get.cc:810 cmdline/apt-get.cc:2306 cmdline/apt-get.cc:2580
+#: cmdline/apt-shell.cc:915 cmdline/apt-shell.cc:2303 apt-pkg/cachefile.cc:71
 msgid "The list of sources could not be read."
 msgstr "Die Liste der Quellen konnte nicht gelesen werden."
 
-#: cmdline/apt-get.cc:945 cmdline/apt-shell.cc:1050
+#: cmdline/apt-get.cc:830 cmdline/apt-shell.cc:935
 #, c-format
 msgid "Need to get %sB/%sB of archives.\n"
 msgstr "Muss %sB/%sB an Archiven holen.\n"
 
-#: cmdline/apt-get.cc:948 cmdline/apt-shell.cc:1053
+#: cmdline/apt-get.cc:833 cmdline/apt-shell.cc:938
 #, c-format
 msgid "Need to get %sB of archives.\n"
 msgstr "Muss %sB an Archiven holen.\n"
 
-#: cmdline/apt-get.cc:953 cmdline/apt-shell.cc:837 cmdline/apt-shell.cc:1058
+#: cmdline/apt-get.cc:838 cmdline/apt-shell.cc:722 cmdline/apt-shell.cc:943
 #, c-format
 msgid "After unpacking %sB of additional disk space will be used.\n"
 msgstr "Nach dem Auspacken werden %sB zusätzlicher Plattenplatz benutzt.\n"
 
-#: cmdline/apt-get.cc:956 cmdline/apt-shell.cc:840 cmdline/apt-shell.cc:1061
+#: cmdline/apt-get.cc:841 cmdline/apt-shell.cc:725 cmdline/apt-shell.cc:946
 #, c-format
 msgid "After unpacking %sB disk space will be freed.\n"
 msgstr "Nach dem Auspacken werden %sB Plattenplatz freigegeben.\n"
 
-#: cmdline/apt-get.cc:974 cmdline/apt-shell.cc:1079
+#: cmdline/apt-get.cc:859 cmdline/apt-shell.cc:964
 #, c-format
 msgid "You don't have enough free space in %s."
 msgstr "Sie haben nicht genug freien Platz in %s."
 
-#: cmdline/apt-get.cc:983 cmdline/apt-shell.cc:1088
+#: cmdline/apt-get.cc:868 cmdline/apt-shell.cc:973
 msgid "There are problems and -y was used without --force-yes"
 msgstr "Es gibt Probleme und -q wurde ohne --force-yes verwendet"
 
-#: cmdline/apt-get.cc:989 cmdline/apt-get.cc:1009 cmdline/apt-shell.cc:1094
-#: cmdline/apt-shell.cc:1114
+#: cmdline/apt-get.cc:874 cmdline/apt-get.cc:894 cmdline/apt-shell.cc:979
+#: cmdline/apt-shell.cc:999
 msgid "Trivial Only specified but this is not a trivial operation."
 msgstr "Trivial Only vorgegeben, dies ist aber keine triviale Operation."
 
-#: cmdline/apt-get.cc:991 cmdline/apt-shell.cc:1096
+#: cmdline/apt-get.cc:876 cmdline/apt-shell.cc:981
 msgid "Yes, do as I say!"
 msgstr "Ja, tu was ich sage!"
 
-#: cmdline/apt-get.cc:993 cmdline/apt-shell.cc:1098
+#: cmdline/apt-get.cc:878 cmdline/apt-shell.cc:983
 #, c-format
 msgid ""
 "You are about to do something potentially harmful\n"
@@ -634,30 +620,30 @@ msgstr ""
 "Um fortzusetzen, geben Sie folgenden Satz ein '%s'\n"
 " ?] "
 
-#: cmdline/apt-get.cc:999 cmdline/apt-get.cc:1018 cmdline/apt-shell.cc:855
-#: cmdline/apt-shell.cc:1104 cmdline/apt-shell.cc:1123
+#: cmdline/apt-get.cc:884 cmdline/apt-get.cc:903 cmdline/apt-shell.cc:740
+#: cmdline/apt-shell.cc:989 cmdline/apt-shell.cc:1008
 msgid "Abort."
 msgstr "Abgebrochen."
 
-#: cmdline/apt-get.cc:1014 cmdline/apt-shell.cc:853 cmdline/apt-shell.cc:1119
+#: cmdline/apt-get.cc:899 cmdline/apt-shell.cc:738 cmdline/apt-shell.cc:1004
 msgid "Do you want to continue? [Y/n] "
 msgstr "Wollen Sie fortsetzen? [J/n] "
 
-#: cmdline/apt-get.cc:1092 cmdline/apt-get.cc:1197 cmdline/apt-get.cc:1726
-#: cmdline/apt-get.cc:2579 cmdline/apt-shell.cc:1196 cmdline/apt-shell.cc:1790
+#: cmdline/apt-get.cc:977 cmdline/apt-get.cc:1082 cmdline/apt-get.cc:1594
+#: cmdline/apt-get.cc:2447 cmdline/apt-shell.cc:1081 cmdline/apt-shell.cc:1658
 #, c-format
 msgid "Failed to fetch %s  %s\n"
 msgstr "Gescheitert zu holen %s  %s\n"
 
-#: cmdline/apt-get.cc:1110 cmdline/apt-shell.cc:1214
+#: cmdline/apt-get.cc:995 cmdline/apt-shell.cc:1099
 msgid "Some files failed to download"
 msgstr "Einige Dateien konnten nicht heruntergeladen werden"
 
-#: cmdline/apt-get.cc:1111 cmdline/apt-get.cc:2588 cmdline/apt-shell.cc:1215
+#: cmdline/apt-get.cc:996 cmdline/apt-get.cc:2456 cmdline/apt-shell.cc:1100
 msgid "Download complete and in download only mode"
 msgstr "Download vollständig und in 'download-only' Modus"
 
-#: cmdline/apt-get.cc:1117 cmdline/apt-shell.cc:1221
+#: cmdline/apt-get.cc:1002 cmdline/apt-shell.cc:1106
 msgid ""
 "Unable to fetch some archives, maybe run apt-get update or try with --fix-"
 "missing?"
@@ -665,61 +651,61 @@ msgstr ""
 "Ausserstande einige Archive zu holen, vielleicht apt-get update laufenlassen "
 "oder mit --fix-missing versuchen?"
 
-#: cmdline/apt-get.cc:1121 cmdline/apt-shell.cc:1225
+#: cmdline/apt-get.cc:1006 cmdline/apt-shell.cc:1110
 msgid "--fix-missing and media swapping is not currently supported"
 msgstr "--fix-missing und Medienwechsel werden momentan nicht unterstützt"
 
-#: cmdline/apt-get.cc:1126 cmdline/apt-shell.cc:1230
+#: cmdline/apt-get.cc:1011 cmdline/apt-shell.cc:1115
 msgid "Unable to correct missing packages."
 msgstr "Ausserstande fehlende Pakete zu korrigieren."
 
-#: cmdline/apt-get.cc:1127 cmdline/apt-shell.cc:1231
+#: cmdline/apt-get.cc:1012 cmdline/apt-shell.cc:1116
 msgid "Aborting Install."
 msgstr "Installation wird abgebrochen."
 
-#: cmdline/apt-get.cc:1202 cmdline/apt-get.cc:2584
+#: cmdline/apt-get.cc:1087 cmdline/apt-get.cc:2452
 msgid "Failed to fetch some archives."
 msgstr "Gescheitert einige Archive zu holen."
 
-#: cmdline/apt-get.cc:1296 cmdline/apt-get.cc:1921 cmdline/apt-get.cc:1984
-#: cmdline/apt-get.cc:2019 cmdline/apt-get.cc:2477 cmdline/apt-shell.cc:1366
-#: cmdline/apt-shell.cc:2055 cmdline/apt-shell.cc:2090
+#: cmdline/apt-get.cc:1181 cmdline/apt-get.cc:1789 cmdline/apt-get.cc:1852
+#: cmdline/apt-get.cc:1887 cmdline/apt-get.cc:2345 cmdline/apt-shell.cc:1251
+#: cmdline/apt-shell.cc:1923 cmdline/apt-shell.cc:1958
 #, c-format
 msgid "Selecting %s for '%s'\n"
 msgstr "Wähle %s für '%s'\n"
 
-#: cmdline/apt-get.cc:1302 cmdline/apt-shell.cc:1372
+#: cmdline/apt-get.cc:1187 cmdline/apt-shell.cc:1257
 #, c-format
 msgid "Package %s is a virtual package with no good providers.\n"
 msgstr " Paket %s ist ein virtuelles Paket ohne guten Bereitsteller.\n"
 
-#: cmdline/apt-get.cc:1316 cmdline/apt-get.cc:1376 cmdline/apt-shell.cc:1386
-#: cmdline/apt-shell.cc:1446
+#: cmdline/apt-get.cc:1201 cmdline/apt-get.cc:1261 cmdline/apt-shell.cc:1271
+#: cmdline/apt-shell.cc:1331
 msgid " [Installed]"
 msgstr " [Installiert]"
 
-#: cmdline/apt-get.cc:1321 cmdline/apt-get.cc:1381 cmdline/apt-shell.cc:1391
-#: cmdline/apt-shell.cc:1451
+#: cmdline/apt-get.cc:1206 cmdline/apt-get.cc:1266 cmdline/apt-shell.cc:1276
+#: cmdline/apt-shell.cc:1336
 msgid "You should explicitly select one to install."
 msgstr "Sie sollten explizit eines zur Installation auswählen."
 
-#: cmdline/apt-get.cc:1322 cmdline/apt-shell.cc:1392
+#: cmdline/apt-get.cc:1207 cmdline/apt-shell.cc:1277
 #, c-format
 msgid "Package %s is a virtual package with multiple good providers.\n"
 msgstr " Paket %s ist ein virtuelles Paket mit mehreren Bereitstellern.\n"
 
-#: cmdline/apt-get.cc:1333 cmdline/apt-shell.cc:1403
+#: cmdline/apt-get.cc:1218 cmdline/apt-shell.cc:1288
 #, c-format
 msgid "Skipping %s, it is already installed and upgrade is not set.\n"
 msgstr ""
 "Überspringe %s, ist bereits installiert und upgrade ist nicht gesetzt.\n"
 
-#: cmdline/apt-get.cc:1351 cmdline/apt-shell.cc:1421
+#: cmdline/apt-get.cc:1236 cmdline/apt-shell.cc:1306
 #, c-format
 msgid "Package %s is not installed, so not removed\n"
 msgstr "Paket %s ist nicht installiert, deshalb nicht entfernt\n"
 
-#: cmdline/apt-get.cc:1387 cmdline/apt-shell.cc:1457
+#: cmdline/apt-get.cc:1272 cmdline/apt-shell.cc:1342
 #, c-format
 msgid ""
 "Package %s has no available version, but exists in the database.\n"
@@ -728,66 +714,66 @@ msgid ""
 "of sources.list\n"
 msgstr ""
 
-#: cmdline/apt-get.cc:1409 cmdline/apt-shell.cc:1479
+#: cmdline/apt-get.cc:1294 cmdline/apt-shell.cc:1364
 msgid "However the following packages replace it:"
 msgstr "Jedoch ersetzen es die folgenden Pakete:"
 
-#: cmdline/apt-get.cc:1412 cmdline/apt-shell.cc:1482
+#: cmdline/apt-get.cc:1297 cmdline/apt-shell.cc:1367
 #, c-format
 msgid "Package %s has no installation candidate"
 msgstr "Paket %s hat keinen Installationskanditaten"
 
-#: cmdline/apt-get.cc:1432 cmdline/apt-shell.cc:1508
+#: cmdline/apt-get.cc:1317 cmdline/apt-shell.cc:1393
 #, c-format
 msgid "Reinstallation of %s is not possible, it cannot be downloaded.\n"
 msgstr ""
 "Reinstallation von %s ist nicht möglich, es kann nicht heruntergeladen "
 "werden.\n"
 
-#: cmdline/apt-get.cc:1440 cmdline/apt-shell.cc:1516
+#: cmdline/apt-get.cc:1325 cmdline/apt-shell.cc:1401
 #, c-format
 msgid "%s is already the newest version.\n"
 msgstr "%s ist bereits die neueste Version.\n"
 
-#: cmdline/apt-get.cc:1486 cmdline/apt-shell.cc:1562
+#: cmdline/apt-get.cc:1354 cmdline/apt-shell.cc:1430
 #, c-format
 msgid "Release %s'%s' for '%s' was not found"
 msgstr "Release %s'%s' für '%s' wurde nicht gefunden"
 
-#: cmdline/apt-get.cc:1488 cmdline/apt-shell.cc:1564
+#: cmdline/apt-get.cc:1356 cmdline/apt-shell.cc:1432
 #, c-format
 msgid "Version %s'%s' for '%s' was not found"
 msgstr "Version %s'%s' für '%s' wurde nicht gefunden"
 
-#: cmdline/apt-get.cc:1496 cmdline/apt-shell.cc:1572
+#: cmdline/apt-get.cc:1364 cmdline/apt-shell.cc:1440
 #, c-format
 msgid "Selected version %s (%s) for %s\n"
 msgstr "Wählte Version %s (%s) für %s\n"
 
-#: cmdline/apt-get.cc:1499 cmdline/apt-shell.cc:1575
+#: cmdline/apt-get.cc:1367 cmdline/apt-shell.cc:1443
 #, c-format
 msgid "Selected version %s for %s\n"
 msgstr "Wählte Version %s für %s\n"
 
-#: cmdline/apt-get.cc:1627
+#: cmdline/apt-get.cc:1495
 msgid "The update command takes no arguments"
 msgstr "Der update Befehl braucht keine Argumente"
 
-#: cmdline/apt-get.cc:1650 cmdline/apt-shell.cc:1717
+#: cmdline/apt-get.cc:1518 cmdline/apt-shell.cc:1585
 #, c-format
 msgid "Sources list %s could not be read"
 msgstr "Quellliste %s konnte nicht gelesen werden"
 
-#: cmdline/apt-get.cc:1653 cmdline/apt-shell.cc:1720
+#: cmdline/apt-get.cc:1521 cmdline/apt-shell.cc:1588
 #, c-format
 msgid "Sources list %s doesn't exist"
 msgstr "Quellliste %s existiert nicht"
 
-#: cmdline/apt-get.cc:1666 cmdline/apt-shell.cc:1732
+#: cmdline/apt-get.cc:1534 cmdline/apt-shell.cc:1600
 msgid "Unable to lock the list directory"
 msgstr "Ausserstande das Listen-Verzeichnis zu locken"
 
-#: cmdline/apt-get.cc:1698 cmdline/apt-shell.cc:1762
+#: cmdline/apt-get.cc:1566 cmdline/apt-shell.cc:1630
 msgid ""
 "Release files for some repositories could not be retrieved or authenticated. "
 "Such repositories are being ignored."
@@ -795,7 +781,7 @@ msgstr ""
 "Release-Dateien einiger Repositories konnten nicht geholt oder "
 "authentifiziert werden. Derartige Repositories werden ignoriert."
 
-#: cmdline/apt-get.cc:1766 cmdline/apt-shell.cc:1824
+#: cmdline/apt-get.cc:1634 cmdline/apt-shell.cc:1692
 msgid ""
 "Some index files failed to download, they have been ignored, or old ones "
 "used instead."
@@ -803,28 +789,33 @@ msgstr ""
 "Einige Index-Dateien konnten nicht heruntergeladen werden, sie wurden "
 "ignoriert oder alte weiterhin benutzt."
 
-#: cmdline/apt-get.cc:1785 cmdline/apt-shell.cc:1853
+#: cmdline/apt-get.cc:1653 cmdline/apt-shell.cc:1721
 msgid "Internal Error, AllUpgrade broke stuff"
 msgstr "Interner Fehler, AllUpgrade hat etwas zerstört"
 
-#: cmdline/apt-get.cc:1882 cmdline/apt-get.cc:1899 cmdline/apt-shell.cc:1955
-#: cmdline/apt-shell.cc:1972
+#: cmdline/apt-get.cc:1750 cmdline/apt-get.cc:1767 cmdline/apt-shell.cc:1823
+#: cmdline/apt-shell.cc:1840
 #, c-format
 msgid "Couldn't parse name '%s'"
 msgstr "Konnte Paketname '%s' nicht parsen"
 
-#: cmdline/apt-get.cc:1994 cmdline/apt-get.cc:2033 cmdline/apt-shell.cc:2065
-#: cmdline/apt-shell.cc:2105
+#: cmdline/apt-get.cc:1862 cmdline/apt-get.cc:1901 cmdline/apt-shell.cc:1933
+#: cmdline/apt-shell.cc:1973
 #, c-format
 msgid "Couldn't find package %s"
 msgstr "Konnte Paket %s nicht finden"
 
-#: cmdline/apt-get.cc:2063
+#: cmdline/apt-get.cc:1876 cmdline/apt-shell.cc:1947 cmdline/cmdline.cc:43
+#, c-format
+msgid "Regex compilation error - %s"
+msgstr "Regex Compilierungsfehler - %s"
+
+#: cmdline/apt-get.cc:1931
 msgid "You might want to run `apt-get --fix-broken install' to correct these:"
 msgstr ""
 "Sie möchten `apt-get --fix-broken install' ausführen, um diese zu beheben:"
 
-#: cmdline/apt-get.cc:2066
+#: cmdline/apt-get.cc:1934
 msgid ""
 "Unmet dependencies. Try 'apt-get --fix-broken install' with no packages (or "
 "specify a solution)."
@@ -832,7 +823,7 @@ msgstr ""
 "Unerfüllte Abhängigkeiten. Versuchen Sie 'apt-get --fix-broken install' ohne "
 "Pakete(oder geben Sie eine Lösung an)"
 
-#: cmdline/apt-get.cc:2088 cmdline/apt-shell.cc:2168
+#: cmdline/apt-get.cc:1956 cmdline/apt-shell.cc:2036
 #, fuzzy
 msgid ""
 "Some packages could not be installed. This may mean that you have\n"
@@ -844,7 +835,7 @@ msgstr ""
 "instabile Distribution verwenden, dass einige benötigte Pakete noch nicht\n"
 "erzeugt oder aus 'Incoming' verschoben worden sind."
 
-#: cmdline/apt-get.cc:2095 cmdline/apt-shell.cc:2175
+#: cmdline/apt-get.cc:1963 cmdline/apt-shell.cc:2043
 msgid ""
 "Since you only requested a single operation it is extremely likely that\n"
 "the package is simply not installable and a bug report against\n"
@@ -854,106 +845,106 @@ msgstr ""
 "wahrscheinlich, dass das Paket schlichtweg nicht installierbar ist und\n"
 "ein Bugreport über dieses Paket eingereicht werden sollte."
 
-#: cmdline/apt-get.cc:2100 cmdline/apt-shell.cc:2180
+#: cmdline/apt-get.cc:1968 cmdline/apt-shell.cc:2048
 msgid "The following information may help to resolve the situation:"
 msgstr "Die folgende Information könnte helfen die Sitation zu beheben:"
 
-#: cmdline/apt-get.cc:2103 cmdline/apt-shell.cc:2184
+#: cmdline/apt-get.cc:1971 cmdline/apt-shell.cc:2052
 msgid "Broken packages"
 msgstr "Fehlerhafte Pakete"
 
-#: cmdline/apt-get.cc:2130
+#: cmdline/apt-get.cc:1998
 msgid "The following extra packages will be installed:"
 msgstr "Die folgenden zusätzlichen Pakete werden installiert werden:"
 
-#: cmdline/apt-get.cc:2210
+#: cmdline/apt-get.cc:2078
 msgid "Suggested packages:"
 msgstr "Vorgeschlagene Pakete: "
 
-#: cmdline/apt-get.cc:2211
+#: cmdline/apt-get.cc:2079
 msgid "Recommended packages:"
 msgstr "Empfohlene Pakete"
 
-#: cmdline/apt-get.cc:2235 cmdline/apt-shell.cc:2211
+#: cmdline/apt-get.cc:2103 cmdline/apt-shell.cc:2079
 msgid "Calculating Upgrade... "
 msgstr "Berechne Upgrade... "
 
-#: cmdline/apt-get.cc:2238 cmdline/apt-shell.cc:2214 methods/connect.cc:102
+#: cmdline/apt-get.cc:2106 cmdline/apt-shell.cc:2082 methods/connect.cc:102
 #: methods/ftp.cc:706
 msgid "Failed"
 msgstr "Gescheitert"
 
-#: cmdline/apt-get.cc:2254 cmdline/apt-shell.cc:2226
+#: cmdline/apt-get.cc:2122 cmdline/apt-shell.cc:2094
 msgid "Done"
 msgstr "Fertig"
 
-#: cmdline/apt-get.cc:2433
+#: cmdline/apt-get.cc:2301
 msgid "Must specify at least one package to fetch source for"
 msgstr ""
 "Es muss mindestens ein Paket angegeben werden, für das die Quellen geholt "
 "werden sollen"
 
-#: cmdline/apt-get.cc:2490 cmdline/apt-get.cc:2730 cmdline/apt-shell.cc:2453
+#: cmdline/apt-get.cc:2358 cmdline/apt-get.cc:2598 cmdline/apt-shell.cc:2321
 #, c-format
 msgid "Unable to find a source package for %s"
 msgstr "Ausserstande, ein Quellpaket für %s zu finden"
 
-#: cmdline/apt-get.cc:2539
+#: cmdline/apt-get.cc:2407
 #, c-format
 msgid "You don't have enough free space in %s"
 msgstr "Sie haben nicht genug freien Platz in %s"
 
-#: cmdline/apt-get.cc:2544
+#: cmdline/apt-get.cc:2412
 #, c-format
 msgid "Need to get %sB/%sB of source archives.\n"
 msgstr "Muss %sB/%sB an Quell-Archiven holen.\n"
 
-#: cmdline/apt-get.cc:2547
+#: cmdline/apt-get.cc:2415
 #, c-format
 msgid "Need to get %sB of source archives.\n"
 msgstr "Muss %sB an Quell-Archiven holen.\n"
 
-#: cmdline/apt-get.cc:2553
+#: cmdline/apt-get.cc:2421
 #, c-format
 msgid "Fetch Source %s\n"
 msgstr "Hole Quelle %s\n"
 
-#: cmdline/apt-get.cc:2618 cmdline/apt-get.cc:2669
+#: cmdline/apt-get.cc:2486 cmdline/apt-get.cc:2537
 #, c-format
 msgid "Build command '%s' failed.\n"
 msgstr "Build-Befehl '%s' gescheitert.\n"
 
-#: cmdline/apt-get.cc:2630 cmdline/apt-get.cc:2652
+#: cmdline/apt-get.cc:2498 cmdline/apt-get.cc:2520
 #, c-format
 msgid "Unpack command '%s' failed.\n"
 msgstr "Auspack-Befehl '%s' gescheitert.\n"
 
-#: cmdline/apt-get.cc:2640
+#: cmdline/apt-get.cc:2508
 #, c-format
 msgid "Skipping unpack of already unpacked source in %s\n"
 msgstr "Überspringe Auspacken von bereits ausgepackten Quellen in %s\n"
 
-#: cmdline/apt-get.cc:2689
+#: cmdline/apt-get.cc:2557
 msgid "Child process failed"
 msgstr "Kind-Prozess gescheitert"
 
-#: cmdline/apt-get.cc:2707 cmdline/apt-shell.cc:2430
+#: cmdline/apt-get.cc:2575 cmdline/apt-shell.cc:2298
 msgid "Must specify at least one package to check builddeps for"
 msgstr ""
 "Es muss mindestens ein Paket angegeben werden, um die Build-Abhängigkeiten "
 "zu ermitteln"
 
-#: cmdline/apt-get.cc:2735 cmdline/apt-shell.cc:2458
+#: cmdline/apt-get.cc:2603 cmdline/apt-shell.cc:2326
 #, c-format
 msgid "Unable to get build-dependency information for %s"
 msgstr "Ausserstande, Build-Abhängigkeitsinformationen für %s zu bekommen"
 
-#: cmdline/apt-get.cc:2755 cmdline/apt-shell.cc:2478
+#: cmdline/apt-get.cc:2623 cmdline/apt-shell.cc:2346
 #, c-format
 msgid "%s has no build depends.\n"
 msgstr "%s hat keine Build-Abhängigkeiten.\n"
 
-#: cmdline/apt-get.cc:2826 cmdline/apt-shell.cc:2549
+#: cmdline/apt-get.cc:2694 cmdline/apt-shell.cc:2417
 #, c-format
 msgid ""
 "%s dependency for %s cannot be satisfied because the package %s cannot be "
@@ -962,7 +953,7 @@ msgstr ""
 "%s Abhängigkeit auf %s kann nicht erfüllt werden, da das Paket %s nicht "
 "gefunden werden kann"
 
-#: cmdline/apt-get.cc:2878 cmdline/apt-shell.cc:2601
+#: cmdline/apt-get.cc:2746 cmdline/apt-shell.cc:2469
 #, c-format
 msgid ""
 "%s dependency for %s cannot be satisfied because no available versions of "
@@ -971,17 +962,17 @@ msgstr ""
 "%s Abhängigkeit auf %s kann nicht erfüllt werden, da keine verfügbare "
 "Version des Paketes %s die Versionsanforderungen erfüllen kann"
 
-#: cmdline/apt-get.cc:2913 cmdline/apt-shell.cc:2635
+#: cmdline/apt-get.cc:2781 cmdline/apt-shell.cc:2503
 #, c-format
 msgid "Failed to satisfy %s dependency for %s: Installed package %s is too new"
 msgstr ""
 
-#: cmdline/apt-get.cc:2938 cmdline/apt-shell.cc:2660
+#: cmdline/apt-get.cc:2806 cmdline/apt-shell.cc:2528
 #, c-format
 msgid "Failed to satisfy %s dependency for %s: %s"
 msgstr "Ausserstande, %s Abhängigkeit für %s: %s verarbeiten"
 
-#: cmdline/apt-get.cc:2955 cmdline/apt-shell.cc:2674
+#: cmdline/apt-get.cc:2823 cmdline/apt-shell.cc:2542
 #, c-format
 msgid ""
 "Some broken packages were found while trying to process build-dependencies "
@@ -993,15 +984,15 @@ msgstr ""
 "Sie möchten `apt-get --fix-broken install' ausführen wollen um diese zu "
 "beheben."
 
-#: cmdline/apt-get.cc:2961
+#: cmdline/apt-get.cc:2829
 msgid "Failed to process build dependencies"
 msgstr "Ausserstande, Build-Abhängigkeiten zu verarbeiten"
 
-#: cmdline/apt-get.cc:3028 cmdline/apt-shell.cc:3723
+#: cmdline/apt-get.cc:2896 cmdline/apt-shell.cc:3591
 msgid "Supported Modules:"
 msgstr "Unterstützte Module:"
 
-#: cmdline/apt-get.cc:3069
+#: cmdline/apt-get.cc:2937
 msgid ""
 "Usage: apt-get [options] command\n"
 "       apt-get [options] install|remove pkg1 [pkg2 ...]\n"
@@ -1024,7 +1015,7 @@ msgid ""
 "   check - Verify that there are no broken dependencies\n"
 msgstr ""
 
-#: cmdline/apt-get.cc:3097
+#: cmdline/apt-get.cc:2965
 msgid ""
 "\n"
 "Options:\n"
@@ -1047,89 +1038,89 @@ msgid ""
 "                       This APT has Super Cow Powers.\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:151 cmdline/apt-shell.cc:4445
+#: cmdline/apt-shell.cc:146 cmdline/apt-shell.cc:4298
 msgid "There are broken packages. "
 msgstr "Es gibt zerbrochene Pakete. "
 
-#: cmdline/apt-shell.cc:152 cmdline/apt-shell.cc:2138
-#: cmdline/apt-shell.cc:4446
+#: cmdline/apt-shell.cc:147 cmdline/apt-shell.cc:2006
+#: cmdline/apt-shell.cc:4299
 msgid "Run `check' to see them."
 msgstr ""
 
-#: cmdline/apt-shell.cc:153
+#: cmdline/apt-shell.cc:148
 msgid "You can try to fix them automatically with `install --fix-broken'0."
 msgstr ""
 
-#: cmdline/apt-shell.cc:163
+#: cmdline/apt-shell.cc:158
 msgid "Excessive arguments"
 msgstr ""
 
-#: cmdline/apt-shell.cc:786
+#: cmdline/apt-shell.cc:671
 #, c-format
 msgid "%lu removed and %lu kept.\n"
 msgstr "%lu entfernt und %lu behalten.\n"
 
-#: cmdline/apt-shell.cc:815
+#: cmdline/apt-shell.cc:700
 #, c-format
 msgid "Will need more %sB of archives.\n"
 msgstr "Brauche %sB mehr an Archiven.\n"
 
-#: cmdline/apt-shell.cc:818
+#: cmdline/apt-shell.cc:703
 #, c-format
 msgid "Will need less %sB of archives.\n"
 msgstr "Brauche %sB weniger an Archiven.\n"
 
-#: cmdline/apt-shell.cc:824
+#: cmdline/apt-shell.cc:709
 #, c-format
 msgid "After unpacking will need more %sB of disk space.\n"
 msgstr "Brauche %sB mehr Plattenplatz nach dem Auspacken.\n"
 
-#: cmdline/apt-shell.cc:827
+#: cmdline/apt-shell.cc:712
 #, c-format
 msgid "After unpacking will need less %sB of disk space.\n"
 msgstr "Brauche %sB weniger Plattenplatz nach dem Auspacken.\n"
 
-#: cmdline/apt-shell.cc:832
+#: cmdline/apt-shell.cc:717
 #, c-format
 msgid "Will need %sB of archives.\n"
 msgstr "Brauche %sB an Archiven.\n"
 
-#: cmdline/apt-shell.cc:850
+#: cmdline/apt-shell.cc:735
 msgid "Unrequested changes are needed to execute this operation."
 msgstr ""
 
-#: cmdline/apt-shell.cc:933
+#: cmdline/apt-shell.cc:818
 msgid "You might want to run `install --fix-broken' to correct these."
 msgstr ""
 "Sie werden `install --fix-broken' ausführen wollen, um diese zu beheben."
 
-#: cmdline/apt-shell.cc:1840 cmdline/apt-shell.cc:1878
-#: cmdline/apt-shell.cc:2202 cmdline/apt-shell.cc:2243
-#: cmdline/apt-shell.cc:2420 cmdline/apt-shell.cc:4035
+#: cmdline/apt-shell.cc:1708 cmdline/apt-shell.cc:1746
+#: cmdline/apt-shell.cc:2070 cmdline/apt-shell.cc:2111
+#: cmdline/apt-shell.cc:2288 cmdline/apt-shell.cc:3903
 msgid "You have no permissions for that"
 msgstr ""
 
-#: cmdline/apt-shell.cc:2137
+#: cmdline/apt-shell.cc:2005
 msgid "There are still broken packages. "
 msgstr ""
 
-#: cmdline/apt-shell.cc:2139 cmdline/apt-shell.cc:4447
+#: cmdline/apt-shell.cc:2007 cmdline/apt-shell.cc:4300
 msgid "You can try to fix them automatically with `install --fix-broken'."
 msgstr ""
 
-#: cmdline/apt-shell.cc:3552
+#: cmdline/apt-shell.cc:3420
 msgid "Name"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3553
+#: cmdline/apt-shell.cc:3421
 msgid "Installed"
 msgstr "Installiert"
 
-#: cmdline/apt-shell.cc:3554
+#: cmdline/apt-shell.cc:3422
 msgid "Candidate"
 msgstr "Kandidat"
 
-#: cmdline/apt-shell.cc:3764
+#: cmdline/apt-shell.cc:3632
 msgid ""
 "\n"
 "Main commands:\n"
@@ -1162,7 +1153,7 @@ msgid ""
 "                       This APT has Super Cow Powers.\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3806
+#: cmdline/apt-shell.cc:3674
 msgid ""
 "Usage: install [options] pkg1[=ver] [pkg2 ...]\n"
 "\n"
@@ -1179,7 +1170,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3824
+#: cmdline/apt-shell.cc:3692
 msgid ""
 "Usage: remove [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1196,7 +1187,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3842
+#: cmdline/apt-shell.cc:3710
 msgid ""
 "Usage: keep [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1214,7 +1205,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3861
+#: cmdline/apt-shell.cc:3729
 msgid ""
 "Usage: upgrade [options]\n"
 "\n"
@@ -1230,7 +1221,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3877
+#: cmdline/apt-shell.cc:3745
 msgid ""
 "Usage: dist-upgrade [options]\n"
 "\n"
@@ -1246,7 +1237,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3893
+#: cmdline/apt-shell.cc:3761
 msgid ""
 "Usage: showpkg [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1258,7 +1249,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3906
+#: cmdline/apt-shell.cc:3774
 msgid ""
 "Usage: show [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1271,7 +1262,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3920
+#: cmdline/apt-shell.cc:3788
 msgid ""
 "Usage: depends [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1283,7 +1274,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3933
+#: cmdline/apt-shell.cc:3801
 msgid ""
 "Usage: whatdepends [options] pkg1 [pkg2 ...]\n"
 "\n"
@@ -1295,7 +1286,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3946
+#: cmdline/apt-shell.cc:3814
 msgid ""
 "Usage: unmet [options]\n"
 "\n"
@@ -1307,7 +1298,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3959
+#: cmdline/apt-shell.cc:3827
 msgid ""
 "Usage: search [options] <regex>\n"
 "\n"
@@ -1322,7 +1313,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3976
+#: cmdline/apt-shell.cc:3844
 msgid ""
 "Usage: list/ls [options] [pattern ...]\n"
 "\n"
@@ -1339,7 +1330,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:3994
+#: cmdline/apt-shell.cc:3862
 msgid ""
 "Usage: commit [options]\n"
 "\n"
@@ -1351,7 +1342,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:4007
+#: cmdline/apt-shell.cc:3875
 msgid ""
 "Usage: script [options] script1 [script2]\n"
 "\n"
@@ -1363,17 +1354,25 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cmdline/apt-shell.cc:4018
+#: cmdline/apt-shell.cc:3886
 msgid "No help for that"
 msgstr ""
 
-#: cmdline/apt-shell.cc:4455
+#: cmdline/apt-shell.cc:4308
 msgid "Welcome to the APT shell. Type \"help\" for more information."
 msgstr ""
 
-#: cmdline/apt-shell.cc:4495
+#: cmdline/apt-shell.cc:4348
 msgid "Exceeded maximum number of command arguments"
 msgstr ""
+
+# Translator's notes:
+# unable .. ausserstande
+# upgrade .. upgrade
+# downgrade .. downgrade
+#: cmdline/cmdline.cc:21
+msgid "Y"
+msgstr "J"
 
 #: apt-pkg/contrib/cdromutl.cc:60
 #, c-format
@@ -1391,7 +1390,7 @@ msgstr "Ausserstande nach %s zu wechseln"
 msgid "Unable to read %s"
 msgstr "Ausserstande %s zu lesen"
 
-#: apt-pkg/contrib/cdromutl.cc:215
+#: apt-pkg/contrib/cdromutl.cc:216
 msgid "Failed to stat the cdrom"
 msgstr "Gescheitert auf das CDROM zuzugreifen."
 
@@ -1865,12 +1864,12 @@ msgid "Release information not available for %s"
 msgstr "Release-Information nicht verfügbar für %s"
 
 #: apt-pkg/acquire-item.cc:309 apt-pkg/acquire-item.cc:592
-#: apt-pkg/acquire-item.cc:861
+#: apt-pkg/acquire-item.cc:865
 msgid "Size mismatch"
 msgstr "Grösse passt nicht"
 
 #: apt-pkg/acquire-item.cc:320 apt-pkg/acquire-item.cc:602
-#: apt-pkg/acquire-item.cc:871
+#: apt-pkg/acquire-item.cc:875
 msgid "MD5Sum mismatch"
 msgstr "MD5Sum passt nicht"
 
@@ -1904,7 +1903,7 @@ msgstr ""
 "könnte bedeuten, dass Sie dieses Paket manuell reparieren müssen. (Infolge "
 "fehlender arch)"
 
-#: apt-pkg/acquire-item.cc:713
+#: apt-pkg/acquire-item.cc:717
 #, c-format
 msgid ""
 "I wasn't able to locate file for the %s package. This might mean you need to "
@@ -1913,7 +1912,7 @@ msgstr ""
 "Ich war nicht in der Lage eine Datei für Paket %s zu lokalisieren. Dies "
 "könnte bedeuten, dass Sie dieses Paket manuell reparieren müssen."
 
-#: apt-pkg/acquire-item.cc:752
+#: apt-pkg/acquire-item.cc:756
 #, c-format
 msgid ""
 "The package index files are corrupted. No Filename: field for package %s."
@@ -1961,7 +1960,12 @@ msgstr ""
 msgid "You may want to run apt-get update to correct these problems"
 msgstr "Sie möchten `apt-get update' ausführen um diese Problem zu beheben"
 
-#: apt-pkg/clean.cc:61
+#: apt-pkg/clean.cc:60
+#, fuzzy, c-format
+msgid "Failed to chdir to %s"
+msgstr "Gescheitert %s zu 'stat'en"
+
+#: apt-pkg/clean.cc:62
 #, c-format
 msgid "Unable to stat %s."
 msgstr "Ausserstande %s zu stat'en."
@@ -2445,7 +2449,7 @@ msgstr ""
 msgid "Unable to accept connection"
 msgstr "Ausserstande, Verbindung anzunehmen"
 
-#: methods/ftp.cc:868 methods/http.cc:1036 methods/rsh.cc:306
+#: methods/ftp.cc:868 methods/http.cc:1037 methods/rsh.cc:306
 msgid "Problem hashing file"
 msgstr ""
 
@@ -2550,15 +2554,15 @@ msgstr ""
 msgid "Error reading from server"
 msgstr "Fehler beim Lesen von Server"
 
-#: methods/http.cc:1201
+#: methods/http.cc:1202
 msgid "Bad header Data"
 msgstr ""
 
-#: methods/http.cc:1218
+#: methods/http.cc:1219
 msgid "Connection failed"
 msgstr "Verbindung gescheitert"
 
-#: methods/http.cc:1349
+#: methods/http.cc:1350
 msgid "Internal error"
 msgstr "Interner Fehler"
 

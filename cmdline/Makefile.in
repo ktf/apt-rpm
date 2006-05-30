@@ -89,17 +89,20 @@ apt_config_OBJECTS = $(am_apt_config_OBJECTS)
 apt_config_LDADD = $(LDADD)
 apt_config_DEPENDENCIES = ../apt-pkg/libapt-pkg.la \
 	$(am__DEPENDENCIES_1)
-am_apt_get_OBJECTS = apt-get.$(OBJEXT) acqprogress.$(OBJEXT)
+am_apt_get_OBJECTS = apt-get.$(OBJEXT) acqprogress.$(OBJEXT) \
+	cmdline.$(OBJEXT)
 apt_get_OBJECTS = $(am_apt_get_OBJECTS)
 apt_get_LDADD = $(LDADD)
 apt_get_DEPENDENCIES = ../apt-pkg/libapt-pkg.la $(am__DEPENDENCIES_1)
-am__objects_3 = apt-get.$(OBJEXT) acqprogress.$(OBJEXT)
+am__objects_3 = apt-get.$(OBJEXT) acqprogress.$(OBJEXT) \
+	cmdline.$(OBJEXT)
 am_apt_get_static_OBJECTS = $(am__objects_3)
 apt_get_static_OBJECTS = $(am_apt_get_static_OBJECTS)
 apt_get_static_LDADD = $(LDADD)
 apt_get_static_DEPENDENCIES = ../apt-pkg/libapt-pkg.la \
 	$(am__DEPENDENCIES_1)
-am_apt_shell_OBJECTS = apt-shell.$(OBJEXT) acqprogress.$(OBJEXT)
+am_apt_shell_OBJECTS = apt-shell.$(OBJEXT) acqprogress.$(OBJEXT) \
+	cmdline.$(OBJEXT)
 apt_shell_OBJECTS = $(am_apt_shell_OBJECTS)
 am__DEPENDENCIES_2 = ../apt-pkg/libapt-pkg.la $(am__DEPENDENCIES_1)
 apt_shell_DEPENDENCIES = $(am__DEPENDENCIES_2)
@@ -269,9 +272,9 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 EXTRA_DIST = indexcopy.cc indexcopy.h
 LDADD = ../apt-pkg/libapt-pkg.la $(RPMLIBS)
-apt_get_SOURCES = apt-get.cc acqprogress.cc acqprogress.h
+apt_get_SOURCES = apt-get.cc acqprogress.cc acqprogress.h cmdline.cc cmdline.h
 apt_cache_SOURCES = apt-cache.cc
-apt_shell_SOURCES = apt-shell.cc acqprogress.cc acqprogress.h
+apt_shell_SOURCES = apt-shell.cc acqprogress.cc acqprogress.h cmdline.cc cmdline.h
 apt_shell_LDADD = $(LDADD) -lreadline -lncurses
 apt_config_SOURCES = apt-config.cc
 apt_cdrom_SOURCES = apt-cdrom.cc rpmindexcopy.cc rpmindexcopy.h
@@ -379,6 +382,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apt-config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apt-get.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/apt-shell.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rpmindexcopy.Po@am__quote@
 
 .cc.o:

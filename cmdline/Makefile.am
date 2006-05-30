@@ -12,9 +12,9 @@ endif
 
 LDADD = ../apt-pkg/libapt-pkg.la $(RPMLIBS)
 
-apt_get_SOURCES = apt-get.cc acqprogress.cc acqprogress.h
+apt_get_SOURCES = apt-get.cc acqprogress.cc acqprogress.h cmdline.cc cmdline.h
 apt_cache_SOURCES = apt-cache.cc
-apt_shell_SOURCES = apt-shell.cc acqprogress.cc acqprogress.h
+apt_shell_SOURCES = apt-shell.cc acqprogress.cc acqprogress.h cmdline.cc cmdline.h
 apt_shell_LDADD = $(LDADD) -lreadline -lncurses
 apt_config_SOURCES = apt-config.cc
 apt_cdrom_SOURCES = apt-cdrom.cc rpmindexcopy.cc rpmindexcopy.h

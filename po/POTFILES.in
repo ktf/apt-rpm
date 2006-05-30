@@ -5,6 +5,7 @@ cmdline/apt-cdrom.cc
 cmdline/apt-config.cc
 cmdline/apt-get.cc
 cmdline/apt-shell.cc
+cmdline/cmdline.cc
 cmdline/rpmindexcopy.cc
 
 apt-pkg/contrib/cdromutl.cc
