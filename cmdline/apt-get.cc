@@ -3187,6 +3187,7 @@ int main(int argc,const char *argv[])
       {0,"only-source","APT::Get::Only-Source",0},
       {0,"arch-only","APT::Get::Arch-Only",0},
       {0,"check-only","APT::Get::Check-Only",0}, // CNC:2003-03-06
+      {0,"root","RPM::RootDir",CommandLine::HasArg},
       {'c',"config-file",0,CommandLine::ConfigFile},
       {'o',"option",0,CommandLine::ArbItem},
       {0,0,0,0}};

@@ -443,6 +443,14 @@
      </Para></ListItem>
      </VarListEntry>
      
+     <VarListEntry><term><option/--root/</>
+     <ListItem><Para>
+     Install to alternate root directory. For example
+     <option>--root /mnt/buildsys-fc4</>.
+     Configuration Item: <literal/RPM::RootDir/;
+     </Para></ListItem>
+     </VarListEntry>
+
      &apt-commonoptions;
      
    </VariableList>
