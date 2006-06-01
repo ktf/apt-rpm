@@ -60,5 +60,6 @@ class rpmSystem : public pkgSystem
 };
 
 extern rpmSystem rpmSys;
+extern int HideZeroEpoch;
 
 #endif

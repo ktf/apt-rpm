@@ -41,14 +41,12 @@
 #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
 #endif
 
-// An attempt to deal with false zero epochs from repomd. With older rpm's we 
+// An attempt to deal with false zero epochs from repomd. With older rpm's we
 // can only blindly trust the repo admin created the repository with options
-// suitable for those versions.
-#if RPM_VERSION >= 0x040201
-static bool HideZeroEpoch = true;
-#else
-static bool HideZeroEpoch = false;
-#endif
+// suitable for those versions. For rpm >= 4.2.1 this is linked with
+// promoteepoch behavior - if promoteepoch is used then epoch hiding must
+// not happen.
+bool HideZeroEpoch;
 
 string RPMHandler::Epoch()
 {

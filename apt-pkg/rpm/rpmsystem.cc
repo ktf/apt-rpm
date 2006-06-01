@@ -214,6 +214,9 @@ bool rpmSystem::Initialize(Configuration &Cnf)
       Opt++;
    }
    _rpmds_nopromote = NoPromote;
+   HideZeroEpoch = (NoPromote == 1);
+#else
+   HideZeroEpoch = false;
 #endif
 
    return true;
