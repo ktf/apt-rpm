@@ -1357,6 +1357,9 @@ bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
       }
    } else {
       xmlNode *FlP = xmlTextReaderExpand(Filelist);
+      if (FlP == NULL) {
+	 return false;
+      }
       for (xmlNode *n = FlP->children; n; n = n->next) {
          if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
 	    continue;
