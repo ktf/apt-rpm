@@ -194,14 +194,19 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 dist_man_MANS = apt.8 apt-cache.8 apt-cdrom.8 apt.conf.5 apt-config.8 \
 	apt-get.8 apt_preferences.5 sources.list.5 vendors.list.5
-MAINTAINERCLEANFILES = apt-cache.8 apt-cdrom.8 apt.conf.5 apt-config.8 \
-	apt-get.8 apt_preferences.5 sources.list.5 vendors.list.5
-EXTRA_DIST = apt-cache.8.sgml apt-cdrom.8.sgml apt.conf.5.sgml \
-	apt-config.8.sgml apt-get.8.sgml apt_preferences.5.sgml \
-	sources.list.5.sgml vendors.list.5.sgml apt.ent style.txt \
-	cache.sgml files.sgml guide.sgml offline.sgml design.sgml \
-	method.sgml examples/apt.conf examples/configure-index \
-	examples/sources.list
+EXTRA_DIST = \
+		apt.ent \
+		style.txt \
+		cache.sgml \
+		files.sgml \
+		guide.sgml \
+		offline.sgml \
+		design.sgml \
+		method.sgml \
+		examples/apt.conf \
+		examples/configure-index \
+		examples/sources.list
+
 all: all-am
 
 .SUFFIXES:
@@ -400,7 +405,6 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-am
 
 clean-am: clean-generic clean-libtool mostlyclean-am
@@ -460,30 +464,6 @@ uninstall-man: uninstall-man5 uninstall-man8
 	ps ps-am uninstall uninstall-am uninstall-info-am \
 	uninstall-man uninstall-man5 uninstall-man8
 
-@COMPILE_MANPAGES_TRUE@apt-cache.8: apt-cache.8.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt-cache.8.sgml)
-@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
-@COMPILE_MANPAGES_TRUE@apt-cdrom.8: apt-cdrom.8.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt-cdrom.8.sgml)
-@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
-@COMPILE_MANPAGES_TRUE@apt.conf.5: apt.conf.5.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt.conf.5.sgml)
-@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
-@COMPILE_MANPAGES_TRUE@apt-config.8: apt-config.8.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt-config.8.sgml)
-@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
-@COMPILE_MANPAGES_TRUE@apt-get.8: apt-get.8.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt-get.8.sgml)
-@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
-@COMPILE_MANPAGES_TRUE@apt_preferences.5: apt_preferences.5.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) apt_preferences.5.sgml)
-@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
-@COMPILE_MANPAGES_TRUE@sources.list.5: sources.list.5.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) sources.list.5.sgml)
-@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
-@COMPILE_MANPAGES_TRUE@vendors.list.5: vendors.list.5.sgml apt.ent
-@COMPILE_MANPAGES_TRUE@	(cd $(srcdir) && $(DOCBOOK2MAN) vendors.list.5.sgml)
-@COMPILE_MANPAGES_TRUE@	@rm -f $(srcdir)/manpage.*
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
