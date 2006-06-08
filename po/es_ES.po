@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2006-05-30 23:52+0300\n"
+"POT-Creation-Date: 2006-06-08 17:14+0300\n"
 "PO-Revision-Date: 2001-01-11 15:40-02:00\n"
 "Last-Translator: Jorge Carrasquilla Soares <jorge@conectiva.com.br>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1593,47 +1593,47 @@ msgstr ""
 msgid "could not open Release file '%s'"
 msgstr "no se pudo abrir índice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:484
+#: apt-pkg/rpm/rpmhandler.cc:482
 #, fuzzy
 msgid "could not rewind RPMFileHandler"
 msgstr "no se pudo abrir índice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:521 apt-pkg/rpm/rpmhandler.cc:528
+#: apt-pkg/rpm/rpmhandler.cc:519 apt-pkg/rpm/rpmhandler.cc:526
 #: apt-pkg/rpm/rpmpm.cc:684 apt-pkg/rpm/rpmpm.cc:689
 #, fuzzy, c-format
 msgid "Failed reading file %s"
 msgstr "Falló al cargar el archivo hash:"
 
-#: apt-pkg/rpm/rpmhandler.cc:692
+#: apt-pkg/rpm/rpmhandler.cc:690
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Imposible minimizar el grupo de actualización"
 
-#: apt-pkg/rpm/rpmhandler.cc:741
+#: apt-pkg/rpm/rpmhandler.cc:739
 #, fuzzy
 msgid "could not open RPM database"
 msgstr "no se pudo abrir índice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:748
+#: apt-pkg/rpm/rpmhandler.cc:746
 msgid "could not create RPM database iterator"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:914
+#: apt-pkg/rpm/rpmhandler.cc:912
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Imposible analizar el paquete %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:918
+#: apt-pkg/rpm/rpmhandler.cc:916
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "No se encontró el paquete %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:927
+#: apt-pkg/rpm/rpmhandler.cc:925
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Falló al abrir %s.new"
 
-#: apt-pkg/rpm/rpmhandler.cc:957
+#: apt-pkg/rpm/rpmhandler.cc:955
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
@@ -1840,7 +1840,7 @@ msgstr "Error ocurrido al procesar %s (NewVersion1)"
 msgid "Could not allocate buffer for record text"
 msgstr "No se pudo esperar al subproceso"
 
-#: apt-pkg/rpm/rpmsystem.cc:259
+#: apt-pkg/rpm/rpmsystem.cc:263
 #, fuzzy, c-format
 msgid "Unable to determine version for package %s"
 msgstr "Imposible minimizar el grupo de actualización"

@@ -82,35 +82,7 @@ EXTRA_DIST += \
 		guide.sgml \
 		offline.sgml \
 		design.sgml \
-		guide.it.sgml \
 		method.sgml \
 		examples/apt.conf \
 		examples/configure-index \
-		examples/sources.list \
-		fr/apt-cache.fr.8.sgml \
-		fr/apt-cdrom.fr.8.sgml \
-		fr/apt-config.fr.8.sgml \
-		fr/apt-extracttemplates.fr.1.sgml \
-		fr/apt-ftparchive.fr.1.sgml \
-		fr/apt-get.fr.8.sgml \
-		fr/apt-sortpkgs.fr.1.sgml \
-		fr/apt.conf.fr.5.sgml \
-		fr/apt.ent.fr \
-		fr/apt_preferences.fr.5.sgml \
-		fr/makefile \
-		fr/sources.list.fr.5.sgml \
-		fr/vendors.list.fr.5.sgml \
-		es/apt-cache.es.8.sgml \
-		es/apt-cdrom.es.8.sgml \
-		es/apt-config.es.8.sgml \
-		es/apt-get.es.8.sgml \
-		es/apt.conf.es.5.sgml \
-		es/apt.ent.es \
-		es/apt.es.8 \
-		es/apt_preferences.es.5.sgml \
-		es/makefile \
-		es/sources.list.es.5.sgml \
-		es/vendors.list.es.5.sgml \
-		pt_BR/apt.ent.pt_BR \
-		pt_BR/apt_preferences.pt_BR.5.sgml \
-		pt_BR/makefile
+		examples/sources.list

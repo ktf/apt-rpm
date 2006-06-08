@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2006-05-30 23:52+0300\n"
+"POT-Creation-Date: 2006-06-08 17:14+0300\n"
 "PO-Revision-Date: 2001-12-12 17:50-0200\n"
 "Last-Translator: Gustavo Niemeyer <niemeyer@conectiva.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -1695,45 +1695,45 @@ msgstr "Seleção %s não encontrada"
 msgid "could not open Release file '%s'"
 msgstr "não foi possível abrir o arquivo release '%s'"
 
-#: apt-pkg/rpm/rpmhandler.cc:484
+#: apt-pkg/rpm/rpmhandler.cc:482
 msgid "could not rewind RPMFileHandler"
 msgstr "não foi possível retroceder o RPMFileHandler"
 
-#: apt-pkg/rpm/rpmhandler.cc:521 apt-pkg/rpm/rpmhandler.cc:528
+#: apt-pkg/rpm/rpmhandler.cc:519 apt-pkg/rpm/rpmhandler.cc:526
 #: apt-pkg/rpm/rpmpm.cc:684 apt-pkg/rpm/rpmpm.cc:689
 #, c-format
 msgid "Failed reading file %s"
 msgstr "Falha ao ler o arquivo %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:692
+#: apt-pkg/rpm/rpmhandler.cc:690
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Impossível determinar o nome do peer"
 
-#: apt-pkg/rpm/rpmhandler.cc:741
+#: apt-pkg/rpm/rpmhandler.cc:739
 msgid "could not open RPM database"
 msgstr "não foi possível abrir a base de dados RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:748
+#: apt-pkg/rpm/rpmhandler.cc:746
 msgid "could not create RPM database iterator"
 msgstr "não foi possível criar o iterator da base de dados RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:914
+#: apt-pkg/rpm/rpmhandler.cc:912
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Impossível analisar o arquivo de pacotes %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:918
+#: apt-pkg/rpm/rpmhandler.cc:916
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "Não foi possível encontrar o pacote %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:927
+#: apt-pkg/rpm/rpmhandler.cc:925
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Problema ao abrir %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:957
+#: apt-pkg/rpm/rpmhandler.cc:955
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
@@ -1944,7 +1944,7 @@ msgstr "Ocorreram erros enquanto rodando a transação"
 msgid "Could not allocate buffer for record text"
 msgstr "Impossível alocar buffer para o texto do registro"
 
-#: apt-pkg/rpm/rpmsystem.cc:259
+#: apt-pkg/rpm/rpmsystem.cc:263
 #, fuzzy, c-format
 msgid "Unable to determine version for package %s"
 msgstr "Impossível determinar o nome do peer"

@@ -200,21 +200,8 @@ EXTRA_DIST = apt-cache.8.sgml apt-cdrom.8.sgml apt.conf.5.sgml \
 	apt-config.8.sgml apt-get.8.sgml apt_preferences.5.sgml \
 	sources.list.5.sgml vendors.list.5.sgml apt.ent style.txt \
 	cache.sgml files.sgml guide.sgml offline.sgml design.sgml \
-	guide.it.sgml method.sgml examples/apt.conf \
-	examples/configure-index examples/sources.list \
-	fr/apt-cache.fr.8.sgml fr/apt-cdrom.fr.8.sgml \
-	fr/apt-config.fr.8.sgml fr/apt-extracttemplates.fr.1.sgml \
-	fr/apt-ftparchive.fr.1.sgml fr/apt-get.fr.8.sgml \
-	fr/apt-sortpkgs.fr.1.sgml fr/apt.conf.fr.5.sgml fr/apt.ent.fr \
-	fr/apt_preferences.fr.5.sgml fr/makefile \
-	fr/sources.list.fr.5.sgml fr/vendors.list.fr.5.sgml \
-	es/apt-cache.es.8.sgml es/apt-cdrom.es.8.sgml \
-	es/apt-config.es.8.sgml es/apt-get.es.8.sgml \
-	es/apt.conf.es.5.sgml es/apt.ent.es es/apt.es.8 \
-	es/apt_preferences.es.5.sgml es/makefile \
-	es/sources.list.es.5.sgml es/vendors.list.es.5.sgml \
-	pt_BR/apt.ent.pt_BR pt_BR/apt_preferences.pt_BR.5.sgml \
-	pt_BR/makefile
+	method.sgml examples/apt.conf examples/configure-index \
+	examples/sources.list
 all: all-am
 
 .SUFFIXES:
@@ -355,7 +342,7 @@ CTAGS:
 
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/es $(distdir)/examples $(distdir)/fr $(distdir)/pt_BR
+	$(mkdir_p) $(distdir)/examples
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

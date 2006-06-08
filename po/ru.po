@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt-0.5.15cnc4-alt0.1\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2006-05-30 23:52+0300\n"
+"POT-Creation-Date: 2006-06-08 17:14+0300\n"
 "PO-Revision-Date: 2003-12-08 17:41+1200\n"
 "Last-Translator: Anton V. Denisov <avd@altlinux.org>\n"
 "Language-Team: ALT Linux Team <devel@altlinux.org>\n"
@@ -1920,45 +1920,45 @@ msgstr "Строк, соответствующих %s, не найдено."
 msgid "could not open Release file '%s'"
 msgstr "Невозможно открыть файл описания '%s'."
 
-#: apt-pkg/rpm/rpmhandler.cc:484
+#: apt-pkg/rpm/rpmhandler.cc:482
 msgid "could not rewind RPMFileHandler"
 msgstr "откат RPMFileHandler невозможен"
 
-#: apt-pkg/rpm/rpmhandler.cc:521 apt-pkg/rpm/rpmhandler.cc:528
+#: apt-pkg/rpm/rpmhandler.cc:519 apt-pkg/rpm/rpmhandler.cc:526
 #: apt-pkg/rpm/rpmpm.cc:684 apt-pkg/rpm/rpmpm.cc:689
 #, c-format
 msgid "Failed reading file %s"
 msgstr "Ошибка чтения файла %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:692
+#: apt-pkg/rpm/rpmhandler.cc:690
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Невозможно определить имя удалённой системы"
 
-#: apt-pkg/rpm/rpmhandler.cc:741
+#: apt-pkg/rpm/rpmhandler.cc:739
 msgid "could not open RPM database"
 msgstr "невозможно открыть базу данных RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:748
+#: apt-pkg/rpm/rpmhandler.cc:746
 msgid "could not create RPM database iterator"
 msgstr "невозможно создать итератор базы данных RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:914
+#: apt-pkg/rpm/rpmhandler.cc:912
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Невозможно прочитать пакетный файл %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:918
+#: apt-pkg/rpm/rpmhandler.cc:916
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "Невозможно найти пакет %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:927
+#: apt-pkg/rpm/rpmhandler.cc:925
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Не удалось открыть %s.new"
 
-#: apt-pkg/rpm/rpmhandler.cc:957
+#: apt-pkg/rpm/rpmhandler.cc:955
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
@@ -2176,7 +2176,7 @@ msgstr "Произошли ошибки при выполнении транзакции"
 msgid "Could not allocate buffer for record text"
 msgstr "Невозможно выделить память"
 
-#: apt-pkg/rpm/rpmsystem.cc:259
+#: apt-pkg/rpm/rpmsystem.cc:263
 #, fuzzy, c-format
 msgid "Unable to determine version for package %s"
 msgstr "Невозможно определить имя удалённой системы"
