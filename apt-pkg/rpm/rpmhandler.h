@@ -50,8 +50,8 @@ class RPMHandler
 {
    protected:
 
-   unsigned int iOffset;
-   unsigned int iSize;
+   off_t iOffset;
+   off_t iSize;
    Header HeaderP;
    string ID;
 
@@ -66,7 +66,7 @@ class RPMHandler
    virtual string GetID() { return ID; };
 
    virtual bool Skip() = 0;
-   virtual bool Jump(unsigned int Offset) = 0;
+   virtual bool Jump(off_t Offset) = 0;
    virtual void Rewind() = 0;
    inline unsigned Offset() {return iOffset;};
    virtual bool OrderedOffset() {return true;};
@@ -117,7 +117,7 @@ class RPMFileHandler : public RPMHandler
    public:
 
    virtual bool Skip();
-   virtual bool Jump(unsigned int Offset);
+   virtual bool Jump(off_t Offset);
    virtual void Rewind();
    virtual inline bool IsDatabase() {return false;};
 
@@ -140,7 +140,7 @@ class RPMSingleFileHandler : public RPMFileHandler
    public:
 
    virtual bool Skip();
-   virtual bool Jump(unsigned int Offset);
+   virtual bool Jump(off_t Offset);
    virtual void Rewind();
 
    virtual string FileName() {return sFilePath;};
@@ -175,7 +175,7 @@ class RPMDBHandler : public RPMHandler
 
    static string DataPath(bool DirectoryOnly=true);
    virtual bool Skip();
-   virtual bool Jump(unsigned Offset);
+   virtual bool Jump(off_t Offset);
    virtual void Rewind();
    virtual inline bool IsDatabase() {return true;};
    virtual bool HasWriteLock() {return WriteLock;};
@@ -207,7 +207,7 @@ class RPMDirHandler : public RPMHandler
    public:
 
    virtual bool Skip();
-   virtual bool Jump(unsigned int Offset);
+   virtual bool Jump(off_t Offset);
    virtual void Rewind();
    virtual inline bool IsDatabase() {return false;};
 
@@ -243,7 +243,7 @@ class RPMRepomdHandler : public RPMHandler
 
 
    virtual bool Skip();
-   virtual bool Jump(unsigned int Offset);
+   virtual bool Jump(off_t Offset);
    virtual void Rewind();
    virtual inline bool IsDatabase() {return false;};
 

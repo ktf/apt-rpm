@@ -464,7 +464,7 @@ bool RPMFileHandler::Skip()
    return (HeaderP != NULL);
 }
 
-bool RPMFileHandler::Jump(unsigned Offset)
+bool RPMFileHandler::Jump(off_t Offset)
 {
    if (FD == NULL)
       return false;
@@ -530,7 +530,7 @@ bool RPMSingleFileHandler::Skip()
    return (HeaderP != NULL);
 }
 
-bool RPMSingleFileHandler::Jump(unsigned Offset)
+bool RPMSingleFileHandler::Jump(off_t Offset)
 {
    assert(Offset == 0);
    Rewind();
@@ -659,7 +659,7 @@ bool RPMDirHandler::Skip()
    return Res;
 }
 
-bool RPMDirHandler::Jump(unsigned Offset)
+bool RPMDirHandler::Jump(off_t Offset)
 {
    if (Dir == NULL)
       return false;
@@ -842,7 +842,7 @@ bool RPMDBHandler::Skip()
    return true;
 }
 
-bool RPMDBHandler::Jump(unsigned int Offset)
+bool RPMDBHandler::Jump(off_t Offset)
 {
    iOffset = Offset;
 #if RPM_VERSION >= 0x040000
@@ -904,7 +904,7 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
    Primary = NULL;
    Filelist = NULL;
    xmlChar *packages = NULL;
-   unsigned int pkgcount = 0;
+   off_t pkgcount = 0;
    
 
    Primary = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET|XML_PARSE_NOBLANKS);
@@ -985,7 +985,7 @@ bool RPMRepomdHandler::Skip()
    return true;
 }
 
-bool RPMRepomdHandler::Jump(unsigned int Offset)
+bool RPMRepomdHandler::Jump(off_t Offset)
 {
    if (Offset >= iSize) {
       return false;
