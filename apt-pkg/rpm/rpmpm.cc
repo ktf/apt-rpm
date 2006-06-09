@@ -259,7 +259,7 @@ bool pkgRPMPM::Go()
    for (vector<Item>::iterator I = List.begin(); I != List.end(); I++)
    {
       string Name = I->Pkg.Name();
-      string Arch = I->Pkg.CurrentVer().Arch();
+      string Arch = "";
       string RealName = Name;
       string::size_type loc;
 
@@ -268,6 +268,7 @@ bool pkgRPMPM::Go()
       case Item::Purge:
       case Item::Remove:
 	 // Unmunge our package names so rpm can find them...
+	 Arch = I->Pkg.CurrentVer().Arch();
 	 if ((loc = Name.rfind(".32bit", Name.length())) != string::npos) {
 	    RealName = Name.substr(0,loc) + "." + Arch;
 	 } else if ((loc = Name.rfind("#", Name.length())) != string::npos) {
