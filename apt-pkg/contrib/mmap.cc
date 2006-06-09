@@ -191,7 +191,7 @@ DynamicMMap::~DynamicMMap()
       return;
    }
    
-   unsigned long EndOfFile = iSize;
+   off_t EndOfFile = iSize;
    iSize = WorkSpace;
    Close(false);
    ftruncate(Fd->Fd(),EndOfFile);
