@@ -5,6 +5,11 @@
 
 #include "rpmshowprogress.h"
 
+static int hashesTotal = 0;
+static int hashesCurrent = 0;
+static int progressCurrent = 0;
+static int progressTotal = 0;
+
 int packagesTotal;
 
 static void printHash(const unsigned long amount, const unsigned long total)
@@ -212,6 +217,8 @@ void * rpmpmShowProgress(const void * arg,
 	fflush(stdout);
 	s = NULL;
 	break;
+    default: // Fall through
+        break;
     }
  
     return rc;
