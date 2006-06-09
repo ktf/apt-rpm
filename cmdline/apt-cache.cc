@@ -462,8 +462,7 @@ bool DumpAvail(CommandLine &Cmd)
 	 const char *Start;
 	 const char *End;
 	 P.GetRec(Start,End);
-	 fwrite(Start,End-Start,1,stdout);
-	 putc('\n',stdout);
+	 cout << string(Start,End-Start) << endl;
       }
    }
    return !_error->PendingError();
@@ -1492,8 +1491,7 @@ bool DisplayRecord(pkgCache::VerIterator V)
    const char *Start;
    const char *End;
    P.GetRec(Start,End);
-   fwrite(Start,End-Start,1,stdout);
-   putc('\n',stdout);
+   cout << string(Start,End-Start) << endl;
 #else
    // Check and load the package list file
    pkgCache::PkgFileIterator I = Vf.File();
@@ -1671,8 +1669,7 @@ bool Search(CommandLine &CmdL)
 	    const char *Start;
 	    const char *End;
 	    P.GetRec(Start,End);
-	    fwrite(Start,End-Start,1,stdout);
-	    putc('\n',stdout);
+	    cout << string(Start,End-Start) << endl;
 	 }	 
 	 else
 	    printf("%s - %s\n",P.Name().c_str(),P.ShortDesc().c_str());

@@ -560,9 +560,13 @@ int main(int argc, char ** argv)
    }
    
    {
-      char cwd[200];
+      char cwd[PATH_MAX];
       
-      getcwd(cwd, 200);
+      if (getcwd(cwd, PATH_MAX) == 0)
+      {
+         cerr << argv[0] << strerror(errno) << endl;
+         exit(1);
+      }
       if (*op_dir != '/') {
 	 rpmsdir = string(cwd) + "/" + string(op_dir);
       } else {
@@ -581,7 +585,11 @@ int main(int argc, char ** argv)
       return 1;
    }
    
-   chdir(rpmsdir.c_str());
+   if (chdir(rpmsdir.c_str()) != 0)
+   {
+      cerr << argv[0] << strerror(errno) << endl;
+      return 1;
+   }
    
    if (pkgListSuffix != NULL)
 	   pkglist_path = pkglist_path + "/base/pkglist." + pkgListSuffix;

@@ -143,7 +143,7 @@ int headerGetRawEntry(Header h, int_32 tag, int_32 * type,
 int main(int argc, char ** argv) 
 {
    char buf[300];
-   char cwd[200];
+   char cwd[PATH_MAX];
    string srpmdir;
    FD_t outfd, fd;
    struct dirent **dirEntries;
@@ -205,7 +205,12 @@ int main(int argc, char ** argv)
    
    md5cache = new CachedMD5(string(arg_dir)+string(arg_suffix), "gensrclist");
 
-   getcwd(cwd, 200);
+   if(getcwd(cwd, PATH_MAX) == 0)
+   {
+      cerr << argv[0] << ":" << strerror(errno) << endl;
+      exit(1);
+   }
+   
    if (*arg_dir != '/') {
       strcpy(buf, cwd);
       strcat(buf, "/");
@@ -253,7 +258,11 @@ int main(int argc, char ** argv)
       return 1;
    }
 
-   chdir(buf);
+   if(chdir(buf) != 0)
+   {
+      cerr << argv[0] << ":" << strerror(errno) << endl;
+      exit(1);
+   }
    
    if (srcListSuffix != NULL)
       sprintf(buf, "%s/srclist.%s", cwd, srcListSuffix);
