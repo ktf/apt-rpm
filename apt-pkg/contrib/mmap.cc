@@ -128,13 +128,13 @@ bool MMap::Sync()
 // MMap::Sync - Syncronize a section of the file to disk		/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-bool MMap::Sync(unsigned long Start,unsigned long Stop)
+bool MMap::Sync(size_t Start,size_t Stop)
 {
    if ((Flags & UnMapped) == UnMapped)
       return true;
    
 #ifdef _POSIX_SYNCHRONIZED_IO
-   unsigned long PSize = sysconf(_SC_PAGESIZE);
+   long PSize = sysconf(_SC_PAGESIZE);
    if ((Flags & ReadOnly) != ReadOnly)
       if (msync((char *)Base+(int)(Start/PSize)*PSize,Stop - Start,MS_SYNC) != 0)
 	 return _error->Errno("msync","Unable to write mmap");
@@ -194,7 +194,11 @@ DynamicMMap::~DynamicMMap()
    off_t EndOfFile = iSize;
    iSize = WorkSpace;
    Close(false);
-   ftruncate(Fd->Fd(),EndOfFile);
+   if (ftruncate(Fd->Fd(),EndOfFile) != 0)
+   {
+     _error->Errno("ftruncate", _("Failed to ftruncate"));
+     return;
+   }
 }  
 									/*}}}*/
 // DynamicMMap::RawAllocate - Allocate a raw chunk of unaligned space	/*{{{*/

@@ -62,7 +62,7 @@ class MMap
    
    // File manipulators
    bool Sync();
-   bool Sync(unsigned long Start,unsigned long Stop);
+   bool Sync(size_t Start,size_t Stop);
    
    MMap(FileFd &F,unsigned long Flags);
    MMap(unsigned long Flags);
