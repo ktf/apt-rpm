@@ -48,7 +48,7 @@ Configuration::Configuration() : ToFree(true)
 }
 Configuration::Configuration(const Item *Root) : Root((Item *)Root), ToFree(false)
 {
-};
+}
 
 // CNC:2003-02-23 - Copy constructor.
 Configuration::Configuration(Configuration &Conf) : ToFree(true)

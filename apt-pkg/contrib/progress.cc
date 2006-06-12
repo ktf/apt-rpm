@@ -140,7 +140,7 @@ OpTextProgress::OpTextProgress(Configuration &Config) :
       NoUpdate = true;
    if (Config.FindI("quiet",0) >= 2)
       NoDisplay = true;
-};
+}
 									/*}}}*/
 // OpTextProgress::Done - Clean up the display				/*{{{*/
 // ---------------------------------------------------------------------

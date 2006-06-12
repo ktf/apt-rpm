@@ -55,7 +55,7 @@ char *_strstrip(char *String)
    End++;
    *End = 0;
    return String;
-};
+}
 									/*}}}*/
 // strtabexpand - Converts tabs into 8 spaces				/*{{{*/
 // ---------------------------------------------------------------------

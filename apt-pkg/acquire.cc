@@ -399,7 +399,7 @@ void pkgAcquire::Bump()
 pkgAcquire::Worker *pkgAcquire::WorkerStep(Worker *I)
 {
    return I->NextAcquire;
-};
+}
 									/*}}}*/
 // Acquire::Clean - Cleans a directory					/*{{{*/
 // ---------------------------------------------------------------------

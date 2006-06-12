@@ -606,7 +606,7 @@ string rpmRepomdIndex::ReleaseInfo(string Type) const
    Info += " ";
    Info += Type;
    return Info;
-};
+}
 
 string rpmRepomdIndex::Info(string Type) const 
 {
@@ -679,7 +679,7 @@ string rpmRepomdIndex::Describe(bool Short) const
 string rpmRepomdIndex::IndexFile(string Type) const
 {
    return _config->FindDir("Dir::State::lists")+URItoFileName(IndexURI(Type));
-};
+}
 
 
 bool rpmRepomdIndex::Exists() const

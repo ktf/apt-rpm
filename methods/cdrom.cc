@@ -58,7 +58,7 @@ CDROMMethod::CDROMMethod() : pkgAcqMethod("1.0",SingleInstance | LocalOnly |
                                           DatabaseLoaded(false), 
                                           Mounted(false)
 {
-};
+}
 									/*}}}*/
 // CNC:2004-04-27
 // CDROMMethod::PreferredURI() -					/*{{{*/

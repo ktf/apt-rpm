@@ -352,18 +352,18 @@ class pkgCache::VerFileIterator
 
 // Inlined Begin functions cant be in the class because of order problems
 inline pkgCache::VerIterator pkgCache::PkgIterator::VersionList() const
-       {return VerIterator(*Owner,Owner->VerP + Pkg->VersionList);};
+       {return VerIterator(*Owner,Owner->VerP + Pkg->VersionList);}
 inline pkgCache::VerIterator pkgCache::PkgIterator::CurrentVer() const
-       {return VerIterator(*Owner,Owner->VerP + Pkg->CurrentVer);};
+       {return VerIterator(*Owner,Owner->VerP + Pkg->CurrentVer);}
 inline pkgCache::DepIterator pkgCache::PkgIterator::RevDependsList() const
-       {return DepIterator(*Owner,Owner->DepP + Pkg->RevDepends,Pkg);};
+       {return DepIterator(*Owner,Owner->DepP + Pkg->RevDepends,Pkg);}
 inline pkgCache::PrvIterator pkgCache::PkgIterator::ProvidesList() const
-       {return PrvIterator(*Owner,Owner->ProvideP + Pkg->ProvidesList,Pkg);};
+       {return PrvIterator(*Owner,Owner->ProvideP + Pkg->ProvidesList,Pkg);}
 inline pkgCache::PrvIterator pkgCache::VerIterator::ProvidesList() const
-       {return PrvIterator(*Owner,Owner->ProvideP + Ver->ProvidesList,Ver);};
+       {return PrvIterator(*Owner,Owner->ProvideP + Ver->ProvidesList,Ver);}
 inline pkgCache::DepIterator pkgCache::VerIterator::DependsList() const
-       {return DepIterator(*Owner,Owner->DepP + Ver->DependsList,Ver);};
+       {return DepIterator(*Owner,Owner->DepP + Ver->DependsList,Ver);}
 inline pkgCache::VerFileIterator pkgCache::VerIterator::FileList() const
-       {return VerFileIterator(*Owner,Owner->VerFileP + Ver->FileList);};
+       {return VerFileIterator(*Owner,Owner->VerFileP + Ver->FileList);}
 
 #endif

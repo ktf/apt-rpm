@@ -325,13 +325,13 @@ inline unsigned long pkgCache::sHash(const char *Str) const
 #undef hash_count
 
 inline pkgCache::PkgIterator pkgCache::PkgBegin() 
-       {return PkgIterator(*this);};
+       {return PkgIterator(*this);}
 inline pkgCache::PkgIterator pkgCache::PkgEnd() 
-       {return PkgIterator(*this,PkgP);};
+       {return PkgIterator(*this,PkgP);}
 inline pkgCache::PkgFileIterator pkgCache::FileBegin()
-       {return PkgFileIterator(*this,PkgFileP + HeaderP->FileList);};
+       {return PkgFileIterator(*this,PkgFileP + HeaderP->FileList);}
 inline pkgCache::PkgFileIterator pkgCache::FileEnd()
-       {return PkgFileIterator(*this,PkgFileP);};
+       {return PkgFileIterator(*this,PkgFileP);}
 
 // Oh I wish for Real Name Space Support
 class pkgCache::Namespace

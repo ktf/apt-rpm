@@ -290,7 +290,7 @@ void pkgCache::PkgIterator::operator ++(int)
       HashIndex++;
       Pkg = Owner->PkgP + Owner->HeaderP->HashTable[HashIndex];
    }
-};
+}
 									/*}}}*/
 // PkgIterator::State - Check the State of the package			/*{{{*/
 // ---------------------------------------------------------------------

@@ -87,7 +87,7 @@ void CircleBuf::Reset()
       delete Hash;
       Hash = new Hashes;
    }   
-};
+}
 									/*}}}*/
 // CircleBuf::Read - Read from a FD into the circular buffer		/*{{{*/
 // ---------------------------------------------------------------------
@@ -1107,7 +1107,7 @@ bool HttpMethod::Fetch(FetchItem *)
    }
    
    return true;
-};
+}
 									/*}}}*/
 // HttpMethod::Configuration - Handle a configuration message		/*{{{*/
 // ---------------------------------------------------------------------
