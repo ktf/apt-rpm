@@ -222,18 +222,6 @@ dnl Check for debiandoc
 dnl AC_PATH_PROG(DEBIANDOC_HTML,debiandoc2html)
 dnl AC_PATH_PROG(DEBIANDOC_TEXT,debiandoc2text)
 
-dnl Check for the SGML tools needed to build man pages
-AC_PATH_PROG([DOCBOOK2MAN],[docbook2man])
-AS_IF([test "$USE_MAINTAINER_MODE" = yes],[
-  AS_IF([test -z "$DOCBOOK2MAN"],
-    [AC_MSG_WARN([docbook2man is missing, not rebuilding man pages])
-    ])
-])
-# Only rebuild the man pages in maintainer mode
-AM_CONDITIONAL([COMPILE_MANPAGES],[
-  test -n "$DOCBOOK2MAN" \
-  && test "$USE_MAINTAINER_MODE" = yes])
-
 AC_PATH_PROG([GPG],[gpg],[/usr/bin/gpg])
 
 AM_GNU_GETTEXT_VERSION([0.14.5])
