@@ -141,7 +141,7 @@ string rpmRecordParser::SourcePkg()
    string::size_type idx1 = srpm.find(versarch);
 
 // not found
-   if ( idx1 < 0 )
+   if ( idx1 == string::npos )
      return "";
 
 // check if the first dot in "srpm" is the dot at the end of versarch

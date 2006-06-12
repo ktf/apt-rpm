@@ -518,14 +518,14 @@ xmlNode *rpmRepomdParser::FindNode(xmlNode *n, const string Name)
 bool rpmRepomdParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
                                       const string File, const string Dist)
 {
-   size_t start, stop, size;
+   string::size_type start, stop, size;
    string comp;
 
    // Munge sources.list distribution into something that can be used 
    // as Component to allow repository pinning with repomd
    start = Dist.find_first_not_of("/");
    size = Dist.length();
-   while ((start >= 0) && (start < size)) {
+   while ((start != string::npos) && (start < size)) {
       stop = Dist.find_first_of("/", start);
       string part = Dist.substr(start, stop - start);
       if (comp.empty()) {
@@ -533,7 +533,7 @@ bool rpmRepomdParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
       } else {
 	 comp += "-" + part;
       }
-      if ((stop < 0) || (stop > size)) stop = size;
+      if ((stop == string::npos) || (stop > size)) stop = size;
       start = Dist.find_first_not_of("/", stop + 1);
    }
    FileI->Component = WriteUniqString(comp);
