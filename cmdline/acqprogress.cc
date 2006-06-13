@@ -41,7 +41,7 @@ void AcqTextStatus::Start()
    pkgAcquireStatus::Start(); 
    BlankLine[0] = 0;
    ID = 1;
-};
+}
 									/*}}}*/
 // AcqTextStatus::IMSHit - Called when an item got a HIT response	/*{{{*/
 // ---------------------------------------------------------------------
@@ -59,7 +59,7 @@ void AcqTextStatus::IMSHit(pkgAcquire::ItemDesc &Itm)
       cout << " [" << SizeToStr(Itm.Owner->FileSize) << "B]";
    cout << endl;
    Update = true;
-};
+}
 									/*}}}*/
 // AcqTextStatus::Fetch - An item has started to download		/*{{{*/
 // ---------------------------------------------------------------------
@@ -82,7 +82,7 @@ void AcqTextStatus::Fetch(pkgAcquire::ItemDesc &Itm)
    if (Itm.Owner->FileSize != 0)
       cout << " [" << SizeToStr(Itm.Owner->FileSize) << "B]";
    cout << endl;
-};
+}
 									/*}}}*/
 // AcqTextStatus::Done - Completed a download				/*{{{*/
 // ---------------------------------------------------------------------
@@ -90,7 +90,7 @@ void AcqTextStatus::Fetch(pkgAcquire::ItemDesc &Itm)
 void AcqTextStatus::Done(pkgAcquire::ItemDesc &Itm)
 {
    Update = true;
-};
+}
 									/*}}}*/
 // AcqTextStatus::Fail - Called when an item fails to download		/*{{{*/
 // ---------------------------------------------------------------------
@@ -118,7 +118,7 @@ void AcqTextStatus::Fail(pkgAcquire::ItemDesc &Itm)
    }
    
    Update = true;
-};
+}
 									/*}}}*/
 // AcqTextStatus::Stop - Finished downloading				/*{{{*/
 // ---------------------------------------------------------------------
