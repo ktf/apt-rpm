@@ -86,3 +86,35 @@ EXTRA_DIST += contrib/apt-cron/apt.sysconfig
 
 EXTRA_DIST += buildlib/archtable
 EXTRA_DIST += buildlib/ostable
+
+aptscriptsdir = $(pkgdatadir)/scripts
+aptscripts_SCRIPTS =
+
+aptconfigdir = ${sysconfdir}/apt
+
+aptsources_list_ddir = $(aptconfigdir)/sources.list.d
+aptsources_list_d_DATA =
+
+aptconf_ddir = $(aptconfigdir)/apt.conf.d
+aptconf_d_DATA =
+
+aptvendors_list_ddir = $(aptconfigdir)/vendors.list.d
+aptvendors_list_d_DATA =
+
+aptcachedir = $(localstatedir)/cache/apt
+aptcache_DATA =
+
+aptcache_archives_partialdir = $(aptcachedir)/archives/partial
+aptcache_archives_partial_DATA = 
+
+aptcache_genpkglistdir = $(aptcachedir)/genpkglist
+aptcache_genpkglist_DATA =
+
+aptcache_gensrclistdir = $(aptcachedir)/gensrclist
+aptcache_gensrclist_DATA =
+
+aptstatedir = $(localstatedir)/lib/apt
+aptstate_DATA =
+
+aptstate_lists_partialdir = $(aptstatedir)/lists/partial
+aptstate_lists_partial_DATA =
