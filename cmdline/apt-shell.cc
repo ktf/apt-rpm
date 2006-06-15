@@ -499,9 +499,7 @@ bool ShowEssential(ostream &out,CacheFile &Cache,pkgDepCache::State *State=NULL)
 {
    string List;
    string VersionsList;
-   bool *Added = new bool[Cache->Head().PackageCount];
-   for (unsigned int I = 0; I != Cache->Head().PackageCount; I++)
-      Added[I] = false;
+   vector<bool> Added(Cache->Head().PackageCount,false);
    
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
    {
@@ -585,7 +583,6 @@ bool ShowEssential(ostream &out,CacheFile &Cache,pkgDepCache::State *State=NULL)
       }      
    }
    
-   delete [] Added;
    return ShowList(out,_("WARNING: The following essential packages will be removed\n"
 			 "This should NOT be done unless you know exactly what you are doing!"),List,VersionsList);
 }
@@ -3374,8 +3371,8 @@ bool DoList(CommandLine &CmdL)
    bool ShowSummary = _config->FindB("APT::Cache::ShowSummary", false);
 
    const char *PkgName;
-   int Matches[Cache->Head().PackageCount];
-   unsigned int NumMatches = 0;
+   vector<int> Matches(Cache->Head().PackageCount);
+   size_t NumMatches = 0;
    size_t Len = 0, NameMaxLen = 0, VerMaxLen = 0;
    bool Matched;
    for (unsigned int J = 0; J < Cache->Head().PackageCount; J++)
@@ -3430,24 +3427,21 @@ bool DoList(CommandLine &CmdL)
       if (SecondColumn < InstalledLen+2)
 	 SecondColumn = InstalledLen+2;
 
-      char BlankFirst[FirstColumn+1];
-      memset(BlankFirst,' ',FirstColumn);
+      vector<char> BlankFirst(FirstColumn+1,' ');
       BlankFirst[FirstColumn] = 0;
 
-      char BlankSecond[SecondColumn+1];
-      memset(BlankSecond,' ',SecondColumn);
+      vector<char> BlankSecond(SecondColumn+1,' ');
       BlankSecond[SecondColumn] = 0;
 
-      char Bar[ScreenWidth+1];
-      memset(Bar, '-', ScreenWidth);
+      vector<char> Bar(ScreenWidth+1,'-');
       Bar[ScreenWidth] = 0;
 
-      c2out << NameLabel << BlankFirst+NameLen
-	    << InstalledLabel << BlankSecond+InstalledLen
+      c2out << NameLabel << &BlankFirst[NameLen]
+	    << InstalledLabel << &BlankSecond[InstalledLen]
 	    << CandidateLabel << endl;
-      c2out << Bar+(ScreenWidth-NameLen) << BlankFirst+NameLen
-	    << Bar+(ScreenWidth-InstalledLen) << BlankSecond+InstalledLen
-	    << Bar+(ScreenWidth-CandidateLen) << endl;
+      c2out << &Bar[ScreenWidth-NameLen] << &BlankFirst[NameLen]
+	    << &Bar[ScreenWidth-InstalledLen] << &BlankSecond[InstalledLen]
+	    << &Bar[ScreenWidth-CandidateLen] << endl;
 
       const char *Str;
       size_t StrLen;
@@ -3455,16 +3449,16 @@ bool DoList(CommandLine &CmdL)
 	 pkgCache::PkgIterator Pkg(Cache,Cache.List[Matches[K]]);
 	 Str = Pkg.Name();
 	 StrLen = strlen(Str);
-	 c2out << Str << BlankFirst+StrLen;
+	 c2out << Str << &BlankFirst[StrLen];
 	 if (Pkg->CurrentVer != 0) {
 	    Str = Pkg.CurrentVer().VerStr();
 	    StrLen = strlen(Str);
 	    if (Len < SecondColumn-1)
-	       c2out << Str << BlankSecond+StrLen;
+	       c2out << Str << &BlankSecond[StrLen];
 	    else
 	       c2out << Str << " ";
 	 } else {
-	    c2out << "-" << BlankSecond+1;
+	    c2out << "-" << &BlankSecond[1];
 	 }
 	 Str = "-";
 	 if (Cache[Pkg].CandidateVer != 0) {
@@ -3489,8 +3483,7 @@ bool DoList(CommandLine &CmdL)
       if (PerLine == 0) PerLine = 1;
       unsigned int ColumnLen = ScreenWidth/PerLine;
       unsigned int NumLines = (NumMatches+PerLine-1)/PerLine;
-      char Blank[ColumnLen+1];
-      memset(Blank,' ',ColumnLen);
+      vector<char> Blank(ColumnLen+1,' ');
       Blank[ColumnLen] = 0;
 
       const char *Str;
@@ -3505,7 +3498,7 @@ bool DoList(CommandLine &CmdL)
 	    Str = Pkg.Name();
 	    StrLen = strlen(Str);
 	    if (Len < ColumnLen-1)
-	       c2out << Str << Blank+StrLen;
+	       c2out << Str << &Blank[StrLen];
 	    else
 	       c2out << Str << " ";
 	 }
