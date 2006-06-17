@@ -41,7 +41,7 @@ class RSHConn
    void Close();
 
    // Query
-   bool Size(const char *Path,unsigned long &Size);
+   bool Size(const char *Path,size_t &Size);
    bool ModTime(const char *Path, time_t &Time);
    bool Get(const char *Path,FileFd &To,unsigned long Resume,
             Hashes &Hash,bool &Missing, unsigned long Size);

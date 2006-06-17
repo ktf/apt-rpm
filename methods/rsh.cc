@@ -162,7 +162,7 @@ bool RSHConn::ReadLine(string &Text)
    while (Len < sizeof(Buffer))
    {
       // Scan the buffer for a new line
-      for (unsigned int I = 0; I != Len; I++)
+      for (size_t I = 0; I != Len; I++)
       {
          // Escape some special chars
          if (Buffer[I] == 0)
@@ -187,7 +187,7 @@ bool RSHConn::ReadLine(string &Text)
       }
 
       // Suck it back
-      int Res = read(ReadFd,Buffer + Len,sizeof(Buffer) - Len);
+      ssize_t Res = read(ReadFd,Buffer + Len,sizeof(Buffer) - Len);
       if (Res <= 0)
       {
          _error->Errno("read",_("Read error"));
@@ -218,7 +218,7 @@ bool RSHConn::WriteMsg(string &Text,bool Sync,const char *Fmt,...)
       strcat(S," 2> /dev/null\n");
 
    // Send it off
-   unsigned long Len = strlen(S);
+   size_t Len = strlen(S);
    unsigned long Start = 0;
    while (Len != 0)
    {
@@ -229,7 +229,7 @@ bool RSHConn::WriteMsg(string &Text,bool Sync,const char *Fmt,...)
 	 return _error->Error(_("Connection timeout"));
       }      
       
-      int Res = write(WriteFd,S + Start,Len);
+      ssize_t Res = write(WriteFd,S + Start,Len);
       if (Res <= 0)
       {
          _error->Errno("write",_("Write Error"));
@@ -250,7 +250,7 @@ bool RSHConn::WriteMsg(string &Text,bool Sync,const char *Fmt,...)
 // ---------------------------------------------------------------------
 /* Right now for successfull transfer the file size must be known in 
    advance. */
-bool RSHConn::Size(const char *Path,unsigned long &Size)
+bool RSHConn::Size(const char *Path,size_t &Size)
 {
    // Query the size
    string Msg;
@@ -326,7 +326,7 @@ bool RSHConn::Get(const char *Path,FileFd &To,unsigned long Resume,
       }
 
       // Read the data..
-      int Res = read(ReadFd,Buffer,sizeof(Buffer));
+      ssize_t Res = read(ReadFd,Buffer,sizeof(Buffer));
       if (Res == 0)
       {
 	 Close();
@@ -428,7 +428,7 @@ bool RSHMethod::Fetch(FetchItem *Itm)
    Status(_("Connecting to %s"), Get.Host.c_str());
 
    // Get the files information
-   unsigned long Size;
+   size_t Size;
    if (Server->Size(File,Size) == false ||
        Server->ModTime(File,FailTime) == false)
    {

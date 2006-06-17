@@ -308,7 +308,7 @@ bool Stats(CommandLine &Cmd)
       SizeToStr(Cache.Head().ProvidesCount*Cache.Head().ProvidesSz) << ')' << endl;
    
    // String list stats
-   unsigned long Size = 0;
+   size_t Size = 0;
    unsigned long Count = 0;
    for (pkgCache::StringItem *I = Cache.StringItemP + Cache.Head().StringList;
         I!= Cache.StringItemP; I = Cache.StringItemP + I->NextItem)
@@ -318,7 +318,7 @@ bool Stats(CommandLine &Cmd)
    }
    cout << _("Total Globbed Strings: ") << Count << " (" << SizeToStr(Size) << ')' << endl;
 
-   unsigned long DepVerSize = 0;
+   size_t DepVerSize = 0;
    for (pkgCache::PkgIterator P = Cache.PkgBegin(); P.end() == false; P++)
    {
       for (pkgCache::VerIterator V = P.VersionList(); V.end() == false; V++)
@@ -1672,7 +1672,7 @@ bool Search(CommandLine &CmdL)
 	    cout << string(Start,End-Start) << endl;
 	 }	 
 	 else
-	    printf("%s - %s\n",P.Name().c_str(),P.ShortDesc().c_str());
+	    cout << P.Name() << " - " << P.ShortDesc() << endl;
       }
    }
    

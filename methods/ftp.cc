@@ -309,7 +309,7 @@ bool FTPConn::ReadLine(string &Text)
    while (Len < sizeof(Buffer))
    {
       // Scan the buffer for a new line
-      for (unsigned int I = 0; I != Len; I++)
+      for (size_t I = 0; I != Len; I++)
       {
 	 // Escape some special chars
 	 if (Buffer[I] == 0)
@@ -625,7 +625,7 @@ bool FTPConn::ExtGoPasv()
 // FTPConn::Size - Return the size of a file				/*{{{*/
 // ---------------------------------------------------------------------
 /* Grab the file size from the server, 0 means no size or empty file */
-bool FTPConn::Size(const char *Path,unsigned long &Size)
+bool FTPConn::Size(const char *Path,size_t &Size)
 {
    // Query the size
    unsigned int Tag;
@@ -701,7 +701,7 @@ bool FTPConn::CreateDataFd()
       if (WaitFd(DataFd,true,TimeOut) == false)
 	 return _error->Error(_("Could not connect data socket, connection timed out"));
       unsigned int Err;
-      unsigned int Len = sizeof(Err);
+      socklen_t Len = sizeof(Err);
       if (getsockopt(DataFd,SOL_SOCKET,SO_ERROR,&Err,&Len) != 0)
 	 return _error->Errno("getsockopt",_("Failed"));
       if (Err != 0)
@@ -999,7 +999,7 @@ bool FtpMethod::Fetch(FetchItem *Itm)
    
    // Get the files information
    Status(_("Query"));
-   unsigned long Size;
+   size_t Size;
    if (Server->Size(File,Size) == false ||
        Server->ModTime(File,FailTime) == false)
    {

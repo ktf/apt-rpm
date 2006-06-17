@@ -84,7 +84,7 @@ bool pkgTagFile::Step(pkgTagSection &Tag)
    then fills the rest from the file */
 bool pkgTagFile::Fill()
 {
-   unsigned long EndSize = End - Start;
+   size_t EndSize = End - Start;
    unsigned long Actual = 0;
    
    memmove(Buffer,Start,EndSize);
