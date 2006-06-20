@@ -332,8 +332,7 @@ bool AcqTextStatus::Authenticate(string Desc,string &User,string &Pass)
    // Turn echo back on
    tcsetattr(STDIN_FILENO, TCSANOW, &TermIO);
 
-   ioprintf(cout,"\n");
-   cout << flush;
+   cout << endl;
    
    Update = true;
    return true;

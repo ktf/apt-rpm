@@ -73,7 +73,7 @@ class pkgTagFile
    char *Start;
    char *End;
    bool Done;
-   unsigned long iOffset;
+   off_t iOffset;
    unsigned long Size;
    
    bool Fill();
@@ -81,10 +81,10 @@ class pkgTagFile
    public:
 
    bool Step(pkgTagSection &Section);
-   inline unsigned long Offset() {return iOffset;};
-   bool Jump(pkgTagSection &Tag,unsigned long Offset);
+   inline off_t Offset() {return iOffset;};
+   bool Jump(pkgTagSection &Tag,off_t Offset);
 
-   pkgTagFile(FileFd *F,unsigned long Size = 32*1024);
+   pkgTagFile(FileFd *F,size_t Size = 32*1024);
    ~pkgTagFile();
 };
 

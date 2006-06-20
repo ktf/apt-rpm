@@ -31,7 +31,7 @@ using std::string;
 // TagFile::pkgTagFile - Constructor					/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-pkgTagFile::pkgTagFile(FileFd *pFd,unsigned long Size) : Fd(*pFd), Size(Size)
+pkgTagFile::pkgTagFile(FileFd *pFd,size_t Size) : Fd(*pFd), Size(Size)
 {
    if (Fd.IsOpen() == false)
    {
@@ -126,7 +126,7 @@ bool pkgTagFile::Fill()
 // ---------------------------------------------------------------------
 /* This jumps to a pre-recorded file location and reads the record
    that is there */
-bool pkgTagFile::Jump(pkgTagSection &Tag,unsigned long Offset)
+bool pkgTagFile::Jump(pkgTagSection &Tag,off_t Offset)
 {
    // We are within a buffer space of the next hit..
    if (Offset >= iOffset && iOffset + (End - Start) > Offset)
@@ -226,7 +226,7 @@ void pkgTagSection::Trim()
 /* This searches the section for a tag that matches the given string. */
 bool pkgTagSection::Find(const char *Tag,unsigned &Pos) const
 {
-   unsigned int Length = strlen(Tag);
+   size_t Length = strlen(Tag);
    unsigned int I = AlphaIndexes[AlphaHash(Tag)];
    if (I == 0)
       return false;

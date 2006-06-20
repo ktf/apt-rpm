@@ -44,7 +44,7 @@ class MMap
    protected:
    
    unsigned long Flags;
-   unsigned long iSize;
+   size_t iSize;
    void *Base;
 
    bool Map(FileFd &Fd);
@@ -58,7 +58,7 @@ class MMap
    // Simple accessors
    inline operator void *() {return Base;};
    inline void *Data() {return Base;}; 
-   inline unsigned long Size() {return iSize;};
+   inline size_t Size() {return iSize;};
    
    // File manipulators
    bool Sync();
@@ -84,21 +84,21 @@ class DynamicMMap : public MMap
    protected:
    
    FileFd *Fd;
-   unsigned long WorkSpace;
+   size_t WorkSpace;
    Pool *Pools;
    unsigned int PoolCount;
    
    public:
 
    // Allocation
-   unsigned long RawAllocate(unsigned long Size,unsigned long Aln = 0);
+   size_t RawAllocate(size_t Size,unsigned long Aln = 0);
    unsigned long Allocate(unsigned long ItemSize);
    size_t WriteString(const char *String,size_t Len = (size_t)-1);
    inline size_t WriteString(string S) {return WriteString(S.c_str(),S.length());};
    void UsePools(Pool &P,unsigned int Count) {Pools = &P; PoolCount = Count;};
    
-   DynamicMMap(FileFd &F,unsigned long Flags,unsigned long WorkSpace = 2*1024*1024);
-   DynamicMMap(unsigned long Flags,unsigned long WorkSpace = 2*1024*1024);
+   DynamicMMap(FileFd &F,unsigned long Flags,size_t WorkSpace = 2*1024*1024);
+   DynamicMMap(unsigned long Flags,size_t WorkSpace = 2*1024*1024);
    virtual ~DynamicMMap();
 };
 

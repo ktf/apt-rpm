@@ -25,7 +25,6 @@
 #pragma implementation "apt-pkg/mmap.h"
 #endif 
 
-#define _BSD_SOURCE
 #include <apt-pkg/mmap.h>
 #include <apt-pkg/error.h>
 
@@ -84,7 +83,7 @@ bool MMap::Map(FileFd &Fd)
    // Map it.
    Base = mmap(0,iSize,Prot,Map,Fd.Fd(),0);
    if (Base == (void *)-1)
-      return _error->Errno("mmap",_("Couldn't make mmap of %lu bytes"),iSize);
+      return _error->Errno("mmap",_("Couldn't make mmap of %lu bytes"),(unsigned long) iSize);
 
    return true;
 }
@@ -146,13 +145,13 @@ bool MMap::Sync(size_t Start,size_t Stop)
 // DynamicMMap::DynamicMMap - Constructor				/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-DynamicMMap::DynamicMMap(FileFd &F,unsigned long Flags,unsigned long WorkSpace) : 
+DynamicMMap::DynamicMMap(FileFd &F,unsigned long Flags,size_t WorkSpace) : 
              MMap(F,Flags | NoImmMap), Fd(&F), WorkSpace(WorkSpace)
 {
    if (_error->PendingError() == true)
       return;
    
-   unsigned long EndOfFile = Fd->Size();
+   size_t EndOfFile = Fd->Size();
    if (EndOfFile > WorkSpace)
       WorkSpace = EndOfFile;
    else
@@ -169,7 +168,7 @@ DynamicMMap::DynamicMMap(FileFd &F,unsigned long Flags,unsigned long WorkSpace) 
 // DynamicMMap::DynamicMMap - Constructor for a non-file backed map	/*{{{*/
 // ---------------------------------------------------------------------
 /* This is just a fancy malloc really.. */
-DynamicMMap::DynamicMMap(unsigned long Flags,unsigned long WorkSpace) :
+DynamicMMap::DynamicMMap(unsigned long Flags,size_t WorkSpace) :
              MMap(Flags | NoImmMap | UnMapped), Fd(0), WorkSpace(WorkSpace)
 {
    if (_error->PendingError() == true)
@@ -204,9 +203,9 @@ DynamicMMap::~DynamicMMap()
 // DynamicMMap::RawAllocate - Allocate a raw chunk of unaligned space	/*{{{*/
 // ---------------------------------------------------------------------
 /* This allocates a block of memory aligned to the given size */
-unsigned long DynamicMMap::RawAllocate(unsigned long Size,unsigned long Aln)
+size_t DynamicMMap::RawAllocate(size_t Size,unsigned long Aln)
 {
-   unsigned long Result = iSize;
+   size_t Result = iSize;
    if (Aln != 0)
       Result += Aln - (iSize%Aln);
    
