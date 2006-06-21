@@ -427,7 +427,7 @@ PACKAGE_VERSION='0.5.15lorg3.1'
 PACKAGE_STRING='apt 0.5.15lorg3.1'
 PACKAGE_BUGREPORT='apt-rpm@lists.laiskiainen.org'
 
-ac_unique_file="configure.in"
+ac_unique_file="AUTHORS.RPM"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>

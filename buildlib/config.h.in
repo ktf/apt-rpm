@@ -1,4 +1,4 @@
-/* buildlib/config.h.in.  Generated from configure.in by autoheader.  */
+/* buildlib/config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define the common CPU */
 #undef COMMON_CPU
