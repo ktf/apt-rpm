@@ -186,11 +186,11 @@ dnl Single Unix Spec statvfs
 AC_CHECK_FUNC(statvfs,[have_statvfs=yes])
 
 dnl Arg, linux and bsd put their statfs function in different places
-AH_TEMPLATE(HAVE_VFS_H, [Define to 1 if sys/vfs.h is available])
-AH_TEMPLATE(HAVE_MOUNT_H, [Define to 1 if sys/mount.h is available])
+AH_TEMPLATE(HAVE_SYS_VFS_H, [Define to 1 if sys/vfs.h is available])
+AH_TEMPLATE(HAVE_SYS_MOUNT_H, [Define to 1 if sys/mount.h is available])
 if test "$have_statvfs" != "yes"; then
-   AC_EGREP_HEADER(statfs,sys/vfs.h,[AC_DEFINE(HAVE_VFS_H)],[
-   	AC_EGREP_HEADER(statfs,sys/mount.h,[AC_DEFINE(HAVE_MOUNT_H)],
+   AC_EGREP_HEADER(statfs,sys/vfs.h,[AC_DEFINE(HAVE_SYS_VFS_H)],[
+   	AC_EGREP_HEADER(statfs,sys/mount.h,[AC_DEFINE(HAVE_SYS_MOUNT_H)],
    			[AC_MSG_ERROR(failed: Need statvfs)])
    ])
 fi
