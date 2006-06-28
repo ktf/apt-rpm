@@ -1050,8 +1050,8 @@ Optional Features:
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --disable-scripts       disable the extension system
-  --enable-static-progs   Build completely static (standalone) binaries.
+  --disable-scripts       disable the lua script extension system
+  --enable-static-progs   build completely static (standalone) binaries
   --disable-nls           do not use Native Language Support
   --disable-rpath         do not hardcode runtime library paths
 

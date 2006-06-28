@@ -101,7 +101,7 @@ CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
 
 dnl Can we use g++ hash_map?
 AH_TEMPLATE(WITH_GNU_HASH_MAP,
-	    [Define to 1 if you want to use the g++ hash_map extension.])
+	    [Define to 1 if you want to use the g++ hash_map extension])
 AC_MSG_CHECKING(for g++ hash_map extension)
 AC_LANG_PUSH([C++])
 AC_TRY_LINK(
@@ -116,12 +116,12 @@ AC_LANG_POP([C++])
 dnl CNC:2003-03-20
 AC_MSG_CHECKING(for --disable-scripts)
 AC_ARG_ENABLE([scripts],
-	      AC_HELP_STRING(--disable-scripts, disable the extension system),
+	      AS_HELP_STRING([--disable-scripts],[disable the lua script extension system]),
 	      [enable_scripts="$enableval"],[enable_scripts="yes"])
 if test "$enable_scripts" != "no"; then
   AC_MSG_RESULT(no)
   AC_DEFINE(WITH_LUA, 1, 
-	    [Define if you want to enable the extension system.]) 
+	    [Define if you want to enable the extension system]) 
 else
   AC_MSG_RESULT(yes)
 fi
@@ -130,8 +130,8 @@ AM_CONDITIONAL(WITH_LUA, test "$enable_scripts" != "no")
 dnl Before configuring libtool check for --enable-static-progs option
 AC_MSG_CHECKING(for --enable-static-progs)
 AC_ARG_ENABLE(static-progs,
-	      AC_HELP_STRING([--enable-static-progs],
-			     [Build completely static (standalone) binaries.]),
+	      AS_HELP_STRING([--enable-static-progs],
+			     [build completely static (standalone) binaries]),
 	      [enable_static_progs="$enableval"],[enable_static_progs="no"])
 AM_CONDITIONAL(COMPILE_STATIC, test "$enable_static_progs" = "yes")
 if test "$enable_static_progs" = "yes" ; then
