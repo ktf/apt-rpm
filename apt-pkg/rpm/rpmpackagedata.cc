@@ -15,9 +15,13 @@
 #include <rpm/rpmlib.h>
 
 RPMPackageData::RPMPackageData()
-   : MinArchScore(-1)
-#ifdef WITH_HASH_MAP
-   , ArchScores(31), VerMap(517)
+   :
+#ifdef WITH_GNU_HASH_MAP
+  VerMap(517),
+#endif
+  MinArchScore(-1)   
+#ifdef WITH_GNU_HASH_MAP
+   , ArchScores(31)
 #endif
 {
    BaseArch = _config->Find("APT::Architecture");

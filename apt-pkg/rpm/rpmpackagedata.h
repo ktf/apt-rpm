@@ -21,7 +21,7 @@ class RPMPackageData
 {
    protected:
 
-#ifdef WITH_HASH_MAP
+#ifdef WITH_GNU_HASH_MAP
    hash_map<string,pkgCache::State::VerPriority,hash_string> Priorities;
    hash_map<string,pkgCache::Flag::PkgFlags,hash_string> Flags;
    hash_map<string,vector<string>*,hash_string> FakeProvides;

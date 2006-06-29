@@ -36,7 +36,7 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    string CurrentName;
    const pkgCache::VerIterator *VI;
    
-#ifdef WITH_HASH_MAP
+#ifdef WITH_GNU_HASH_MAP
    typedef hash_map<const char*,bool,
    		    hash<const char*>,cstr_eq_pred> SeenPackagesType;
 #else
