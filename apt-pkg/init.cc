@@ -101,13 +101,7 @@ bool pkgInitConfig(Configuration &Cnf)
    if (Cnf.FindB("Debug::pkgInitConfig",false) == true)
       Cnf.Dump();
    
-#ifdef APT_DOMAIN
-   if (Cnf.Exists("Dir::Locale"))
-   {  
-      bindtextdomain(APT_DOMAIN,Cnf.FindDir("Dir::Locale").c_str());
-      bindtextdomain(textdomain(0),Cnf.FindDir("Dir::Locale").c_str());
-   }
-#endif
+   bindtextdomain(APT_DOMAIN,LOCALEDIR);
    
    return true;
 }
