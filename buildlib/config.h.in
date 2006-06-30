@@ -136,10 +136,10 @@
 /* Version number of package */
 #undef VERSION
 
-/* Define to 1 if you want to use the g++ hash_map extension. */
+/* Define to 1 if you want to use the g++ hash_map extension */
 #undef WITH_GNU_HASH_MAP
 
-/* Define if you want to enable the extension system. */
+/* Define if you want to enable the extension system */
 #undef WITH_LUA
 
 /* Define to 1 if your processor stores words with the most significant byte
