@@ -7,6 +7,11 @@ int main(int argc,const char *argv[])
 {
    Configuration Cnf;
    
+   if (argc < 2)
+   {
+      cerr << "You must specify a test file" << endl;
+      return 0;
+   }
    ReadConfigFile(Cnf,argv[1],true);
    
    // Process 'simple-key' type sections

@@ -240,6 +240,7 @@ AC_CONFIG_FILES([
 	  cmdline/Makefile
 	  tools/Makefile
 	  doc/Makefile
+	  test/Makefile
 	  po/Makefile.in
 	  ])
 AC_CONFIG_LINKS([include/apti18n.h:buildlib/gettext.h])

@@ -17,7 +17,7 @@
 #include <system.h>
 #include <apt-pkg/error.h>
 #include <apt-pkg/version.h>
-#include <apt-pkg/debversion.h>
+#include <apt-pkg/rpmversion.h>
 #include <iostream>
 #include <fstream>
 
@@ -175,7 +175,7 @@ bool RunTest(const char *File)
       // Result
       I++;
       int Expected = atoi(I);
-      int Res = debVS.CmpVersion(A.c_str(), B.c_str());
+      int Res = rpmVS.CmpVersion(A.c_str(), B.c_str());
       int Res2 = verrevcmp(A.c_str(),B.c_str());
       cout << "'" << A << "' ? '" << B << "' = " << Res << " (= " << Expected << ") " << Res2 << endl;
 
@@ -189,7 +189,7 @@ bool RunTest(const char *File)
 
       // Check the reverse as well
       Expected = -1*Expected;
-      Res = debVS.CmpVersion(B.c_str(), A.c_str());
+      Res = rpmVS.CmpVersion(B.c_str(), A.c_str());
       Res2 = verrevcmp(B.c_str(),A.c_str());
 
       cout << "'" << B << "' ? '" << A << "' = " << Res << " (= " << Expected << ") " << Res2 << endl;

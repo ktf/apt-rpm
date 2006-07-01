@@ -26214,7 +26214,7 @@ echo "${ECHO_T}$LIBSTDCPP_VER" >&6
 
 
 
-                                                                                ac_config_files="$ac_config_files Makefile lua/Makefile apt-pkg/Makefile methods/Makefile cmdline/Makefile tools/Makefile doc/Makefile po/Makefile.in"
+                                                                                          ac_config_files="$ac_config_files Makefile lua/Makefile apt-pkg/Makefile methods/Makefile cmdline/Makefile tools/Makefile doc/Makefile test/Makefile po/Makefile.in"
 
           ac_config_links="$ac_config_links include/apti18n.h:buildlib/gettext.h"
 
@@ -26858,6 +26858,7 @@ do
   "cmdline/Makefile" ) CONFIG_FILES="$CONFIG_FILES cmdline/Makefile" ;;
   "tools/Makefile" ) CONFIG_FILES="$CONFIG_FILES tools/Makefile" ;;
   "doc/Makefile" ) CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
+  "test/Makefile" ) CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
   "po/Makefile.in" ) CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
   "include/apti18n.h" ) CONFIG_LINKS="$CONFIG_LINKS include/apti18n.h:buildlib/gettext.h" ;;
   "include/inttypes.h" ) CONFIG_LINKS="$CONFIG_LINKS include/inttypes.h:buildlib/inttypes.h" ;;
