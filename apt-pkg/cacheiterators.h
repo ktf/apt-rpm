@@ -35,6 +35,8 @@
 #pragma interface "apt-pkg/cacheiterators.h"
 #endif 
 
+#include <apt-pkg/pkgcache.h>
+
 // Package Iterator
 class pkgCache::PkgIterator
 {
