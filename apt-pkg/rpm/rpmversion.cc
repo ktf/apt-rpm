@@ -242,7 +242,7 @@ string rpmVersioningSystem::UpstreamVersion(const char *Ver)
    
    // Chop off the trailing -
    I = Ver;
-   unsigned Last = strlen(Ver);
+   size_t Last = strlen(Ver);
    for (; *I != 0; I++)
       if (*I == '-')
 	 Last = I - Ver;
