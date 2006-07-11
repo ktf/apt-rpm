@@ -394,7 +394,7 @@ void pkgAcqIndex::Done(string Message,unsigned long Size,string MD5,
       Desc.URI = "bzip2:" + FileName;
       Mode = "bzip2";
    } else {
-      _error->Warning(_("Uknown compression extension, trying uncompressed"));
+      _error->Warning(_("Unknown compression extension, trying uncompressed"));
       Desc.URI = FileName;
    }
    QueueURI(Desc);
