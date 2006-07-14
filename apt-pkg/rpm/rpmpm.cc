@@ -259,7 +259,6 @@ bool pkgRPMPM::Go()
    for (vector<Item>::iterator I = List.begin(); I != List.end(); I++)
    {
       string Name = I->Pkg.Name();
-      string Arch = "";
       string RealName = Name;
       string::size_type loc;
 
@@ -268,14 +267,16 @@ bool pkgRPMPM::Go()
       case Item::Purge:
       case Item::Remove:
 	 // Unmunge our package names so rpm can find them...
-	 Arch = I->Pkg.CurrentVer().Arch();
 	 if ((loc = Name.rfind(".32bit", Name.length())) != string::npos) {
-	    RealName = Name.substr(0,loc) + "." + Arch;
+	    RealName = Name.substr(0,loc);
 	 } else if ((loc = Name.rfind("#", Name.length())) != string::npos) {
-	    RealName = Name.substr(0,loc) + "-" + I->Pkg.CurrentVer().VerStr() + "." + Arch;
-	 } else {
-	    RealName = Name + "." + Arch;
+	    RealName = Name.substr(0,loc) + "-" + I->Pkg.CurrentVer().VerStr();
 	 }
+#if RPM_VERSION >= 0x040202
+	 // This is needed for removal to work on multilib packages, but old
+	 // rpm versions don't support name.arch in RPMDBI_LABEL, oh well...
+	 RealName = RealName + "." + I->Pkg.CurrentVer().Arch();
+#endif
 	 uninstall.push_back(strdup(RealName.c_str()));
 	 unalloc.push_back(strdup(RealName.c_str()));
 	 pkgs_uninstall.push_back(I->Pkg);
