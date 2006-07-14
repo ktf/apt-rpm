@@ -846,14 +846,18 @@ bool RPMDBHandler::Jump(off_t Offset)
 {
    iOffset = Offset;
 #if RPM_VERSION >= 0x040000
+   // rpmdb indexes are hardcoded uint32_t, the size must match here
+   uint_32 rpmOffset = iOffset;
    if (RpmIter == NULL)
       return false;
    rpmdbFreeIterator(RpmIter);
    if (iOffset == 0)
       RpmIter = rpmxxInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
-   else
+   else {
       RpmIter = rpmxxInitIterator(Handler, RPMDBI_PACKAGES,
-				  &iOffset, sizeof(iOffset));
+				  &rpmOffset, sizeof(rpmOffset));
+      iOffset = rpmOffset;
+   }
    HeaderP = rpmdbNextIterator(RpmIter);
 #else
    HeaderP = rpmdbGetRecord(Handler, iOffset);
