@@ -156,7 +156,7 @@ void pkgAcquire::Item::Start(string /*Message*/,unsigned long Size)
 // Acquire::Item::Done - Item downloaded OK				/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-void pkgAcquire::Item::Done(string Message,unsigned long Size,string,
+void pkgAcquire::Item::Done(string Message,off_t Size,string,
 			    pkgAcquire::MethodConfig *Cnf)
 {
    // We just downloaded something..
@@ -218,7 +218,7 @@ pkgAcqIndex::pkgAcqIndex(pkgAcquire *Owner,pkgRepository *Repository,
    // If we're verifying authentication, check whether the size and
    // checksums match, if not, delete the cached files and force redownload
    string MD5Hash;
-   unsigned long Size;
+   off_t Size;
 
    if (Repository != NULL)
    {
@@ -284,7 +284,7 @@ string pkgAcqIndex::Custom600Headers()
    to the uncompressed version of the file. If this is so the file
    is copied into the partial directory. In all other cases the file
    is decompressed with a gzip uri. */
-void pkgAcqIndex::Done(string Message,unsigned long Size,string MD5,
+void pkgAcqIndex::Done(string Message,off_t Size,string MD5,
 		       pkgAcquire::MethodConfig *Cfg)
 {
    Item::Done(Message,Size,MD5,Cfg);
@@ -292,7 +292,7 @@ void pkgAcqIndex::Done(string Message,unsigned long Size,string MD5,
    if (Decompression == true)
    {
       // CNC:2002-07-03
-      unsigned long FSize;
+      off_t FSize;
       string MD5Hash;
 
       if (Repository != NULL && Repository->HasRelease() == true &&
@@ -427,7 +427,7 @@ pkgAcqIndexRel::pkgAcqIndexRel(pkgAcquire *Owner,pkgRepository *Repository,
 
    // CNC:2002-07-09
    string MD5Hash;
-   unsigned long Size;
+   off_t Size;
    if (Master == false && Repository != NULL)
    {
       if (Repository->HasRelease() == true)
@@ -489,7 +489,7 @@ string pkgAcqIndexRel::Custom600Headers()
 /* The release file was not placed into the download directory then
    a copy URI is generated and it is copied there otherwise the file
    in the partial directory is moved into .. and the URI is finished. */
-void pkgAcqIndexRel::Done(string Message,unsigned long Size,string MD5,
+void pkgAcqIndexRel::Done(string Message,off_t Size,string MD5,
 			  pkgAcquire::MethodConfig *Cfg)
 {
    Item::Done(Message,Size,MD5,Cfg);
@@ -580,7 +580,7 @@ void pkgAcqIndexRel::Done(string Message,unsigned long Size,string MD5,
    }
    
    // CNC:2002-07-03
-   unsigned long FSize;
+   off_t FSize;
    string MD5Hash;
    if (Master == false && Repository != NULL
        && Repository->HasRelease() == true
@@ -764,7 +764,7 @@ bool pkgAcqArchive::QueueNext()
       if (stat(FinalFile.c_str(),&Buf) == 0)
       {
 	 // Make sure the size matches
-	 if ((unsigned)Buf.st_size == Version->Size)
+	 if (Buf.st_size == Version->Size)
 	 {
 	    Complete = true;
 	    Local = true;
@@ -783,7 +783,7 @@ bool pkgAcqArchive::QueueNext()
       if (stat(FinalFile.c_str(),&Buf) == 0)
       {
 	 // Make sure the size matches
-	 if ((unsigned)Buf.st_size == Version->Size)
+	 if (Buf.st_size == Version->Size)
 	 {
 	    Complete = true;
 	    Local = true;
@@ -803,7 +803,7 @@ bool pkgAcqArchive::QueueNext()
       if (stat(DestFile.c_str(),&Buf) == 0)
       {
 	 // Hmm, the partial file is too big, erase it
-	 if ((unsigned)Buf.st_size > Version->Size)
+	 if (Buf.st_size > Version->Size)
 	    unlink(DestFile.c_str());
 	 else
 	    PartialSize = Buf.st_size;
@@ -853,7 +853,7 @@ static void ScriptsAcquireDone(const char *ConfKey,
 // AcqArchive::Done - Finished fetching					/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-void pkgAcqArchive::Done(string Message,unsigned long Size,string Md5Hash,
+void pkgAcqArchive::Done(string Message,off_t Size,string Md5Hash,
 			 pkgAcquire::MethodConfig *Cfg)
 {
    Item::Done(Message,Size,Md5Hash,Cfg);
@@ -1007,7 +1007,7 @@ pkgAcqFile::pkgAcqFile(pkgAcquire *Owner,string URI,string MD5,
 // AcqFile::Done - Item downloaded OK					/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-void pkgAcqFile::Done(string Message,unsigned long Size,string MD5,
+void pkgAcqFile::Done(string Message,off_t Size,string MD5,
 		      pkgAcquire::MethodConfig *Cnf)
 {
    // Check the md5

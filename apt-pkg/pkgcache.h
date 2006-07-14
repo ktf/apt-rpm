@@ -273,7 +273,7 @@ struct pkgCache::Version
    map_ptrloc ParentPkg;         // Package
    map_ptrloc ProvidesList;      // Provides
    
-   map_ptrloc Size;              // These are the .deb size
+   off_t Size;                   // These are the .deb size
    map_ptrloc InstalledSize;
    unsigned short Hash;
    unsigned short ID;

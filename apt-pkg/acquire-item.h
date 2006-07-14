@@ -64,7 +64,7 @@ class pkgAcquire::Item
 
    // Action members invoked by the worker
    virtual void Failed(string Message,pkgAcquire::MethodConfig *Cnf);
-   virtual void Done(string Message,unsigned long Size,string Md5Hash,
+   virtual void Done(string Message,off_t Size,string Md5Hash,
 		     pkgAcquire::MethodConfig *Cnf);
    virtual void Start(string Message,unsigned long Size);
    virtual string Custom600Headers() {return string();};
@@ -101,7 +101,7 @@ class pkgAcqIndex : public pkgAcquire::Item
    public:
    
    // Specialized action members
-   virtual void Done(string Message,unsigned long Size,string Md5Hash,
+   virtual void Done(string Message,off_t Size,string Md5Hash,
 		     pkgAcquire::MethodConfig *Cnf);
    virtual string Custom600Headers();
    virtual string DescURI() {return RealURI;}; // CNC:2003-02-14
@@ -132,7 +132,7 @@ class pkgAcqIndexRel : public pkgAcquire::Item
    
    // Specialized action members
    virtual void Failed(string Message,pkgAcquire::MethodConfig *Cnf);
-   virtual void Done(string Message,unsigned long Size,string Md5Hash,
+   virtual void Done(string Message,off_t Size,string Md5Hash,
 		     pkgAcquire::MethodConfig *Cnf);   
    virtual string Custom600Headers();
    virtual string DescURI() {return RealURI;};
@@ -165,7 +165,7 @@ class pkgAcqArchive : public pkgAcquire::Item
    
    // Specialized action members
    virtual void Failed(string Message,pkgAcquire::MethodConfig *Cnf);
-   virtual void Done(string Message,unsigned long Size,string Md5Hash,
+   virtual void Done(string Message,off_t Size,string Md5Hash,
 		     pkgAcquire::MethodConfig *Cnf);
    virtual string MD5Sum() {return MD5;};
    virtual string DescURI() {return Desc.URI;};
@@ -190,7 +190,7 @@ class pkgAcqFile : public pkgAcquire::Item
    
    // Specialized action members
    virtual void Failed(string Message,pkgAcquire::MethodConfig *Cnf);
-   virtual void Done(string Message,unsigned long Size,string Md5Hash,
+   virtual void Done(string Message,off_t Size,string Md5Hash,
 		     pkgAcquire::MethodConfig *Cnf);
    virtual string MD5Sum() {return Md5Hash;};
    virtual string DescURI() {return Desc.URI;};
