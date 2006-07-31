@@ -299,12 +299,21 @@ bool pkgRPMPM::Go()
 		  break;
 	       }
 	    }
+	    // This looks backwards but it's supposed to "fix problems where a 
+	    // package with a different name is being installed with 
+	    // Allow-Duplicated and requires additional dependencies, but there's 
+	    // no other package with the same name in the system."
 	    if (Installed)
 	       install.push_back(I->File.c_str());
 	    else
 	       upgrade.push_back(I->File.c_str());
 	 } else {
-	    upgrade.push_back(I->File.c_str());
+	    // perform pure installs on non-installed normal packages, not upgrades
+	    if (I->Pkg->CurrentVer != NULL) {
+	       upgrade.push_back(I->File.c_str());
+	    } else {
+	       install.push_back(I->File.c_str());
+	    }
 	 }
 	 install_or_upgrade.push_back(I->File.c_str());
 	 pkgs_install.push_back(I->Pkg);
@@ -822,10 +831,10 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    if (upgrade.empty() == false)
        AddToTransaction(Item::RPMUpgrade, upgrade);
 
-   // FIXME: This ain't right because most things show up in upgrade 
-   // even if they're really just installs, and repackaging isn't taken
-   // into account either.
    packagesTotal = install.size() + upgrade.size() * 2 + uninstall.size();
+   if (tsFlags & RPMTRANS_FLAG_REPACKAGE) {
+      packagesTotal += upgrade.size() + uninstall.size();
+   }
 
 #if RPM_VERSION >= 0x040100
    if (_config->FindB("RPM::NoDeps", false) == false) {

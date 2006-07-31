@@ -75,6 +75,7 @@ void * rpmpmShowProgress(const void * arg,
     const char * filename = (const char *) pkgKey;
     static FD_t fd = NULL;
     static rpmCallbackType state;
+    static bool repackage;
 
     switch (what) {
     case RPMCALLBACK_INST_OPEN_FILE:
@@ -99,7 +100,7 @@ void * rpmpmShowProgress(const void * arg,
 	if (h == NULL || !(flags & INSTALL_LABEL))
 	    break;
 
-	if (state != what) {
+	if (state != what && repackage == false) {
 	    state = what;
     	    fprintf(stdout, "%s\n", _("Installing / Updating..."));
 	    (void) fflush(stdout);
@@ -138,6 +139,7 @@ void * rpmpmShowProgress(const void * arg,
 
     case RPMCALLBACK_TRANS_START:
 	state = what;
+	repackage = false;
 	hashesCurrent = 0;
 	progressTotal = 1;
 	progressCurrent = 0;
@@ -159,8 +161,8 @@ void * rpmpmShowProgress(const void * arg,
 
     case RPMCALLBACK_REPACKAGE_START:
         hashesCurrent = 0;
-        progressTotal = total;
         progressCurrent = 0;
+        repackage = true;
         if (!(flags & INSTALL_LABEL))
             break;
         if (flags & INSTALL_HASH)
@@ -181,14 +183,7 @@ void * rpmpmShowProgress(const void * arg,
         if (flags & INSTALL_HASH)
             printHash(1, 1);    /* Fixes "preparing..." progress bar */
         progressTotal = packagesTotal;
-        progressCurrent = 0;
-        if (!(flags & INSTALL_LABEL))
-            break;
-        if (flags & INSTALL_HASH)
-            fprintf(stdout, "%-28s\n", _("Upgrading..."));
-        else
-            fprintf(stdout, "%s\n", _("Upgrading..."));
-        (void) fflush(stdout);
+        repackage = false;
         break;
 
     case RPMCALLBACK_UNINST_PROGRESS:
