@@ -897,16 +897,13 @@ void RPMDBHandler::Rewind()
 }
 #endif
 
-RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
+RPMRepomdHandler::RPMRepomdHandler(string File)
 {
-   WithFilelist = useFilelist;
    PrimaryFile = File;
-   FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
 
    ID = File;
    Root = NULL;
    Primary = NULL;
-   Filelist = NULL;
    xmlChar *packages = NULL;
    off_t pkgcount = 0;
    
@@ -920,26 +917,6 @@ RPMRepomdHandler::RPMRepomdHandler(string File, bool useFilelist)
       _error->Error(_("Corrupted package index %s"), PrimaryFile.c_str());
       goto error;
    }
-
-   if (WithFilelist && FileExists(FilelistFile)) {
-      Filelist = xmlReaderForFile(FilelistFile.c_str(), NULL,
-                                  XML_PARSE_NONET|XML_PARSE_NOBLANKS);
-      if (Filelist == NULL) {
-	 xmlFreeTextReader(Filelist);
-	 _error->Error(_("Failed to open filelist index %s"), FilelistFile.c_str());
-	 goto error;
-      } 
-
-      // seek into first package in filelists.xml
-      int ret = xmlTextReaderRead(Filelist);
-      while (ret == 1) {
-	 if (xmlStrcmp(xmlTextReaderConstName(Filelist), 
-		      (xmlChar*)"package") == 0) {
-	    break;
-	 }
-	 ret = xmlTextReaderRead(Filelist);
-      }
-   }	 
 
    packages = xmlGetProp(Root, (xmlChar*)"packages");
    iSize = atoi((char*)packages);
@@ -966,9 +943,6 @@ error:
    if (Primary) {
       xmlFreeDoc(Primary);
    }
-   if (Filelist) {
-      xmlFreeTextReader(Filelist);
-   }
 }
 
 bool RPMRepomdHandler::Skip()
@@ -978,12 +952,6 @@ bool RPMRepomdHandler::Skip()
    }
    NodeP = *PkgIter;
    iOffset = PkgIter - Pkgs.begin();
-
-   if (WithFilelist) {
-      if (iOffset > 0) {
-	 xmlTextReaderNext(Filelist);
-      }
-   }
 
    PkgIter++;
    return true;
@@ -1183,19 +1151,8 @@ bool RPMRepomdHandler::HasFile(const char *File)
       }
    }
 
-#if 0
-   // look through filelists.xml for the file if not in primary.xml
-   if (! found) {
-      for (xmlNode *n = FlNodeP->children; n; n = n->next) {
-	 if (strcmp((char*)n->name, "file") != 0) 
-	    continue;
-	 if (strcmp(File, (char*)xmlNodeGetContent(n)) == 0) {
-	    found = true;
-	    break;
-	 }
-      }
-   }
-#endif
+   // TODO: somehow look through filelists.xml for the file if not 
+   // primary.xml
    return found;
 
 }
@@ -1350,27 +1307,12 @@ bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
 
 bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
 {
-   // XXX maybe this should be made runtime configurable?
-   if ( !WithFilelist ) {
-      xmlNode *format = FindNode("format");
-      for (xmlNode *n = format->children; n; n = n->next) {
-         if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
-         xmlChar *Filename = xmlNodeGetContent(n);
-         FileProvs.push_back(string((char*)Filename));
-         xmlFree(Filename);
-      }
-   } else {
-      xmlNode *FlP = xmlTextReaderExpand(Filelist);
-      if (FlP == NULL) {
-	 return false;
-      }
-      for (xmlNode *n = FlP->children; n; n = n->next) {
-         if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
-	    continue;
-         xmlChar *Filename = xmlNodeGetContent(n);
-         FileProvs.push_back(string((char*)Filename));
-         xmlFree(Filename);
-      }
+   xmlNode *format = FindNode("format");
+   for (xmlNode *n = format->children; n; n = n->next) {
+      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
+      xmlChar *Filename = xmlNodeGetContent(n);
+      FileProvs.push_back(string((char*)Filename));
+      xmlFree(Filename);
    }
    return true;
 }
@@ -1378,9 +1320,102 @@ bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
 RPMRepomdHandler::~RPMRepomdHandler()
 {
    xmlFreeDoc(Primary);
-   if (WithFilelist) {
-      xmlFreeTextReader(Filelist);
+}
+
+RPMRepomdFLHandler::RPMRepomdFLHandler(string File) : RPMHandler()
+{
+   FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
+
+   ID = File;
+   Filelist = NULL;
+   NodeP = NULL;
+   iOffset = -1;
+
+   if (FileExists(FilelistFile)) {
+      Filelist = xmlReaderForFile(FilelistFile.c_str(), NULL,
+                                  XML_PARSE_NONET|XML_PARSE_NOBLANKS);
+      if (Filelist == NULL) {
+        xmlFreeTextReader(Filelist);
+        _error->Error(_("Failed to open filelist index %s"), FilelistFile.c_str());
+        goto error;
+      }
+
+      // seek into first package in filelists.xml
+      int ret = xmlTextReaderRead(Filelist);
+      if (ret == 1) {
+        xmlChar *pkgs = xmlTextReaderGetAttribute(Filelist, (xmlChar*)"packages");
+        iSize = atoi((char*)pkgs);
+        xmlFree(pkgs);
+      }
+      while (ret == 1) {
+        if (xmlStrcmp(xmlTextReaderConstName(Filelist),
+                     (xmlChar*)"package") == 0) {
+           break;
+        }
+        ret = xmlTextReaderRead(Filelist);
+      }
+   }
+   return;
+
+error:
+   if (Filelist) {
+       xmlFreeTextReader(Filelist);
    }
 }
+
+bool RPMRepomdFLHandler::Jump(off_t Offset)
+{
+   //cerr << "RepomdFLHandler::Jump() called but not implemented!" << endl;
+   return false;
+}
+
+void RPMRepomdFLHandler::Rewind()
+{
+   //cerr << "RepomdFLHandler::Rewind() called but not implemented!" << endl;
+}
+
+bool RPMRepomdFLHandler::Skip()
+{
+   if (iOffset +1 >= iSize) {
+      return false;
+   }
+   if (iOffset >= 0) {
+      xmlTextReaderNext(Filelist);
+   }
+   NodeP = xmlTextReaderExpand(Filelist);
+   iOffset++;
+
+   return true;
+}
+
+bool RPMRepomdFLHandler::FileProvides(vector<string> &FileProvs)
+{
+   for (xmlNode *n = NodeP->children; n; n = n->next) {
+      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
+      xmlChar *Filename = xmlNodeGetContent(n);
+      FileProvs.push_back(string((char*)Filename));
+      xmlFree(Filename);
+   }
+   return true;
+}
+
+string RPMRepomdFLHandler::FindTag(char *Tag)
+{
+     string str = "";
+     if (NodeP) {
+         xmlChar *attr = xmlGetProp(NodeP, (xmlChar*)Tag);
+         if (attr) {
+            str = (char*)attr;
+            xmlFree(attr);
+         }
+     }
+     return str;
+};
+
+RPMRepomdFLHandler::~RPMRepomdFLHandler()
+{
+   xmlFreeTextReader(Filelist);
+}
+
 
 // vim:sts=3:sw=3

@@ -768,7 +768,7 @@ bool rpmRepomdIndex::MergeFileProvides(pkgCacheGenerator &Gen,
 					OpProgress &Prog) const
 {
    string PackageFile = IndexPath();
-   RPMHandler *Handler = CreateHandler();
+   RPMHandler *Handler = new RPMRepomdFLHandler(IndexPath());
    rpmListParser Parser(Handler);
    if (_error->PendingError() == true) {
       delete Handler;

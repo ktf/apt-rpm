@@ -44,7 +44,7 @@ rpmRecordParser::rpmRecordParser(string File, pkgCache &Cache)
       else if (flExtension(File) == "rpm")
 	 Handler = new RPMSingleFileHandler(File);
       else if (flExtension(File) == "xml")
-	 Handler = new RPMRepomdHandler(File, false);
+	 Handler = new RPMRepomdHandler(File);
       else
 	 Handler = new RPMFileHandler(File);
    }

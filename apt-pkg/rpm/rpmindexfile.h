@@ -302,7 +302,7 @@ class rpmRepomdIndex : public rpmIndexFile
 
    // Creates a RPMHandler suitable for usage with this object
    virtual RPMHandler *CreateHandler() const
-          { return new RPMRepomdHandler(IndexPath(), true); };
+          { return new RPMRepomdHandler(IndexPath()); };
 
    virtual bool GetReleases(pkgAcquire *Owner) const;
 

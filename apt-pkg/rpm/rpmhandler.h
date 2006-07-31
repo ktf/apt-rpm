@@ -120,6 +120,7 @@ class RPMFileHandler : public RPMHandler
    virtual bool Jump(off_t Offset);
    virtual void Rewind();
    virtual inline bool IsDatabase() {return false;};
+   virtual bool OrderedOffset() {return true;};
 
    virtual string FileName();
    virtual string Directory();
@@ -223,15 +224,13 @@ class RPMRepomdHandler : public RPMHandler
 {
 
    xmlDocPtr Primary;
-   xmlTextReaderPtr Filelist;
    xmlNode *Root;
    xmlNode *NodeP;
 
    vector<xmlNode *> Pkgs;
    vector<xmlNode *>::iterator PkgIter;
 
-   bool WithFilelist;
-   string PrimaryFile, FilelistFile;
+   string PrimaryFile;
 
    xmlNode *FindNode(const string Name);
    xmlNode *FindNode(xmlNode *Node, const string Name);
@@ -272,8 +271,42 @@ class RPMRepomdHandler : public RPMHandler
    virtual bool Provides(vector<Dependency*> &Provs);
    virtual bool FileProvides(vector<string> &FileProvs);
 
-   RPMRepomdHandler(string File, bool useFilelist);
+   RPMRepomdHandler(string File);
    virtual ~RPMRepomdHandler();
 };
 
+class RPMRepomdFLHandler : public RPMHandler
+{
+   protected:
+   xmlTextReaderPtr Filelist;
+   string FilelistFile;
+   xmlNode *NodeP;
+
+   string FindTag(char *Tag);
+
+   public:
+   virtual bool Skip();
+   virtual bool Jump(off_t Offset);
+   virtual void Rewind();
+   virtual bool IsDatabase() {return false;};
+
+   virtual string FileName() {return FilelistFile;};
+   virtual string Directory() {return "";};
+   virtual unsigned long FileSize() {return 0;};
+   virtual unsigned long InstalledSize() {return 0;};
+   virtual string MD5Sum() {return "";};
+   virtual string SHA1Sum() {return "";};
+
+   virtual string Name() {return FindTag("name");};
+   virtual string Arch() {return FindTag("arch");};
+   virtual string Epoch() {return FindTag("epoch");};
+   virtual string Version() {return FindTag("version");};
+   virtual string Release() {return FindTag("release");};
+   virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps)
+       {return true;};
+
+   virtual bool FileProvides(vector<string> &FileProvs);
+   RPMRepomdFLHandler(string File);
+   virtual ~RPMRepomdFLHandler();
+};
 #endif
