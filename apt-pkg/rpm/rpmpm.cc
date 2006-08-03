@@ -795,7 +795,6 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
 #if RPM_VERSION >= 0x040300
 #ifdef WITH_SELINUX
    /* Initialize security context patterns for SELinux */
-   cout << "selinux enabled" << endl;
    if (!(tsFlags & RPMTRANS_FLAG_NOCONTEXTS)) {
       rpmsx sx = rpmtsREContext(TS);
       if (sx == NULL) {
