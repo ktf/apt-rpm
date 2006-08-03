@@ -7,9 +7,12 @@
 #pragma interface "apt-pkg/repomd.h"
 #endif
 
+#include <apt-pkg/repository.h>
+
+#ifdef WITH_REPOMD
+
 #include <libxml/parser.h>
 #include <libxml/tree.h>
-#include <apt-pkg/repository.h>
 
 using namespace std;
 
@@ -34,7 +37,10 @@ class repomdRepository : public pkgRepository
       GotRelease = true;
    };
 
+   virtual ~repomdRepository() {};
 };
+
+#endif /* WITH_REPOMD */
 
 #endif
 

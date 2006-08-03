@@ -505,6 +505,7 @@ void rpmListParser::VirtualizePackage(string Name)
    FromPkgI->CurrentState = 0;
 }
 
+#ifdef WITH_REPOMD
 xmlNode *rpmRepomdParser::FindNode(xmlNode *n, const string Name)
 {
    for (n = n->children; n; n = n->next) {
@@ -574,6 +575,7 @@ bool rpmRepomdParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
    xmlFreeDoc(RepoMD);
    return true;
 }
+#endif /* WITH_REPOMD */
 
 #endif /* HAVE_RPM */
 

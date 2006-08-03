@@ -92,13 +92,6 @@ else
    AC_SUBST(RPMLIBS)
 fi
 
-dnl repomd support needs libxml2, not sure about the minimal version - I've
-dnl only tested it with 2.6.20
-## xmlReadFile is not available before 2.6.0
-PKG_CHECK_MODULES([LIBXML2],[libxml-2.0 >= 2.6])
-RPMLIBS="$LIBXML2_LIBS $RPMLIBS"
-CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
-
 dnl Can we use g++ hash_map?
 AH_TEMPLATE(WITH_GNU_HASH_MAP,
 	    [Define to 1 if you want to use the g++ hash_map extension])
@@ -141,6 +134,24 @@ else
   AC_MSG_RESULT(yes)
 fi
 AM_CONDITIONAL(WITH_SELINUX, test "$enable_selinux" != "no")
+
+dnl Repomd support
+AC_MSG_CHECKING(for --disable-repomd)
+AC_ARG_ENABLE([repomd],
+	      AS_HELP_STRING([--disable-repomd],
+			     [disable repomd support]),
+	      [enable_repomd="$enableval"],[enable_repomd="yes"])
+if test "$enable_repomd" != "no"; then
+  AC_MSG_RESULT(no)
+  AC_DEFINE(WITH_REPOMD, 1, [Define if you want to enable repomd support]) 
+  ## xmlReadFile is not available before 2.6.0
+  PKG_CHECK_MODULES([LIBXML2],[libxml-2.0 >= 2.6])
+  RPMLIBS="$LIBXML2_LIBS $RPMLIBS"
+  CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
+else
+  AC_MSG_RESULT(yes)
+fi
+AM_CONDITIONAL(WITH_REPOMD, test "$enable_repomd" != "no")
 
 dnl Before configuring libtool check for --enable-static-progs option
 AC_MSG_CHECKING(for --enable-static-progs)

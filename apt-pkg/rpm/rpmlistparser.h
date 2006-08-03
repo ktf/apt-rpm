@@ -16,8 +16,11 @@
 #include <apt-pkg/pkgcachegen.h>
 #include <apt-pkg/rpmhandler.h>
 #include <apt-pkg/rpmmisc.h>
+
+#ifdef WITH_REPOMD
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#endif
 
 #include <map>
 #include <vector>
@@ -86,6 +89,7 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    ~rpmListParser();
 };
 
+#ifdef WITH_REPOMD
 class rpmRepomdParser : public rpmListParser
 {
    protected:
@@ -103,5 +107,6 @@ class rpmRepomdParser : public rpmListParser
 
    rpmRepomdParser(RPMHandler *Handler) : rpmListParser(Handler) {};
 };
+#endif /* WITH_REPOMD */
 
 #endif

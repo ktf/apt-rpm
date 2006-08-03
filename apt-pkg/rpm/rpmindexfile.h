@@ -277,6 +277,7 @@ class rpmSingleSrcIndex : public rpmSrcListIndex
 	   rpmSrcListIndex("", "", "", NULL), FilePath(File) {};
 };
 
+#ifdef WITH_REPOMD
 class rpmRepomdIndex : public rpmIndexFile
 {
    protected:
@@ -372,4 +373,6 @@ class rpmRepomdSrcIndex : public rpmRepomdIndex
           rpmRepomdIndex(URI,Dist,Section,Repository) {};
 
 };
+#endif /* WITH_REPOMD */
+
 #endif

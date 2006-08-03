@@ -26,9 +26,12 @@
 
 #include <apt-pkg/rpmhandler.h>
 #include <apt-pkg/rpmpackagedata.h>
+
+#ifdef WITH_REPOMD
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
+#endif
 
 #include <apti18n.h>
 
@@ -897,6 +900,7 @@ void RPMDBHandler::Rewind()
 }
 #endif
 
+#ifdef WITH_REPOMD
 RPMRepomdHandler::RPMRepomdHandler(string File)
 {
    PrimaryFile = File;
@@ -1416,6 +1420,7 @@ RPMRepomdFLHandler::~RPMRepomdFLHandler()
 {
    xmlFreeTextReader(Filelist);
 }
+#endif /* WITH_REPOMD */
 
 
 // vim:sts=3:sw=3

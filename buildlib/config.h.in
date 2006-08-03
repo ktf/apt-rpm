@@ -142,6 +142,9 @@
 /* Define if you want to enable the extension system */
 #undef WITH_LUA
 
+/* Define if you want to enable repomd support */
+#undef WITH_REPOMD
+
 /* Define if you want to enable SELinux support */
 #undef WITH_SELINUX
 

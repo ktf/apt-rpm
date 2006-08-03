@@ -536,6 +536,7 @@ string rpmSingleSrcIndex::ArchiveURI(string File) const
    return URI;
 }
 
+#ifdef WITH_REPOMD
 string rpmRepomdIndex::ArchiveURI(string File) const
 {
    string Res;
@@ -809,6 +810,7 @@ string rpmRepomdSrcIndex::SourceInfo(pkgSrcRecords::Parser const &Record,
       Res += " (" + File.Type + ")";
    return Res;
 }
+#endif /* WITH_REPOMD */
 
 // DatabaseIndex::rpmDatabaseIndex - Constructor			/*{{{*/
 // ---------------------------------------------------------------------
@@ -1032,6 +1034,7 @@ class rpmSLTypeSrpmDir : public rpmSLTypeGen
    }   
 };
 
+#ifdef WITH_REPOMD
 class rpmSLTypeRepomd : public rpmSLTypeGen
 {
    public:
@@ -1118,13 +1121,16 @@ class rpmSLTypeRepomdSrc : public rpmSLTypeRepomd
       Label = "RepoMD src tree";
    }   
 };
+#endif /* WITH_REPOMD */
 
 rpmSLTypeRpm _apt_rpmType;
 rpmSLTypeSrpm _apt_rpmSrcType;
 rpmSLTypeRpmDir _apt_rpmDirType;
 rpmSLTypeSrpmDir _apt_rpmSrcDirType;
+#ifdef WITH_REPOMD
 rpmSLTypeRepomd _apt_repomdType;
 rpmSLTypeRepomdSrc _apt_repomdSrcType;
+#endif
 									/*}}}*/
 // Index File types for rpm						/*{{{*/
 class rpmIFTypeSrc : public pkgIndexFile::Type
@@ -1185,6 +1191,7 @@ const pkgIndexFile::Type *rpmDatabaseIndex::GetType() const
 {
    return &_apt_DB;
 }
+#ifdef WITH_REPOMD
 const pkgIndexFile::Type *rpmRepomdPkgIndex::GetType() const
 {
    return &_apt_Pkg;
@@ -1193,6 +1200,7 @@ const pkgIndexFile::Type *rpmRepomdSrcIndex::GetType() const
 {
    return &_apt_Src;
 }
+#endif
 
 									/*}}}*/
 #endif /* HAVE_RPM */

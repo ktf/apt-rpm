@@ -14,6 +14,10 @@
 #pragma implementation "apt-pkg/repomd.h"
 #endif
 
+#include <config.h>
+
+#ifdef WITH_REPOMD
+
 #include <iostream>
 #include <apt-pkg/repomd.h>
 #include <apt-pkg/error.h>
@@ -92,5 +96,7 @@ bool repomdRepository::ParseRelease(string File)
    xmlFreeDoc(RepoMD);
    return true;
 }
+
+#endif /* WITH_REPOMD */
 
 // vim:sts=3:sw=3
