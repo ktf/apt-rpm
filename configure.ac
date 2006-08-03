@@ -127,6 +127,21 @@ else
 fi
 AM_CONDITIONAL(WITH_LUA, test "$enable_scripts" != "no")
 
+dnl SELinux support
+AC_MSG_CHECKING(for --disable-selinux)
+AC_ARG_ENABLE([selinux],
+	      AS_HELP_STRING([--disable-selinux],
+			     [disable SELinux support]),
+	      [enable_selinux="$enableval"],[enable_selinux="yes"])
+if test "$enable_selinux" != "no"; then
+  AC_MSG_RESULT(no)
+  AC_DEFINE(WITH_SELINUX, 1, 
+	    [Define if you want to enable SELinux support]) 
+else
+  AC_MSG_RESULT(yes)
+fi
+AM_CONDITIONAL(WITH_SELINUX, test "$enable_selinux" != "no")
+
 dnl Before configuring libtool check for --enable-static-progs option
 AC_MSG_CHECKING(for --enable-static-progs)
 AC_ARG_ENABLE(static-progs,

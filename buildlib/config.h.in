@@ -142,6 +142,9 @@
 /* Define if you want to enable the extension system */
 #undef WITH_LUA
 
+/* Define if you want to enable SELinux support */
+#undef WITH_SELINUX
+
 /* Define to 1 if your processor stores words with the most significant byte
    first (like Motorola and SPARC, unlike Intel and VAX). */
 #undef WORDS_BIGENDIAN
