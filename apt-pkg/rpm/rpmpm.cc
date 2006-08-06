@@ -820,10 +820,10 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    }
 
    notifyFlags |= INSTALL_LABEL;
-   if (Interactive == true && _config->FindI("quiet",0) < 1) {
-       notifyFlags |= INSTALL_HASH;
-   } else {
+   if (Interactive == false) {
        notifyFlags |= INSTALL_PERCENT;
+   } else if (_config->FindI("quiet",0) < 1) {
+       notifyFlags |= INSTALL_HASH;
    }
 
    if (uninstall.empty() == false)
