@@ -819,12 +819,12 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
       probFilter |= RPMPROB_FILTER_REPLACENEWFILES;
    }
 
-   if (_config->FindI("quiet",0) >= 1)
-       notifyFlags |= INSTALL_LABEL;
-   else if (Interactive == true) 
-       notifyFlags |= INSTALL_LABEL | INSTALL_HASH;
-   else 
-       notifyFlags |= INSTALL_LABEL | INSTALL_PERCENT;
+   notifyFlags |= INSTALL_LABEL;
+   if (Interactive == true && _config->FindI("quiet",0) < 1) {
+       notifyFlags |= INSTALL_HASH;
+   } else {
+       notifyFlags |= INSTALL_PERCENT;
+   }
 
    if (uninstall.empty() == false)
        AddToTransaction(Item::RPMErase, uninstall);
