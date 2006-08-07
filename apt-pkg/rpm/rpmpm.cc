@@ -309,7 +309,7 @@ bool pkgRPMPM::Go()
 	       upgrade.push_back(I->File.c_str());
 	 } else {
 	    // perform pure installs on non-installed normal packages, not upgrades
-	    if (I->Pkg->CurrentVer != NULL) {
+	    if (I->Pkg->CurrentVer != 0) {
 	       upgrade.push_back(I->File.c_str());
 	    } else {
 	       install.push_back(I->File.c_str());
