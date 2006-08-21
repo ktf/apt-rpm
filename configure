@@ -21465,7 +21465,7 @@ cat >>confdefs.h <<\_ACEOF
 #define WITH_REPOMD 1
 _ACEOF
 
-      ## xmlReadFile is not available before 2.6.0
+  ## xmlReadFile is not available before 2.6.0
 
 
 if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then

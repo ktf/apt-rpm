@@ -48,7 +48,6 @@ class LogCleaner : public pkgArchiveCleaner
    virtual ~LogCleaner() {};
 };
 
-
 bool ShowList(ostream &out,string Title,string List,string VersionsList);
 void Stats(ostream &out,pkgDepCache &Dep,pkgDepCache::State *State=NULL);
 void ShowBroken(ostream &out,cmdCacheFile &Cache,bool Now, 
@@ -64,10 +63,28 @@ bool ShowHold(ostream &out,cmdCacheFile &Cache, pkgDepCache::State *State=NULL);
 bool ShowEssential(ostream &out,cmdCacheFile &Cache, pkgDepCache::State *State=NULL);
 
 bool cmdDoClean(CommandLine &CmdL);
+bool cmdDoList(CommandLine &CmdL, cmdCacheFile &Cache);
 
 pkgSrcRecords::Parser *FindSrc(const char *Name,pkgRecords &Recs,
                                pkgSrcRecords &SrcRecs,string &Src,
                                pkgDepCache &Cache);
+
+
+// apt-cache stuff
+int LocalityCompare(const void *a, const void *b);
+void LocalitySort(pkgCache::VerFile **begin, unsigned long Count,size_t Size);
+
+bool cmdUnMet(CommandLine &CmdL, pkgCache &Cache);
+bool cmdDumpPackage(CommandLine &CmdL, pkgCache &Cache);
+bool cmdDisplayRecord(pkgCache::VerIterator V, pkgCache &Cache);
+bool cmdDepends(CommandLine &CmdL, pkgCache &Cache);
+bool cmdRDepends(CommandLine &CmdL, pkgCache &Cache);
+bool cmdWhatDepends(CommandLine &CmdL, pkgCache &Cache);
+bool cmdWhatProvides(CommandLine &CmdL, pkgCache &Cache);
+bool cmdShowPackage(CommandLine &CmdL, pkgCache &Cache);
+
+bool cmdSearch(CommandLine &CmdL, pkgCache &Cache);
+bool cmdSearchFile(CommandLine &CmdL, pkgCache &Cache);
 
 
 // vim:sts=3:sw=3
