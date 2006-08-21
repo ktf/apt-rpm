@@ -4,6 +4,10 @@
 #include <apt-pkg/algorithms.h>
 #include <apt-pkg/version.h>
 #include <apt-pkg/strutl.h>
+#include <apt-pkg/cmndline.h>
+#include <apt-pkg/clean.h>
+#include <apt-pkg/pkgrecords.h>
+#include <apt-pkg/srcrecords.h>
 
 #include <fstream>
 #include <stdio.h>
@@ -35,6 +39,16 @@ class cmdCacheFile : public pkgCacheFile
    cmdCacheFile() : List(0) {};
 };
 
+class LogCleaner : public pkgArchiveCleaner
+{
+   protected:
+   virtual void Erase(const char *File,string Pkg,string Ver,struct stat &St);
+
+   public:
+   virtual ~LogCleaner() {};
+};
+
+
 bool ShowList(ostream &out,string Title,string List,string VersionsList);
 void Stats(ostream &out,pkgDepCache &Dep,pkgDepCache::State *State=NULL);
 void ShowBroken(ostream &out,cmdCacheFile &Cache,bool Now, 
@@ -48,5 +62,12 @@ bool ShowDowngraded(ostream &out,cmdCacheFile &Cache,
 		    pkgDepCache::State *State=NULL);
 bool ShowHold(ostream &out,cmdCacheFile &Cache, pkgDepCache::State *State=NULL);
 bool ShowEssential(ostream &out,cmdCacheFile &Cache, pkgDepCache::State *State=NULL);
+
+bool cmdDoClean(CommandLine &CmdL);
+
+pkgSrcRecords::Parser *FindSrc(const char *Name,pkgRecords &Recs,
+                               pkgSrcRecords &SrcRecs,string &Src,
+                               pkgDepCache &Cache);
+
 
 // vim:sts=3:sw=3

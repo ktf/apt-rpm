@@ -214,7 +214,6 @@ bool CacheFile::CheckDeps(bool AllowBroken)
    return true;
 }
 									/*}}}*/
-// CNC:2002-07-06
 bool DoClean(CommandLine &CmdL);
 bool DoAutoClean(CommandLine &CmdL);
 
@@ -867,101 +866,6 @@ bool TryToChangeVer(pkgCache::PkgIterator &Pkg,pkgDepCache &Cache,
    // CNC:2003-11-11
    Pkg = Ver.ParentPkg();
    return true;
-}
-									/*}}}*/
-// FindSrc - Find a source record					/*{{{*/
-// ---------------------------------------------------------------------
-/* */
-pkgSrcRecords::Parser *FindSrc(const char *Name,pkgRecords &Recs,
-			       pkgSrcRecords &SrcRecs,string &Src,
-			       pkgDepCache &Cache)
-{
-   // We want to pull the version off the package specification..
-   string VerTag;
-   string TmpSrc = Name;
-   string::size_type Slash = TmpSrc.rfind('=');
-   if (Slash != string::npos)
-   {
-      VerTag = string(TmpSrc.begin() + Slash + 1,TmpSrc.end());
-      TmpSrc = string(TmpSrc.begin(),TmpSrc.begin() + Slash);
-   }
-   
-   /* Lookup the version of the package we would install if we were to
-      install a version and determine the source package name, then look
-      in the archive for a source package of the same name. In theory
-      we could stash the version string as well and match that too but
-      today there aren't multi source versions in the archive. */
-   if (_config->FindB("APT::Get::Only-Source") == false && 
-       VerTag.empty() == true)
-   {
-      pkgCache::PkgIterator Pkg = Cache.FindPkg(TmpSrc);
-      if (Pkg.end() == false)
-      {
-	 pkgCache::VerIterator Ver = Cache.GetCandidateVer(Pkg);      
-	 if (Ver.end() == false)
-	 {
-	    pkgRecords::Parser &Parse = Recs.Lookup(Ver.FileList());
-	    Src = Parse.SourcePkg();
-	 }
-      }   
-   }
-   
-   // No source package name..
-   if (Src.empty() == true)
-      Src = TmpSrc;
-   
-   // The best hit
-   pkgSrcRecords::Parser *Last = 0;
-   unsigned long Offset = 0;
-   string Version;
-   bool IsMatch = false;
-   
-   // If we are matching by version then we need exact matches to be happy
-   if (VerTag.empty() == false)
-      IsMatch = true;
-   
-   /* Iterate over all of the hits, which includes the resulting
-      binary packages in the search */
-   pkgSrcRecords::Parser *Parse;
-   SrcRecs.Restart();
-   while ((Parse = SrcRecs.Find(Src.c_str(),false)) != 0)
-   {
-      string Ver = Parse->Version();
-      
-      // Skip name mismatches
-      if (IsMatch == true && Parse->Package() != Src)
-	 continue;
-      
-      if (VerTag.empty() == false)
-      {
-	 /* Don't want to fall through because we are doing exact version 
-	    matching. */
-	 if (Cache.VS().CmpVersion(VerTag,Ver) != 0)
-	    continue;
-	 
-	 Last = Parse;
-	 Offset = Parse->Offset();
-	 break;
-      }
-				  
-      // Newer version or an exact match
-      if (Last == 0 || Cache.VS().CmpVersion(Version,Ver) < 0 || 
-	  (Parse->Package() == Src && IsMatch == false))
-      {
-	 IsMatch = Parse->Package() == Src;
-	 Last = Parse;
-	 Offset = Parse->Offset();
-	 Version = Ver;
-      }      
-   }
-   
-   if (Last == 0)
-      return 0;
-   
-   if (Last->Jump(Offset) == false)
-      return 0;
-   
-   return Last;
 }
 									/*}}}*/
 
@@ -1702,46 +1606,9 @@ bool DoDSelectUpgrade(CommandLine &CmdL)
 /* */
 bool DoClean(CommandLine &CmdL)
 {
-   if (_config->FindB("APT::Get::Simulate") == true)
-   {
-      cout << "Del " << _config->FindDir("Dir::Cache::archives") << "* " <<
-	 _config->FindDir("Dir::Cache::archives") << "partial/*" << endl;
-      return true;
-   }
-   
-   // Lock the archive directory
-   FileFd Lock;
-   if (_config->FindB("Debug::NoLocking",false) == false)
-   {
-      Lock.Fd(GetLock(_config->FindDir("Dir::Cache::Archives") + "lock"));
-      if (_error->PendingError() == true)
-	 return _error->Error(_("Unable to lock the download directory"));
-   }
-   
-   pkgAcquire Fetcher;
-   Fetcher.Clean(_config->FindDir("Dir::Cache::archives"));
-   Fetcher.Clean(_config->FindDir("Dir::Cache::archives") + "partial/");
-   return true;
+   return cmdDoClean(CmdL);
 }
 									/*}}}*/
-// DoAutoClean - Smartly remove downloaded archives			/*{{{*/
-// ---------------------------------------------------------------------
-/* This is similar to clean but it only purges things that cannot be 
-   downloaded, that is old versions of cached packages. */
-class LogCleaner : public pkgArchiveCleaner
-{
-   protected:
-   virtual void Erase(const char *File,string Pkg,string Ver,struct stat &St) 
-   {
-      c1out << "Del " << Pkg << " " << Ver << " [" << SizeToStr(St.st_size) << "B]" << endl;
-      
-      if (_config->FindB("APT::Get::Simulate") == false)
-	 unlink(File);      
-   };
-   public:
-   virtual ~LogCleaner() {};
-};
-
 bool DoAutoClean(CommandLine &CmdL)
 {
    // Lock the archive directory
