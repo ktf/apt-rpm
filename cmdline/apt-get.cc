@@ -1523,84 +1523,6 @@ bool DoDistUpgrade(CommandLine &CmdL)
    return InstallPackages(Cache,true);
 }
 									/*}}}*/
-// DoDSelectUpgrade - Do an upgrade by following dselects selections	/*{{{*/
-// ---------------------------------------------------------------------
-/* Follows dselect's selections */
-bool DoDSelectUpgrade(CommandLine &CmdL)
-{
-   CacheFile Cache;
-   if (Cache.OpenForInstall() == false || Cache.CheckDeps() == false)
-      return false;
-   
-   // Install everything with the install flag set
-   pkgCache::PkgIterator I = Cache->PkgBegin();
-   for (;I.end() != true; I++)
-   {
-      /* Install the package only if it is a new install, the autoupgrader
-         will deal with the rest */
-      if (I->SelectedState == pkgCache::State::Install)
-	 Cache->MarkInstall(I,false);
-   }
-
-   /* Now install their deps too, if we do this above then order of
-      the status file is significant for | groups */
-   for (I = Cache->PkgBegin();I.end() != true; I++)
-   {
-      /* Install the package only if it is a new install, the autoupgrader
-         will deal with the rest */
-      if (I->SelectedState == pkgCache::State::Install)
-	 Cache->MarkInstall(I,true);
-   }
-   
-   // Apply erasures now, they override everything else.
-   for (I = Cache->PkgBegin();I.end() != true; I++)
-   {
-      // Remove packages 
-      if (I->SelectedState == pkgCache::State::DeInstall ||
-	  I->SelectedState == pkgCache::State::Purge)
-	 Cache->MarkDelete(I,I->SelectedState == pkgCache::State::Purge);
-   }
-
-   /* Resolve any problems that dselect created, allupgrade cannot handle
-      such things. We do so quite agressively too.. */
-   if (Cache->BrokenCount() != 0)
-   {      
-      pkgProblemResolver Fix(Cache);
-
-      // Hold back held packages.
-      if (_config->FindB("APT::Ignore-Hold",false) == false)
-      {
-	 for (pkgCache::PkgIterator I = Cache->PkgBegin(); I.end() == false; I++)
-	 {
-	    if (I->SelectedState == pkgCache::State::Hold)
-	    {
-	       Fix.Protect(I);
-	       Cache->MarkKeep(I);
-	    }
-	 }
-      }
-   
-      if (Fix.Resolve() == false)
-      {
-	 ShowBroken(c1out,Cache,false);
-	 return _error->Error("Internal Error, problem resolver broke stuff");
-      }
-   }
-
-   // Now upgrade everything
-   if (pkgAllUpgrade(Cache) == false)
-   {
-      ShowBroken(c1out,Cache,false);
-      return _error->Error("Internal Error, problem resolver broke stuff");
-   }
-
-   // CNC:2003-03-06
-   if (CheckOnly(Cache) == true)
-      return true;
-   
-   return InstallPackages(Cache,false);
-}
-									/*}}}*/
 // DoClean - Remove download archives					/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -2356,7 +2278,6 @@ int main(int argc,const char *argv[])
                                    {"reinstall",&DoInstall},
                                    {"remove",&DoInstall},
                                    {"dist-upgrade",&DoDistUpgrade},
-                                   {"dselect-upgrade",&DoDSelectUpgrade},
 				   {"build-dep",&DoBuildDep},
                                    {"clean",&DoClean},
                                    {"autoclean",&DoAutoClean},
