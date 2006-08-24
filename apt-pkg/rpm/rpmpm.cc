@@ -828,11 +828,21 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    if (upgrade.empty() == false)
        AddToTransaction(Item::RPMUpgrade, upgrade);
 
-   packagesTotal = install.size() + upgrade.size() * 2 + uninstall.size();
-   if (tsFlags & RPMTRANS_FLAG_REPACKAGE) {
-      packagesTotal += upgrade.size() + uninstall.size();
+   packagesTotal = 0;
+   // Figure out exactly how many rpm operations we're going to process,
+   // repackages and all.
+   int repackage = (tsFlags & RPMTRANS_FLAG_REPACKAGE) ? 1 : 0;
+   for (pkgCache::PkgIterator I = Cache.PkgBegin(); I.end() == false; I++) {
+      if (Cache[I].NewInstall() == true) {
+	 packagesTotal++;
+      } else if (Cache[I].Upgrade() == true ||
+	         Cache[I].Downgrade() == true) {
+	 packagesTotal += 2 + repackage;
+      } else if (Cache[I].Delete() == true) {
+	 packagesTotal += 1 + repackage;
+      }
    }
-
+         
 #if RPM_VERSION >= 0x040100
    if (_config->FindB("RPM::NoDeps", false) == false) {
       rc = rpmtsCheck(TS);
