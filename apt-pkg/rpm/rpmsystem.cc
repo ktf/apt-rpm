@@ -155,6 +155,7 @@ bool rpmSystem::Initialize(Configuration &Cnf)
    };
    int NoPromote = 1;
    const char **Opt = RPMOptions;
+   const Configuration::Item *Top;
    while (*Opt && NoPromote)
    {
       Top = _config->Tree(*Opt);
