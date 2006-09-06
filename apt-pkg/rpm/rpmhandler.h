@@ -101,7 +101,7 @@ class RPMHandler
    bool InternalDep(const char *name, const char *ver, int_32 flag);
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool Provides(vector<Dependency*> &Provs);
-   virtual bool FileProvides(vector<string> &FileProvs);
+   virtual bool FileList(vector<string> &FileList);
 
    virtual bool HasFile(const char *File);
 
@@ -270,10 +270,9 @@ class RPMRepomdHandler : public RPMHandler
    virtual string Description() {return FindTag(NodeP, "description");};
    virtual string SourceRpm();
 
-   virtual bool HasFile(const char *File);
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool Provides(vector<Dependency*> &Provs);
-   virtual bool FileProvides(vector<string> &FileProvs);
+   virtual bool FileList(vector<string> &FileList);
 
    RPMRepomdHandler(string File);
    virtual ~RPMRepomdHandler();
@@ -309,7 +308,7 @@ class RPMRepomdFLHandler : public RPMHandler
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps)
        {return true;};
 
-   virtual bool FileProvides(vector<string> &FileProvs);
+   virtual bool FileList(vector<string> &FileList);
    RPMRepomdFLHandler(string File);
    virtual ~RPMRepomdFLHandler();
 };

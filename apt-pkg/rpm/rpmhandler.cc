@@ -39,6 +39,7 @@
 #include <rpm/rpmts.h>
 #include <rpm/rpmdb.h>
 #include <rpm/rpmds.h>
+#include <rpm/rpmfi.h>
 #define rpmxxInitIterator(a,b,c,d) rpmtsInitIterator(a,(rpmTag)b,c,d)
 #else
 #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
@@ -108,22 +109,14 @@ bool RPMHandler::HasFile(const char *File)
 {
    if (*File == '\0')
       return false;
-   char **names = NULL;
-   void *val;
-   int_32 count = 0;
-   rpmHeaderGetEntry(HeaderP, RPMTAG_OLDFILENAMES,
-                     NULL, (void **) &val, &count);
-   if (count < 1)
-      return false;
-
-   names = (char **)val;
-   while (count--)
-   {
-      char *name = names[count];
-      if (strcmp(name, File) == 0)
-         return true;
+   
+   vector<string> Files;
+   FileList(Files);
+   for (vector<string>::iterator I = Files.begin(); I != Files.end(); I++) {
+      if (string(File) == (*I)) {
+	 return true;
+      }
    }
-   free(names);
    return false;
 }
 
@@ -402,7 +395,22 @@ bool RPMHandler::Provides(vector<Dependency*> &Provs)
 
 }
 
-bool RPMHandler::FileProvides(vector<string> &FileProvs)
+// XXX rpmfi originates from somewhere around 2001 but what's the version?
+#if RPM_VERSION >= 0x040100
+bool RPMHandler::FileList(vector<string> &FileList)
+{
+   rpmfi fi = NULL;
+   fi = rpmfiNew(NULL, HeaderP, RPMTAG_BASENAMES, 0);
+   if (fi != NULL) {
+      while (rpmfiNext(fi) >= 0) {
+        FileList.push_back(rpmfiFN(fi));
+      }
+   }
+   fi = rpmfiFree(fi);
+   return true;
+}
+#else
+bool RPMHandler::FileList(vector<string> &FileList)
 {
    const char **names = NULL;
    void *val = NULL;
@@ -412,12 +420,13 @@ bool RPMHandler::FileProvides(vector<string> &FileProvs)
                      NULL, (void **) &val, &count);
    names = (const char **)val;
    while (count--) {
-      FileProvs.push_back(names[count]);
+      FileList.push_back(names[count]);
    }
    free(names);
    return ret;
 
 }
+#endif
 
 RPMFileHandler::RPMFileHandler(string File)
 {
@@ -1138,29 +1147,6 @@ string RPMRepomdHandler::SourceRpm()
    return FindTag(n, "sourcerpm");
 }
 
-bool RPMRepomdHandler::HasFile(const char *File)
-{
-   if (*File == '\0')
-      return false;
-
-   bool found = false;
-
-   xmlNode *format = FindNode("format");
-   for (xmlNode *n = format->children; n; n = n->next) {
-      if (xmlStrcmp(n->name, (xmlChar*)"file") != 0) 
-	 continue;
-      if (xmlStrcmp(xmlNodeGetContent(n), (xmlChar*)File) == 0) {
-	 found = true;
-	 break;
-      }
-   }
-
-   // TODO: somehow look through filelists.xml for the file if not 
-   // primary.xml
-   return found;
-
-}
-
 bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
 {
    xmlNode *format = FindNode("format");
@@ -1309,13 +1295,13 @@ bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
    return true;
 }
 
-bool RPMRepomdHandler::FileProvides(vector<string> &FileProvs)
+bool RPMRepomdHandler::FileList(vector<string> &FileList)
 {
    xmlNode *format = FindNode("format");
    for (xmlNode *n = format->children; n; n = n->next) {
       if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
       xmlChar *Filename = xmlNodeGetContent(n);
-      FileProvs.push_back(string((char*)Filename));
+      FileList.push_back(string((char*)Filename));
       xmlFree(Filename);
    }
    return true;
@@ -1392,12 +1378,12 @@ bool RPMRepomdFLHandler::Skip()
    return true;
 }
 
-bool RPMRepomdFLHandler::FileProvides(vector<string> &FileProvs)
+bool RPMRepomdFLHandler::FileList(vector<string> &FileList)
 {
    for (xmlNode *n = NodeP->children; n; n = n->next) {
       if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
       xmlChar *Filename = xmlNodeGetContent(n);
-      FileProvs.push_back(string((char*)Filename));
+      FileList.push_back(string((char*)Filename));
       xmlFree(Filename);
    }
    return true;

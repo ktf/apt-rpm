@@ -320,7 +320,7 @@ bool rpmListParser::CollectFileProvides(pkgCache &Cache,
    vector<string> Files;
    bool ret = true;
 
-   if (Handler->FileProvides(Files) == false) {
+   if (Handler->FileList(Files) == false) {
       return false;
    }
    for (vector<string>::iterator I = Files.begin(); I != Files.end(); I++) {
