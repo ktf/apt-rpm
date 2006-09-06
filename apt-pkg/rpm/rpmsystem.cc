@@ -142,53 +142,8 @@ bool rpmSystem::Initialize(Configuration &Cnf)
    Cnf.CndSet("Dir::Etc::translatelist", "translate.list");
    Cnf.CndSet("Dir::Etc::translateparts", "translate.list.d");
    Cnf.CndSet("Dir::State::prefetch", "prefetch");
-   Cnf.CndSet("Acquire::DistroID","Conectiva"); // hee hee
-   Cnf.CndSet("Acquire::CDROM::Mount", "/mnt/cdrom");
+   Cnf.CndSet("Acquire::CDROM::Mount", "/media/cdrom");
    Cnf.CndSet("Acquire::CDROM::Copy-All", "true");
-
-   // Compatibility with obsoleted options
-   if (Cnf.Exists("APT::PostInstall"))
-   {
-      _error->Warning("Rename obsoleted option APT::PostInstall to APT::Post-Install");
-      Cnf.CndSet("APT::Post-Install::Clean",
-		 Cnf.Find("APT::PostInstall::Clean","false"));
-      Cnf.CndSet("APT::Post-Install::AutoClean",
-		 Cnf.Find("APT::PostInstall::AutoClean","false"));
-   }
-   const Configuration::Item *Top;
-   Top = _config->Tree("RPM::HoldPkgs");
-   if (Top != 0)
-   {
-      _error->Warning("Rename obsoleted option RPM::HoldPkgs to RPM::Hold");
-      for (Top = Top->Child; Top != 0; Top = Top->Next)
-	 Cnf.Set("RPM::Hold::", Top->Value.c_str());
-   }
-   Top = _config->Tree("RPM::AllowedDupPkgs");
-   if (Top != 0)
-   {
-      _error->Warning("Rename obsoleted option RPM::AllowedDupPkgs to RPM::Allow-Duplicated");
-      for (Top = Top->Child; Top != 0; Top = Top->Next)
-	 Cnf.Set("RPM::Allow-Duplicated::", Top->Value.c_str());
-   }
-   Top = _config->Tree("RPM::IgnorePkgs");
-   if (Top != 0)
-   {
-      _error->Warning("Rename obsoleted option RPM::IgnorePkgs to RPM::Ignore");
-      for (Top = (Top == 0?0:Top->Child); Top != 0; Top = Top->Next)
-	 Cnf.Set("RPM::Ignore::", Top->Value.c_str());
-   }
-   if (Cnf.Exists("RPM::Force"))
-   {
-      _error->Warning("RPM::Force is obsoleted. Add \"--force\" to RPM::Options instead.");
-      if (Cnf.FindB("RPM::Force",false))
-	 Cnf.Set("RPM::Options::", "--force");
-   }
-   if (Cnf.Exists("RPM::NoDeps"))
-   {
-      _error->Warning("RPM::NoDeps is obsoleted. Add \"--nodeps\" to RPM::Options and RPM::Erase-Options instead.");
-      if (Cnf.FindB("RPM::NoDeps",false))
-	 Cnf.Set("RPM::Options::", "--nodeps");
-   }
 
 #if RPM_VERSION >= 0x040201
    const char *RPMOptions[] =
