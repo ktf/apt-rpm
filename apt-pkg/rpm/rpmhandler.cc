@@ -105,6 +105,32 @@ string RPMHandler::EVR()
    return evr;
 } 
 
+unsigned int RPMHandler::DepOp(int_32 rpmflags)
+{
+   unsigned int Op = 0;
+   int_32 flags = (rpmflags & RPMSENSE_SENSEMASK);
+   if (flags == RPMSENSE_ANY) {
+      Op = pkgCache::Dep::NoOp;
+   } else if (flags & RPMSENSE_LESS) {
+      if (flags & RPMSENSE_EQUAL)
+	  Op = pkgCache::Dep::LessEq;
+      else
+	  Op = pkgCache::Dep::Less;
+   } else if (flags & RPMSENSE_GREATER) {
+      if (flags & RPMSENSE_EQUAL)
+	  Op = pkgCache::Dep::GreaterEq;
+      else
+	  Op = pkgCache::Dep::Greater;
+   } else if (flags & RPMSENSE_EQUAL) {
+      Op = pkgCache::Dep::Equals;
+   } else {
+      /* can't happen, right? */
+      _error->Error(_("Impossible flags %d in %s"), rpmflags, Name().c_str());
+   }
+      
+   return Op;
+}
+
 bool RPMHandler::HasFile(const char *File)
 {
    if (*File == '\0')
@@ -299,7 +325,6 @@ bool RPMHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
    verl = (char**)verval;
    flagl = (int*)flagval;
 
-   unsigned int Op = 0;
    bool DepMode = false;
    if (Type == pkgCache::Dep::Depends)
       DepMode = true;
@@ -328,24 +353,7 @@ bool RPMHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
 	 Dep->Version = Dep->Version.substr(2);
       }
 
-      if (!verl[i]) {
-         Op = pkgCache::Dep::NoOp;
-      } else {
-         if (flagl[i] & RPMSENSE_LESS) {
-            if (flagl[i] & RPMSENSE_EQUAL)
-                Op = pkgCache::Dep::LessEq;
-            else
-                Op = pkgCache::Dep::Less;
-         } else if (flagl[i] & RPMSENSE_GREATER) {
-            if (flagl[i] & RPMSENSE_EQUAL)
-                Op = pkgCache::Dep::GreaterEq;
-            else
-                Op = pkgCache::Dep::Greater;
-         } else if (flagl[i] & RPMSENSE_EQUAL) {
-            Op = pkgCache::Dep::Equals;
-	 }
-      }
-      Dep->Op = Op;
+      Dep->Op = DepOp(flagl[i]);
       Dep->Type = Type;
       Deps.push_back(Dep);
    }
@@ -1168,7 +1176,6 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
       return true;
    }
    for (xmlNode *n = dco->children; n; n = n->next) {
-      unsigned int Op = 0;
       int_32 RpmOp = 0;
       string deptype, depver;
       xmlChar *depname, *flags;
@@ -1196,25 +1203,19 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
 
 
          if (deptype == "EQ") {
-            Op = pkgCache::Dep::Equals;
 	    RpmOp = RPMSENSE_EQUAL;
 	 } else if (deptype == "GE") {
-            Op = pkgCache::Dep::GreaterEq;
 	    RpmOp = RPMSENSE_GREATER | RPMSENSE_EQUAL;
 	 } else if (deptype == "GT") {
-            Op = pkgCache::Dep::Greater;
 	    RpmOp = RPMSENSE_GREATER;
 	 } else if (deptype == "LE") {
-            Op = pkgCache::Dep::LessEq;
 	    RpmOp = RPMSENSE_LESS | RPMSENSE_EQUAL;
 	 } else if (deptype == "LT") {
-            Op = pkgCache::Dep::Less;
 	    RpmOp = RPMSENSE_LESS;
 	 } else {
 	    // erm, unknown dependency type?
 	 }
       } else {
-	 Op = pkgCache::Dep::NoOp;
 	 RpmOp = RPMSENSE_ANY;
       }
 
@@ -1237,7 +1238,7 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
       }
 
       
-      Dep->Op = Op;
+      Dep->Op = DepOp(RpmOp);
       Dep->Type = Type;
       Deps.push_back(Dep);
    }

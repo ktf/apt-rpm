@@ -48,7 +48,6 @@ struct Dependency
    unsigned int Type;
 };
 
-
 class RPMHandler
 {
    protected:
@@ -60,7 +59,8 @@ class RPMHandler
 
    string GetSTag(rpmTag Tag);
    unsigned long GetITag(rpmTag Tag);
-
+   unsigned int DepOp(int_32 rpmflags);
+   bool InternalDep(const char *name, const char *ver, int_32 flag);
 
    public:
 
@@ -98,13 +98,11 @@ class RPMHandler
    virtual string SourceRpm() {return GetSTag(RPMTAG_SOURCERPM);};
    virtual bool IsSourceRpm() {return SourceRpm().empty();}
 
-   bool InternalDep(const char *name, const char *ver, int_32 flag);
    virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool Provides(vector<Dependency*> &Provs);
    virtual bool FileList(vector<string> &FileList);
 
    virtual bool HasFile(const char *File);
-
 
    RPMHandler() : iOffset(0), iSize(0), HeaderP(0) {};
    virtual ~RPMHandler() {};
@@ -156,8 +154,6 @@ class RPMSingleFileHandler : public RPMFileHandler
    RPMSingleFileHandler(string File) : RPMFileHandler(File), sFilePath(File) {};
    virtual ~RPMSingleFileHandler() {};
 };
-
-
 
 class RPMDBHandler : public RPMHandler
 {
