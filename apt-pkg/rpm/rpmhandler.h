@@ -61,6 +61,8 @@ class RPMHandler
    unsigned long GetITag(rpmTag Tag);
    unsigned int DepOp(int_32 rpmflags);
    bool InternalDep(const char *name, const char *ver, int_32 flag);
+   bool PutDep(const char *name, const char *ver, int_32 flags,
+               unsigned int type, vector<Dependency*> &Deps);
 
    public:
 
