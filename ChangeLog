@@ -1,4 +1,493 @@
 ------------------------------------------------------------------------
+r267 | pmatilai | 2006-09-06 23:02:41 +0300 (Wed, 06 Sep 2006) | 2 lines
+
+- whoops, removed Top declaration...
+
+------------------------------------------------------------------------
+r266 | pmatilai | 2006-09-06 22:58:29 +0300 (Wed, 06 Sep 2006) | 4 lines
+
+- remove ancient compatibility option handling
+- dont set acquire::distroid to Conectiva
+- change default cdrom mountpoint from /mnt/cdrom to more modern /media/cdrom
+
+------------------------------------------------------------------------
+r265 | pmatilai | 2006-09-06 22:46:38 +0300 (Wed, 06 Sep 2006) | 4 lines
+
+- new handler method DepOp() for handling RPMSENSE_* to pkgCache::Dep::*
+  conversions in one place
+- make InternalDep() protected, nothing outside the handler needs it
+
+------------------------------------------------------------------------
+r264 | pmatilai | 2006-09-06 20:48:48 +0300 (Wed, 06 Sep 2006) | 5 lines
+
+- rename handler method FileProvides() -> FileList() 
+- common HasFile() method for all handler types
+- use "modern" rpmfi iterator interface for accessing file information where 
+  available (available since sometime in 2001...)
+
+------------------------------------------------------------------------
+r263 | pmatilai | 2006-08-24 21:10:25 +0300 (Thu, 24 Aug 2006) | 3 lines
+
+- calculate the total amount of rpm operations including repackages and all
+  by using the dep cache info, duh
+
+------------------------------------------------------------------------
+r262 | pmatilai | 2006-08-24 20:16:56 +0300 (Thu, 24 Aug 2006) | 3 lines
+
+- Revert change from r249, pure install instead of upgrade breaks obsolete
+  processing of rpm. Back to broken progress meters, sigh.
+
+------------------------------------------------------------------------
+r261 | pmatilai | 2006-08-22 01:04:44 +0300 (Tue, 22 Aug 2006) | 7 lines
+
+- move common code in apt-cache/shell to cmdline
+- make searchfile and whatprovides available in apt-shell
+- fix some usage texts
+- we want DoList() from apt-shell in apt-cache eventually so move it to cmdline
+  as well, not used yet
+- update translations
+
+------------------------------------------------------------------------
+r260 | pmatilai | 2006-08-21 23:28:25 +0300 (Mon, 21 Aug 2006) | 2 lines
+
+- we dont have dselect so we dont need dselect-upgrade either
+
+------------------------------------------------------------------------
+r259 | pmatilai | 2006-08-21 23:23:15 +0300 (Mon, 21 Aug 2006) | 2 lines
+
+- move yet more easyish cases of common apt-get/shell code to cmdline
+
+------------------------------------------------------------------------
+r258 | pmatilai | 2006-08-21 22:24:04 +0300 (Mon, 21 Aug 2006) | 2 lines
+
+- move more common code from apt-get & apt-shell to cmdline
+
+------------------------------------------------------------------------
+r257 | pmatilai | 2006-08-07 18:29:21 +0300 (Mon, 07 Aug 2006) | 2 lines
+
+- kill of gcc warning about using NULL in arithmetic
+
+------------------------------------------------------------------------
+r255 | pmatilai | 2006-08-06 08:55:33 +0300 (Sun, 06 Aug 2006) | 2 lines
+
+- duh, screwed up the quiet-logic in previous commit
+
+------------------------------------------------------------------------
+r254 | pmatilai | 2006-08-06 08:42:45 +0300 (Sun, 06 Aug 2006) | 2 lines
+
+- unbreak rpm::interactive=false when stdout is a not a tty
+
+------------------------------------------------------------------------
+r253 | pmatilai | 2006-08-03 22:16:58 +0300 (Thu, 03 Aug 2006) | 3 lines
+
+- add build option for disabling repomd support to enable building
+  without libxml2 >= 2.6.0
+
+------------------------------------------------------------------------
+r252 | pmatilai | 2006-08-03 19:01:20 +0300 (Thu, 03 Aug 2006) | 2 lines
+
+- duh.. debug cruft
+
+------------------------------------------------------------------------
+r251 | pmatilai | 2006-08-03 19:00:13 +0300 (Thu, 03 Aug 2006) | 2 lines
+
+- add build option for disabling SELinux support (on rpm >= 4.3)
+
+------------------------------------------------------------------------
+r250 | pmatilai | 2006-07-31 23:54:57 +0300 (Mon, 31 Jul 2006) | 3 lines
+
+- use a separate handler for repomd filelists to remove gobs of
+  unnecessary processing, cuts down cache generation time by circa 20%
+
+------------------------------------------------------------------------
+r249 | pmatilai | 2006-07-31 20:12:48 +0300 (Mon, 31 Jul 2006) | 3 lines
+
+- count installs vs upgrades + repackages correctly for progress bar usage
+- fix progress repackage progress bars
+
+------------------------------------------------------------------------
+r247 | pmatilai | 2006-07-14 08:45:06 +0300 (Fri, 14 Jul 2006) | 3 lines
+
+- fix package removal on old rpm versions which don't support name.arch
+  for RPMDBI_LABEL, simplify the code while at it
+
+------------------------------------------------------------------------
+r246 | pmatilai | 2006-07-14 07:54:58 +0300 (Fri, 14 Jul 2006) | 3 lines
+
+- more off_t typing fixes (Ralf)
+- bump cache version as this affects cache structures
+
+------------------------------------------------------------------------
+r245 | pmatilai | 2006-07-14 07:49:17 +0300 (Fri, 14 Jul 2006) | 2 lines
+
+- fix breakage from earlier off_t patch
+
+------------------------------------------------------------------------
+r244 | pmatilai | 2006-07-11 09:31:41 +0300 (Tue, 11 Jul 2006) | 2 lines
+
+- fix typo in error message (Ralf)
+
+------------------------------------------------------------------------
+r243 | pmatilai | 2006-07-11 09:31:13 +0300 (Tue, 11 Jul 2006) | 2 lines
+
+- size_t typing fix (Ralf)
+
+------------------------------------------------------------------------
+r242 | pmatilai | 2006-07-11 09:30:20 +0300 (Tue, 11 Jul 2006) | 2 lines
+
+- add missing include (Ralf)
+
+------------------------------------------------------------------------
+r241 | pmatilai | 2006-07-01 10:43:06 +0300 (Sat, 01 Jul 2006) | 4 lines
+
+- enable building test/ programs under automake control (Ralf)
+- remove irrelevant .deb specific test programs
+- fix versiontest, conf and scratch tests to be buildable/functional in apt-rpm
+
+------------------------------------------------------------------------
+r240 | pmatilai | 2006-06-30 11:47:23 +0300 (Fri, 30 Jun 2006) | 4 lines
+
+- i18n fixes from Ralf:
+  * Eliminate silly Dir::Locale config variable
+  * Call bindtextdomain in libapt's initialization
+
+------------------------------------------------------------------------
+r239 | pmatilai | 2006-06-30 11:46:00 +0300 (Fri, 30 Jun 2006) | 2 lines
+
+- minor auto*tools cleanups (Ralf)
+
+------------------------------------------------------------------------
+r238 | pmatilai | 2006-06-29 19:10:00 +0300 (Thu, 29 Jun 2006) | 2 lines
+
+- re-enable hashmap usage (Ralf)
+
+------------------------------------------------------------------------
+r237 | pmatilai | 2006-06-28 18:40:52 +0300 (Wed, 28 Jun 2006) | 6 lines
+
+- configure cleanups from Ralf:
+  * replacing AC_HELP_STRING with AS_HELP_STRING (AC_HELP_STRING is
+    deprecated in autoconf > 2.13 in favor of AS_HELP_STRING) 
+  * cosmetics, bringing ./configure --help into a more consistent/homogenious 
+    look.
+
+------------------------------------------------------------------------
+r236 | pmatilai | 2006-06-27 19:00:59 +0300 (Tue, 27 Jun 2006) | 2 lines
+
+- fix a minor bug in configure.ac (Ralf)
+
+------------------------------------------------------------------------
+r235 | pmatilai | 2006-06-22 10:24:25 +0300 (Thu, 22 Jun 2006) | 2 lines
+
+- bumping trunk version to lorg4 (at least for now..)
+
+------------------------------------------------------------------------
+r224 | pmatilai | 2006-06-21 19:17:17 +0300 (Wed, 21 Jun 2006) | 2 lines
+
+- somehow configure.ac ended up containing the contents twice .. cleanup (Ralf)
+
+------------------------------------------------------------------------
+r223 | pmatilai | 2006-06-21 18:23:53 +0300 (Wed, 21 Jun 2006) | 2 lines
+
+- remove bunch of unused / debian-specific source-related stuff
+
+------------------------------------------------------------------------
+r222 | pmatilai | 2006-06-21 17:51:51 +0300 (Wed, 21 Jun 2006) | 2 lines
+
+- rename deprecated configure.in to configure.ac (Ralf)
+
+------------------------------------------------------------------------
+r221 | pmatilai | 2006-06-20 18:46:49 +0300 (Tue, 20 Jun 2006) | 2 lines
+
+- more size_t / off_t fixes (Ralf)
+
+------------------------------------------------------------------------
+r220 | pmatilai | 2006-06-17 17:48:41 +0300 (Sat, 17 Jun 2006) | 2 lines
+
+- more size_t fixes (Ralf)
+
+------------------------------------------------------------------------
+r219 | pmatilai | 2006-06-15 20:17:27 +0300 (Thu, 15 Jun 2006) | 2 lines
+
+- use vectors instead of non-portable variable arrays in apt-shell (Ralf)
+
+------------------------------------------------------------------------
+r218 | pmatilai | 2006-06-15 19:43:09 +0300 (Thu, 15 Jun 2006) | 2 lines
+
+- big manpage overhaul (Vincent Danen)
+
+------------------------------------------------------------------------
+r217 | pmatilai | 2006-06-14 18:33:41 +0300 (Wed, 14 Jun 2006) | 2 lines
+
+- create the directory structure apt needs to function on make install (Ralf)
+
+------------------------------------------------------------------------
+r216 | pmatilai | 2006-06-13 21:23:10 +0300 (Tue, 13 Jun 2006) | 2 lines
+
+- nuke old, unused code from genpkglist (Ralf)
+
+------------------------------------------------------------------------
+r215 | pmatilai | 2006-06-13 21:16:06 +0300 (Tue, 13 Jun 2006) | 2 lines
+
+- more "cosmetics" fixes to fix gcc warnings (Ralf)
+
+------------------------------------------------------------------------
+r214 | pmatilai | 2006-06-12 18:16:34 +0300 (Mon, 12 Jun 2006) | 3 lines
+
+- size_t related bug fixes, addressing to "unsigned vs. signed types" issues
+  (Ralf)
+
+------------------------------------------------------------------------
+r213 | pmatilai | 2006-06-12 17:30:33 +0300 (Mon, 12 Jun 2006) | 3 lines
+
+- remove all references to the sgmltools (previously used to build man pages)
+  from build (Ralf)
+
+------------------------------------------------------------------------
+r212 | pmatilai | 2006-06-12 17:24:39 +0300 (Mon, 12 Jun 2006) | 3 lines
+
+- various "cosmetics" cleanups to shut up gcc complaints on higher warning 
+  levels (Ralf)
+
+------------------------------------------------------------------------
+r211 | pmatilai | 2006-06-11 07:35:06 +0300 (Sun, 11 Jun 2006) | 2 lines
+
+- use correct size type, add missing ftruncate() return value check (Ralf)
+
+------------------------------------------------------------------------
+r210 | pmatilai | 2006-06-09 20:04:09 +0300 (Fri, 09 Jun 2006) | 2 lines
+
+- use correct offset type in rpmhandler (Ralf)
+
+------------------------------------------------------------------------
+r209 | pmatilai | 2006-06-09 19:13:59 +0300 (Fri, 09 Jun 2006) | 2 lines
+
+- warnings + cleanup part 2 (Ralf)
+
+------------------------------------------------------------------------
+r208 | pmatilai | 2006-06-09 17:38:39 +0300 (Fri, 09 Jun 2006) | 2 lines
+
+- eliminate several GCC warnings and C'isms, part 1 (Ralf)
+
+------------------------------------------------------------------------
+r207 | pmatilai | 2006-06-09 17:26:23 +0300 (Fri, 09 Jun 2006) | 3 lines
+
+- don't try to look up CurrentVer() of noninstalled packages, duh
+  (Daisuke Suzuki)
+
+------------------------------------------------------------------------
+r206 | pmatilai | 2006-06-09 11:11:27 +0300 (Fri, 09 Jun 2006) | 2 lines
+
+- use correct offset type (Ralf)
+
+------------------------------------------------------------------------
+r205 | pmatilai | 2006-06-08 18:32:28 +0300 (Thu, 08 Jun 2006) | 2 lines
+
+- Remove man-page's sgml sources and use the *roff sources directly. (Ralf)
+
+------------------------------------------------------------------------
+r204 | pmatilai | 2006-06-08 17:20:58 +0300 (Thu, 08 Jun 2006) | 2 lines
+
+- beginning manpage cleanup: remove (outdated) translations
+
+------------------------------------------------------------------------
+r203 | pmatilai | 2006-06-05 21:46:37 +0300 (Mon, 05 Jun 2006) | 2 lines
+
+- count readlocks as well (so they get released too)
+
+------------------------------------------------------------------------
+r202 | pmatilai | 2006-06-02 15:09:34 +0300 (Fri, 02 Jun 2006) | 2 lines
+
+- extra check for filelists handling avoiding crashing in some cases 
+
+------------------------------------------------------------------------
+r201 | pmatilai | 2006-06-01 17:59:51 +0300 (Thu, 01 Jun 2006) | 2 lines
+
+- forgot to add apt.conf.5 on r193
+
+------------------------------------------------------------------------
+r200 | pmatilai | 2006-06-01 15:49:49 +0300 (Thu, 01 Jun 2006) | 4 lines
+
+- on newer rpm versions link epoch-zeroing behavior with promoteepoch, fixes
+  http://bugzilla.atrpms.net/show_bug.cgi?id=831
+- bump cache header version to force rebuild on upgrade
+
+------------------------------------------------------------------------
+r199 | pmatilai | 2006-05-30 23:57:23 +0300 (Tue, 30 May 2006) | 4 lines
+
+- begin moving common code from apt-get and apt-shell to cmdline "library",
+  only trivial stuff for now...
+- update translations due to moving things around
+
+------------------------------------------------------------------------
+r198 | pmatilai | 2006-05-30 11:30:39 +0300 (Tue, 30 May 2006) | 2 lines
+
+- add --root=/foo cli shortcut for RPM::RootDir option
+
+------------------------------------------------------------------------
+r197 | pmatilai | 2006-05-29 23:20:07 +0300 (Mon, 29 May 2006) | 3 lines
+
+- initial implementation of apt-cache searchfile operation
+- show only candidate version by default in apt-cache operations 
+
+------------------------------------------------------------------------
+r196 | pmatilai | 2006-05-29 20:28:25 +0300 (Mon, 29 May 2006) | 3 lines
+
+- some extra checks to xml handling to avoid crashes on missing properties
+  and such (eg with createrepo -n)
+
+------------------------------------------------------------------------
+r195 | pmatilai | 2006-05-29 19:54:36 +0300 (Mon, 29 May 2006) | 2 lines
+
+- update bug reporting and author sections in manuals
+
+------------------------------------------------------------------------
+r194 | pmatilai | 2006-05-29 19:38:33 +0300 (Mon, 29 May 2006) | 2 lines
+
+- fix some debianisms in apt.conf
+
+------------------------------------------------------------------------
+r193 | pmatilai | 2006-05-29 19:36:31 +0300 (Mon, 29 May 2006) | 3 lines
+
+- only build documentation in maintainer-mode, include prebuilt manuals
+  in distribution tarball (Ralf)
+
+------------------------------------------------------------------------
+r192 | pmatilai | 2006-05-29 19:11:08 +0300 (Mon, 29 May 2006) | 2 lines
+
+- minor configuration cleanup for lua build (Ralf)
+
+------------------------------------------------------------------------
+r191 | pmatilai | 2006-05-29 00:35:22 +0300 (Mon, 29 May 2006) | 2 lines
+
+- missing end tag
+
+------------------------------------------------------------------------
+r190 | pmatilai | 2006-05-29 00:31:54 +0300 (Mon, 29 May 2006) | 2 lines
+
+- fix some debianisms in apt-cache manual
+
+------------------------------------------------------------------------
+r189 | pmatilai | 2006-05-29 00:28:26 +0300 (Mon, 29 May 2006) | 2 lines
+
+- fix various debianism in apt-get manual
+
+------------------------------------------------------------------------
+r188 | pmatilai | 2006-05-29 00:20:20 +0300 (Mon, 29 May 2006) | 2 lines
+
+- add repodata to cdrom scoring, remove debianisms
+
+------------------------------------------------------------------------
+r187 | pmatilai | 2006-05-28 15:47:50 +0300 (Sun, 28 May 2006) | 2 lines
+
+- cast to avoid compiler warning
+
+------------------------------------------------------------------------
+r186 | pmatilai | 2006-05-28 14:57:52 +0300 (Sun, 28 May 2006) | 3 lines
+
+- Dont munge package names on download. Add new configuration option 
+  Acquire::Munge-Filenames to allow reverting to old behavior.
+
+------------------------------------------------------------------------
+r185 | pmatilai | 2006-05-28 12:35:24 +0300 (Sun, 28 May 2006) | 2 lines
+
+- add missing checks for return values, fix a typing bug (Ralf Corsepius)
+
+------------------------------------------------------------------------
+r184 | pmatilai | 2006-05-27 14:22:31 +0300 (Sat, 27 May 2006) | 3 lines
+
+- fix opening *.cc and *.h files in proper C++ mode in xemacs as well
+  (Ville Skyttä)
+
+------------------------------------------------------------------------
+r183 | pmatilai | 2006-05-27 14:21:04 +0300 (Sat, 27 May 2006) | 3 lines
+
+- remove debianism in broken package error messages (Ville Skyttä)
+- update-po
+
+------------------------------------------------------------------------
+r182 | pmatilai | 2006-05-27 14:14:32 +0300 (Sat, 27 May 2006) | 2 lines
+
+- nuke bunch of old ununsed code
+
+------------------------------------------------------------------------
+r181 | pmatilai | 2006-05-27 13:58:42 +0300 (Sat, 27 May 2006) | 2 lines
+
+- dont crash on packages with no files
+
+------------------------------------------------------------------------
+r180 | pmatilai | 2006-05-27 11:30:51 +0300 (Sat, 27 May 2006) | 3 lines
+
+- remove hard-coded reference to /usr/share/locale and replace it 
+  with corresponding auto*magic (Ralf)
+
+------------------------------------------------------------------------
+r179 | pmatilai | 2006-05-26 18:58:30 +0300 (Fri, 26 May 2006) | 4 lines
+
+- add repackage progress callbacks
+- report full progress, erasures included
+- still NeedsWork (tm)
+
+------------------------------------------------------------------------
+r178 | pmatilai | 2006-05-25 20:14:46 +0300 (Thu, 25 May 2006) | 2 lines
+
+- add missing end tags in whatprovides docs..
+
+------------------------------------------------------------------------
+r177 | pmatilai | 2006-05-25 17:15:26 +0300 (Thu, 25 May 2006) | 2 lines
+
+- initial erasure callbacks
+
+------------------------------------------------------------------------
+r176 | pmatilai | 2006-05-25 16:31:38 +0300 (Thu, 25 May 2006) | 3 lines
+
+- move showprogress implementation out of the header file so that changes
+  dont trigger rebuilding the whole dang thing
+
+------------------------------------------------------------------------
+r175 | pmatilai | 2006-05-25 16:14:44 +0300 (Thu, 25 May 2006) | 3 lines
+
+- always use our own progress meter with internal pm
+- show arch for packages in progress (to clarify multilib situations)
+
+------------------------------------------------------------------------
+r174 | pmatilai | 2006-05-25 15:52:56 +0300 (Thu, 25 May 2006) | 3 lines
+
+- dont do explicit rpmdb open on non-prehistoric rpm versions, rpmlib will
+  automatically do lazy open as needed
+
+------------------------------------------------------------------------
+r173 | pmatilai | 2006-05-25 14:31:47 +0300 (Thu, 25 May 2006) | 2 lines
+
+- add athlon -> i386 mapping to archtable (VineLinux)
+
+------------------------------------------------------------------------
+r172 | pmatilai | 2006-05-25 14:09:05 +0300 (Thu, 25 May 2006) | 3 lines
+
+- add whatprovides operation to apt-cache (AltLinux)
+- fix whatdepends usage message 
+
+------------------------------------------------------------------------
+r171 | pmatilai | 2006-05-25 13:29:57 +0300 (Thu, 25 May 2006) | 2 lines
+
+- default to RPM::Order=true (patch from AltLinux)
+
+------------------------------------------------------------------------
+r170 | pmatilai | 2006-05-25 13:26:20 +0300 (Thu, 25 May 2006) | 3 lines
+
+- add allow-duplicated lua script to upgrade slot + relevant synaptic slots
+  (patch from VineLinux)
+
+------------------------------------------------------------------------
+r169 | pmatilai | 2006-05-24 10:58:20 +0300 (Wed, 24 May 2006) | 2 lines
+
+- fix building with gcc-2.96
+
+------------------------------------------------------------------------
+r167 | pmatilai | 2006-05-22 18:27:16 +0300 (Mon, 22 May 2006) | 2 lines
+
+- update changelog, doh
+
+------------------------------------------------------------------------
 r166 | pmatilai | 2006-05-22 18:11:09 +0300 (Mon, 22 May 2006) | 2 lines
 
 - preparing for lorg3.1

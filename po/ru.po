@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt-0.5.15cnc4-alt0.1\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2006-08-22 01:03+0300\n"
+"POT-Creation-Date: 2006-09-06 23:52+0300\n"
 "PO-Revision-Date: 2003-12-08 17:41+1200\n"
 "Last-Translator: Anton V. Denisov <avd@altlinux.org>\n"
 "Language-Team: ALT Linux Team <devel@altlinux.org>\n"
@@ -1839,12 +1839,12 @@ msgstr "Подпроцесс %s не отвечает."
 msgid "Sub-process %s received a segmentation fault."
 msgstr "Подпроцесс %s выполнил недопустимую операцию."
 
-#: apt-pkg/contrib/fileutl.cc:374 apt-pkg/rpm/rpmpm.cc:634
+#: apt-pkg/contrib/fileutl.cc:374 apt-pkg/rpm/rpmpm.cc:629
 #, c-format
 msgid "Sub-process %s returned an error code (%u)"
 msgstr "Подпроцесс %s завершился с ошибкой (%u)."
 
-#: apt-pkg/contrib/fileutl.cc:376 apt-pkg/rpm/rpmpm.cc:637
+#: apt-pkg/contrib/fileutl.cc:376 apt-pkg/rpm/rpmpm.cc:632
 #, c-format
 msgid "Sub-process %s exited unexpectedly"
 msgstr "Подпроцесс %s завершился непредусмотренным образом."
@@ -1919,45 +1919,50 @@ msgstr "Строк, соответствующих %s, не найдено."
 msgid "could not open Release file '%s'"
 msgstr "Невозможно открыть файл описания '%s'."
 
-#: apt-pkg/rpm/rpmhandler.cc:485
+#: apt-pkg/rpm/rpmhandler.cc:128
+#, c-format
+msgid "Impossible flags %d in %s"
+msgstr ""
+
+#: apt-pkg/rpm/rpmhandler.cc:502
 msgid "could not rewind RPMFileHandler"
 msgstr "откат RPMFileHandler невозможен"
 
-#: apt-pkg/rpm/rpmhandler.cc:522 apt-pkg/rpm/rpmhandler.cc:529
-#: apt-pkg/rpm/rpmpm.cc:695 apt-pkg/rpm/rpmpm.cc:700
+#: apt-pkg/rpm/rpmhandler.cc:539 apt-pkg/rpm/rpmhandler.cc:546
+#: apt-pkg/rpm/rpmpm.cc:690 apt-pkg/rpm/rpmpm.cc:695
 #, c-format
 msgid "Failed reading file %s"
 msgstr "Ошибка чтения файла %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:693
+#: apt-pkg/rpm/rpmhandler.cc:710
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Невозможно определить имя удалённой системы"
 
-#: apt-pkg/rpm/rpmhandler.cc:742
+#: apt-pkg/rpm/rpmhandler.cc:759
 msgid "could not open RPM database"
 msgstr "невозможно открыть базу данных RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:749
+#: apt-pkg/rpm/rpmhandler.cc:766
 msgid "could not create RPM database iterator"
 msgstr "невозможно создать итератор базы данных RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:917
+#: apt-pkg/rpm/rpmhandler.cc:934
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Невозможно прочитать пакетный файл %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:921
+#: apt-pkg/rpm/rpmhandler.cc:938
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "Невозможно найти пакет %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:940
+#: apt-pkg/rpm/rpmhandler.cc:957
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1343
+#: apt-pkg/rpm/rpmhandler.cc:1330
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Не удалось открыть %s.new"
@@ -2107,66 +2112,66 @@ msgstr "Невозможно создать IPC канал для подпроцесса"
 msgid "Failure running script %s"
 msgstr "Ошибка выполнения скрипта %s"
 
-#: apt-pkg/rpm/rpmpm.cc:323
+#: apt-pkg/rpm/rpmpm.cc:318
 msgid "Unknown pkgRPMPM operation."
 msgstr ""
 
-#: apt-pkg/rpm/rpmpm.cc:560
+#: apt-pkg/rpm/rpmpm.cc:555
 msgid "Executing RPM ("
 msgstr "Запуск RPM ("
 
-#: apt-pkg/rpm/rpmpm.cc:600
+#: apt-pkg/rpm/rpmpm.cc:595
 #, fuzzy
 msgid "Could not exec "
 msgstr "Невозможно заблокировать %s"
 
-#: apt-pkg/rpm/rpmpm.cc:615
+#: apt-pkg/rpm/rpmpm.cc:610
 #, fuzzy
 msgid "Couldn't wait for subprocess"
 msgstr "Невозможно открыть канал для %s."
 
-#: apt-pkg/rpm/rpmpm.cc:631
+#: apt-pkg/rpm/rpmpm.cc:626
 #, c-format
 msgid "Sub-process %s recieved a segmentation fault."
 msgstr "Подпроцесс %s выполнил недопустимую операцию."
 
-#: apt-pkg/rpm/rpmpm.cc:641 apt-pkg/rpm/rpmpm.cc:909
+#: apt-pkg/rpm/rpmpm.cc:636 apt-pkg/rpm/rpmpm.cc:914
 #, fuzzy
 msgid "Done."
 msgstr "Завершено"
 
-#: apt-pkg/rpm/rpmpm.cc:691
+#: apt-pkg/rpm/rpmpm.cc:686
 #, c-format
 msgid "Failed opening %s"
 msgstr "Ошибка открытия %s"
 
-#: apt-pkg/rpm/rpmpm.cc:704 apt-pkg/rpm/rpmpm.cc:728
+#: apt-pkg/rpm/rpmpm.cc:699 apt-pkg/rpm/rpmpm.cc:723
 #, c-format
 msgid "Failed adding %s to transaction %s"
 msgstr "Ошибка добавления %s в транзакцию %s"
 
-#: apt-pkg/rpm/rpmpm.cc:784
+#: apt-pkg/rpm/rpmpm.cc:779
 msgid "Could not open RPM database"
 msgstr "Невозможно открыть базу данных RPM"
 
-#: apt-pkg/rpm/rpmpm.cc:848 apt-pkg/rpm/rpmpm.cc:861
+#: apt-pkg/rpm/rpmpm.cc:853 apt-pkg/rpm/rpmpm.cc:866
 msgid "Transaction set check failed"
 msgstr "Проверка группы транзакций не удалась"
 
-#: apt-pkg/rpm/rpmpm.cc:881
+#: apt-pkg/rpm/rpmpm.cc:886
 #, c-format
 msgid "Ordering failed for %d packages"
 msgstr "Упорядочивание не удалось для %d пакетов"
 
-#: apt-pkg/rpm/rpmpm.cc:885
+#: apt-pkg/rpm/rpmpm.cc:890
 msgid "Committing changes..."
 msgstr "Совершаем изменения..."
 
-#: apt-pkg/rpm/rpmpm.cc:901
+#: apt-pkg/rpm/rpmpm.cc:906
 msgid "Error while running transaction"
 msgstr "Ошибка во время исполнения транзакции"
 
-#: apt-pkg/rpm/rpmpm.cc:907
+#: apt-pkg/rpm/rpmpm.cc:912
 msgid "Some errors occurred while running transaction"
 msgstr "Произошли ошибки при выполнении транзакции"
 
@@ -2175,7 +2180,7 @@ msgstr "Произошли ошибки при выполнении транзакции"
 msgid "Could not allocate buffer for record text"
 msgstr "Невозможно выделить память"
 
-#: apt-pkg/rpm/rpmsystem.cc:262
+#: apt-pkg/rpm/rpmsystem.cc:218
 #, fuzzy, c-format
 msgid "Unable to determine version for package %s"
 msgstr "Невозможно определить имя удалённой системы"
