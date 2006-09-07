@@ -269,7 +269,7 @@ void rpmRecordParser::GetRec(const char *&Start,const char *&Stop)
    vector<Dependency*>::iterator I;
    bool start = true;
 
-   Handler->Depends(pkgCache::Dep::Depends, Deps);
+   Handler->PRCO(pkgCache::Dep::Depends, Deps);
    for (I = Deps.begin(); I != Deps.end(); I++) {
       if ((*I)->Type != pkgCache::Dep::PreDepends)
 	 continue;
@@ -295,7 +295,7 @@ void rpmRecordParser::GetRec(const char *&Start,const char *&Stop)
       BufCatDep(*I);
    }
       
-   Handler->Depends(pkgCache::Dep::Conflicts, Conflicts);
+   Handler->PRCO(pkgCache::Dep::Conflicts, Conflicts);
    start = true;
    for (I = Conflicts.begin(); I != Conflicts.end(); I++) {
       if (start) {
@@ -307,7 +307,7 @@ void rpmRecordParser::GetRec(const char *&Start,const char *&Stop)
       BufCatDep(*I);
    }
 
-   Handler->Provides(Provides);
+   Handler->PRCO(pkgCache::Dep::Provides, Provides);
    start = true;
    for (I = Provides.begin(); I != Provides.end(); I++) {
       if (start) {
@@ -319,7 +319,7 @@ void rpmRecordParser::GetRec(const char *&Start,const char *&Stop)
       BufCatDep(*I);
    }
 
-   Handler->Depends(pkgCache::Dep::Obsoletes, Obsoletes);
+   Handler->PRCO(pkgCache::Dep::Obsoletes, Obsoletes);
    start = true;
    for (I = Obsoletes.begin(); I != Obsoletes.end(); I++) {
       if (start) {

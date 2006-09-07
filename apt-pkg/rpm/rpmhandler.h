@@ -100,8 +100,7 @@ class RPMHandler
    virtual string SourceRpm() {return GetSTag(RPMTAG_SOURCERPM);};
    virtual bool IsSourceRpm() {return SourceRpm().empty();}
 
-   virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
-   virtual bool Provides(vector<Dependency*> &Provs);
+   virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool FileList(vector<string> &FileList);
 
    virtual bool HasFile(const char *File);
@@ -268,8 +267,7 @@ class RPMRepomdHandler : public RPMHandler
    virtual string Description() {return FindTag(NodeP, "description");};
    virtual string SourceRpm();
 
-   virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps);
-   virtual bool Provides(vector<Dependency*> &Provs);
+   virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool FileList(vector<string> &FileList);
 
    RPMRepomdHandler(string File);
@@ -303,7 +301,7 @@ class RPMRepomdFLHandler : public RPMHandler
    virtual string Epoch() {return FindTag("epoch");};
    virtual string Version() {return FindTag("version");};
    virtual string Release() {return FindTag("release");};
-   virtual bool Depends(unsigned int Type, vector<Dependency*> &Deps)
+   virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps)
        {return true;};
 
    virtual bool FileList(vector<string> &FileList);

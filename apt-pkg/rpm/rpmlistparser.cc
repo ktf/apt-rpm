@@ -259,7 +259,7 @@ unsigned short rpmListParser::VersionHash()
    
    for (size_t i = 0; i < sizeof(DepSections)/sizeof(int); i++) {
       vector<Dependency*> Deps;
-      if (Handler->Depends(DepSections[i], Deps) == false) continue;
+      if (Handler->PRCO(DepSections[i], Deps) == false) continue;
 
       sort(Deps.begin(), Deps.end(), depsort);
       // rpmdb can give out dupes for scriptlet dependencies, filter them out
@@ -301,7 +301,7 @@ bool rpmListParser::ParseDepends(pkgCache::VerIterator Ver,
 {
    vector<Dependency*> Deps;
 
-   if (Handler->Depends(Type, Deps) == false)
+   if (Handler->PRCO(Type, Deps) == false)
       return false;
    
    for (vector<Dependency*>::iterator I = Deps.begin(); I != Deps.end(); I++) {
@@ -352,7 +352,7 @@ bool rpmListParser::ParseProvides(pkgCache::VerIterator Ver)
 {
    vector<Dependency*> Provs;
 
-   if (Handler->Provides(Provs) == false) {
+   if (Handler->PRCO(pkgCache::Dep::Provides, Provs) == false) {
       return false;
    }
    for (vector<Dependency*>::iterator I = Provs.begin(); I != Provs.end(); I++) {

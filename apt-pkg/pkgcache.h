@@ -63,7 +63,7 @@ class pkgCache
    struct Dep
    {
       enum DepType {Depends=1,PreDepends=2,Suggests=3,Recommends=4,
-	 Conflicts=5,Replaces=6,Obsoletes=7};
+	 Conflicts=5,Replaces=6,Obsoletes=7,Provides=8};
       enum DepCompareOp {Or=0x10,NoOp=0,LessEq=0x1,GreaterEq=0x2,Less=0x3,
 	 Greater=0x4,Equals=0x5,NotEquals=0x6};
    };
@@ -87,7 +87,7 @@ class pkgCache
     * purposes as this will be dropped as soon as SWIG starts
     * supporting nested structures. Use definitions above instead. */
    enum _DepType {DepDepends=1,DepPreDepends=2,DepSuggests=3,DepRecommends=4,
-      DepConflicts=5,DepReplaces=6,DepObsoletes=7};
+      DepConflicts=5,DepReplaces=6,DepObsoletes=7,DepProvides=8};
    enum _DepCompareOp {DepOr=0x10,DepNoOp=0,DepLessEq=0x1,DepGreaterEq=0x2,
       DepLess=0x3,DepGreater=0x4,DepEquals=0x5,DepNotEquals=0x6};
    enum _VerPriority {StateImportant=1,StateRequired=2,StateStandard=3,

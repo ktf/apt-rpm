@@ -253,100 +253,6 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
    return false; 
 }
 
-
-#if RPM_VERSION >= 0x040100
-bool RPMHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
-{
-   rpmTag deptype = RPMTAG_REQUIRENAME;
-   switch (Type) {
-      case pkgCache::Dep::Depends:
-	 deptype = RPMTAG_REQUIRENAME;
-	 break;
-      case pkgCache::Dep::Obsoletes:
-	 deptype = RPMTAG_OBSOLETENAME;
-	 break;
-      case pkgCache::Dep::Conflicts:
-	 deptype = RPMTAG_CONFLICTNAME;
-	 break;
-#if RPM_VERSION >= 0x040403
-      case pkgCache::Dep::Suggests:
-	 deptype = RPMTAG_SUGGESTNAME;
-	 break;
-#if 0 // Enhances dep type is not even known to apt, sigh..
-      case pkgCache::Dep::Enhances:
-	 deptype = RPMTAG_ENHANCES;
-	 break;
-#endif
-#endif
-      default:
-	 /* can't happen... right? */
-	 return false;
-	 break;
-   }
-   rpmds ds = NULL;
-   ds = rpmdsNew(HeaderP, deptype, 0);
-   if (ds != NULL) {
-      while (rpmdsNext(ds) >= 0) {
-	 bool r = PutDep(rpmdsN(ds), rpmdsEVR(ds), rpmdsFlags(ds), Type, Deps);
-      }
-   }
-   rpmdsFree(ds);
-   return true;
-}
-#else
-bool RPMHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
-{
-   char **namel = NULL;
-   char **verl = NULL;
-   int *flagl = NULL;
-   int res, type, count;
-   int_32 deptag, depver, depflags;
-   void *nameval = NULL;
-   void *verval = NULL;
-   void *flagval = NULL;
-
-   switch (Type) {
-      case pkgCache::Dep::Depends:
-	 deptag = RPMTAG_REQUIRENAME;
-	 depver = RPMTAG_REQUIREVERSION;
-	 depflags = RPMTAG_REQUIREFLAGS;
-	 break;
-      case pkgCache::Dep::Obsoletes:
-	 deptag = RPMTAG_OBSOLETENAME;
-	 depver = RPMTAG_OBSOLETEVERSION;
-	 depflags = RPMTAG_OBSOLETEFLAGS;
-	 break;
-      case pkgCache::Dep::Conflicts:
-	 deptag = RPMTAG_CONFLICTNAME;
-	 depver = RPMTAG_CONFLICTVERSION;
-	 depflags = RPMTAG_CONFLICTFLAGS;
-	 break;
-      default:
-	 /* can't happen... right? */
-	 return false;
-	 break;
-   }
-   res = headerGetEntry(HeaderP, deptag, &type, (void **)&nameval, &count);
-   if (res != 1)
-      return true;
-   res = headerGetEntry(HeaderP, depver, &type, (void **)&verval, &count);
-   res = headerGetEntry(HeaderP, depflags, &type, (void **)&flagval, &count);
-
-   namel = (char**)nameval;
-   verl = (char**)verval;
-   flagl = (int*)flagval;
-
-   for (int i = 0; i < count; i++) {
-
-      bool res = PutDep(namel[i], verl[i], flagl[i], Type, Deps);
-   }
-   free(namel);
-   free(verl);
-   return true;
-      
-}
-#endif
-
 bool RPMHandler::PutDep(const char *name, const char *ver, int_32 flags, 
 			unsigned int Type, vector<Dependency*> &Deps)
 {
@@ -379,45 +285,107 @@ bool RPMHandler::PutDep(const char *name, const char *ver, int_32 flags,
    return true;
 }
 
-bool RPMHandler::Provides(vector<Dependency*> &Provs)
+
+bool RPMHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
+#if RPM_VERSION >= 0x040100
 {
-   int type, count;
+   rpmTag deptype = RPMTAG_REQUIRENAME;
+   switch (Type) {
+      case pkgCache::Dep::Depends:
+	 deptype = RPMTAG_REQUIRENAME;
+	 break;
+      case pkgCache::Dep::Obsoletes:
+	 deptype = RPMTAG_OBSOLETENAME;
+	 break;
+      case pkgCache::Dep::Conflicts:
+	 deptype = RPMTAG_CONFLICTNAME;
+	 break;
+      case pkgCache::Dep::Provides:
+	 deptype = RPMTAG_PROVIDENAME;
+	 break;
+#if RPM_VERSION >= 0x040403
+      case pkgCache::Dep::Suggests:
+	 deptype = RPMTAG_SUGGESTNAME;
+	 break;
+#if 0 // Enhances dep type is not even known to apt, sigh..
+      case pkgCache::Dep::Enhances:
+	 deptype = RPMTAG_ENHANCES;
+	 break;
+#endif
+#endif
+      default:
+	 /* can't happen... right? */
+	 return false;
+	 break;
+   }
+   rpmds ds = NULL;
+   ds = rpmdsNew(HeaderP, deptype, 0);
+   if (ds != NULL) {
+      while (rpmdsNext(ds) >= 0) {
+	 bool r = PutDep(rpmdsN(ds), rpmdsEVR(ds), rpmdsFlags(ds), Type, Deps);
+      }
+   }
+   rpmdsFree(ds);
+   return true;
+}
+#else
+bool RPMHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
+{
    char **namel = NULL;
    char **verl = NULL;
+   int *flagl = NULL;
+   int res, type, count;
+   int_32 deptag, depver, depflags;
    void *nameval = NULL;
    void *verval = NULL;
-   int res;
+   void *flagval = NULL;
 
-   res = headerGetEntry(HeaderP, RPMTAG_PROVIDENAME, &type,
-                        (void **)&nameval, &count);
+   switch (Type) {
+      case pkgCache::Dep::Depends:
+	 deptag = RPMTAG_REQUIRENAME;
+	 depver = RPMTAG_REQUIREVERSION;
+	 depflags = RPMTAG_REQUIREFLAGS;
+	 break;
+      case pkgCache::Dep::Obsoletes:
+	 deptag = RPMTAG_OBSOLETENAME;
+	 depver = RPMTAG_OBSOLETEVERSION;
+	 depflags = RPMTAG_OBSOLETEFLAGS;
+	 break;
+      case pkgCache::Dep::Conflicts:
+	 deptag = RPMTAG_CONFLICTNAME;
+	 depver = RPMTAG_CONFLICTVERSION;
+	 depflags = RPMTAG_CONFLICTFLAGS;
+	 break;
+      case pkgCache::Dep::Provides:
+	 deptag = RPMTAG_PROVIDENAME;
+	 depver = RPMTAG_PROVIDEVERSION;
+	 depflags = RPMTAG_PROVIDEFLAGS;
+	 break;
+      default:
+	 /* can't happen... right? */
+	 return false;
+	 break;
+   }
+   res = headerGetEntry(HeaderP, deptag, &type, (void **)&nameval, &count);
    if (res != 1)
-       return true;
-   namel = (char **)nameval;
+      return true;
+   res = headerGetEntry(HeaderP, depver, &type, (void **)&verval, &count);
+   res = headerGetEntry(HeaderP, depflags, &type, (void **)&flagval, &count);
 
-   res = headerGetEntry(HeaderP, RPMTAG_PROVIDEVERSION, &type,
-                        (void **)&verval, NULL);
-   verl = (char **)verval;
-
-   if (res != 1)
-      verl = NULL;
+   namel = (char**)nameval;
+   verl = (char**)verval;
+   flagl = (int*)flagval;
 
    for (int i = 0; i < count; i++) {
-      Dependency *Dep = new Dependency;
-      Dep->Name = namel[i];
-      if (verl) {
-	 Dep->Version = *verl[i] ? verl[i]:"";
-	 if (HideZeroEpoch && Dep->Version.substr(0, 2) == "0:") {
-	    Dep->Version = Dep->Version.substr(2);
-	 }
-	 Dep->Op = pkgCache::Dep::Equals;
-      } else {
-	 Dep->Version = "";
-      }
-      Provs.push_back(Dep);
-   }
-   return true;
 
+      bool res = PutDep(namel[i], verl[i], flagl[i], Type, Deps);
+   }
+   free(namel);
+   free(verl);
+   return true;
+      
 }
+#endif
 
 // XXX rpmfi originates from somewhere around 2001 but what's the version?
 #if RPM_VERSION >= 0x040100
@@ -1171,7 +1139,7 @@ string RPMRepomdHandler::SourceRpm()
    return FindTag(n, "sourcerpm");
 }
 
-bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
+bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 {
    xmlNode *format = FindNode("format");
    xmlNode *dco = NULL;
@@ -1185,6 +1153,9 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
          break;
       case pkgCache::Dep::Obsoletes:
          dco = FindNode(format, "obsoletes");
+         break;
+      case pkgCache::Dep::Provides:
+         dco = FindNode(format, "provides");
          break;
    }
 
@@ -1244,57 +1215,6 @@ bool RPMRepomdHandler::Depends(unsigned int Type, vector<Dependency*> &Deps)
 	 }
       }
       bool res = PutDep((char*)depname, depver.c_str(), RpmOp, Type, Deps);
-   }
-   return true;
-}
-
-bool RPMRepomdHandler::Provides(vector<Dependency*> &Provs)
-{
-   xmlNode *format = FindNode("format");
-   xmlNode *provides = FindNode(format, "provides");
-
-   if (! provides)
-      return true;
-
-   for (xmlNode *n = provides->children; n; n = n->next) {
-      string depver = "";
-      xmlChar *depname, *flags;
-
-      if (xmlStrcmp(n->name, (xmlChar*)"entry") != 0)  continue;
-
-      Dependency *Dep = new Dependency;
-      if ((depname = xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
-      Dep->Name = string((char*)depname);
-      xmlFree(depname);
-
-      if ((flags = xmlGetProp(n, (xmlChar*)"flags"))) {
-	 xmlFree(flags);
-
-         xmlChar *epoch = xmlGetProp(n, (xmlChar*)"epoch");
-         if (epoch) {
-            depver += string((char*)epoch) + ":";
-	    xmlFree(epoch);
-	 }
-         xmlChar *ver = xmlGetProp(n, (xmlChar*)"ver");
-         if (ver) {
-            depver += string((char*)ver);
-	    xmlFree(ver);
-	 }
-         xmlChar *rel = xmlGetProp(n, (xmlChar*)"rel");
-         if (rel) {
-            depver += "-" + string((char*)rel);
-	    xmlFree(rel);
-	 }
-
-      }
-      Dep->Version = depver;
-      if (HideZeroEpoch && Dep->Version.substr(0, 2) == "0:") {
-	 Dep->Version = Dep->Version.substr(2);
-      }
-
-      if (depver.empty() == false)
-	 Dep->Op = pkgCache::Dep::Equals;
-      Provs.push_back(Dep);
    }
    return true;
 }

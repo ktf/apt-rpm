@@ -268,7 +268,7 @@ string rpmSrcRecordParser::AsStr()
    vector<Dependency*>::iterator I;
    bool start = true;
 
-   Handler->Depends(pkgCache::Dep::Depends, Deps);
+   Handler->PRCO(pkgCache::Dep::Depends, Deps);
    for (I = Deps.begin(); I != Deps.end(); I++) {
       if ((*I)->Type != pkgCache::Dep::Depends)
 	 continue;
@@ -282,7 +282,7 @@ string rpmSrcRecordParser::AsStr()
    }
 
    // Doesn't do anything yet, build conflicts aren't recorded yet...
-   Handler->Depends(pkgCache::Dep::Conflicts, Conflicts);
+   Handler->PRCO(pkgCache::Dep::Conflicts, Conflicts);
    start = true;
    for (I = Conflicts.begin(); I != Conflicts.end(); I++) {
       if (start) {
@@ -322,7 +322,7 @@ bool rpmSrcRecordParser::BuildDepends(vector<pkgSrcRecords::Parser::BuildDepRec>
    BuildDeps.clear();
 
    vector<Dependency*> Deps, Conflicts;
-   Handler->Depends(pkgCache::Dep::Depends, Deps);
+   Handler->PRCO(pkgCache::Dep::Depends, Deps);
 
    for (vector<Dependency*>::iterator I = Deps.begin(); I != Deps.end(); I++) {
       rec.Package = (*I)->Name;
@@ -332,7 +332,7 @@ bool rpmSrcRecordParser::BuildDepends(vector<pkgSrcRecords::Parser::BuildDepRec>
       BuildDeps.push_back(rec);
    }
       
-   Handler->Depends(pkgCache::Dep::Conflicts, Conflicts);
+   Handler->PRCO(pkgCache::Dep::Conflicts, Conflicts);
 
    for (vector<Dependency*>::iterator I = Conflicts.begin(); I != Conflicts.end(); I++) {
       rec.Package = (*I)->Name;
