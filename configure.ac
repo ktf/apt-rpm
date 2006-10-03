@@ -10,7 +10,7 @@ AM_INIT_AUTOMAKE([foreign subdir-objects dist-bzip2 1.9.5])
 AM_MAINTAINER_MODE
 
 AC_CONFIG_HEADER([include/config.h:buildlib/config.h.in])
-
+AC_CONFIG_HEADER([include/apt-pkg/aptconf.h:apt-pkg/aptconf.h.in])
 AC_PROG_LIBTOOL
 
 dnl Check our C compiler
@@ -93,7 +93,7 @@ else
 fi
 
 dnl Can we use g++ hash_map?
-AH_TEMPLATE(WITH_GNU_HASH_MAP,
+AH_TEMPLATE(APT_WITH_GNU_HASH_MAP,
 	    [Define to 1 if you want to use the g++ hash_map extension])
 AC_MSG_CHECKING(for g++ hash_map extension)
 AC_LANG_PUSH([C++])
@@ -102,7 +102,7 @@ AC_TRY_LINK(
 #include <ext/hash_map>
 using namespace __gnu_cxx;
 ],[hash_map<char*,hash<char*> > HashMap;
-],[AC_DEFINE_UNQUOTED(WITH_GNU_HASH_MAP, 1) AC_MSG_RESULT(yes)
+],[AC_DEFINE_UNQUOTED(APT_WITH_GNU_HASH_MAP, 1) AC_MSG_RESULT(yes)
 ],[AC_MSG_RESULT(no)])
 AC_LANG_POP([C++])
 
@@ -113,7 +113,7 @@ AC_ARG_ENABLE([scripts],
 	      [enable_scripts="$enableval"],[enable_scripts="yes"])
 if test "$enable_scripts" != "no"; then
   AC_MSG_RESULT(no)
-  AC_DEFINE(WITH_LUA, 1, 
+  AC_DEFINE(APT_WITH_LUA, 1, 
 	    [Define if you want to enable the extension system]) 
 else
   AC_MSG_RESULT(yes)
@@ -143,7 +143,7 @@ AC_ARG_ENABLE([repomd],
 	      [enable_repomd="$enableval"],[enable_repomd="yes"])
 if test "$enable_repomd" != "no"; then
   AC_MSG_RESULT(no)
-  AC_DEFINE(WITH_REPOMD, 1, [Define if you want to enable repomd support]) 
+  AC_DEFINE(APT_WITH_REPOMD, 1, [Define if you want to enable repomd support]) 
   ## xmlReadFile is not available before 2.6.0
   PKG_CHECK_MODULES([LIBXML2],[libxml-2.0 >= 2.6])
   RPMLIBS="$LIBXML2_LIBS $RPMLIBS"

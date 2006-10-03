@@ -1,6 +1,7 @@
 #ifndef RPMPACKAGEDATA_H
 #define RPMPACKAGEDATA_H
 
+#include <apt-pkg/aptconf.h>
 #include <apt-pkg/tagfile.h>
 #include <apt-pkg/pkgcache.h>
 #include <apt-pkg/rpmmisc.h>
@@ -21,7 +22,7 @@ class RPMPackageData
 {
    protected:
 
-#ifdef WITH_GNU_HASH_MAP
+#ifdef APT_WITH_GNU_HASH_MAP
    hash_map<string,pkgCache::State::VerPriority,hash_string> Priorities;
    hash_map<string,pkgCache::Flag::PkgFlags,hash_string> Flags;
    hash_map<string,vector<string>*,hash_string> FakeProvides;

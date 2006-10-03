@@ -13,11 +13,12 @@
 #ifndef PKGLIB_RPMLISTPARSER_H
 #define PKGLIB_RPMLISTPARSER_H
 
+#include <apt-pkg/aptconf.h>
 #include <apt-pkg/pkgcachegen.h>
 #include <apt-pkg/rpmhandler.h>
 #include <apt-pkg/rpmmisc.h>
 
-#ifdef WITH_REPOMD
+#ifdef APT_WITH_REPOMD
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #endif
@@ -39,7 +40,7 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    string CurrentName;
    const pkgCache::VerIterator *VI;
    
-#ifdef WITH_GNU_HASH_MAP
+#ifdef APT_WITH_GNU_HASH_MAP
    typedef hash_map<const char*,bool,
    		    hash<const char*>,cstr_eq_pred> SeenPackagesType;
 #else
@@ -89,7 +90,7 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    ~rpmListParser();
 };
 
-#ifdef WITH_REPOMD
+#ifdef APT_WITH_REPOMD
 class rpmRepomdParser : public rpmListParser
 {
    protected:
@@ -107,6 +108,6 @@ class rpmRepomdParser : public rpmListParser
 
    rpmRepomdParser(RPMHandler *Handler) : rpmListParser(Handler) {};
 };
-#endif /* WITH_REPOMD */
+#endif /* APT_WITH_REPOMD */
 
 #endif

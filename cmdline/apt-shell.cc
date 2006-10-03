@@ -669,7 +669,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
 	 pkgCache::PkgIterator GoodPkg(Cache, GoodSolutions[i]);
 	 GoodSolutionNames.push_back(GoodPkg.Name());
       }
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
       if (GoodSolutions.size() > 1)
       {
 	 vector<string> VS;
@@ -957,7 +957,7 @@ bool DoUpdate(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(*GCache);
    _lua->RunScripts("Scripts::AptGet::Update::Pre");
    _lua->ResetCaches();
@@ -1029,7 +1029,7 @@ bool DoUpdate(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(*GCache);
    _lua->RunScripts("Scripts::AptGet::Update::Post");
    _lua->ResetCaches();
@@ -1078,7 +1078,7 @@ bool DoUpgrade(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(Cache);
    _lua->RunScripts("Scripts::AptGet::Upgrade");
    _lua->ResetCaches();
@@ -1248,7 +1248,7 @@ bool DoInstall(CommandLine &CmdL)
 
 	 // CNC:2003-05-15
 	 if (*I == 0) {
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 	    vector<string> VS;
 	    _lua->SetDepCache(Cache);
 	    _lua->SetDontFix();
@@ -1341,7 +1341,7 @@ bool DoInstall(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(Cache);
    _lua->SetDontFix();
    _lua->RunScripts("Scripts::AptGet::Install::PreResolve");
@@ -1375,7 +1375,7 @@ bool DoInstall(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    if (Cache->BrokenCount() == 0) {
       _lua->SetDepCache(Cache);
       _lua->SetProblemResolver(&Fix);
@@ -1441,7 +1441,7 @@ bool DoDistUpgrade(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(Cache);
    _lua->RunScripts("Scripts::AptGet::DistUpgrade");
    _lua->ResetCaches();
@@ -1798,7 +1798,7 @@ bool DoScript(CommandLine &CmdL)
       _config->Set("Scripts::AptShell::Script::", *I);
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(Cache);
    _lua->RunScripts("Scripts::AptShell::Script");
    _lua->RunScripts("Scripts::AptGet::Script");
@@ -2673,7 +2673,7 @@ int main(int argc,const char *argv[])
    c1out << _("Welcome to the APT shell. Type \"help\" for more information.") << endl;
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(*GCache);
    _lua->RunScripts("Scripts::AptShell::Init");
    _lua->ResetCaches();
@@ -2761,7 +2761,7 @@ int main(int argc,const char *argv[])
       CmdL.Parse(largc,largv);
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
       if (HasCmdScripts == true && _error->PendingError() == false) {
 	 _lua->SetDepCache(*GCache);
 	 _lua->SetGlobal("command_args", CmdL.FileList);

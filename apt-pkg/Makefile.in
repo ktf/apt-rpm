@@ -51,7 +51,8 @@ am__aclocal_m4_deps = $(top_srcdir)/buildlib/tools.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/buildlib/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/config.h
+CONFIG_HEADER = $(top_builddir)/include/config.h \
+	$(top_builddir)/include/apt-pkg/aptconf.h
 CONFIG_CLEAN_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -80,7 +81,7 @@ am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	repository.lo sourcelist.lo srcrecords.lo tagfile.lo \
 	version.lo versionmatch.lo
 libapt_pkg_la_OBJECTS = $(am_libapt_pkg_la_OBJECTS)
-DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
+DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include -I$(top_builddir)/include/apt-pkg
 depcomp = $(SHELL) $(top_srcdir)/buildlib/depcomp
 am__depfiles_maybe = depfiles
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -649,11 +650,11 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	mkid -fID $$unique
 tags: TAGS
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES) aptconf.h.in $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
+	list='$(SOURCES) $(HEADERS) aptconf.h.in $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
 	  done | \
@@ -665,11 +666,11 @@ TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	    $$tags $$unique; \
 	fi
 ctags: CTAGS
-CTAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+CTAGS:  $(HEADERS) $(SOURCES) aptconf.h.in $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
+	list='$(SOURCES) $(HEADERS) aptconf.h.in $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
 	  done | \

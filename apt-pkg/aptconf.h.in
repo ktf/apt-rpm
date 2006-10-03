@@ -1,0 +1,13 @@
+/* apt-pkg/aptconf.h.in.  */
+
+/* apt configuration defines exported from the source tree */
+
+/* Define to 1 if you want to use the g++ hash_map extension */
+#undef APT_WITH_GNU_HASH_MAP
+
+/* Define if you want to enable the extension system */
+#undef APT_WITH_LUA
+
+/* Define if you want to enable repomd support */
+#undef APT_WITH_REPOMD
+

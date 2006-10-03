@@ -71,7 +71,7 @@ bool IsMounted(string &Path)
 bool UnmountCdrom(string Path)
 {
 // CNC:2004-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    if (_lua->HasScripts("Scripts::Cdrom::Umount")) {
       _lua->SetGlobal("done", false);
       _lua->RunScripts("Scripts::Cdrom::Umount");
@@ -119,7 +119,7 @@ bool UnmountCdrom(string Path)
 bool MountCdrom(string Path)
 {
 // CNC:2004-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    if (_lua->HasScripts("Scripts::Cdrom::Mount")) {
       _lua->SetGlobal("done", false);
       _lua->RunScripts("Scripts::Cdrom::Mount");

@@ -16,11 +16,11 @@
 
 RPMPackageData::RPMPackageData()
    :
-#ifdef WITH_GNU_HASH_MAP
+#ifdef APT_WITH_GNU_HASH_MAP
   VerMap(517),
 #endif
   MinArchScore(-1)   
-#ifdef WITH_GNU_HASH_MAP
+#ifdef APT_WITH_GNU_HASH_MAP
    , ArchScores(31)
 #endif
 {

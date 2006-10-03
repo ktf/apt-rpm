@@ -100,7 +100,7 @@ bool pkgDepCache::Init(OpProgress *Prog)
    Update(Prog);
 
 // CNC:2003-03-17
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(this);
    _lua->RunScripts("Scripts::Cache::Init", true);
    _lua->ResetCaches();

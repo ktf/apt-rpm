@@ -21,6 +21,7 @@
 #pragma interface "apt-pkg/rpmindexfile.h"
 #endif
 
+#include <apt-pkg/aptconf.h>
 #include <apt-pkg/indexfile.h>
 #include <apt-pkg/rpmhandler.h>
 
@@ -277,7 +278,7 @@ class rpmSingleSrcIndex : public rpmSrcListIndex
 	   rpmSrcListIndex("", "", "", NULL), FilePath(File) {};
 };
 
-#ifdef WITH_REPOMD
+#ifdef APT_WITH_REPOMD
 class rpmRepomdIndex : public rpmIndexFile
 {
    protected:
@@ -373,6 +374,6 @@ class rpmRepomdSrcIndex : public rpmRepomdIndex
           rpmRepomdIndex(URI,Dist,Section,Repository) {};
 
 };
-#endif /* WITH_REPOMD */
+#endif /* APT_WITH_REPOMD */
 
 #endif

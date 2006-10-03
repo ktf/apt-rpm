@@ -825,7 +825,7 @@ bool pkgAcqArchive::QueueNext()
 									/*}}}*/
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 // ScriptsAcquireDone - Script trigger.					/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -896,7 +896,7 @@ void pkgAcqArchive::Done(string Message,off_t Size,string Md5Hash,
       Local = true;
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
       ScriptsAcquireDone("Scripts::Acquire::Archive::Done",
 			 StoreFilename, ErrorText, Status);
 #endif
@@ -913,7 +913,7 @@ void pkgAcqArchive::Done(string Message,off_t Size,string Md5Hash,
    Complete = true;
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    ScriptsAcquireDone("Scripts::Acquire::Archive::Done",
 		      StoreFilename, ErrorText, Status);
 #endif

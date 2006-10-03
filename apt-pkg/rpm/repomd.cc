@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#ifdef WITH_REPOMD
+#ifdef APT_WITH_REPOMD
 
 #include <iostream>
 #include <apt-pkg/repomd.h>
@@ -97,6 +97,6 @@ bool repomdRepository::ParseRelease(string File)
    return true;
 }
 
-#endif /* WITH_REPOMD */
+#endif /* APT_WITH_REPOMD */
 
 // vim:sts=3:sw=3

@@ -10,9 +10,10 @@
 #ifndef PKGLIB_RPMHANDLER_H
 #define PKGLIB_RPMHANDLER_H
 
+#include <apt-pkg/aptconf.h>
 #include <apt-pkg/fileutl.h>
 
-#ifdef WITH_REPOMD
+#ifdef APT_WITH_REPOMD
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
@@ -220,7 +221,7 @@ class RPMDirHandler : public RPMHandler
    virtual ~RPMDirHandler();
 };
 
-#ifdef WITH_REPOMD
+#ifdef APT_WITH_REPOMD
 class RPMRepomdHandler : public RPMHandler
 {
 
@@ -308,6 +309,6 @@ class RPMRepomdFLHandler : public RPMHandler
    RPMRepomdFLHandler(string File);
    virtual ~RPMRepomdFLHandler();
 };
-#endif /* WITH_REPOMD */
+#endif /* APT_WITH_REPOMD */
 
 #endif

@@ -156,7 +156,7 @@ bool pkgInitSystem(Configuration &Cnf,pkgSystem *&Sys)
    // LORG:2006-02-06
    Cnf.CndSet("APT::DistroVersion", Sys->DistroVer());
 
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->RunScripts("Scripts::Init");
 #endif
    return Ret;

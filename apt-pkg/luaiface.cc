@@ -14,7 +14,7 @@
 
 #include <config.h>
 
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 
 extern "C" {
 #include "lua.h"
@@ -1473,6 +1473,6 @@ pkgDepCache *LuaCacheControl::Open()
       return Open(false);
 }
 
-#endif // WITH_LUA
+#endif // APT_WITH_LUA
 
 // vim:sts=3:sw=3

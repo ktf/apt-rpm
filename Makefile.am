@@ -76,6 +76,9 @@ EXTRA_DIST += contrib/apt-cron/apt.sysconfig
 EXTRA_DIST += buildlib/archtable
 EXTRA_DIST += buildlib/ostable
 
+aptincludedir = $(includedir)/apt-pkg
+nodist_aptinclude_HEADERS = include/apt-pkg/aptconf.h
+
 aptscriptsdir = $(pkgdatadir)/scripts
 aptscripts_SCRIPTS =
 

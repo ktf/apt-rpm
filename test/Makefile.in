@@ -52,7 +52,8 @@ am__aclocal_m4_deps = $(top_srcdir)/buildlib/tools.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/buildlib/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/config.h
+CONFIG_HEADER = $(top_builddir)/include/config.h \
+	$(top_builddir)/include/apt-pkg/aptconf.h
 CONFIG_CLEAN_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_conftest_OBJECTS = conf.$(OBJEXT)
@@ -73,7 +74,7 @@ uritest_DEPENDENCIES = ../apt-pkg/libapt-pkg.la
 am_versiontest_OBJECTS = versiontest.$(OBJEXT)
 versiontest_OBJECTS = $(am_versiontest_OBJECTS)
 versiontest_DEPENDENCIES = ../apt-pkg/libapt-pkg.la
-DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
+DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include -I$(top_builddir)/include/apt-pkg
 depcomp = $(SHELL) $(top_srcdir)/buildlib/depcomp
 am__depfiles_maybe = depfiles
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \

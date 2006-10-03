@@ -1,5 +1,14 @@
 /* buildlib/config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define to 1 if you want to use the g++ hash_map extension */
+#undef APT_WITH_GNU_HASH_MAP
+
+/* Define if you want to enable the extension system */
+#undef APT_WITH_LUA
+
+/* Define if you want to enable repomd support */
+#undef APT_WITH_REPOMD
+
 /* Define the common CPU */
 #undef COMMON_CPU
 
@@ -135,15 +144,6 @@
 
 /* Version number of package */
 #undef VERSION
-
-/* Define to 1 if you want to use the g++ hash_map extension */
-#undef WITH_GNU_HASH_MAP
-
-/* Define if you want to enable the extension system */
-#undef WITH_LUA
-
-/* Define if you want to enable repomd support */
-#undef WITH_REPOMD
 
 /* Define if you want to enable SELinux support */
 #undef WITH_SELINUX

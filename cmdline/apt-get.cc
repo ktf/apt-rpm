@@ -106,7 +106,7 @@ class CacheFile : public cmdCacheFile
 									/*}}}*/
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 class AptGetLuaCache : public LuaCacheControl
 {
    public:
@@ -643,7 +643,7 @@ bool TryToInstall(pkgCache::PkgIterator Pkg,pkgDepCache &Cache,
 	 pkgCache::PkgIterator GoodPkg(Cache, GoodSolutions[i]);
 	 GoodSolutionNames.push_back(GoodPkg.Name());
       }
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
       if (GoodSolutions.size() > 1)
       {
 	 vector<string> VS;
@@ -934,7 +934,7 @@ bool DoUpdate(CommandLine &CmdL)
    }
    
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    if (_lua->HasScripts("Scripts::AptGet::Update::Pre")) {
       _lua->RunScripts("Scripts::AptGet::Update::Pre");
       LuaCacheControl *LuaCache = _lua->GetCacheControl();
@@ -1015,7 +1015,7 @@ bool DoUpdate(CommandLine &CmdL)
    if (Cache.Open() == false)
       return false;
 
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->RunScripts("Scripts::AptGet::Update::Post");
 #endif
 #endif
@@ -1053,7 +1053,7 @@ bool DoUpgrade(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(Cache);
    _lua->RunScripts("Scripts::AptGet::Upgrade");
    _lua->ResetCaches();
@@ -1220,7 +1220,7 @@ bool DoInstall(CommandLine &CmdL)
 
 	 // CNC:2003-05-15
 	 if (*I == 0) {
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 	    vector<string> VS;
 	    _lua->SetDepCache(Cache);
 	    _lua->SetDontFix();
@@ -1311,7 +1311,7 @@ bool DoInstall(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(Cache);
    _lua->SetDontFix();
    _lua->RunScripts("Scripts::AptGet::Install::PreResolve");
@@ -1339,7 +1339,7 @@ bool DoInstall(CommandLine &CmdL)
       _error->Discard();
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    if (Cache->BrokenCount() == 0) {
       _lua->SetDepCache(Cache);
       _lua->SetProblemResolver(&Fix);
@@ -1508,7 +1508,7 @@ bool DoDistUpgrade(CommandLine &CmdL)
    }
 
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    _lua->SetDepCache(Cache);
    _lua->RunScripts("Scripts::AptGet::DistUpgrade");
    _lua->ResetCaches();
@@ -2086,7 +2086,7 @@ bool DoMoo(CommandLine &CmdL)
 // DoScript - Scripting stuff.						/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 bool DoScript(CommandLine &CmdL)
 {
    for (const char **I = CmdL.FileList+1; *I != 0; I++)
@@ -2186,7 +2186,7 @@ bool ShowHelp(CommandLine &CmdL)
       "   check - Verify that there are no broken dependencies\n"
 // CNC:2003-03-16
       );
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
       _lua->RunScripts("Scripts::AptGet::Help::Command");
 #endif
       cout << _(
@@ -2286,7 +2286,7 @@ int main(int argc,const char *argv[])
 				   {"moo",&DoMoo},
 				   {"help",&ShowHelp},
 // CNC:2003-03-19
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 				   {"script",&DoScript},
 #endif
                                    {0,0}};
@@ -2360,7 +2360,7 @@ int main(int argc,const char *argv[])
    SigWinch(0);
 
 // CNC:2003-11-23
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    AptGetLuaCache LuaCache;
    _lua->SetCacheControl(&LuaCache);
    

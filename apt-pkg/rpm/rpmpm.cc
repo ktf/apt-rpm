@@ -321,7 +321,7 @@ bool pkgRPMPM::Go()
 
    bool Ret = true;
 
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    if (_lua->HasScripts("Scripts::PM::Pre") == true) {
       _lua->SetGlobal("files_install", install_or_upgrade);
       _lua->SetGlobal("names_remove", uninstall);
@@ -342,7 +342,7 @@ bool pkgRPMPM::Go()
    if (Process(install, upgrade, uninstall) == false)
       Ret = false;
 
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
    if (_lua->HasScripts("Scripts::PM::Post") == true) {
       _lua->SetGlobal("files_install", install_or_upgrade);
       _lua->SetGlobal("names_remove", uninstall);

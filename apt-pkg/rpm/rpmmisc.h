@@ -1,7 +1,9 @@
 #ifndef RPMMISC_H
 #define RPMMISC_H
 
-#ifdef WITH_GNU_HASH_MAP
+#include <apt-pkg/aptconf.h>
+
+#ifdef APT_WITH_GNU_HASH_MAP
 
 #include <ext/hash_map>
 
@@ -23,7 +25,7 @@ struct cstr_eq_pred
    size_t operator()(const char *s1, const char *s2) const
       { return strcmp(s1, s2) == 0; };
 };
-#endif /* WITH_GNU_HASH_MAP */
+#endif /* APT_WITH_GNU_HASH_MAP */
 
 struct cstr_lt_pred
 {

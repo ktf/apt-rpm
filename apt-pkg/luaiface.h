@@ -6,7 +6,9 @@
 #pragma interface "apt-pkg/luaiface.h"
 #endif 
 
-#ifdef WITH_LUA
+#include <apt-pkg/aptconf.h>
+
+#ifdef APT_WITH_LUA
 
 #include <map>
 #include <vector>
@@ -115,7 +117,7 @@ class Lua {
 Lua *_GetLuaObj();
 #define _lua _GetLuaObj()
 
-#endif // WITH_LUA
+#endif // APT_WITH_LUA
 
 #endif
 

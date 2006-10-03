@@ -55,7 +55,7 @@ pkgSourceList *SrcList = 0;
 // Script - Scripting stuff.						/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 bool Script(CommandLine &CmdL)
 {
    for (const char **I = CmdL.FileList+1; *I != 0; I++)
@@ -1153,7 +1153,7 @@ bool ShowHelp(CommandLine &Cmd)
       "   policy - Show policy settings\n"
 // CNC:2003-03-16
       );
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
       _lua->RunScripts("Scripts::AptCache::Help::Command");
 #endif
       cout << _(
@@ -1221,7 +1221,7 @@ int main(int argc,const char *argv[])
                                     {"pkgnames",&ShowPkgNames},
                                     {"policy",&Policy},
 // CNC:2003-11-23
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 				    {"script",&Script},
 #endif
                                     {0,0}};
@@ -1286,7 +1286,7 @@ int main(int argc,const char *argv[])
 	 pkgCache Cache(Map);   
 	 GCache = &Cache;
 // CNC:2003-11-23
-#ifdef WITH_LUA
+#ifdef APT_WITH_LUA
 	 _lua->SetCache(&Cache);
 	 double Consume = 0;
 	 if (argc > 1 && _error->PendingError() == false &&

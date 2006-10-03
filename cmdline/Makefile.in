@@ -52,7 +52,8 @@ am__aclocal_m4_deps = $(top_srcdir)/buildlib/tools.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/buildlib/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/config.h
+CONFIG_HEADER = $(top_builddir)/include/config.h \
+	$(top_builddir)/include/apt-pkg/aptconf.h
 CONFIG_CLEAN_FILES =
 @COMPILE_APTSHELL_TRUE@am__EXEEXT_1 = apt-shell$(EXEEXT)
 @COMPILE_STATIC_TRUE@am__EXEEXT_2 = apt-get-static$(EXEEXT) \
@@ -106,7 +107,7 @@ am_apt_shell_OBJECTS = apt-shell.$(OBJEXT) acqprogress.$(OBJEXT) \
 apt_shell_OBJECTS = $(am_apt_shell_OBJECTS)
 am__DEPENDENCIES_2 = ../apt-pkg/libapt-pkg.la $(am__DEPENDENCIES_1)
 apt_shell_DEPENDENCIES = $(am__DEPENDENCIES_2)
-DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
+DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include -I$(top_builddir)/include/apt-pkg
 depcomp = $(SHELL) $(top_srcdir)/buildlib/depcomp
 am__depfiles_maybe = depfiles
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \

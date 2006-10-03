@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
@@ -38,7 +39,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 DIST_COMMON = $(am__configure_deps) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(top_srcdir)/buildlib/config.h.in \
+	$(srcdir)/Makefile.in $(top_srcdir)/apt-pkg/aptconf.h.in \
+	$(top_srcdir)/buildlib/config.h.in \
 	$(top_srcdir)/buildlib/gettext.h \
 	$(top_srcdir)/buildlib/inttypes.h \
 	$(top_srcdir)/buildlib/netdb.h \
@@ -60,7 +62,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/buildlib/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/config.h
+CONFIG_HEADER = $(top_builddir)/include/config.h \
+	$(top_builddir)/include/apt-pkg/aptconf.h
 CONFIG_CLEAN_FILES = include/apti18n.h include/inttypes.h \
 	include/statvfs.h include/netdb.h
 am__installdirs = "$(DESTDIR)$(aptscriptsdir)" \
@@ -71,7 +74,8 @@ am__installdirs = "$(DESTDIR)$(aptscriptsdir)" \
 	"$(DESTDIR)$(aptconf_ddir)" \
 	"$(DESTDIR)$(aptsources_list_ddir)" "$(DESTDIR)$(aptstatedir)" \
 	"$(DESTDIR)$(aptstate_lists_partialdir)" \
-	"$(DESTDIR)$(aptvendors_list_ddir)"
+	"$(DESTDIR)$(aptvendors_list_ddir)" \
+	"$(DESTDIR)$(aptincludedir)"
 aptscriptsSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 SCRIPTS = $(aptscripts_SCRIPTS)
 SOURCES =
@@ -101,6 +105,8 @@ DATA = $(aptcache_DATA) $(aptcache_archives_partial_DATA) \
 	$(aptcache_genpkglist_DATA) $(aptcache_gensrclist_DATA) \
 	$(aptconf_d_DATA) $(aptsources_list_d_DATA) $(aptstate_DATA) \
 	$(aptstate_lists_partial_DATA) $(aptvendors_list_d_DATA)
+nodist_aptincludeHEADERS_INSTALL = $(INSTALL_HEADER)
+HEADERS = $(nodist_aptinclude_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DIST_SUBDIRS = $(SUBDIRS)
@@ -288,6 +294,8 @@ EXTRA_DIST = AUTHORS.RPM COPYING.GPL rpmpriorities python/apt.i \
 	contrib/apt-cron/apt.cron contrib/apt-cron/apt.init \
 	contrib/apt-cron/apt.sysconfig buildlib/archtable \
 	buildlib/ostable
+aptincludedir = $(includedir)/apt-pkg
+nodist_aptinclude_HEADERS = include/apt-pkg/aptconf.h
 aptscriptsdir = $(pkgdatadir)/scripts
 aptscripts_SCRIPTS = 
 aptconfigdir = ${sysconfdir}/apt
@@ -360,8 +368,18 @@ $(top_srcdir)/buildlib/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	rm -f include/stamp-h1
 	touch $@
 
+include/apt-pkg/aptconf.h: include/apt-pkg/stamp-h2
+	@if test ! -f $@; then \
+	  rm -f include/apt-pkg/stamp-h2; \
+	  $(MAKE) include/apt-pkg/stamp-h2; \
+	else :; fi
+
+include/apt-pkg/stamp-h2: $(top_srcdir)/apt-pkg/aptconf.h.in $(top_builddir)/config.status
+	@rm -f include/apt-pkg/stamp-h2
+	cd $(top_builddir) && $(SHELL) ./config.status include/apt-pkg/aptconf.h
+
 distclean-hdr:
-	-rm -f include/config.h include/stamp-h1
+	-rm -f include/config.h include/stamp-h1 include/apt-pkg/aptconf.h include/apt-pkg/stamp-h2
 install-aptscriptsSCRIPTS: $(aptscripts_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	test -z "$(aptscriptsdir)" || $(mkdir_p) "$(DESTDIR)$(aptscriptsdir)"
@@ -544,6 +562,23 @@ uninstall-aptvendors_list_dDATA:
 	  echo " rm -f '$(DESTDIR)$(aptvendors_list_ddir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(aptvendors_list_ddir)/$$f"; \
 	done
+install-nodist_aptincludeHEADERS: $(nodist_aptinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(aptincludedir)" || $(mkdir_p) "$(DESTDIR)$(aptincludedir)"
+	@list='$(nodist_aptinclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(nodist_aptincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(aptincludedir)/$$f'"; \
+	  $(nodist_aptincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(aptincludedir)/$$f"; \
+	done
+
+uninstall-nodist_aptincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_aptinclude_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(aptincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(aptincludedir)/$$f"; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -680,7 +715,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/buildlib $(distdir)/contrib/allow-duplicated $(distdir)/contrib/apt-cron $(distdir)/contrib/apt-files $(distdir)/contrib/apt-groupinstall $(distdir)/contrib/apt-wrapper $(distdir)/contrib/gpg-check $(distdir)/contrib/guess $(distdir)/contrib/install-devel $(distdir)/contrib/list-extras $(distdir)/contrib/list-nodeps $(distdir)/contrib/log $(distdir)/contrib/preserve-conf $(distdir)/contrib/proxypasswd $(distdir)/m4 $(distdir)/po $(distdir)/python
+	$(mkdir_p) $(distdir)/apt-pkg $(distdir)/buildlib $(distdir)/contrib/allow-duplicated $(distdir)/contrib/apt-cron $(distdir)/contrib/apt-files $(distdir)/contrib/apt-groupinstall $(distdir)/contrib/apt-wrapper $(distdir)/contrib/gpg-check $(distdir)/contrib/guess $(distdir)/contrib/install-devel $(distdir)/contrib/list-extras $(distdir)/contrib/list-nodeps $(distdir)/contrib/log $(distdir)/contrib/preserve-conf $(distdir)/contrib/proxypasswd $(distdir)/m4 $(distdir)/po $(distdir)/python
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -821,10 +856,10 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(SCRIPTS) $(DATA)
+all-am: Makefile $(SCRIPTS) $(DATA) $(HEADERS)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(aptscriptsdir)" "$(DESTDIR)$(aptcachedir)" "$(DESTDIR)$(aptcache_archives_partialdir)" "$(DESTDIR)$(aptcache_genpkglistdir)" "$(DESTDIR)$(aptcache_gensrclistdir)" "$(DESTDIR)$(aptconf_ddir)" "$(DESTDIR)$(aptsources_list_ddir)" "$(DESTDIR)$(aptstatedir)" "$(DESTDIR)$(aptstate_lists_partialdir)" "$(DESTDIR)$(aptvendors_list_ddir)"; do \
+	for dir in "$(DESTDIR)$(aptscriptsdir)" "$(DESTDIR)$(aptcachedir)" "$(DESTDIR)$(aptcache_archives_partialdir)" "$(DESTDIR)$(aptcache_genpkglistdir)" "$(DESTDIR)$(aptcache_gensrclistdir)" "$(DESTDIR)$(aptconf_ddir)" "$(DESTDIR)$(aptsources_list_ddir)" "$(DESTDIR)$(aptstatedir)" "$(DESTDIR)$(aptstate_lists_partialdir)" "$(DESTDIR)$(aptvendors_list_ddir)" "$(DESTDIR)$(aptincludedir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-recursive
@@ -877,7 +912,7 @@ install-data-am: install-aptcacheDATA \
 	install-aptcache_gensrclistDATA install-aptconf_dDATA \
 	install-aptscriptsSCRIPTS install-aptsources_list_dDATA \
 	install-aptstateDATA install-aptstate_lists_partialDATA \
-	install-aptvendors_list_dDATA
+	install-aptvendors_list_dDATA install-nodist_aptincludeHEADERS
 
 install-exec-am:
 
@@ -911,7 +946,8 @@ uninstall-am: uninstall-aptcacheDATA \
 	uninstall-aptcache_gensrclistDATA uninstall-aptconf_dDATA \
 	uninstall-aptscriptsSCRIPTS uninstall-aptsources_list_dDATA \
 	uninstall-aptstateDATA uninstall-aptstate_lists_partialDATA \
-	uninstall-aptvendors_list_dDATA uninstall-info-am
+	uninstall-aptvendors_list_dDATA uninstall-info-am \
+	uninstall-nodist_aptincludeHEADERS
 
 uninstall-info: uninstall-info-recursive
 
@@ -930,18 +966,19 @@ uninstall-info: uninstall-info-recursive
 	install-aptstateDATA install-aptstate_lists_partialDATA \
 	install-aptvendors_list_dDATA install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \
-	install-man install-strip installcheck installcheck-am \
-	installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive \
-	mostlyclean mostlyclean-generic mostlyclean-libtool \
-	mostlyclean-recursive pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am uninstall-aptcacheDATA \
-	uninstall-aptcache_archives_partialDATA \
+	install-man install-nodist_aptincludeHEADERS install-strip \
+	installcheck installcheck-am installdirs installdirs-am \
+	maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-generic \
+	mostlyclean-libtool mostlyclean-recursive pdf pdf-am ps ps-am \
+	tags tags-recursive uninstall uninstall-am \
+	uninstall-aptcacheDATA uninstall-aptcache_archives_partialDATA \
 	uninstall-aptcache_genpkglistDATA \
 	uninstall-aptcache_gensrclistDATA uninstall-aptconf_dDATA \
 	uninstall-aptscriptsSCRIPTS uninstall-aptsources_list_dDATA \
 	uninstall-aptstateDATA uninstall-aptstate_lists_partialDATA \
-	uninstall-aptvendors_list_dDATA uninstall-info-am
+	uninstall-aptvendors_list_dDATA uninstall-info-am \
+	uninstall-nodist_aptincludeHEADERS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
