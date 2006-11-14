@@ -23,11 +23,20 @@ class repomdRepository : public pkgRepository
 
    xmlDocPtr RepoMD;
    xmlNode *Root;
+   
+   struct RepoFile {
+      string Path;
+      string Type;
+      string TimeStamp;
+   };
+
+   map<string,RepoFile> RepoFiles;
 
    public:   
 
    virtual bool IsAuthenticated() const { return false; };
    virtual bool ParseRelease(string File);
+   bool FindURI(string DataType, string &URI);
    
    repomdRepository(string URI,string Dist, const pkgSourceList::Vendor *Vendor,
 		 string RootURI)

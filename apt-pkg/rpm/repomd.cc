@@ -45,7 +45,7 @@ bool repomdRepository::ParseRelease(string File)
    RepoMD = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET);
    if ((Root = xmlDocGetRootElement(RepoMD)) == NULL) {
       xmlFreeDoc(RepoMD);
-      return _error->Error(_("could not open Release file '%s'"),File.c_str());
+      return _error->Error(_("Could not open metadata file '%s'"),File.c_str());
    }
 
    for (xmlNode *Node = Root->children; Node; Node = Node->next) {
@@ -55,9 +55,13 @@ bool repomdRepository::ParseRelease(string File)
 
       string Hash = "";
       string Path = "";
-      string Type = "";
-      string Timestamp = "";
+      string ChecksumType = "";
+      string DataType = "";
+      string TimeStamp = "";
       xmlNode *n = NULL;
+
+      xmlChar *type = xmlGetProp(Node, (xmlChar*)"type");
+      DataType = (char*)type;
 
       n = FindNode(Node, "location");
       if (n) {
@@ -77,14 +81,16 @@ bool repomdRepository::ParseRelease(string File)
 	 xmlChar *hash = xmlNodeGetContent(n);
 	 xmlChar *type = xmlGetProp(n, (xmlChar*)"type");
 	 Hash = (char*)hash;
-	 Type = (char*)type;
+	 ChecksumType = (char*)type;
 	 xmlFree(hash);
 	 xmlFree(type);
       }
 
       IndexChecksums[Path].MD5 = Hash;
       IndexChecksums[Path].Size = 0;
-      if (Type == "sha") {
+      RepoFiles[DataType].Path = Path;
+      RepoFiles[DataType].TimeStamp = TimeStamp;
+      if (ChecksumType == "sha") {
 	 CheckMethod = "SHA1-Hash";
       } else {
 	 CheckMethod = "MDA5-Hash";
@@ -96,6 +102,17 @@ bool repomdRepository::ParseRelease(string File)
    xmlFreeDoc(RepoMD);
    return true;
 }
+
+bool repomdRepository::FindURI(string DataType, string &URI)
+{
+   bool found = false;
+   if (RepoFiles.find(DataType) != RepoFiles.end()) {
+        URI = RepoFiles[DataType].Path;
+        found = true;
+   }
+   return found;
+}
+
 
 #endif /* APT_WITH_REPOMD */
 

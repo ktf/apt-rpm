@@ -46,6 +46,8 @@ class pkgRepository
 
    virtual bool IsAuthenticated() const { return !FingerPrint.empty(); };
    virtual bool FindChecksums(string URI,off_t &Size, string &MD5);
+   // Only used in repomd atm
+   virtual bool FindURI(string DataType, string &URI) {return false;};
    // LORG:2006-02-23 
    virtual string GetComprMethod() {return ComprMethod;};
    virtual string GetCheckMethod() {return CheckMethod;};

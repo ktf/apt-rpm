@@ -297,14 +297,14 @@ class rpmRepomdIndex : public rpmIndexFile
    string IndexURI(string Type) const;
 
    virtual string MainType() const = 0;
-   virtual string IndexPath() const {return IndexFile(MainType());};
+   virtual string IndexPath() const {return IndexFile("primary");};
    virtual string ReleasePath() const;
 
    public:
 
    // Creates a RPMHandler suitable for usage with this object
    virtual RPMHandler *CreateHandler() const
-          { return new RPMRepomdHandler(IndexPath()); };
+          { return new RPMRepomdHandler(IndexFile("primary")); };
 
    virtual bool GetReleases(pkgAcquire *Owner) const;
 
@@ -330,10 +330,7 @@ class rpmRepomdIndex : public rpmIndexFile
    virtual pkgSrcRecords::Parser *CreateSrcParser() const;
 
    rpmRepomdIndex(string URI,string Dist,string Section,
-               pkgRepository *Repository) :
-                       URI(URI), Dist(Dist), Section(Section),
-               Repository(Repository)
-       {};
+               pkgRepository *Repository);
 
 };
 

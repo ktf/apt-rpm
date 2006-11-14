@@ -368,7 +368,7 @@ bool rpmPkgListIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
    string PackageFile = IndexPath();
    RPMHandler *Handler = CreateHandler();
 
-   Prog.SubProgress(0,Info(MainType()));
+   Prog.SubProgress(0,Info("primary"));
    ::URI Tmp(URI);
    if (Gen.SelectFile(PackageFile,Tmp.Host,*this) == false)
    {
@@ -632,12 +632,13 @@ string rpmRepomdIndex::IndexURI(string Type) const
    if (Dist[Dist.size() - 1] != '/') {
 	 Res += "/";
    }
-   // When called with the main type it's primary.xml we want, at other
-   // times it could be eg filelists.xml
-   if (Type == "repomd" || Type == "repomd-src")
-      Res += "repodata/primary.xml";
-   else
-      Res += "repodata/" + Type;
+   string TypeURI;
+   if (Repository->FindURI(Type, TypeURI)) {
+      Res += TypeURI;
+   } else {
+      Res = "";
+   }
+   assert(Res.size() > 0);
    return Res;
 }
 									/*}}}*/
@@ -646,8 +647,6 @@ bool rpmRepomdIndex::GetReleases(pkgAcquire *Owner) const
    if (!Repository->Acquire)
       return true;
    Repository->Acquire = false;
-   // ignore for now - we need to parse the file for checksum and 
-   // optimally for location of other xml files as well
    new pkgAcqIndexRel(Owner,Repository,ReleaseURI("repomd.xml"),
                       ReleaseInfo("repomd.xml"), "repomd.xml", true);
    return true;
@@ -655,14 +654,20 @@ bool rpmRepomdIndex::GetReleases(pkgAcquire *Owner) const
 
 bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 {
-   new pkgAcqIndex(Owner,Repository,IndexURI("primary.xml"),
+
+   new pkgAcqIndex(Owner,Repository,IndexURI("primary"),
 	           Info("primary.xml"), "primary.xml");
-   new pkgAcqIndex(Owner,Repository,IndexURI("filelists.xml"),
+   new pkgAcqIndex(Owner,Repository,IndexURI("filelists"),
 		   Info("filelists.xml"), "filelists.xml");
-#if 0
-   new pkgAcqIndex(Owner,Repository,IndexURI("other.xml"),
-   		   Info("other.xml"), "other.xml");
-#endif
+   if (_config->FindB("Acquire::ChangeLogs", false)) {
+      new pkgAcqIndex(Owner,Repository,IndexURI("other"),
+		     Info("other.xml"), "other.xml");
+   }
+   string dummy;
+   if (Repository->FindURI("updateinfo", dummy)) {
+      new pkgAcqIndex(Owner,Repository,IndexURI("updateinfo"),
+		     Info("updateinfo.xml"), "updateinfo.xml");
+   }
    return true;
 }
 
@@ -690,7 +695,7 @@ bool rpmRepomdIndex::Exists() const
 
 string rpmRepomdIndex::ReleasePath() const
 {
-   return _config->FindDir("Dir::State::lists")+URItoFileName(ReleaseURI("release.xml"));
+   return _config->FindDir("Dir::State::lists")+URItoFileName(ReleaseURI("repomd.xml"));
 }
 
 // This gets called several times per each index during cache generation,
@@ -719,9 +724,10 @@ unsigned long rpmRepomdIndex::Size() const
 bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
 {
    string PackageFile = IndexPath();
+   cout << "packagefile " << PackageFile << endl;
    RPMHandler *Handler = CreateHandler();
 
-   Prog.SubProgress(0,Info(MainType()));
+   Prog.SubProgress(0,Info("primary"));
    ::URI Tmp(URI);
    if (Gen.SelectFile(PackageFile,Tmp.Host,*this) == false)
    {
@@ -782,6 +788,16 @@ bool rpmRepomdIndex::MergeFileProvides(pkgCacheGenerator &Gen,
 			   PackageFile.c_str());
    delete Handler;
    return true;
+}
+
+rpmRepomdIndex::rpmRepomdIndex(string URI,string Dist,string Section, 
+			       pkgRepository *Repository):
+			       URI(URI), Dist(Dist), Section(Section),
+			       Repository(Repository)	
+{
+   if (FileExists(ReleasePath())) {
+      Repository->ParseRelease(ReleasePath());
+   }
 }
 
 pkgSrcRecords::Parser *rpmRepomdIndex::CreateSrcParser() const
