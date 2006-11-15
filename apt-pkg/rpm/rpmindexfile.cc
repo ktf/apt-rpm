@@ -724,7 +724,6 @@ unsigned long rpmRepomdIndex::Size() const
 bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
 {
    string PackageFile = IndexPath();
-   cout << "packagefile " << PackageFile << endl;
    RPMHandler *Handler = CreateHandler();
 
    Prog.SubProgress(0,Info("primary"));
