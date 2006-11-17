@@ -305,6 +305,12 @@ class RPMRepomdFLHandler : public RPMHandler
    virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps)
        {return true;};
 
+   virtual string Group() {return "";};
+   virtual string Packager() {return "";};
+   virtual string Vendor() {return "";};
+   virtual string Summary() {return "";};
+   virtual string Description() {return "";};
+   virtual string SourceRpm() {return "";};
    virtual bool FileList(vector<string> &FileList);
    RPMRepomdFLHandler(string File);
    virtual ~RPMRepomdFLHandler();

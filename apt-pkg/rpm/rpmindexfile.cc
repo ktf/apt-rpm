@@ -655,19 +655,8 @@ bool rpmRepomdIndex::GetReleases(pkgAcquire *Owner) const
 bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 {
 
-   new pkgAcqIndex(Owner,Repository,IndexURI("primary"),
-	           Info("primary.xml"), "primary.xml");
-   new pkgAcqIndex(Owner,Repository,IndexURI("filelists"),
-		   Info("filelists.xml"), "filelists.xml");
-   if (_config->FindB("Acquire::ChangeLogs", false)) {
-      new pkgAcqIndex(Owner,Repository,IndexURI("other"),
-		     Info("other.xml"), "other.xml");
-   }
-   string dummy;
-   if (Repository->FindURI("updateinfo", dummy)) {
-      new pkgAcqIndex(Owner,Repository,IndexURI("updateinfo"),
-		     Info("updateinfo.xml"), "updateinfo.xml");
-   }
+   new pkgAcqIndex(Owner,Repository,IndexURI(FileType),
+	           Info(FileType + ".xml"), FileType + ".xml");
    return true;
 }
 
@@ -770,25 +759,6 @@ bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
    return true;
 }
 
-bool rpmRepomdIndex::MergeFileProvides(pkgCacheGenerator &Gen,
-					OpProgress &Prog) const
-{
-   string PackageFile = IndexPath();
-   RPMHandler *Handler = new RPMRepomdFLHandler(IndexPath());
-   rpmListParser Parser(Handler);
-   if (_error->PendingError() == true) {
-      delete Handler;
-      return _error->Error(_("Problem opening %s"),PackageFile.c_str());
-   }
-   // We call SubProgress with Size(), since we won't call SelectFile() here.
-   Prog.SubProgress(Size(),Info("pkglist"));
-   if (Gen.MergeFileProvides(Parser) == false)
-      return _error->Error(_("Problem with MergeFileProvides %s"),
-			   PackageFile.c_str());
-   delete Handler;
-   return true;
-}
-
 rpmRepomdIndex::rpmRepomdIndex(string URI,string Dist,string Section, 
 			       pkgRepository *Repository):
 			       URI(URI), Dist(Dist), Section(Section),
@@ -797,6 +767,7 @@ rpmRepomdIndex::rpmRepomdIndex(string URI,string Dist,string Section,
    if (FileExists(ReleasePath())) {
       Repository->ParseRelease(ReleasePath());
    }
+   FileType = "primary";
 }
 
 pkgSrcRecords::Parser *rpmRepomdIndex::CreateSrcParser() const
@@ -825,6 +796,26 @@ string rpmRepomdSrcIndex::SourceInfo(pkgSrcRecords::Parser const &Record,
       Res += " (" + File.Type + ")";
    return Res;
 }
+
+bool rpmRepomdFileIndex::MergeFileProvides(pkgCacheGenerator &Gen,
+					OpProgress &Prog) const
+{
+   string PackageFile = IndexPath();
+   RPMHandler *Handler = new RPMRepomdFLHandler(IndexPath());
+   rpmListParser Parser(Handler);
+   if (_error->PendingError() == true) {
+      delete Handler;
+      return _error->Error(_("Problem opening %s"),PackageFile.c_str());
+   }
+   // We call SubProgress with Size(), since we won't call SelectFile() here.
+   Prog.SubProgress(Size(),Info("pkglist"));
+   if (Gen.MergeFileProvides(Parser) == false)
+      return _error->Error(_("Problem with MergeFileProvides %s"),
+			   PackageFile.c_str());
+   delete Handler;
+   return true;
+}
+
 #endif /* APT_WITH_REPOMD */
 
 // DatabaseIndex::rpmDatabaseIndex - Constructor			/*{{{*/
@@ -1083,6 +1074,10 @@ class rpmSLTypeRepomd : public rpmSLTypeGen
    {
       pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
       List.push_back(new rpmRepomdPkgIndex(URI,Dist,Section,Rep));
+      List.push_back(new rpmRepomdFileIndex(URI,Dist,Section,Rep));
+#if 0
+      List.push_back(new rpmRepomdOtherIndex(URI,Dist,Section,Rep));
+#endif
       return true;
    };
 
@@ -1154,6 +1149,7 @@ class rpmIFTypeSrc : public pkgIndexFile::Type
    
    rpmIFTypeSrc() {Label = "RPM Source Index";};
 };
+
 class rpmIFTypePkg : public pkgIndexFile::Type
 {
    public:
@@ -1164,6 +1160,7 @@ class rpmIFTypePkg : public pkgIndexFile::Type
    };
    rpmIFTypePkg() {Label = "RPM Package Index";};
 };
+
 class rpmIFTypeDatabase : public pkgIndexFile::Type
 {
    public:
@@ -1174,9 +1171,38 @@ class rpmIFTypeDatabase : public pkgIndexFile::Type
    };
    rpmIFTypeDatabase() {Label = "RPM Database";};
 };
+
+class rpmIFTypeFileList : public pkgIndexFile::Type
+{
+   public:
+
+#if 0
+   virtual pkgRecords::Parser *CreatePkgParser(pkgCache::PkgFileIterator File) const
+   {
+      return new rpmFileRecordParser(File.FileName(),*File.Cache());
+   };
+#endif
+   rpmIFTypeFileList() {Label = "RepoMD Filelist";};
+};
+
+class rpmIFTypeOtherList : public pkgIndexFile::Type
+{
+   public:
+
+#if 0
+   virtual pkgRecords::Parser *CreatePkgParser(pkgCache::PkgFileIterator File) const
+   {
+      return new rpmFileRecordParser(File.FileName(),*File.Cache());
+   };
+#endif
+   rpmIFTypeOtherList() {Label = "RepoMD Otherlist";};
+};
+
 static rpmIFTypeSrc _apt_Src;
 static rpmIFTypePkg _apt_Pkg;
 static rpmIFTypeDatabase _apt_DB;
+static rpmIFTypeFileList _apt_FL;
+static rpmIFTypeOtherList _apt_OL;
 
 const pkgIndexFile::Type *rpmSrcListIndex::GetType() const
 {
@@ -1214,6 +1240,14 @@ const pkgIndexFile::Type *rpmRepomdPkgIndex::GetType() const
 const pkgIndexFile::Type *rpmRepomdSrcIndex::GetType() const
 {
    return &_apt_Src;
+}
+const pkgIndexFile::Type *rpmRepomdFileIndex::GetType() const
+{
+   return &_apt_FL;
+}
+const pkgIndexFile::Type *rpmRepomdOtherIndex::GetType() const
+{
+   return &_apt_OL;
 }
 #endif
 

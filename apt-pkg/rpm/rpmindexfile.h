@@ -283,6 +283,8 @@ class rpmRepomdIndex : public rpmIndexFile
 {
    protected:
 
+   string FileType;
+
    string URI;
    string Dist;
    string Section;
@@ -297,14 +299,14 @@ class rpmRepomdIndex : public rpmIndexFile
    string IndexURI(string Type) const;
 
    virtual string MainType() const = 0;
-   virtual string IndexPath() const {return IndexFile("primary");};
+   virtual string IndexPath() const {return IndexFile(FileType);};
    virtual string ReleasePath() const;
 
    public:
 
    // Creates a RPMHandler suitable for usage with this object
    virtual RPMHandler *CreateHandler() const
-          { return new RPMRepomdHandler(IndexFile("primary")); };
+          { return new RPMRepomdHandler(IndexPath()); };
 
    virtual bool GetReleases(pkgAcquire *Owner) const;
 
@@ -321,8 +323,6 @@ class rpmRepomdIndex : public rpmIndexFile
    virtual string ArchiveURI(string File) const;
 
    virtual bool Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const;
-   virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,
-		   		  OpProgress &/*Prog*/) const;
    virtual pkgCache::PkgFileIterator FindInCache(pkgCache &Cache) const;
 
    // Interface for the source record parsers - repomd can have both binary
@@ -371,6 +371,39 @@ class rpmRepomdSrcIndex : public rpmRepomdIndex
           rpmRepomdIndex(URI,Dist,Section,Repository) {};
 
 };
+
+class rpmRepomdFileIndex : public rpmRepomdIndex
+{
+   protected:
+   virtual string MainType() const {return "repomd";};
+
+   public:
+   virtual bool HasPackages() const {return true;};
+   virtual const Type *GetType() const;
+   virtual RPMHandler *CreateHandler() const
+          { return new RPMRepomdFLHandler(IndexPath()); };
+   virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,
+		   		  OpProgress &/*Prog*/) const;
+
+   rpmRepomdFileIndex(string URI,string Dist,string Section,
+                     pkgRepository *Repository) :
+          rpmRepomdIndex(URI,Dist,Section,Repository) {FileType="filelists";};
+};
+
+class rpmRepomdOtherIndex : public rpmRepomdIndex
+{
+   protected:
+   virtual string MainType() const {return "repomd";};
+
+   public:
+   virtual const Type *GetType() const;
+   rpmRepomdOtherIndex(string URI,string Dist,string Section,
+                     pkgRepository *Repository) :
+          rpmRepomdIndex(URI,Dist,Section,Repository) {FileType="other";};
+
+};
+
 #endif /* APT_WITH_REPOMD */
 
 #endif
+// vim:sts=3:sw=3
