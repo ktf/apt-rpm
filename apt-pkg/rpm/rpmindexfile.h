@@ -371,6 +371,62 @@ class rpmRepomdSrcIndex : public rpmRepomdIndex
           rpmRepomdIndex(URI,Dist,Section,Repository) {};
 
 };
+
+class rpmRepomdDBIndex : public rpmRepomdIndex
+{
+   protected:
+
+   virtual string IndexPath() const {return IndexFile("primary_db");};
+
+   public:
+
+   // Creates a RPMHandler suitable for usage with this object
+   virtual RPMHandler *CreateHandler() const
+          { return new RPMSqliteHandler(IndexFile("primary_db")); };
+   virtual bool GetIndexes(pkgAcquire *Owner) const;
+   unsigned long Size() const;
+   virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,
+		   		  OpProgress &/*Prog*/) const;
+
+
+   rpmRepomdDBIndex(string URI,string Dist,string Section,
+                     pkgRepository *Repository) :
+          rpmRepomdIndex(URI,Dist,Section,Repository) {};
+};
+
+class rpmRepomdDBPkgIndex : public rpmRepomdDBIndex
+{
+   protected:
+
+   virtual string MainType() const {return "repodb";};
+
+   public:
+
+   virtual bool HasPackages() const {return true;};
+   virtual const Type *GetType() const;
+
+
+   rpmRepomdDBPkgIndex(string URI,string Dist,string Section,
+                     pkgRepository *Repository) :
+          rpmRepomdDBIndex(URI,Dist,Section,Repository) {};
+
+};
+
+class rpmRepomdDBSrcIndex : public rpmRepomdDBIndex
+{
+   protected:
+
+   virtual string MainType() const {return "repodb-src";};
+
+   public:
+
+   virtual const Type *GetType() const;
+
+   rpmRepomdDBSrcIndex(string URI,string Dist,string Section,
+                     pkgRepository *Repository) :
+          rpmRepomdDBIndex(URI,Dist,Section,Repository) {};
+
+};
 #endif /* APT_WITH_REPOMD */
 
 #endif

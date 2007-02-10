@@ -39,10 +39,10 @@ class repomdRepository : public pkgRepository
    bool FindURI(string DataType, string &URI);
    
    repomdRepository(string URI,string Dist, const pkgSourceList::Vendor *Vendor,
-		 string RootURI)
+		 string RootURI, string Compr)
       : pkgRepository(URI, Dist, Vendor, RootURI) 
    {
-      ComprMethod = "gz";
+      ComprMethod = Compr;
       // repomd always has a "release" file
       GotRelease = true;
    };

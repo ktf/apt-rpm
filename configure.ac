@@ -85,7 +85,7 @@ else
          [RPMDBLIBS="-lrpmdb"],
          [RPMDBLIBS="-ldb-3.1"],
          [-lrpm -lrpmio -lz -lbz2 -lpopt])
-      RPMLIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt"
+      RPMLIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt -lsqlite3"
    fi
    AC_MSG_CHECKING(for RPM libraries)
    AC_MSG_RESULT($RPMLIBS)

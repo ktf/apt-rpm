@@ -71,8 +71,8 @@ bool repomdRepository::ParseRelease(string File)
       }
 
       n = NULL;
-      if (flExtension(Path) == "gz") {
-	 Path = Path.substr(0, Path.size()-3);
+      if (flExtension(Path) == "gz" || flExtension(Path) == "bz2") {
+	 Path = Path.substr(0, Path.size()-flExtension(Path).size()-1);
 	 n = FindNode(Node, "open-checksum");
       } else {
 	 n = FindNode(Node, "checksum");

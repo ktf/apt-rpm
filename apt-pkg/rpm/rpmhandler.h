@@ -17,6 +17,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
+#include <sqlite3.h>
 #endif
 
 #include <rpm/rpmlib.h>
@@ -308,6 +309,56 @@ class RPMRepomdFLHandler : public RPMHandler
    virtual bool FileList(vector<string> &FileList);
    RPMRepomdFLHandler(string File);
    virtual ~RPMRepomdFLHandler();
+};
+
+class RPMSqliteHandler : public RPMHandler
+{
+   protected:
+
+   sqlite3 *db;
+   sqlite3 *filedb;
+   sqlite3 *otherdb;
+   string DBPath;
+   string FilesDBPath;
+   string OtherDBPath;
+
+   vector<off_t> Pkgs;
+   vector<off_t>::iterator PkgIter;
+
+   string FindTag(string Tag);
+
+   public:
+
+   virtual bool Skip();
+   virtual bool Jump(off_t Offset);
+   virtual void Rewind();
+   virtual inline bool IsDatabase() {return false;};
+
+   virtual string FileName();
+   virtual string Directory();
+   virtual unsigned long FileSize();
+   virtual unsigned long InstalledSize();
+   virtual string MD5Sum();
+   virtual string SHA1Sum();
+
+   virtual string Name();
+   virtual string Arch();
+   virtual string Epoch();
+   virtual string Version();
+   virtual string Release();
+
+   virtual string Group();
+   virtual string Packager();
+   virtual string Vendor();
+   virtual string Summary();
+   virtual string Description();
+   virtual string SourceRpm();
+
+   virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps);
+   virtual bool FileList(vector<string> &FileList);
+
+   RPMSqliteHandler(string File);
+   virtual ~RPMSqliteHandler();
 };
 #endif /* APT_WITH_REPOMD */
 

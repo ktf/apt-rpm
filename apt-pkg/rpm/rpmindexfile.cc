@@ -659,15 +659,6 @@ bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 	           Info("primary.xml"), "primary.xml");
    new pkgAcqIndex(Owner,Repository,IndexURI("filelists"),
 		   Info("filelists.xml"), "filelists.xml");
-   if (_config->FindB("Acquire::ChangeLogs", false)) {
-      new pkgAcqIndex(Owner,Repository,IndexURI("other"),
-		     Info("other.xml"), "other.xml");
-   }
-   string dummy;
-   if (Repository->FindURI("updateinfo", dummy)) {
-      new pkgAcqIndex(Owner,Repository,IndexURI("updateinfo"),
-		     Info("updateinfo.xml"), "updateinfo.xml");
-   }
    return true;
 }
 
@@ -824,6 +815,46 @@ string rpmRepomdSrcIndex::SourceInfo(pkgSrcRecords::Parser const &Record,
    if (File.Type.empty() == false)
       Res += " (" + File.Type + ")";
    return Res;
+}
+
+bool rpmRepomdDBIndex::GetIndexes(pkgAcquire *Owner) const
+{
+
+   new pkgAcqIndex(Owner,Repository,IndexURI("primary_db"),
+	           Info("primary.sqlite"), "primary.sqlite");
+   new pkgAcqIndex(Owner,Repository,IndexURI("filelists_db"),
+		   Info("filelists.sqlite"), "filelists.sqlite");
+   if (_config->FindB("Acquire::ChangeLogs", false)) {
+      new pkgAcqIndex(Owner,Repository,IndexURI("other_db"),
+		     Info("other.sqlite"), "other.sqlite");
+   }
+   return true;
+}
+
+unsigned long rpmRepomdDBIndex::Size() const
+{
+   RPMHandler *Handler = CreateHandler();
+   unsigned long Res = Handler->Size();
+   delete Handler;
+   return Res;
+}
+bool rpmRepomdDBIndex::MergeFileProvides(pkgCacheGenerator &Gen,
+					OpProgress &Prog) const
+{
+   string PackageFile = IndexPath();
+   RPMHandler *Handler = new RPMSqliteHandler(IndexPath());
+   rpmListParser Parser(Handler);
+   if (_error->PendingError() == true) {
+      delete Handler;
+      return _error->Error(_("Problem opening %s"),PackageFile.c_str());
+   }
+   // We call SubProgress with Size(), since we won't call SelectFile() here.
+   Prog.SubProgress(Size(),Info("pkglist"));
+   if (Gen.MergeFileProvides(Parser) == false)
+      return _error->Error(_("Problem with MergeFileProvides %s"),
+			   PackageFile.c_str());
+   delete Handler;
+   return true;
 }
 #endif /* APT_WITH_REPOMD */
 
@@ -1055,7 +1086,8 @@ class rpmSLTypeRepomd : public rpmSLTypeGen
    public:
 
    pkgRepository *GetRepository(string URI,string Dist,
-				const pkgSourceList::Vendor *Vendor) const
+				const pkgSourceList::Vendor *Vendor,
+			        string Compr) const
    {
       pkgRepository *Rep = FindRepository(URI,Dist,Vendor);
       if (Rep != NULL)
@@ -1072,7 +1104,7 @@ class rpmSLTypeRepomd : public rpmSLTypeGen
       else
 	 BaseURI = URI + Dist + '/';
 
-      Rep = new repomdRepository(URI,Dist,Vendor,BaseURI);
+      Rep = new repomdRepository(URI,Dist,Vendor,BaseURI,Compr);
       RepList.push_back(Rep);
       return Rep;
    }
@@ -1081,7 +1113,7 @@ class rpmSLTypeRepomd : public rpmSLTypeGen
 		   string URI, string Dist, string Section,
 		   pkgSourceList::Vendor const *Vendor) const 
    {
-      pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
+      pkgRepository *Rep = GetRepository(URI,Dist,Vendor,"gz");
       List.push_back(new rpmRepomdPkgIndex(URI,Dist,Section,Rep));
       return true;
    };
@@ -1125,7 +1157,7 @@ class rpmSLTypeRepomdSrc : public rpmSLTypeRepomd
 		   string URI, string Dist, string Section,
 		   pkgSourceList::Vendor const *Vendor) const 
    {
-      pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
+      pkgRepository *Rep = GetRepository(URI,Dist,Vendor,"gz");
       List.push_back(new rpmRepomdSrcIndex(URI,Dist,Section,Rep));
       return true;
    };
@@ -1136,6 +1168,44 @@ class rpmSLTypeRepomdSrc : public rpmSLTypeRepomd
       Label = "RepoMD src tree";
    }   
 };
+
+class rpmSLTypeRepomdDB : public rpmSLTypeRepomd
+{
+   public:
+   bool CreateItem(vector<pkgIndexFile *> &List,
+		   string URI, string Dist, string Section,
+		   pkgSourceList::Vendor const *Vendor) const 
+   {
+      pkgRepository *Rep = GetRepository(URI,Dist,Vendor,"bz2");
+      List.push_back(new rpmRepomdDBPkgIndex(URI,Dist,Section,Rep));
+      return true;
+   };
+
+   rpmSLTypeRepomdDB()
+   {
+      Name = "repodb";
+      Label = "RepoMD DB tree";
+   }   
+};
+
+class rpmSLTypeRepomdDBSrc : public rpmSLTypeRepomd
+{
+   public:
+   bool CreateItem(vector<pkgIndexFile *> &List,
+		   string URI, string Dist, string Section,
+		   pkgSourceList::Vendor const *Vendor) const 
+   {
+      pkgRepository *Rep = GetRepository(URI,Dist,Vendor,"bz2");
+      List.push_back(new rpmRepomdDBSrcIndex(URI,Dist,Section,Rep));
+      return true;
+   };
+
+   rpmSLTypeRepomdDBSrc()
+   {
+      Name = "repodb-src";
+      Label = "RepoMD DB src tree";
+   }   
+};
 #endif /* APT_WITH_REPOMD */
 
 rpmSLTypeRpm _apt_rpmType;
@@ -1144,6 +1214,8 @@ rpmSLTypeRpmDir _apt_rpmDirType;
 rpmSLTypeSrpmDir _apt_rpmSrcDirType;
 #ifdef APT_WITH_REPOMD
 rpmSLTypeRepomd _apt_repomdType;
+rpmSLTypeRepomdDB _apt_repomdDBType;
+rpmSLTypeRepomdDBSrc _apt_repomdDBSrcType;
 rpmSLTypeRepomdSrc _apt_repomdSrcType;
 #endif
 									/*}}}*/
@@ -1212,6 +1284,14 @@ const pkgIndexFile::Type *rpmRepomdPkgIndex::GetType() const
    return &_apt_Pkg;
 }
 const pkgIndexFile::Type *rpmRepomdSrcIndex::GetType() const
+{
+   return &_apt_Src;
+}
+const pkgIndexFile::Type *rpmRepomdDBPkgIndex::GetType() const
+{
+   return &_apt_Pkg;
+}
+const pkgIndexFile::Type *rpmRepomdDBSrcIndex::GetType() const
 {
    return &_apt_Src;
 }
