@@ -1238,7 +1238,7 @@ RPMRepomdHandler::~RPMRepomdHandler()
 
 RPMRepomdFLHandler::RPMRepomdFLHandler(string File) : RPMHandler()
 {
-   FilelistFile = File;
+   FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
 
    ID = File;
    Filelist = NULL;
@@ -1279,13 +1279,13 @@ error:
 
 bool RPMRepomdFLHandler::Jump(off_t Offset)
 {
-   cerr << "RepomdFLHandler::Jump() called but not implemented!" << endl;
+   //cerr << "RepomdFLHandler::Jump() called but not implemented!" << endl;
    return false;
 }
 
 void RPMRepomdFLHandler::Rewind()
 {
-   cerr << "RepomdFLHandler::Rewind() called but not implemented!" << endl;
+   //cerr << "RepomdFLHandler::Rewind() called but not implemented!" << endl;
 }
 
 bool RPMRepomdFLHandler::Skip()
@@ -1315,15 +1315,15 @@ bool RPMRepomdFLHandler::FileList(vector<string> &FileList)
 
 string RPMRepomdFLHandler::FindTag(char *Tag)
 {
-   string str = "";
-   if (NodeP) {
-       xmlChar *attr = xmlGetProp(NodeP, (xmlChar*)Tag);
-       if (attr) {
-          str = (char*)attr;
-          xmlFree(attr);
-       }
-   }
-   return str;
+     string str = "";
+     if (NodeP) {
+         xmlChar *attr = xmlGetProp(NodeP, (xmlChar*)Tag);
+         if (attr) {
+            str = (char*)attr;
+            xmlFree(attr);
+         }
+     }
+     return str;
 }
 
 RPMRepomdFLHandler::~RPMRepomdFLHandler()
