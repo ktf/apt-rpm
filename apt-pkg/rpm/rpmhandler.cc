@@ -906,7 +906,6 @@ void RPMDBHandler::Rewind()
 #ifdef APT_WITH_REPOMD
 RPMRepomdHandler::RPMRepomdHandler(string File)
 {
-   //cout << __PRETTY_FUNCTION__ << File << endl;
    PrimaryFile = File;
 
    ID = File;
@@ -1241,7 +1240,6 @@ RPMRepomdHandler::~RPMRepomdHandler()
 
 RPMRepomdFLHandler::RPMRepomdFLHandler(string File) : RPMHandler()
 {
-   //cout << __PRETTY_FUNCTION__ << File << endl;
    FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
 
    ID = File;
@@ -1338,13 +1336,13 @@ RPMRepomdFLHandler::~RPMRepomdFLHandler()
 RPMSqliteHandler::RPMSqliteHandler(string File) : 
    Primary(NULL), Filelists(NULL)
 {
-   //cout << __PRETTY_FUNCTION__ << endl;
    int rc = 0;
    char **res = NULL;
    int nrow, ncol = 0;
    string sql;
    
 
+   ID = File;
    DBPath = File; 
    // ugh, pass this in to the constructor or something..
    FilesDBPath = File.substr(0, File.size() - 14) + "filelists.sqlite";
@@ -1362,7 +1360,6 @@ RPMSqliteHandler::RPMSqliteHandler(string File) :
 
    Packages->Exec("select * from packages");
    iSize = Packages->Size();
-   cout << "sqlite handler initialized, isize " << iSize << endl;
 }
 
 RPMSqliteHandler::~RPMSqliteHandler()
@@ -1509,7 +1506,6 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
       int_32 RpmOp = 0;
       string deptype, depver = "";
 
-      //cout << *(PkgIter-1) << " prco " << res[i+0] << endl;
       if (prco->GetCol("flags").empty()) {
 	 RpmOp == RPMSENSE_ANY;
       } else {
@@ -1541,7 +1537,6 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 }
       }
       string depname = prco->GetCol("name");
-      //cout << Name() << " (" << pkgKey << ") " << ": put dep " << depname << " " << RpmOp << " " << depver << endl;
       bool res = PutDep(depname.c_str(), depver.c_str(), RpmOp, Type, Deps);
    }
    delete prco;

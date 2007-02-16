@@ -1223,9 +1223,9 @@ rpmSLTypeRpmDir _apt_rpmDirType;
 rpmSLTypeSrpmDir _apt_rpmSrcDirType;
 #ifdef APT_WITH_REPOMD
 rpmSLTypeRepomd _apt_repomdType;
+rpmSLTypeRepomdSrc _apt_repomdSrcType;
 rpmSLTypeRepomdDB _apt_repomdDBType;
 rpmSLTypeRepomdDBSrc _apt_repomdDBSrcType;
-rpmSLTypeRepomdSrc _apt_repomdSrcType;
 #endif
 									/*}}}*/
 // Index File types for rpm						/*{{{*/

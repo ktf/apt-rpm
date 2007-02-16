@@ -384,7 +384,7 @@ class rpmRepomdDBIndex : public rpmRepomdIndex
    virtual RPMHandler *CreateHandler() const
           { return new RPMSqliteHandler(IndexFile("primary_db")); };
    virtual bool GetIndexes(pkgAcquire *Owner) const;
-   unsigned long Size() const;
+   virtual unsigned long Size() const;
    virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,
 		   		  OpProgress &/*Prog*/) const;
 
