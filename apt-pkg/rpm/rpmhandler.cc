@@ -32,6 +32,7 @@
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
 #include <sstream>
+#include <apt-pkg/sqlite.h>
 #endif
 
 #include <apti18n.h>
@@ -1334,188 +1335,138 @@ RPMRepomdFLHandler::~RPMRepomdFLHandler()
    xmlFreeTextReader(Filelist);
 }
 
-RPMSqliteHandler::RPMSqliteHandler(string File)
+RPMSqliteHandler::RPMSqliteHandler(string File) : 
+   Primary(NULL), Filelists(NULL)
 {
    //cout << __PRETTY_FUNCTION__ << endl;
    int rc = 0;
    char **res = NULL;
    int nrow, ncol = 0;
    string sql;
+   
 
    DBPath = File; 
    // ugh, pass this in to the constructor or something..
    FilesDBPath = File.substr(0, File.size() - 14) + "filelists.sqlite";
-   //cout << "db " << DBPath << " filelists " << FilesDBPath << endl;
-   rc = sqlite3_open(DBPath.c_str(), &db);
-   if (rc != SQLITE_OK) {
-      cout << "failed to open " << DBPath << endl;
-   }
-   if (! FilesDBPath.empty()) {
-      rc = sqlite3_open(FilesDBPath.c_str(), &filedb);
-      if (rc != SQLITE_OK) {
-	 cout << "failed to open " << FilesDBPath << endl;
-      }
-   }
 
-   sql = "SELECT pkgKey FROM packages";
-   rc = sqlite3_get_table(db, sql.c_str(), &res, &nrow, &ncol, NULL);
-   if (rc != SQLITE_OK) {
-      cout << "failed to read package index size" << endl;
-   }
+   Primary = new SqliteDB(DBPath);
+   Filelists = new SqliteDB(FilesDBPath);
 
-   for (int c=1; c <= nrow; c++) {
-      Pkgs.push_back(atoi(res[c]));
-   }
+   Packages = Primary->Query();
 
-   // XXX Things are dead slow without these indexes the way this
-   // is implemented now. Just ignore any failures creating them,
-   // most likely it's because the index already exists.
-   sql = "CREATE INDEX providesIdx on provides (pkgKey)";
-   rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, NULL);
-   sql = "CREATE INDEX requiresIdx on requires (pkgKey)";
-   rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, NULL);
-   sql = "CREATE INDEX conflictsIdx on conflicts (pkgKey)";
-   rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, NULL);
-   sql = "CREATE INDEX obsoletesIdx on obsoletes (pkgKey)";
-   rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, NULL);
+   // XXX without these indexes cache generation will take minutes.. ick
+   Packages->Exec("create index requireIdx on requires (pkgKey)");
+   Packages->Exec("create index provideIdx on provides (pkgKey)");
+   Packages->Exec("create index obsoleteIdx on obsoletes (pkgKey)");
+   Packages->Exec("create index conflictIdx on conflicts (pkgKey)");
 
-   iSize = Pkgs.size();
-   PkgIter = Pkgs.begin();
-   //cout << iSize << " packages in " << File << endl;
+   Packages->Exec("select * from packages");
+   iSize = Packages->Size();
+   cout << "sqlite handler initialized, isize " << iSize << endl;
 }
 
 RPMSqliteHandler::~RPMSqliteHandler()
 {
-   //cout << __PRETTY_FUNCTION__ << endl;
-   sqlite3_close(db);
-   sqlite3_close(filedb);
+   if (Primary) delete Primary;
+   if (Filelists) delete Filelists;
 }
 
-string RPMSqliteHandler::FindTag(string Tag)
-{
-   int rc = 0;
-   char **res = NULL;
-   int nrow, ncol = 0;
-   ostringstream sql;
-   string tag;
-
-   sql << "SELECT " << Tag << " FROM packages where pkgKey=" << *(PkgIter-1) << endl;
-   rc = sqlite3_get_table(db, sql.str().c_str(), &res, &nrow, &ncol, NULL);
-   if (rc != SQLITE_OK || nrow != 1) {
-      cout << "failed getting tag " << Tag << endl;
-      sqlite3_free_table(res);
-      return "";
-   }
-   tag = res[1];
-   sqlite3_free_table(res);
-   return tag;
-}
 
 bool RPMSqliteHandler::Skip()
 {
-   //cout << __PRETTY_FUNCTION__ << endl;
-   if (PkgIter == Pkgs.end()) {
-      return false;
-   }
-   iOffset = PkgIter - Pkgs.begin();
-   PkgIter++;
-   return true;
+   bool res = Packages->Step();
+   if (res)
+      iOffset++;
+   return res;
 }
 
 bool RPMSqliteHandler::Jump(off_t Offset)
 {
-   //cout << __PRETTY_FUNCTION__ << endl;
-   if (Offset >= iSize) {
+   bool res = Packages->Jump(Offset);
+   if (!res)
       return false;
-   }
-   iOffset = Offset;
-   PkgIter = Pkgs.begin() + Offset + 1;
+   iOffset = Packages->Offset();
    return true;
 }
 
 void RPMSqliteHandler::Rewind()
 {
-   //cout << __PRETTY_FUNCTION__ << endl;
+   Packages->Rewind();
    iOffset = 0;
-   PkgIter = Pkgs.begin();
 }
 
 string RPMSqliteHandler::Name()
 {
-   return FindTag("name");
+   return Packages->GetCol("name");
 }
 
 string RPMSqliteHandler::Version()
 {
-   return FindTag("version");
+   return Packages->GetCol("version");
 }
 
 string RPMSqliteHandler::Release()
 {
-   return FindTag("release");
+   return Packages->GetCol("release");
 }
 
 string RPMSqliteHandler::Epoch()
 {
-   return FindTag("epoch");
+   return Packages->GetCol("epoch");
 }
 
 string RPMSqliteHandler::Arch()
 {
-   return FindTag("arch");
+   return Packages->GetCol("arch");
 }
 
 string RPMSqliteHandler::Group()
 {
-   return FindTag("rpm_group");
+   return Packages->GetCol("rpm_group");
 }
 
 string RPMSqliteHandler::Packager()
 {
-   return FindTag("rpm_packager");
+   return Packages->GetCol("rpm_packager");
 }
 string RPMSqliteHandler::Vendor()
 {
-   return FindTag("rpm_vendor");
+   return Packages->GetCol("rpm_vendor");
 }
+
 string RPMSqliteHandler::Summary()
 {
-   return FindTag("summary");
+   return Packages->GetCol("summary");
 }
+
 string RPMSqliteHandler::Description()
 {
-   return FindTag("description");
+   return Packages->GetCol("description");
 }
+
 string RPMSqliteHandler::SourceRpm()
 {
-   return FindTag("rpm_sourcerpm");
+   return Packages->GetCol("rpm_sourcerpm");
 }
 
 string RPMSqliteHandler::FileName()
 {
-   string str = FindTag("location_href");
-   str = basename((char *)str.c_str()); 
-   //cout << "basename " << str << endl;
-   return str;
+   return flNotDir(Packages->GetCol("location_href"));
 }
 
 string RPMSqliteHandler::Directory()
 {
-   //cout << __PRETTY_FUNCTION__ << endl;
-   string str = FindTag("location_href");
-   str = dirname((char *)str.c_str()); 
-   //cout << "dir " << str << endl;
-   return str;
+   return flNotFile(Packages->GetCol("location_href"));
 }
 
 unsigned long RPMSqliteHandler::FileSize()
 {
-   return atoi(FindTag("size_package").c_str());
+   return Packages->GetColI("size_package");
 }
 
 unsigned long RPMSqliteHandler::InstalledSize()
 {
-   return atoi(FindTag("size_installed").c_str());
+   return Packages->GetColI("size_installed");
 }
 
 string RPMSqliteHandler::MD5Sum()
@@ -1525,17 +1476,12 @@ string RPMSqliteHandler::MD5Sum()
 
 string RPMSqliteHandler::SHA1Sum()
 {
-   // assuming sha sums for now..
-   return FindTag("checksum_value");
+   return Packages->GetCol("checksum_value");
 }
 
 bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 {
    string what = "";
-   ostringstream sql;
-   int rc, nrow, ncol = 0;
-   char **res = NULL;
-
    switch (Type) {
       case pkgCache::Dep::Depends:
 	 what = "requires";
@@ -1550,25 +1496,24 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 what = "provides";
          break;
    }
-   //cout << __PRETTY_FUNCTION__ << " " << *(PkgIter-1) << " " << what << endl;
 
-   sql << "SELECT name, flags, epoch, version, release FROM " << what << " where pkgKey=" << *(PkgIter-1) << endl;
-   rc = sqlite3_get_table(db, sql.str().c_str(), &res, &nrow, &ncol, NULL);
-   if (rc != SQLITE_OK) {
-      cout << what << " crap with pkgkey " << *(PkgIter-1) << endl;
-      sqlite3_free_table(res);
+   ostringstream sql;
+   unsigned long pkgKey = Packages->GetColI("pkgKey");
+   sql  << "select * from " << what << " where pkgKey=" << pkgKey << endl;
+   SqliteQuery *prco = Primary->Query();
+   if (!prco->Exec(sql.str())) {
       return false;
    }
-   for (int c=0; c < nrow*ncol; c += ncol) {
-      int i = c+ncol;
+
+   while (prco->Step()) {
       int_32 RpmOp = 0;
       string deptype, depver = "";
 
       //cout << *(PkgIter-1) << " prco " << res[i+0] << endl;
-      if (res[i+1] == NULL) {
+      if (prco->GetCol("flags").empty()) {
 	 RpmOp == RPMSENSE_ANY;
       } else {
-	 deptype = res[i+1];
+	 deptype = prco->GetCol("flags");
 	 if (deptype == "EQ") {
 	    RpmOp = RPMSENSE_EQUAL;
 	 } else if (deptype == "GE") {
@@ -1582,51 +1527,53 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 } else {
 	    // erm, unknown dependency type?
 	    cout << "unknown dep!? " << deptype << endl;
+	    delete prco;
 	    return false;
 	 }
-	 if (res[i+2] != NULL) {
-	    depver += string(res[i+2]) + ":";
+	 if (! prco->GetCol("epoch").empty()) {
+	    depver += prco->GetCol("epoch") + ":";
 	 }
-	 if (res[i+3] != NULL) {
-	    depver += res[i+3];
+	 if (! prco->GetCol("version").empty()) {
+	    depver += prco->GetCol("version");
 	 }
-	 if (res[i+4] != NULL) {
-	    depver += "-" + string(res[i+4]);
+	 if (! prco->GetCol("release").empty()) {
+	    depver += "-" + prco->GetCol("release");
 	 }
       }
-      char *depname = res[i+0];
-      //cout << what << " put dep " << depname << " " << RpmOp << " " << depver << endl;
-      bool res = PutDep(depname, depver.c_str(), RpmOp, Type, Deps);
+      string depname = prco->GetCol("name");
+      //cout << Name() << " (" << pkgKey << ") " << ": put dep " << depname << " " << RpmOp << " " << depver << endl;
+      bool res = PutDep(depname.c_str(), depver.c_str(), RpmOp, Type, Deps);
    }
-   sqlite3_free_table(res);
+   delete prco;
    return true;
 }
 
 bool RPMSqliteHandler::FileList(vector<string> &FileList)
 {
-   //cout << __PRETTY_FUNCTION__ << endl;
    ostringstream sql;
-   int rc, nrow, ncol = 0;
-   char **res = NULL;
-
-   sql << "SELECT dirname, filenames, filetypes FROM filelist where pkgKey=" << *(PkgIter-1) << endl;
-   rc = sqlite3_get_table(filedb, sql.str().c_str(), &res, &nrow, &ncol, NULL);
-   if (rc != SQLITE_OK) {
-      cout << "filelists crap with pkgkey " << *(PkgIter-1) << endl;
-      sqlite3_free_table(res);
+   unsigned long pkgKey = Packages->GetColI("pkgKey");
+   sql  << "select * from filelist where pkgKey=" << pkgKey << endl;
+   SqliteQuery *Files = Filelists->Query();
+   if (!Files->Exec(sql.str())) {
       return false;
    }
-   for (int c=0; c < nrow*ncol; c += ncol) {
-      int i = c+ncol;
-      string dir = res[i];
-      char *pch = strtok(res[i+1], "/");
-      while (pch != NULL) {
-	 FileList.push_back(dir + "/" + pch);
-	 pch = strtok(NULL, "/");
-      }
+
+   string delimiters = "/";
+   while (Files->Step()) {
+      string dir = Files->GetCol("dirname");
+      string filenames = Files->GetCol("filenames");
+
+      string::size_type lastPos = filenames.find_first_not_of(delimiters, 0);
+      string::size_type pos     = filenames.find_first_of(delimiters, lastPos);
+
+      while (string::npos != pos || string::npos != lastPos)
+      {
+	 FileList.push_back(dir + "/" + filenames.substr(lastPos, pos - lastPos));
+	 lastPos = filenames.find_first_not_of(delimiters, pos);
+	 pos = filenames.find_first_of(delimiters, lastPos);
+      } 
    }
-   sqlite3_free_table(res);
-   
+   delete Files;
    return true;
 }
 

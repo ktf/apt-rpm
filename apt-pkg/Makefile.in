@@ -70,16 +70,16 @@ am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	contrib/configuration.lo contrib/crc-16.lo contrib/error.lo \
 	contrib/fileutl.lo contrib/hashes.lo contrib/md5.lo \
 	contrib/mmap.lo contrib/progress.lo contrib/sha1.lo \
-	contrib/strutl.lo rpm/repomd.lo rpm/rpmhandler.lo \
-	rpm/rpmindexfile.lo rpm/rpmlistparser.lo rpm/rpmpackagedata.lo \
-	rpm/rpmpm.lo rpm/rpmshowprogress.lo rpm/rpmrecords.lo \
-	rpm/rpmsrcrecords.lo rpm/rpmsystem.lo rpm/rpmversion.lo \
-	acquire.lo acquire-item.lo acquire-method.lo acquire-worker.lo \
-	algorithms.lo cachefile.lo clean.lo depcache.lo indexfile.lo \
-	init.lo luaiface.lo orderlist.lo packagemanager.lo pkgcache.lo \
-	pkgcachegen.lo pkgrecords.lo pkgsystem.lo policy.lo \
-	repository.lo sourcelist.lo srcrecords.lo tagfile.lo \
-	version.lo versionmatch.lo
+	contrib/sqlite.lo contrib/strutl.lo rpm/repomd.lo \
+	rpm/rpmhandler.lo rpm/rpmindexfile.lo rpm/rpmlistparser.lo \
+	rpm/rpmpackagedata.lo rpm/rpmpm.lo rpm/rpmshowprogress.lo \
+	rpm/rpmrecords.lo rpm/rpmsrcrecords.lo rpm/rpmsystem.lo \
+	rpm/rpmversion.lo acquire.lo acquire-item.lo acquire-method.lo \
+	acquire-worker.lo algorithms.lo cachefile.lo clean.lo \
+	depcache.lo indexfile.lo init.lo luaiface.lo orderlist.lo \
+	packagemanager.lo pkgcache.lo pkgcachegen.lo pkgrecords.lo \
+	pkgsystem.lo policy.lo repository.lo sourcelist.lo \
+	srcrecords.lo tagfile.lo version.lo versionmatch.lo
 libapt_pkg_la_OBJECTS = $(am_libapt_pkg_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include -I$(top_builddir)/include/apt-pkg
 depcomp = $(SHELL) $(top_srcdir)/buildlib/depcomp
@@ -274,6 +274,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/sha1.cc \
 	contrib/sha1.h \
 	contrib/sptr.h \
+	contrib/sqlite.h \
+	contrib/sqlite.cc \
 	contrib/strutl.cc \
 	contrib/strutl.h \
 	contrib/system.h \
@@ -462,6 +464,8 @@ contrib/progress.lo: contrib/$(am__dirstamp) \
 	contrib/$(DEPDIR)/$(am__dirstamp)
 contrib/sha1.lo: contrib/$(am__dirstamp) \
 	contrib/$(DEPDIR)/$(am__dirstamp)
+contrib/sqlite.lo: contrib/$(am__dirstamp) \
+	contrib/$(DEPDIR)/$(am__dirstamp)
 contrib/strutl.lo: contrib/$(am__dirstamp) \
 	contrib/$(DEPDIR)/$(am__dirstamp)
 rpm/$(am__dirstamp):
@@ -512,6 +516,8 @@ mostlyclean-compile:
 	-rm -f contrib/progress.lo
 	-rm -f contrib/sha1.$(OBJEXT)
 	-rm -f contrib/sha1.lo
+	-rm -f contrib/sqlite.$(OBJEXT)
+	-rm -f contrib/sqlite.lo
 	-rm -f contrib/strutl.$(OBJEXT)
 	-rm -f contrib/strutl.lo
 	-rm -f rpm/repomd.$(OBJEXT)
@@ -575,6 +581,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/mmap.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/progress.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/sha1.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/sqlite.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/strutl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/repomd.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmhandler.Plo@am__quote@

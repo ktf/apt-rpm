@@ -37,6 +37,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/sha1.cc \
 	contrib/sha1.h \
 	contrib/sptr.h \
+	contrib/sqlite.h \
+	contrib/sqlite.cc \
 	contrib/strutl.cc \
 	contrib/strutl.h \
 	contrib/system.h \

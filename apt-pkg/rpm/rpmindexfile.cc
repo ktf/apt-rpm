@@ -833,10 +833,19 @@ bool rpmRepomdDBIndex::GetIndexes(pkgAcquire *Owner) const
 
 unsigned long rpmRepomdDBIndex::Size() const
 {
+   unsigned long Res;
+   SqliteDB DB(IndexPath());
+   SqliteQuery *Q = DB.Query();
+   Q->Exec("select pkgKey from packages");
+   Res = Q->Size();
+   delete Q;
+   return Res;
+#if 0
    RPMHandler *Handler = CreateHandler();
    unsigned long Res = Handler->Size();
    delete Handler;
    return Res;
+#endif
 }
 bool rpmRepomdDBIndex::MergeFileProvides(pkgCacheGenerator &Gen,
 					OpProgress &Prog) const

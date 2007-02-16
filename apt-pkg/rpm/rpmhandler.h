@@ -17,7 +17,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
-#include <sqlite3.h>
+#include <apt-pkg/sqlite.h>
 #endif
 
 #include <rpm/rpmlib.h>
@@ -315,17 +315,14 @@ class RPMSqliteHandler : public RPMHandler
 {
    protected:
 
-   sqlite3 *db;
-   sqlite3 *filedb;
-   sqlite3 *otherdb;
+   SqliteDB *Primary;
+   SqliteDB *Filelists;
+   
+   SqliteQuery *Packages;
+  
    string DBPath;
    string FilesDBPath;
    string OtherDBPath;
-
-   vector<off_t> Pkgs;
-   vector<off_t>::iterator PkgIter;
-
-   string FindTag(string Tag);
 
    public:
 
@@ -363,3 +360,4 @@ class RPMSqliteHandler : public RPMHandler
 #endif /* APT_WITH_REPOMD */
 
 #endif
+// vim:sts=3:sw=3
