@@ -1908,6 +1908,22 @@ bool SearchFile(CommandLine &CmdL)
    return cmdSearchFile(CmdL, *GCache);
 }
 
+bool FileList(CommandLine &CmdL)
+{
+   if (CheckHelp(CmdL) == true)
+      return true;
+
+   return cmdFileList(CmdL, *GCache);
+}
+
+bool ChangeLog(CommandLine &CmdL)
+{
+   if (CheckHelp(CmdL) == true)
+      return true;
+
+   return cmdChangeLog(CmdL, *GCache);
+}
+
 // DoList - List packages.	 					/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -1918,6 +1934,7 @@ bool DoList(CommandLine &CmdL)
 
    return cmdDoList(CmdL, *GCache);
 }
+
 									/*}}}*/
 // ShowPackage - Dump the package record to the screen			/*{{{*/
 // ---------------------------------------------------------------------
@@ -2011,6 +2028,8 @@ bool ShowHelp(CommandLine &CmdL)
       "   list/ls - List packages\n"
       "   search - Search the package list for a regex pattern\n"
       "   searchfile - Search the packages for a file\n"
+      "   files - Show file list of the package(s)\n"
+      "   changelog - Show changelog entries of the package(s)\n"
       "   script - Run scripts.\n"
       "   depends - Show raw dependency information for a package\n"
       "   whatdepends - Show packages depending on given capabilities\n"
@@ -2303,7 +2322,7 @@ char *ReadLineCompCommands(const char *Text, int State)
 	 "keep", "dist-upgrade", "dselect-upgrade", "build-dep", "clean",
 	 "autoclean", "check", "help", "commit", "exit", "quit", "status",
 	 "showpkg", "unmet", "search", "depends", "whatdepends", "rdepends",
-	 "show", "script", 0};
+	 "show", "script", "searchfile", "files", "changelog", 0};
    static int Last;
    static size_t Len;
    if (State == 0) {
@@ -2602,6 +2621,8 @@ int main(int argc,const char *argv[])
                                    {"unmet",&UnMet},
                                    {"search",&Search},
                                    {"search",&SearchFile},
+                                   {"files",&FileList},
+                                   {"changelog",&ChangeLog},
                                    {"list",&DoList},
                                    {"ls",&DoList},
                                    {"depends",&Depends},

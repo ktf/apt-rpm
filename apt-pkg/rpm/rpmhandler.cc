@@ -422,6 +422,33 @@ bool RPMHandler::FileList(vector<string> &FileList)
 }
 #endif
 
+bool RPMHandler::ChangeLog(vector<ChangeLogEntry *> &ChangeLogs)
+{
+   int *timel = NULL;
+   char **authorl = NULL;
+   char **entryl = NULL;
+   void *timeval, *authorval, *entryval;
+   int res, type, count;
+
+   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTIME, &type, (void **)&timeval, &count);
+   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGNAME, &type, (void **)&authorval, &count);
+   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTEXT, &type, (void **)&entryval, &count);
+
+   timel = (int*)timeval;
+   authorl = (char**)authorval;
+   entryl = (char**)entryval;
+
+   for (int i = 0; i < count; i++) {
+      ChangeLogEntry *Entry = new ChangeLogEntry;
+      Entry->Time = timel[i];
+      Entry->Author = authorl[i];
+      Entry->Text = entryl[i];
+      ChangeLogs.push_back(Entry);
+   }
+      
+   return true;
+}
+
 RPMFileHandler::RPMFileHandler(string File)
 {
    ID = File;
@@ -1345,10 +1372,16 @@ RPMSqliteHandler::RPMSqliteHandler(string File) :
    ID = File;
    DBPath = File; 
    // ugh, pass this in to the constructor or something..
-   FilesDBPath = File.substr(0, File.size() - 14) + "filelists.sqlite";
+   string DBBase = File.substr(0, File.size() - 14);
+   FilesDBPath = DBBase + "filelists.sqlite";
+   OtherDBPath = DBBase + "other.sqlite";
 
    Primary = new SqliteDB(DBPath);
+   // XXX open these only if needed? 
    Filelists = new SqliteDB(FilesDBPath);
+   if (FileExists(OtherDBPath)) {
+      Other = new SqliteDB(OtherDBPath);
+   }
 
    Packages = Primary->Query();
 
@@ -1366,6 +1399,7 @@ RPMSqliteHandler::~RPMSqliteHandler()
 {
    if (Primary) delete Primary;
    if (Filelists) delete Filelists;
+   if (Other) delete Other;
 }
 
 
@@ -1571,6 +1605,27 @@ bool RPMSqliteHandler::FileList(vector<string> &FileList)
    delete Files;
    return true;
 }
+
+bool RPMSqliteHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
+{
+   ostringstream sql;
+   unsigned long pkgKey = Packages->GetColI("pkgKey");
+   sql  << "select * from changelog where pkgKey=" << pkgKey << endl;
+   SqliteQuery *Changes = Other->Query();
+   if (!Changes->Exec(sql.str())) {
+      return false;
+   }
+
+   while (Changes->Step()) {
+      ChangeLogEntry *Entry = new ChangeLogEntry;
+      Entry->Time = Changes->GetColI("date");
+      Entry->Author = Changes->GetCol("author");
+      Entry->Text = Changes->GetCol("changelog");
+      ChangeLogs.push_back(Entry);
+   }
+   return true;
+}
+
 
 #endif /* APT_WITH_REPOMD */
 

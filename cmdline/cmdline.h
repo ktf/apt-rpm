@@ -85,6 +85,8 @@ bool cmdShowPackage(CommandLine &CmdL, pkgCache &Cache);
 
 bool cmdSearch(CommandLine &CmdL, pkgCache &Cache);
 bool cmdSearchFile(CommandLine &CmdL, pkgCache &Cache);
+bool cmdFileList(CommandLine &CmdL, pkgCache &Cache);
+bool cmdChangeLog(CommandLine &CmdL, pkgCache &Cache);
 
 
 // vim:sts=3:sw=3

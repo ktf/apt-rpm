@@ -26,6 +26,13 @@
 
 #include <vector>
 
+struct ChangeLogEntry 
+{
+   time_t Time; 
+   string Author;
+   string Text;
+};
+
 class pkgRecords
 {
    public:
@@ -66,6 +73,10 @@ class pkgRecords::Parser
    virtual string ShortDesc() {return string();};
    virtual string LongDesc() {return string();};
    virtual string Name() {return string();};
+
+   // These are not supported by all repository types and can fail
+   virtual bool ChangeLog(std::vector<ChangeLogEntry *> &ChangeLogs) { return false;};
+   virtual bool FileList(std::vector<string> &Files) { return false;};
    
    // The record in binary form
    virtual void GetRec(const char *&Start,const char *&Stop) {Start = Stop = 0;};
@@ -77,3 +88,4 @@ class pkgRecords::Parser
 };
 
 #endif
+// vim:sts=3:sw=3

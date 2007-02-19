@@ -57,6 +57,10 @@ class rpmRecordParser : public pkgRecords::Parser
    virtual string ShortDesc();
    virtual string LongDesc();
    virtual string Name();
+
+   virtual bool ChangeLog(vector<ChangeLogEntry *> &ChangeLogs);
+   virtual bool FileList(vector<string> &Files);
+
    
    // The record in raw text, in standard Debian format
    virtual void GetRec(const char *&Start,const char *&Stop);

@@ -1868,4 +1868,65 @@ bool cmdSearchFile(CommandLine &CmdL, pkgCache &Cache)
    return true;
 }
 
+bool cmdFileList(CommandLine &CmdL, pkgCache &Cache)
+{
+   pkgDepCache::Policy Plcy;
+
+   for (const char **I = CmdL.FileList + 1; *I != 0; I++)
+   {
+      pkgCache::PkgIterator Pkg = Cache.FindPkg(*I);
+      if (Pkg.end() == true)
+      {
+         _error->Warning(_("Unable to locate package %s"),*I);
+         continue;
+      }
+
+      pkgCache::VerIterator Ver = Plcy.GetCandidateVer(Pkg);
+      pkgRecords Recs(Cache);
+      if (Ver.end() == false) {
+         pkgRecords::Parser &Parse = Recs.Lookup(Ver.FileList());
+         vector<string> Files;
+         Parse.FileList(Files);
+         for (vector<string>::iterator F = Files.begin(); F != Files.end(); F++) {
+            cout << (*F) << endl;
+         }
+      }
+   }
+
+   return true;
+}
+
+bool cmdChangeLog(CommandLine &CmdL, pkgCache &Cache)
+{
+   pkgDepCache::Policy Plcy;
+
+   for (const char **I = CmdL.FileList + 1; *I != 0; I++)
+   {
+      pkgCache::PkgIterator Pkg = Cache.FindPkg(*I);
+      if (Pkg.end() == true)
+      {
+         _error->Warning(_("Unable to locate package %s"),*I);
+         continue;
+      }
+
+      pkgCache::VerIterator Ver = Plcy.GetCandidateVer(Pkg);
+      pkgRecords Recs(Cache);
+      if (Ver.end() == false) {
+         pkgRecords::Parser &Parse = Recs.Lookup(Ver.FileList());
+         vector<ChangeLogEntry *> ChangeLog;
+         Parse.ChangeLog(ChangeLog);
+	 cout << Pkg.Name() << "-" << Ver.VerStr() << ":" << endl;
+	 tm *ptm;
+	 char buf[512];
+         for (vector<ChangeLogEntry *>::iterator F = ChangeLog.begin(); F != ChangeLog.end(); F++) {
+	    ptm = localtime(&(*F)->Time);
+	    strftime(buf, sizeof(buf), "%a %b %d %Y", ptm);
+            cout << "* " << buf << " " << (*F)->Author << endl;
+	    cout << (*F)->Text << endl << endl;
+         }
+      }
+   }
+
+   return true;
+}
 // vim:sts=3:sw=3

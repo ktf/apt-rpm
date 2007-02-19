@@ -916,7 +916,17 @@ bool ShowPackage(CommandLine &CmdL)
 {   
    return cmdShowPackage(CmdL, *GCache);
 }
+
+bool FileList(CommandLine &CmdL)
+{
+   return cmdFileList(CmdL, *GCache);
+}
 									/*}}}*/
+bool ChangeLog(CommandLine &CmdL)
+{
+   return cmdChangeLog(CmdL, *GCache);
+}
+
 // ShowPkgNames - Show package names					/*{{{*/
 // ---------------------------------------------------------------------
 /* This does a prefix match on the first argument */
@@ -1110,6 +1120,7 @@ bool GenCaches(CommandLine &Cmd)
       return false;   
    return pkgMakeStatusCache(List,Progress);
 }
+
 									/*}}}*/
 // ShowHelp - Show a help screen					/*{{{*/
 // ---------------------------------------------------------------------
@@ -1142,6 +1153,8 @@ bool ShowHelp(CommandLine &Cmd)
       "   unmet - Show unmet dependencies\n"
       "   search - Search the package list for a regex pattern\n"
       "   searchfile - Search the packages for a file\n"
+      "   files - Show file list of the package(s)\n"
+      "   changelog - Show changelog entries of the package(s)\n"
       "   show - Show a readable record for the package\n"
       "   depends - Show raw dependency information for a package\n"
       "   whatdepends - Show packages depending on given capabilities\n"
@@ -1215,6 +1228,8 @@ int main(int argc,const char *argv[])
                                     {"whatdepends",&WhatDepends},
                                     {"rdepends",&RDepends},
                                     {"whatprovides",&WhatProvides},
+                                    {"files",&FileList},
+                                    {"changelog",&ChangeLog},
                                     {"dotty",&Dotty},
                                     {"xvcg",&XVcg},
                                     {"show",&ShowPackage},

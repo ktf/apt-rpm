@@ -12,6 +12,7 @@
 
 #include <apt-pkg/aptconf.h>
 #include <apt-pkg/fileutl.h>
+#include <apt-pkg/pkgrecords.h>
 
 #ifdef APT_WITH_REPOMD
 #include <libxml/parser.h>
@@ -104,6 +105,7 @@ class RPMHandler
 
    virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool FileList(vector<string> &FileList);
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
 
    virtual bool HasFile(const char *File);
 
@@ -317,6 +319,7 @@ class RPMSqliteHandler : public RPMHandler
 
    SqliteDB *Primary;
    SqliteDB *Filelists;
+   SqliteDB *Other;
    
    SqliteQuery *Packages;
   
@@ -353,6 +356,7 @@ class RPMSqliteHandler : public RPMHandler
 
    virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool FileList(vector<string> &FileList);
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
 
    RPMSqliteHandler(string File);
    virtual ~RPMSqliteHandler();
