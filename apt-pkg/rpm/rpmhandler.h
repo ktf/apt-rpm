@@ -57,11 +57,8 @@ class RPMHandler
 
    off_t iOffset;
    off_t iSize;
-   Header HeaderP;
    string ID;
 
-   string GetSTag(rpmTag Tag);
-   unsigned long GetITag(rpmTag Tag);
    unsigned int DepOp(int_32 rpmflags);
    bool InternalDep(const char *name, const char *ver, int_32 flag);
    bool PutDep(const char *name, const char *ver, int_32 flags,
@@ -81,6 +78,49 @@ class RPMHandler
    inline unsigned Size() {return iSize;};
    virtual bool IsDatabase() = 0;
 
+   virtual string FileName() = 0;
+   virtual string Directory() = 0;
+   virtual unsigned long FileSize() = 0;
+   virtual string MD5Sum() = 0;
+   virtual string SHA1Sum() = 0;
+   virtual bool ProvideFileName() {return false;};
+
+   virtual string Name() = 0;
+   virtual string Arch() = 0;
+   virtual string Epoch() = 0;
+   virtual string Version() = 0;
+   virtual string Release() = 0;
+   virtual string EVR();
+   virtual string Group() = 0;
+   virtual string Packager() = 0;
+   virtual string Vendor() = 0;
+   virtual string Summary() = 0;
+   virtual string Description() = 0;
+   virtual unsigned long InstalledSize() = 0;
+   virtual string SourceRpm() = 0;
+   virtual bool IsSourceRpm() {return SourceRpm().empty();}
+
+   virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps) = 0;
+   virtual bool FileList(vector<string> &FileList) { return false; };
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs) { return false; };
+
+   virtual bool HasFile(const char *File);
+
+   RPMHandler() : iOffset(0), iSize(0) {};
+   virtual ~RPMHandler() {};
+};
+
+class RPMHdrHandler : public RPMHandler
+{
+   protected:
+
+   Header HeaderP;
+
+   string GetSTag(rpmTag Tag);
+   unsigned long GetITag(rpmTag Tag);
+
+   public:
+
    virtual string FileName() {return "";};
    virtual string Directory() {return "";};
    virtual unsigned long FileSize() {return 1;};
@@ -93,7 +133,6 @@ class RPMHandler
    virtual string Epoch();
    virtual string Version() {return GetSTag(RPMTAG_VERSION);};
    virtual string Release() {return GetSTag(RPMTAG_RELEASE);};
-   virtual string EVR();
    virtual string Group() {return GetSTag(RPMTAG_GROUP);};
    virtual string Packager() {return GetSTag(RPMTAG_PACKAGER);};
    virtual string Vendor() {return GetSTag(RPMTAG_VENDOR);};
@@ -107,14 +146,12 @@ class RPMHandler
    virtual bool FileList(vector<string> &FileList);
    virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
 
-   virtual bool HasFile(const char *File);
-
-   RPMHandler() : iOffset(0), iSize(0), HeaderP(0) {};
-   virtual ~RPMHandler() {};
+   RPMHdrHandler() : RPMHandler(), HeaderP(0) {};
+   virtual ~RPMHdrHandler() {};
 };
 
 
-class RPMFileHandler : public RPMHandler
+class RPMFileHandler : public RPMHdrHandler
 {   
    protected:
 
@@ -160,7 +197,7 @@ class RPMSingleFileHandler : public RPMFileHandler
    virtual ~RPMSingleFileHandler() {};
 };
 
-class RPMDBHandler : public RPMHandler
+class RPMDBHandler : public RPMHdrHandler
 {
    protected:
 
@@ -194,7 +231,7 @@ class RPMDBHandler : public RPMHandler
    virtual ~RPMDBHandler();
 };
 
-class RPMDirHandler : public RPMHandler
+class RPMDirHandler : public RPMHdrHandler
 {   
    protected:
 
@@ -305,6 +342,13 @@ class RPMRepomdFLHandler : public RPMHandler
    virtual string Epoch() {return FindTag("epoch");};
    virtual string Version() {return FindTag("version");};
    virtual string Release() {return FindTag("release");};
+
+   virtual string Group() {return "";};
+   virtual string Packager() {return "";};
+   virtual string Vendor() {return "";};
+   virtual string Summary() {return "";};
+   virtual string Description() {return "";};
+   virtual string SourceRpm() {return "";};
    virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps)
        {return true;};
 

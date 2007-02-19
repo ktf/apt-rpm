@@ -54,43 +54,6 @@
 // not happen.
 bool HideZeroEpoch;
 
-string RPMHandler::Epoch()
-{
-   char str[512] = "";
-   int_32 count, type, *epoch;
-   void *val;
-   assert(HeaderP != NULL);
-   int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH, &type, &val, &count);
-   epoch = (int_32*)val;
-   if (rc == 1 && count > 0) {
-      snprintf(str, sizeof(str), "%i", epoch[0]);
-   }
-   return string(str);
-}
-
-unsigned long RPMHandler::GetITag(rpmTag Tag)
-{
-   int_32 count, type, *num;
-   void *val;
-   assert(HeaderP != NULL);
-   int rc = headerGetEntry(HeaderP, Tag,
-			   &type, (void**)&val, &count);
-   num = (int_32*)val;
-   return rc?num[0]:0;
-}
-
-string RPMHandler::GetSTag(rpmTag Tag)
-{
-   char *str;
-   void *val;
-   int_32 count, type;
-   assert(HeaderP != NULL);
-   int rc = headerGetEntry(HeaderP, Tag,
-			   &type, (void**)&val, &count);
-   str = (char *)val;
-   return string(rc?str:"");
-}
-
 string RPMHandler::EVR()
 {
    string e = Epoch();
@@ -287,8 +250,45 @@ bool RPMHandler::PutDep(const char *name, const char *ver, int_32 flags,
    return true;
 }
 
+string RPMHdrHandler::Epoch()
+{
+   char str[512] = "";
+   int_32 count, type, *epoch;
+   void *val;
+   assert(HeaderP != NULL);
+   int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH, &type, &val, &count);
+   epoch = (int_32*)val;
+   if (rc == 1 && count > 0) {
+      snprintf(str, sizeof(str), "%i", epoch[0]);
+   }
+   return string(str);
+}
 
-bool RPMHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
+unsigned long RPMHdrHandler::GetITag(rpmTag Tag)
+{
+   int_32 count, type, *num;
+   void *val;
+   assert(HeaderP != NULL);
+   int rc = headerGetEntry(HeaderP, Tag,
+			   &type, (void**)&val, &count);
+   num = (int_32*)val;
+   return rc?num[0]:0;
+}
+
+string RPMHdrHandler::GetSTag(rpmTag Tag)
+{
+   char *str;
+   void *val;
+   int_32 count, type;
+   assert(HeaderP != NULL);
+   int rc = headerGetEntry(HeaderP, Tag,
+			   &type, (void**)&val, &count);
+   str = (char *)val;
+   return string(rc?str:"");
+}
+
+
+bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 #if RPM_VERSION >= 0x040100
 {
    rpmTag deptype = RPMTAG_REQUIRENAME;
@@ -331,7 +331,7 @@ bool RPMHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
    return true;
 }
 #else
-bool RPMHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
+bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 {
    char **namel = NULL;
    char **verl = NULL;
@@ -391,7 +391,7 @@ bool RPMHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 
 // XXX rpmfi originates from somewhere around 2001 but what's the version?
 #if RPM_VERSION >= 0x040100
-bool RPMHandler::FileList(vector<string> &FileList)
+bool RPMHdrHandler::FileList(vector<string> &FileList)
 {
    rpmfi fi = NULL;
    fi = rpmfiNew(NULL, HeaderP, RPMTAG_BASENAMES, 0);
@@ -404,7 +404,7 @@ bool RPMHandler::FileList(vector<string> &FileList)
    return true;
 }
 #else
-bool RPMHandler::FileList(vector<string> &FileList)
+bool RPMHdrHandler::FileList(vector<string> &FileList)
 {
    const char **names = NULL;
    void *val = NULL;
@@ -422,7 +422,7 @@ bool RPMHandler::FileList(vector<string> &FileList)
 }
 #endif
 
-bool RPMHandler::ChangeLog(vector<ChangeLogEntry *> &ChangeLogs)
+bool RPMHdrHandler::ChangeLog(vector<ChangeLogEntry *> &ChangeLogs)
 {
    int *timel = NULL;
    char **authorl = NULL;
@@ -1361,7 +1361,7 @@ RPMRepomdFLHandler::~RPMRepomdFLHandler()
 }
 
 RPMSqliteHandler::RPMSqliteHandler(string File) : 
-   Primary(NULL), Filelists(NULL)
+   Primary(NULL), Filelists(NULL), Other(NULL)
 {
    int rc = 0;
    char **res = NULL;
