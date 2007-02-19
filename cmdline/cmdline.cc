@@ -1914,7 +1914,10 @@ bool cmdChangeLog(CommandLine &CmdL, pkgCache &Cache)
       if (Ver.end() == false) {
          pkgRecords::Parser &Parse = Recs.Lookup(Ver.FileList());
          vector<ChangeLogEntry *> ChangeLog;
-         Parse.ChangeLog(ChangeLog);
+         if (Parse.ChangeLog(ChangeLog) == false) {
+	    _error->Warning(_("Changelog data not available for the repository."));
+	    return true;
+	 }
 	 cout << Pkg.Name() << "-" << Ver.VerStr() << ":" << endl;
 	 tm *ptm;
 	 char buf[512];
