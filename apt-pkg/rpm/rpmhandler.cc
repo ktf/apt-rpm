@@ -1611,6 +1611,10 @@ bool RPMSqliteHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
    ostringstream sql;
    unsigned long pkgKey = Packages->GetColI("pkgKey");
    sql  << "select * from changelog where pkgKey=" << pkgKey << endl;
+   if (! Other) {
+      return false;
+   }
+
    SqliteQuery *Changes = Other->Query();
    if (!Changes->Exec(sql.str())) {
       return false;

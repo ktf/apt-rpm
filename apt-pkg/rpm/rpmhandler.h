@@ -170,6 +170,9 @@ class RPMFileHandler : public RPMHdrHandler
    virtual unsigned long FileSize();
    virtual string MD5Sum();
 
+   // the rpm-repotype stripped down hdrlists dont carry changelog data
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs) { return false; };
+
    RPMFileHandler(FileFd *File);
    RPMFileHandler(string File);
    virtual ~RPMFileHandler();
@@ -192,6 +195,7 @@ class RPMSingleFileHandler : public RPMFileHandler
    virtual unsigned long FileSize();
    virtual string MD5Sum();
    virtual bool ProvideFileName() {return true;};
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs) { return RPMHandler::ChangeLog(ChangeLogs); };
 
    RPMSingleFileHandler(string File) : RPMFileHandler(File), sFilePath(File) {};
    virtual ~RPMSingleFileHandler() {};
