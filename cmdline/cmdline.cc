@@ -1490,73 +1490,7 @@ bool cmdWhatProvides(CommandLine &CmdL, pkgCache &Cache)
   
   return true;
 }
-								  /*}}}*/
-// ShowPackage - Dump the package record to the screen			/*{{{*/
-// ---------------------------------------------------------------------
-/* */
-bool cmdShowPackage(CommandLine &CmdL, pkgCache &Cache)
-{   
-   pkgDepCache::Policy Plcy;
 
-   unsigned found = 0;
-   
-   for (const char **I = CmdL.FileList + 1; *I != 0; I++)
-   {
-      pkgCache::PkgIterator Pkg = Cache.FindPkg(*I);
-      if (Pkg.end() == true)
-      {
-	 _error->Warning(_("Unable to locate package %s"),*I);
-	 continue;
-      }
-
-      ++found;
-
-      // CNC:2004-07-09
-      // If it's a virtual package, require user to select similarly to apt-get
-      if (Pkg.VersionList().end() == true and Pkg->ProvidesList != 0)
-      {
-         ioprintf(cout, _("Package %s is a virtual package provided by:\n"),
-                  Pkg.Name());
-         for (pkgCache::PrvIterator Prv = Pkg.ProvidesList();
-             Prv.end() == false; Prv++)
-         {
-	    pkgCache::VerIterator V = Plcy.GetCandidateVer(Prv.OwnerPkg());
-            if (V.end() == true)
-               continue;
-            if (V != Prv.OwnerVer())
-               continue;
-            cout << "  " << Prv.OwnerPkg().Name() << " " << V.VerStr() << endl;
-         }
-         cout << _("You should explicitly select one to show.") << endl;
-         _error->Error(_("Package %s is a virtual package with multiple providers."), Pkg.Name());
-         return false;
-      }
-
-      // Find the proper version to use.
-      if (_config->FindB("APT::Cache::AllVersions", false) == true)
-      {
-	 pkgCache::VerIterator V;
-	 for (V = Pkg.VersionList(); V.end() == false; V++)
-	 {
-	    if (cmdDisplayRecord(V, Cache) == false)
-	       return false;
-	 }
-      }
-      else
-      {
-	 pkgCache::VerIterator V = Plcy.GetCandidateVer(Pkg);
-	 if (V.end() == true || V.FileList().end() == true)
-	    continue;
-	 if (cmdDisplayRecord(V, Cache) == false)
-	    return false;
-      }      
-   }
-
-   if (found > 0)
-        return true;
-   return _error->Error(_("No packages found"));
-}
-									/*}}}*/
 bool cmdDoList(CommandLine &CmdL, cmdCacheFile &Cache)
 {
    bool MatchAll = (CmdL.FileSize() == 1);
@@ -1868,12 +1802,14 @@ bool cmdSearchFile(CommandLine &CmdL, pkgCache &Cache)
    return true;
 }
 
-bool cmdFileList(CommandLine &CmdL, pkgCache &Cache)
+bool matchPackages(CommandLine &CmdL, pkgCache &Cache, 
+		   vector<pkgCache::Version *> &PkgVersions,
+		   bool AllVersions=false)
 {
    pkgDepCache::Policy Plcy;
-
-   for (const char **I = CmdL.FileList + 1; *I != 0; I++)
-   {
+   for (const char **I = CmdL.FileList + 1; *I != 0; I++) {
+      // TODO: support globbing/regexp + various typical name.arch,
+      // name-ver[-rel] etc cases here..
       pkgCache::PkgIterator Pkg = Cache.FindPkg(*I);
       if (Pkg.end() == true)
       {
@@ -1881,55 +1817,117 @@ bool cmdFileList(CommandLine &CmdL, pkgCache &Cache)
          continue;
       }
 
-      pkgCache::VerIterator Ver = Plcy.GetCandidateVer(Pkg);
-      pkgRecords Recs(Cache);
-      if (Ver.end() == false) {
-         pkgRecords::Parser &Parse = Recs.Lookup(Ver.FileList());
-         vector<string> Files;
-         Parse.FileList(Files);
-         for (vector<string>::iterator F = Files.begin(); F != Files.end(); F++) {
-            cout << (*F) << endl;
+      // If it's a virtual package, require user to select similarly to apt-get
+      if (Pkg.VersionList().end() == true and Pkg->ProvidesList != 0) {
+         ioprintf(cout, _("Package %s is a virtual package provided by:\n"),
+                  Pkg.Name());
+	 pkgCache::PrvIterator Prv = Pkg.ProvidesList();
+         for (; Prv.end() == false; Prv++) {
+	    pkgCache::VerIterator V = Plcy.GetCandidateVer(Prv.OwnerPkg());
+            if (V.end() == true)
+               continue;
+            if (V != Prv.OwnerVer())
+               continue;
+            cout << "  " << Prv.OwnerPkg().Name() << " " << V.VerStr() << endl;
          }
+         cout << _("You should explicitly select one to show.") << endl;
+         _error->Error(_("Package %s is a virtual package with multiple providers."), Pkg.Name());
+         continue;
+      }
+
+      pkgCache::VerIterator Ver;
+      if (AllVersions == true) {
+	 Ver = Pkg.VersionList();
+	 for (; Ver.end() == false; Ver++) {
+	    PkgVersions.push_back(&(*Ver));
+	 }
+      } else {
+	 Ver = Plcy.GetCandidateVer(Pkg);
+	 if (Ver.end() == true || Ver.FileList().end() == true)
+	    continue;
+	 PkgVersions.push_back(&(*Ver));
+      }
+   }
+   return true;
+}	 
+
+bool cmdFileList(CommandLine &CmdL, pkgCache &Cache)
+{
+   vector<pkgCache::Version *> PkgVersions;
+   matchPackages(CmdL, Cache, PkgVersions, 
+	         _config->FindB("APT::Cache::AllVersions", false));
+
+   pkgRecords Recs(Cache);
+
+   vector<pkgCache::Version *>::iterator Ver = PkgVersions.begin();
+   for (; Ver != PkgVersions.end(); Ver++) {
+      pkgCache::VerIterator V(Cache, (*Ver));
+      pkgRecords::Parser &Parse = Recs.Lookup(V.FileList());
+      vector<string> Files;
+      Parse.FileList(Files);
+      vector<string>::iterator F = Files.begin();
+      for (; F != Files.end(); F++) {
+            cout << (*F) << endl;
       }
    }
 
    return true;
+}
+
+bool cmdShowPackage(CommandLine &CmdL, pkgCache &Cache)
+{   
+   vector<pkgCache::Version *> PkgVersions;
+   matchPackages(CmdL, Cache, PkgVersions, 
+	         _config->FindB("APT::Cache::AllVersions", false));
+
+   pkgRecords Recs(Cache);
+
+   vector<pkgCache::Version *>::iterator Ver = PkgVersions.begin();
+   for (; Ver != PkgVersions.end(); Ver++) {
+      pkgCache::VerIterator V(Cache, (*Ver));
+      pkgRecords::Parser &Parse = Recs.Lookup(V.FileList());
+      pkgCache::PkgIterator Pkg = V.ParentPkg();
+   
+      if (cmdDisplayRecord(V, Cache) == false)
+	 return false;
+      }
+
+   if (PkgVersions.size() > 0)
+        return true;
+   return _error->Error(_("No packages found"));
 }
 
 bool cmdChangeLog(CommandLine &CmdL, pkgCache &Cache)
 {
-   pkgDepCache::Policy Plcy;
+   vector<pkgCache::Version *> PkgVersions;
+   matchPackages(CmdL, Cache, PkgVersions, 
+	         _config->FindB("APT::Cache::AllVersions", false));
 
-   for (const char **I = CmdL.FileList + 1; *I != 0; I++)
-   {
-      pkgCache::PkgIterator Pkg = Cache.FindPkg(*I);
-      if (Pkg.end() == true)
-      {
-         _error->Warning(_("Unable to locate package %s"),*I);
-         continue;
+   pkgRecords Recs(Cache);
+
+   vector<pkgCache::Version *>::iterator Ver = PkgVersions.begin();
+   for (; Ver != PkgVersions.end(); Ver++) {
+      pkgCache::VerIterator V(Cache, (*Ver));
+      pkgRecords::Parser &Parse = Recs.Lookup(V.FileList());
+
+      vector<ChangeLogEntry *> ChangeLog;
+      if (Parse.ChangeLog(ChangeLog) == false) {
+	 _error->Warning(_("Changelog data not available for the repository."));
+	 return true;
       }
+      cout << V.ParentPkg().Name() << "-" << V.VerStr() << ":" << endl;
 
-      pkgCache::VerIterator Ver = Plcy.GetCandidateVer(Pkg);
-      pkgRecords Recs(Cache);
-      if (Ver.end() == false) {
-         pkgRecords::Parser &Parse = Recs.Lookup(Ver.FileList());
-         vector<ChangeLogEntry *> ChangeLog;
-         if (Parse.ChangeLog(ChangeLog) == false) {
-	    _error->Warning(_("Changelog data not available for the repository."));
-	    return true;
-	 }
-	 cout << Pkg.Name() << "-" << Ver.VerStr() << ":" << endl;
-	 tm *ptm;
-	 char buf[512];
-         for (vector<ChangeLogEntry *>::iterator F = ChangeLog.begin(); F != ChangeLog.end(); F++) {
-	    ptm = localtime(&(*F)->Time);
-	    strftime(buf, sizeof(buf), "%a %b %d %Y", ptm);
-            cout << "* " << buf << " " << (*F)->Author << endl;
-	    cout << (*F)->Text << endl << endl;
-         }
+      tm *ptm;
+      char buf[256];
+      vector<ChangeLogEntry *>::iterator F = ChangeLog.begin();
+      for (; F != ChangeLog.end(); F++) {
+	 ptm = localtime(&(*F)->Time);
+	 strftime(buf, sizeof(buf), "%a %b %d %Y", ptm);
+	 cout << "* " << buf << " " << (*F)->Author << endl;
+	 cout << (*F)->Text << endl << endl;
       }
    }
-
    return true;
 }
+
 // vim:sts=3:sw=3

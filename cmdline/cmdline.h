@@ -62,6 +62,10 @@ bool ShowDowngraded(ostream &out,cmdCacheFile &Cache,
 bool ShowHold(ostream &out,cmdCacheFile &Cache, pkgDepCache::State *State=NULL);
 bool ShowEssential(ostream &out,cmdCacheFile &Cache, pkgDepCache::State *State=NULL);
 
+bool matchPackages(CommandLine &CmdL, pkgCache &Cache, 
+		   vector<pkgCache::Version *> &PkgVersions,
+		   bool AllVersions);
+
 bool cmdDoClean(CommandLine &CmdL);
 bool cmdDoList(CommandLine &CmdL, cmdCacheFile &Cache);
 
