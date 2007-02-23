@@ -30,9 +30,4 @@ noinst_PROGRAMS += hash
 hash_SOURCES = hash.cc
 hash_LDADD = ../apt-pkg/libapt-pkg.la
 
-# Sqlite tester
-noinst_PROGRAMS += sqlite
-sqlite_SOURCES = sqlite.cc
-sqlite_LDADD = ../apt-pkg/libapt-pkg.la
-
 EXTRA_DIST = versions.lst

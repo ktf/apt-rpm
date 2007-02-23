@@ -38,7 +38,7 @@ build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = mthdcat$(EXEEXT) uritest$(EXEEXT) \
 	scratch-test$(EXEEXT) versiontest$(EXEEXT) conftest$(EXEEXT) \
-	hash$(EXEEXT) sqlite$(EXEEXT)
+	hash$(EXEEXT)
 EXTRA_PROGRAMS =
 subdir = test
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -68,9 +68,6 @@ mthdcat_LDADD = $(LDADD)
 am_scratch_test_OBJECTS = scratch.$(OBJEXT)
 scratch_test_OBJECTS = $(am_scratch_test_OBJECTS)
 scratch_test_DEPENDENCIES = ../apt-pkg/libapt-pkg.la
-am_sqlite_OBJECTS = sqlite.$(OBJEXT)
-sqlite_OBJECTS = $(am_sqlite_OBJECTS)
-sqlite_DEPENDENCIES = ../apt-pkg/libapt-pkg.la
 am_uritest_OBJECTS = uri.$(OBJEXT)
 uritest_OBJECTS = $(am_uritest_OBJECTS)
 uritest_DEPENDENCIES = ../apt-pkg/libapt-pkg.la
@@ -89,10 +86,10 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(conftest_SOURCES) $(hash_SOURCES) $(mthdcat_SOURCES) \
-	$(scratch_test_SOURCES) $(sqlite_SOURCES) $(uritest_SOURCES) \
+	$(scratch_test_SOURCES) $(uritest_SOURCES) \
 	$(versiontest_SOURCES)
 DIST_SOURCES = $(conftest_SOURCES) $(hash_SOURCES) $(mthdcat_SOURCES) \
-	$(scratch_test_SOURCES) $(sqlite_SOURCES) $(uritest_SOURCES) \
+	$(scratch_test_SOURCES) $(uritest_SOURCES) \
 	$(versiontest_SOURCES)
 ETAGS = etags
 CTAGS = ctags
@@ -244,8 +241,6 @@ conftest_SOURCES = conf.cc
 conftest_LDADD = ../apt-pkg/libapt-pkg.la
 hash_SOURCES = hash.cc
 hash_LDADD = ../apt-pkg/libapt-pkg.la
-sqlite_SOURCES = sqlite.cc
-sqlite_LDADD = ../apt-pkg/libapt-pkg.la
 EXTRA_DIST = versions.lst
 all: all-am
 
@@ -299,9 +294,6 @@ mthdcat$(EXEEXT): $(mthdcat_OBJECTS) $(mthdcat_DEPENDENCIES)
 scratch-test$(EXEEXT): $(scratch_test_OBJECTS) $(scratch_test_DEPENDENCIES) 
 	@rm -f scratch-test$(EXEEXT)
 	$(CXXLINK) $(scratch_test_LDFLAGS) $(scratch_test_OBJECTS) $(scratch_test_LDADD) $(LIBS)
-sqlite$(EXEEXT): $(sqlite_OBJECTS) $(sqlite_DEPENDENCIES) 
-	@rm -f sqlite$(EXEEXT)
-	$(CXXLINK) $(sqlite_LDFLAGS) $(sqlite_OBJECTS) $(sqlite_LDADD) $(LIBS)
 uritest$(EXEEXT): $(uritest_OBJECTS) $(uritest_DEPENDENCIES) 
 	@rm -f uritest$(EXEEXT)
 	$(CXXLINK) $(uritest_LDFLAGS) $(uritest_OBJECTS) $(uritest_LDADD) $(LIBS)
@@ -319,7 +311,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mthdcat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scratch.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uri.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versiontest.Po@am__quote@
 
