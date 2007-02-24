@@ -218,3 +218,88 @@ void OpTextProgress::Write(const char *S)
    LastLen = strlen(S);
 }
 									/*}}}*/
+
+InstTextProgress::InstTextProgress(Configuration &Config) : 
+				InstProgress(Config),
+                               	NoUpdate(false), NoDisplay(false), LastLen(0) 
+{
+}
+
+void InstTextProgress::Done()
+{
+   if (NoUpdate == false && OldOp.empty() == false)
+   {
+      char S[300];
+      if (_error->PendingError() == true)
+	 snprintf(S,sizeof(S),_("%c%s... Error!"),'\r',OldOp.c_str());
+      else
+	 snprintf(S,sizeof(S),_("%c%s... Done"),'\r',OldOp.c_str());
+      Write(S);
+      cout << endl;
+      OldOp = string();
+   }
+   
+   if (NoUpdate == true && NoDisplay == false && OldOp.empty() == false)
+   {
+      OldOp = string();
+      cout << endl;   
+   }   
+}
+									/*}}}*/
+// OpTextProgress::Update - Simple text spinner				/*{{{*/
+// ---------------------------------------------------------------------
+/* */
+void InstTextProgress::Update()
+{
+   if (CheckChange((NoUpdate == true?0:0.7)) == false)
+      return;
+   
+   // No percent spinner
+   if (NoUpdate == true)
+   {
+      if (MajorChange == false)
+	 return;
+      if (NoDisplay == false)
+      {
+	 if (OldOp.empty() == false)
+	    cout << endl;
+	 OldOp = "a";
+	 cout << Op << "..." << flush;
+      }
+      
+      return;
+   }
+
+   // Erase the old text and 'log' the event
+   char S[300];
+   if (MajorChange == true && OldOp.empty() == false)
+   {
+      snprintf(S,sizeof(S),"\r%s",OldOp.c_str());
+      Write(S);
+      cout << endl;
+   }
+   
+   // Print the spinner
+   snprintf(S,sizeof(S),"\r%s... %u%%",Op.c_str(),(unsigned int)Percent);
+   Write(S);
+
+   OldOp = Op;
+}
+									/*}}}*/
+// OpTextProgress::Write - Write the progress string			/*{{{*/
+// ---------------------------------------------------------------------
+/* This space fills the end to overwrite the previous text */
+void InstTextProgress::Write(const char *S)
+{
+#if 1
+   cout << S;
+   for (unsigned int I = strlen(S); I < LastLen; I++)
+      cout << ' ';
+   cout << '\r' << flush;
+   LastLen = strlen(S);
+#else
+   cout << S << endl << flush;
+   LastLen = strlen(S);
+#endif
+}
+// vim:sts=3:sw=3

@@ -44,6 +44,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/system.h \
 	rpm/repomd.cc \
 	rpm/repomd.h \
+	rpm/rpmcallback.h \
+	rpm/rpmcallback.cc \
 	rpm/rpmhandler.cc \
 	rpm/rpmhandler.h \
 	rpm/rpmindexfile.cc \
@@ -55,8 +57,6 @@ libapt_pkg_la_SOURCES = \
 	rpm/rpmpackagedata.h \
 	rpm/rpmpm.cc \
 	rpm/rpmpm.h \
-	rpm/rpmshowprogress.h \
-	rpm/rpmshowprogress.cc \
 	rpm/rpmrecords.cc \
 	rpm/rpmrecords.h \
 	rpm/rpmsrcrecords.cc \

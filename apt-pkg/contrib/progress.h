@@ -89,4 +89,31 @@ class OpTextProgress : public OpProgress
    virtual ~OpTextProgress() {Done();};
 };
 
+class InstProgress : public OpProgress
+{
+   protected:
+
+   public:
+   InstProgress(Configuration &Config) : OpProgress() {};
+   virtual ~InstProgress() {};
+};
+
+class InstTextProgress : public InstProgress
+{
+   protected:
+   string OldOp;
+   bool NoUpdate;
+   bool NoDisplay;
+   unsigned long LastLen;
+   virtual void Update();
+   void Write(const char *S);
+
+   public:
+   virtual void Done();
+
+   InstTextProgress(Configuration &Config);
+   virtual ~InstTextProgress() {Done();};
+};
 #endif
+
+// vim:sts=3:sw=3

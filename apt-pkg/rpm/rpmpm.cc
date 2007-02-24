@@ -45,7 +45,9 @@
 #define rpmprobFilterFlags int
 #endif
 #endif
-#include "rpmshowprogress.h"
+#include "rpmcallback.h"
+
+extern int packagesTotal;
 
 // RPMPM::pkgRPMPM - Constructor					/*{{{*/
 // ---------------------------------------------------------------------
@@ -236,7 +238,7 @@ bool pkgRPMPM::RunScriptsWithPkgs(const char *Cnf)
 // RPMPM::Go - Run the sequence						/*{{{*/
 // ---------------------------------------------------------------------
 /* This globs the operations and calls rpm */
-bool pkgRPMPM::Go()
+bool pkgRPMPM::Go(InstProgress &Prog)
 {
    if (List.empty() == true)
       return true;
@@ -339,7 +341,7 @@ bool pkgRPMPM::Go()
    }
 #endif
 
-   if (Process(install, upgrade, uninstall) == false)
+   if (Process(Prog, install, upgrade, uninstall) == false)
       Ret = false;
 
 #ifdef APT_WITH_LUA
@@ -638,7 +640,8 @@ bool pkgRPMExtPM::ExecRPM(Item::RPMOps op, vector<const char*> &files)
    return true;
 }
 
-bool pkgRPMExtPM::Process(vector<const char*> &install, 
+bool pkgRPMExtPM::Process(InstProgress &Prog, 
+		       vector<const char*> &install, 
 		       vector<const char*> &upgrade,
 		       vector<const char*> &uninstall)
 {
@@ -742,7 +745,8 @@ bool pkgRPMLibPM::AddToTransaction(Item::RPMOps op, vector<const char*> &files)
    return true;
 }
 
-bool pkgRPMLibPM::Process(vector<const char*> &install, 
+bool pkgRPMLibPM::Process(InstProgress &Prog,
+			  vector<const char*> &install, 
 			  vector<const char*> &upgrade,
 			  vector<const char*> &uninstall)
 {
@@ -887,13 +891,12 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
       goto exit;
    }
 
-   cout << _("Committing changes...") << endl << flush;
-
+   Prog.OverallProgress(0, 1, 1, "Committing changes...");
 #if RPM_VERSION >= 0x040100
    probFilter |= rpmtsFilterFlags(TS);
    rpmtsSetFlags(TS, (rpmtransFlags)(rpmtsFlags(TS) | tsFlags));
    rpmtsClean(TS);
-   rc = rpmtsSetNotifyCallback(TS, rpmpmShowProgress, (void *)notifyFlags);
+   rc = rpmtsSetNotifyCallback(TS, rpmCallback, &Prog);
    rc = rpmtsRun(TS, NULL, (rpmprobFilterFlags)probFilter);
    probs = rpmtsProblems(TS);
 #else
@@ -910,8 +913,6 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
       Success = true;
       if (rc < 0)
 	 _error->Warning(_("Some errors occurred while running transaction"));
-      else if (Interactive == true)
-	 cout << _("Done.") << endl;
    }
    rpmpsFree(probs);
 

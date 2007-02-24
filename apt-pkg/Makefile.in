@@ -71,8 +71,8 @@ am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	contrib/fileutl.lo contrib/hashes.lo contrib/md5.lo \
 	contrib/mmap.lo contrib/progress.lo contrib/sha1.lo \
 	contrib/sqlite.lo contrib/strutl.lo rpm/repomd.lo \
-	rpm/rpmhandler.lo rpm/rpmindexfile.lo rpm/rpmlistparser.lo \
-	rpm/rpmpackagedata.lo rpm/rpmpm.lo rpm/rpmshowprogress.lo \
+	rpm/rpmcallback.lo rpm/rpmhandler.lo rpm/rpmindexfile.lo \
+	rpm/rpmlistparser.lo rpm/rpmpackagedata.lo rpm/rpmpm.lo \
 	rpm/rpmrecords.lo rpm/rpmsrcrecords.lo rpm/rpmsystem.lo \
 	rpm/rpmversion.lo acquire.lo acquire-item.lo acquire-method.lo \
 	acquire-worker.lo algorithms.lo cachefile.lo clean.lo \
@@ -281,6 +281,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/system.h \
 	rpm/repomd.cc \
 	rpm/repomd.h \
+	rpm/rpmcallback.h \
+	rpm/rpmcallback.cc \
 	rpm/rpmhandler.cc \
 	rpm/rpmhandler.h \
 	rpm/rpmindexfile.cc \
@@ -292,8 +294,6 @@ libapt_pkg_la_SOURCES = \
 	rpm/rpmpackagedata.h \
 	rpm/rpmpm.cc \
 	rpm/rpmpm.h \
-	rpm/rpmshowprogress.h \
-	rpm/rpmshowprogress.cc \
 	rpm/rpmrecords.cc \
 	rpm/rpmrecords.h \
 	rpm/rpmsrcrecords.cc \
@@ -475,6 +475,7 @@ rpm/$(DEPDIR)/$(am__dirstamp):
 	@$(mkdir_p) rpm/$(DEPDIR)
 	@: > rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/repomd.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
+rpm/rpmcallback.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmhandler.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmindexfile.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmlistparser.lo: rpm/$(am__dirstamp) \
@@ -482,8 +483,6 @@ rpm/rpmlistparser.lo: rpm/$(am__dirstamp) \
 rpm/rpmpackagedata.lo: rpm/$(am__dirstamp) \
 	rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmpm.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
-rpm/rpmshowprogress.lo: rpm/$(am__dirstamp) \
-	rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmrecords.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmsrcrecords.lo: rpm/$(am__dirstamp) \
 	rpm/$(DEPDIR)/$(am__dirstamp)
@@ -522,6 +521,8 @@ mostlyclean-compile:
 	-rm -f contrib/strutl.lo
 	-rm -f rpm/repomd.$(OBJEXT)
 	-rm -f rpm/repomd.lo
+	-rm -f rpm/rpmcallback.$(OBJEXT)
+	-rm -f rpm/rpmcallback.lo
 	-rm -f rpm/rpmhandler.$(OBJEXT)
 	-rm -f rpm/rpmhandler.lo
 	-rm -f rpm/rpmindexfile.$(OBJEXT)
@@ -534,8 +535,6 @@ mostlyclean-compile:
 	-rm -f rpm/rpmpm.lo
 	-rm -f rpm/rpmrecords.$(OBJEXT)
 	-rm -f rpm/rpmrecords.lo
-	-rm -f rpm/rpmshowprogress.$(OBJEXT)
-	-rm -f rpm/rpmshowprogress.lo
 	-rm -f rpm/rpmsrcrecords.$(OBJEXT)
 	-rm -f rpm/rpmsrcrecords.lo
 	-rm -f rpm/rpmsystem.$(OBJEXT)
@@ -584,13 +583,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/sqlite.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/strutl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/repomd.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmcallback.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmhandler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmindexfile.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmlistparser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmpackagedata.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmpm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmrecords.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmshowprogress.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmsrcrecords.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmsystem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmversion.Plo@am__quote@
