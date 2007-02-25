@@ -1174,27 +1174,27 @@ string RPMRepomdHandler::SourceRpm()
 bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 {
    xmlNode *format = FindNode("format");
-   xmlNode *dco = NULL;
+   xmlNode *prco = NULL;
 
    switch (Type) {
       case pkgCache::Dep::Depends:
-         dco = FindNode(format, "requires");
+         prco = FindNode(format, "requires");
          break;
       case pkgCache::Dep::Conflicts:
-         dco = FindNode(format, "conflicts");
+         prco = FindNode(format, "conflicts");
          break;
       case pkgCache::Dep::Obsoletes:
-         dco = FindNode(format, "obsoletes");
+         prco = FindNode(format, "obsoletes");
          break;
       case pkgCache::Dep::Provides:
-         dco = FindNode(format, "provides");
+         prco = FindNode(format, "provides");
          break;
    }
 
-   if (! dco) {
+   if (! prco) {
       return true;
    }
-   for (xmlNode *n = dco->children; n; n = n->next) {
+   for (xmlNode *n = prco->children; n; n = n->next) {
       int_32 RpmOp = 0;
       string deptype, depver;
       xmlChar *depname, *flags;
