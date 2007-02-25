@@ -280,7 +280,7 @@ void InstTextProgress::Update()
    }
    
    // Print the spinner
-   snprintf(S,sizeof(S),"\r%s... %u%%",Op.c_str(),(unsigned int)Percent);
+   snprintf(S,sizeof(S),"\r%s... %s: %u%%",Op.c_str(),SubOp.c_str(), (unsigned int)Percent);
    Write(S);
 
    OldOp = Op;
@@ -291,15 +291,10 @@ void InstTextProgress::Update()
 /* This space fills the end to overwrite the previous text */
 void InstTextProgress::Write(const char *S)
 {
-#if 1
    cout << S;
    for (unsigned int I = strlen(S); I < LastLen; I++)
       cout << ' ';
    cout << '\r' << flush;
    LastLen = strlen(S);
-#else
-   cout << S << endl << flush;
-   LastLen = strlen(S);
-#endif
 }
 // vim:sts=3:sw=3
