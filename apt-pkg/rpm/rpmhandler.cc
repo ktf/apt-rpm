@@ -933,7 +933,10 @@ void RPMDBHandler::Rewind()
 #ifdef APT_WITH_REPOMD
 RPMRepomdHandler::RPMRepomdHandler(string File)
 {
-   PrimaryFile = File;
+   PrimaryPath = File;
+   string DBBase = PrimaryPath.substr(0, File.size() - 11);
+   FilelistPath = DBBase + "filelists.xml";
+   OtherPath = DBBase + "other.xml";
 
    ID = File;
    Root = NULL;
@@ -944,11 +947,11 @@ RPMRepomdHandler::RPMRepomdHandler(string File)
 
    Primary = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET|XML_PARSE_NOBLANKS);
    if ((Root = xmlDocGetRootElement(Primary)) == NULL) {
-      _error->Error(_("Failed to open package index %s"), PrimaryFile.c_str());
+      _error->Error(_("Failed to open package index %s"), PrimaryPath.c_str());
       goto error;
    }
    if (xmlStrncmp(Root->name, (xmlChar*)"metadata", strlen("metadata")) != 0) {
-      _error->Error(_("Corrupted package index %s"), PrimaryFile.c_str());
+      _error->Error(_("Corrupted package index %s"), PrimaryPath.c_str());
       goto error;
    }
 
@@ -1248,7 +1251,26 @@ bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
    return true;
 }
 
-bool RPMRepomdHandler::FileList(vector<string> &FileList)
+// XXX HasFile() usage with repomd with full filelists is slower than
+// having the user manually look it up, literally. So we only support the 
+// more common files which are stored in primary.xml which supports fast
+// random access.
+bool RPMRepomdHandler::HasFile(const char *File)
+{
+   if (*File == '\0')
+      return false;
+   
+   vector<string> Files;
+   ShortFileList(Files);
+   for (vector<string>::iterator I = Files.begin(); I != Files.end(); I++) {
+      if (string(File) == (*I)) {
+	 return true;
+      }
+   }
+   return false;
+}
+
+bool RPMRepomdHandler::ShortFileList(vector<string> &FileList)
 {
    xmlNode *format = FindNode("format");
    for (xmlNode *n = format->children; n; n = n->next) {
@@ -1260,75 +1282,122 @@ bool RPMRepomdHandler::FileList(vector<string> &FileList)
    return true;
 }
 
+bool RPMRepomdHandler::FileList(vector<string> &FileList)
+{
+   RPMRepomdFLHandler *FL = new RPMRepomdFLHandler(FilelistPath);
+   bool res = FL->Jump(iOffset);
+   res &= FL->FileList(FileList);
+   delete FL;
+   return res; 
+}
+
+bool RPMRepomdHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
+{
+   RPMRepomdOtherHandler *OL = new RPMRepomdOtherHandler(OtherPath);
+   bool res = OL->Jump(iOffset);
+   res &= OL->ChangeLog(ChangeLogs);
+   delete OL;
+   return res; 
+}
+
 RPMRepomdHandler::~RPMRepomdHandler()
 {
    xmlFreeDoc(Primary);
 }
 
-RPMRepomdFLHandler::RPMRepomdFLHandler(string File) : RPMHandler()
+RPMRepomdReaderHandler::RPMRepomdReaderHandler(string File) : RPMHandler()
 {
-   FilelistFile = File.substr(0, File.size() - 11) + "filelists.xml";
-
+   XmlPath = File;
    ID = File;
-   Filelist = NULL;
+   XmlFile = NULL;
    NodeP = NULL;
    iOffset = -1;
 
-   if (FileExists(FilelistFile)) {
-      Filelist = xmlReaderForFile(FilelistFile.c_str(), NULL,
+   if (FileExists(XmlPath)) {
+      XmlFile = xmlReaderForFile(XmlPath.c_str(), NULL,
                                   XML_PARSE_NONET|XML_PARSE_NOBLANKS);
-      if (Filelist == NULL) {
-        xmlFreeTextReader(Filelist);
-        _error->Error(_("Failed to open filelist index %s"), FilelistFile.c_str());
+      if (XmlFile == NULL) {
+        xmlFreeTextReader(XmlFile);
+        _error->Error(_("Failed to open filelist index %s"), XmlPath.c_str());
         goto error;
       }
 
-      // seek into first package in filelists.xml
-      int ret = xmlTextReaderRead(Filelist);
+      // seek into first package in xml
+      int ret = xmlTextReaderRead(XmlFile);
       if (ret == 1) {
-        xmlChar *pkgs = xmlTextReaderGetAttribute(Filelist, (xmlChar*)"packages");
+        xmlChar *pkgs = xmlTextReaderGetAttribute(XmlFile, (xmlChar*)"packages");
         iSize = atoi((char*)pkgs);
         xmlFree(pkgs);
       }
       while (ret == 1) {
-        if (xmlStrcmp(xmlTextReaderConstName(Filelist),
+        if (xmlStrcmp(xmlTextReaderConstName(XmlFile),
                      (xmlChar*)"package") == 0) {
            break;
         }
-        ret = xmlTextReaderRead(Filelist);
+        ret = xmlTextReaderRead(XmlFile);
       }
    }
    return;
 
 error:
-   if (Filelist) {
-       xmlFreeTextReader(Filelist);
+   if (XmlFile) {
+       xmlFreeTextReader(XmlFile);
    }
 }
 
-bool RPMRepomdFLHandler::Jump(off_t Offset)
+bool RPMRepomdReaderHandler::Jump(off_t Offset)
 {
-   //cerr << "RepomdFLHandler::Jump() called but not implemented!" << endl;
-   return false;
+   bool res = false;
+   while (iOffset != Offset) {
+      res = Skip();
+      if (res == false)
+	 break;
+   }
+      
+   return res;
 }
 
-void RPMRepomdFLHandler::Rewind()
+void RPMRepomdReaderHandler::Rewind()
 {
-   //cerr << "RepomdFLHandler::Rewind() called but not implemented!" << endl;
+   // XXX Ignore rewinds when already at start, any other cases we can't
+   // handle at the moment. Other cases shouldn't be needed due to usage
+   // patterns but just in case...
+   if (iOffset != -1) {
+      _error->Error(_("Unable to handle xmlReader rewind from offset %d!"), 
+		      iOffset);
+   }
 }
 
-bool RPMRepomdFLHandler::Skip()
+bool RPMRepomdReaderHandler::Skip()
 {
    if (iOffset +1 >= iSize) {
       return false;
    }
    if (iOffset >= 0) {
-      xmlTextReaderNext(Filelist);
+      xmlTextReaderNext(XmlFile);
    }
-   NodeP = xmlTextReaderExpand(Filelist);
+   NodeP = xmlTextReaderExpand(XmlFile);
    iOffset++;
 
    return true;
+}
+
+string RPMRepomdReaderHandler::FindTag(char *Tag)
+{
+     string str = "";
+     if (NodeP) {
+         xmlChar *attr = xmlGetProp(NodeP, (xmlChar*)Tag);
+         if (attr) {
+            str = (char*)attr;
+            xmlFree(attr);
+         }
+     }
+     return str;
+}
+
+RPMRepomdReaderHandler::~RPMRepomdReaderHandler()
+{
+   xmlFreeTextReader(XmlFile);
 }
 
 bool RPMRepomdFLHandler::FileList(vector<string> &FileList)
@@ -1342,22 +1411,28 @@ bool RPMRepomdFLHandler::FileList(vector<string> &FileList)
    return true;
 }
 
-string RPMRepomdFLHandler::FindTag(char *Tag)
+bool RPMRepomdOtherHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
 {
-     string str = "";
-     if (NodeP) {
-         xmlChar *attr = xmlGetProp(NodeP, (xmlChar*)Tag);
-         if (attr) {
-            str = (char*)attr;
-            xmlFree(attr);
-         }
-     }
-     return str;
-}
+   // Changelogs aren't necessarily available at all
+   if (! XmlFile) {
+      return false;
+   }
 
-RPMRepomdFLHandler::~RPMRepomdFLHandler()
-{
-   xmlFreeTextReader(Filelist);
+   for (xmlNode *n = NodeP->children; n; n = n->next) {
+      if (xmlStrcmp(n->name, (xmlChar*)"changelog") != 0)  continue;
+      ChangeLogEntry *Entry = new ChangeLogEntry;
+      xmlChar *Text = xmlNodeGetContent(n);
+      xmlChar *Time = xmlGetProp(n, (xmlChar*)"date");
+      xmlChar *Author = xmlGetProp(n, (xmlChar*)"author");
+      Entry->Text = string((char*)Text);
+      Entry->Time = atoi((char*)Time);
+      Entry->Author = string((char*)Author);
+      ChangeLogs.push_back(Entry);
+      xmlFree(Text);
+      xmlFree(Time);
+      xmlFree(Author);
+   }
+   return true;
 }
 
 RPMSqliteHandler::RPMSqliteHandler(string File) : 

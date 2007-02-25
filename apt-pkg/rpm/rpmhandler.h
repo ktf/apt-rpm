@@ -276,7 +276,9 @@ class RPMRepomdHandler : public RPMHandler
    vector<xmlNode *> Pkgs;
    vector<xmlNode *>::iterator PkgIter;
 
-   string PrimaryFile;
+   string PrimaryPath;
+   string FilelistPath;
+   string OtherPath;
 
    xmlNode *FindNode(const string Name);
    xmlNode *FindNode(xmlNode *Node, const string Name);
@@ -312,18 +314,22 @@ class RPMRepomdHandler : public RPMHandler
    virtual string Description() {return FindTag(NodeP, "description");};
    virtual string SourceRpm();
 
+   virtual bool HasFile(const char *File);
+   virtual bool ShortFileList(vector<string> &FileList);
+
    virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps);
    virtual bool FileList(vector<string> &FileList);
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
 
    RPMRepomdHandler(string File);
    virtual ~RPMRepomdHandler();
 };
 
-class RPMRepomdFLHandler : public RPMHandler
+class RPMRepomdReaderHandler : public RPMHandler
 {
    protected:
-   xmlTextReaderPtr Filelist;
-   string FilelistFile;
+   xmlTextReaderPtr XmlFile;
+   string XmlPath;
    xmlNode *NodeP;
 
    string FindTag(char *Tag);
@@ -334,7 +340,7 @@ class RPMRepomdFLHandler : public RPMHandler
    virtual void Rewind();
    virtual bool IsDatabase() {return false;};
 
-   virtual string FileName() {return FilelistFile;};
+   virtual string FileName() {return XmlPath;};
    virtual string Directory() {return "";};
    virtual unsigned long FileSize() {return 0;};
    virtual unsigned long InstalledSize() {return 0;};
@@ -356,9 +362,25 @@ class RPMRepomdFLHandler : public RPMHandler
    virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps)
        {return true;};
 
+   virtual bool FileList(vector<string> &FileList) {return true;};
+   RPMRepomdReaderHandler(string File);
+   virtual ~RPMRepomdReaderHandler();
+};
+
+class RPMRepomdFLHandler : public RPMRepomdReaderHandler
+{
+   public:
    virtual bool FileList(vector<string> &FileList);
-   RPMRepomdFLHandler(string File);
-   virtual ~RPMRepomdFLHandler();
+   RPMRepomdFLHandler(string File) : RPMRepomdReaderHandler(File) {};
+   virtual ~RPMRepomdFLHandler() {};
+};
+
+class RPMRepomdOtherHandler : public RPMRepomdReaderHandler
+{
+   public:
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
+   RPMRepomdOtherHandler(string File) : RPMRepomdReaderHandler(File) {};
+   virtual ~RPMRepomdOtherHandler() {};
 };
 
 class RPMSqliteHandler : public RPMHandler

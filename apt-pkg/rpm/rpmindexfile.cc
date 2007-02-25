@@ -659,6 +659,10 @@ bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 	           Info("primary.xml"), "primary.xml");
    new pkgAcqIndex(Owner,Repository,IndexURI("filelists"),
 		   Info("filelists.xml"), "filelists.xml");
+   if (_config->FindB("Acquire::ChangeLogs", false)) {
+      new pkgAcqIndex(Owner,Repository,IndexURI("other"),
+		     Info("other.xml"), "other.xml");
+   }
    return true;
 }
 
@@ -765,7 +769,7 @@ bool rpmRepomdIndex::MergeFileProvides(pkgCacheGenerator &Gen,
 					OpProgress &Prog) const
 {
    string PackageFile = IndexPath();
-   RPMHandler *Handler = new RPMRepomdFLHandler(IndexPath());
+   RPMHandler *Handler = new RPMRepomdFLHandler(IndexFile("filelists"));
    rpmListParser Parser(Handler);
    if (_error->PendingError() == true) {
       delete Handler;
