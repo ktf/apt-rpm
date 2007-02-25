@@ -934,7 +934,7 @@ void RPMDBHandler::Rewind()
 RPMRepomdHandler::RPMRepomdHandler(string File)
 {
    PrimaryPath = File;
-   string DBBase = PrimaryPath.substr(0, File.size() - 11);
+   string DBBase = PrimaryPath.substr(0, File.size() - strlen("primary.xml"));
    FilelistPath = DBBase + "filelists.xml";
    OtherPath = DBBase + "other.xml";
 
@@ -1447,7 +1447,7 @@ RPMSqliteHandler::RPMSqliteHandler(string File) :
    ID = File;
    DBPath = File; 
    // ugh, pass this in to the constructor or something..
-   string DBBase = File.substr(0, File.size() - 14);
+   string DBBase = File.substr(0, File.size() - strlen("primary.sqlite"));
    FilesDBPath = DBBase + "filelists.sqlite";
    OtherDBPath = DBBase + "other.sqlite";
 
