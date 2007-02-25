@@ -1232,8 +1232,10 @@ bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 } else if (deptype == "LT") {
 	    RpmOp = RPMSENSE_LESS;
 	 } else {
-	    // erm, unknown dependency type?
-	    return false;
+	    // wtf, unknown dependency type?
+	    _error->Warning(_("Ignoring unknown dependency type %s"), 
+			      deptype.c_str());
+	    continue;
 	 }
       } else {
 	 RpmOp = RPMSENSE_ANY;
@@ -1630,10 +1632,10 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 } else if (deptype == "LT") {
 	    RpmOp = RPMSENSE_LESS;
 	 } else {
-	    // erm, unknown dependency type?
-	    cout << "unknown dep!? " << deptype << endl;
-	    delete prco;
-	    return false;
+	    // wtf, unknown dependency type?
+	    _error->Warning(_("Ignoring unknown dependency type %s"), 
+			      deptype.c_str());
+	    continue;
 	 }
 	 if (! prco->GetCol("epoch").empty()) {
 	    depver += prco->GetCol("epoch") + ":";
