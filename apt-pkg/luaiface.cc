@@ -1129,6 +1129,40 @@ static int AptLua_verfilelist(lua_State *L)
    return 1;
 }
 
+static int AptLua_verchangeloglist(lua_State *L)
+{
+   pkgCache::VerIterator *VerI = AptAux_ToVerIterator(L, 1);
+   if (VerI == NULL)
+      return 0;
+   pkgCache *Cache = _lua->GetCache(L);
+   if (Cache == NULL)
+      return 0;
+   pkgRecords Recs(*Cache);
+   pkgRecords::Parser &Parse = Recs.Lookup(VerI->FileList());
+
+   vector<ChangeLogEntry *> ChangeLog;
+   if (Parse.ChangeLog(ChangeLog) == false)
+      return 0;
+
+   lua_newtable(L);
+   int i = 1;
+   vector<ChangeLogEntry *>::iterator CI = ChangeLog.begin();
+   for (; CI != ChangeLog.end(); CI++) {
+      lua_newtable(L);
+      lua_pushstring(L, "time");
+      lua_pushnumber(L, (*CI)->Time);
+      lua_settable(L, -3);
+      lua_pushstring(L, "author");
+      lua_pushstring(L, (*CI)->Author.c_str());
+      lua_settable(L, -3);
+      lua_pushstring(L, "text");
+      lua_pushstring(L, (*CI)->Text.c_str());
+      lua_settable(L, -3);
+      lua_rawseti(L, -2, i++);
+   }
+   return 1;
+}
+
 static int AptLua_verstrcmp(lua_State *L)
 {
    const char *Ver1, *Ver2;
@@ -1438,6 +1472,7 @@ static const luaL_reg aptlib[] = {
    {"verprovlist",   	AptLua_verprovlist},
    {"verdeplist",   	AptLua_verdeplist},
    {"verfilelist",   	AptLua_verfilelist},
+   {"verchangeloglist", AptLua_verchangeloglist},
    {"verstrcmp",	AptLua_verstrcmp},
    {"markkeep",		AptLua_markkeep},
    {"markinstall",	AptLua_markinstall},
