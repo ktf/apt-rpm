@@ -1104,6 +1104,31 @@ static int AptLua_verdeplist(lua_State *L)
    return 1;
 }
 
+static int AptLua_verfilelist(lua_State *L)
+{
+   pkgCache::VerIterator *VerI = AptAux_ToVerIterator(L, 1);
+   if (VerI == NULL)
+      return 0;
+   pkgCache *Cache = _lua->GetCache(L);
+   if (Cache == NULL)
+      return 0;
+   pkgRecords Recs(*Cache);
+   pkgRecords::Parser &Parse = Recs.Lookup(VerI->FileList());
+
+   vector<string> Files;
+   if (Parse.FileList(Files) == false)
+      return 0;
+
+   lua_newtable(L);
+   int i = 1;
+   vector<string>::iterator FI = Files.begin();
+   for (; FI != Files.end(); FI++) {
+      lua_pushstring(L, (*FI).c_str());
+      lua_rawseti(L, -2, i++);
+   }
+   return 1;
+}
+
 static int AptLua_verstrcmp(lua_State *L)
 {
    const char *Ver1, *Ver2;
@@ -1412,6 +1437,7 @@ static const luaL_reg aptlib[] = {
    {"verisonline",	AptLua_verisonline},
    {"verprovlist",   	AptLua_verprovlist},
    {"verdeplist",   	AptLua_verdeplist},
+   {"verfilelist",   	AptLua_verfilelist},
    {"verstrcmp",	AptLua_verstrcmp},
    {"markkeep",		AptLua_markkeep},
    {"markinstall",	AptLua_markinstall},
