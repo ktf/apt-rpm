@@ -31,7 +31,7 @@ apt-pkg/rpm/rpmrecords.cc
 apt-pkg/rpm/rpmsrcrecords.cc
 apt-pkg/rpm/rpmsystem.cc
 apt-pkg/rpm/rpmversion.cc
-apt-pkg/rpm/rpmshowprogress.h
+apt-pkg/rpm/rpmcallback.cc
 
 apt-pkg/acquire.cc
 apt-pkg/acquire-item.cc
