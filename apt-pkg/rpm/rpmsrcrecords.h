@@ -40,14 +40,14 @@ class rpmSrcRecordParser : public pkgSrcRecords::Parser
 public:
    virtual bool Restart();
    virtual bool Step(); 
-   virtual bool Jump(unsigned long Off);
+   virtual bool Jump(off_t Off);
 
    virtual string Package() const;
    virtual string Version() const;
    virtual string Maintainer() const;
    virtual string Section() const;
    virtual const char **Binaries();
-   virtual unsigned long Offset();
+   virtual off_t Offset();
    virtual string AsStr();
    virtual bool Files(vector<pkgSrcRecords::File> &F);
    virtual bool BuildDepends(vector<BuildDepRec> &BuildDeps, bool ArchOnly);

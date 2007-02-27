@@ -264,7 +264,7 @@ string RPMHdrHandler::Epoch()
    return string(str);
 }
 
-unsigned long RPMHdrHandler::GetITag(rpmTag Tag)
+off_t RPMHdrHandler::GetITag(rpmTag Tag)
 {
    int_32 count, type, *num;
    void *val;
@@ -525,7 +525,7 @@ string RPMFileHandler::Directory()
    return GetSTag(CRPMTAG_DIRECTORY);
 }
 
-unsigned long RPMFileHandler::FileSize()
+off_t RPMFileHandler::FileSize()
 {
    return GetITag(CRPMTAG_FILESIZE);
 }
@@ -581,7 +581,7 @@ void RPMSingleFileHandler::Rewind()
    lseek(Fileno(FD),0,SEEK_SET);
 }
 
-unsigned long RPMSingleFileHandler::FileSize()
+off_t RPMSingleFileHandler::FileSize()
 {
    struct stat S;
    if (stat(sFilePath.c_str(),&S) != 0)
@@ -714,7 +714,7 @@ void RPMDirHandler::Rewind()
    iOffset = 0;
 }
 
-unsigned long RPMDirHandler::FileSize()
+off_t RPMDirHandler::FileSize()
 {
    if (Dir == NULL)
       return 0;
@@ -1141,10 +1141,11 @@ string RPMRepomdHandler::SHA1Sum()
    }
    return str;
 }
-unsigned long RPMRepomdHandler::FileSize()
+
+off_t RPMRepomdHandler::FileSize()
 {
    xmlNode *n;
-   unsigned long size = 0;
+   off_t size = 0;
    if ((n = FindNode("size"))) {
       xmlChar *prop = xmlGetProp(n, (xmlChar*)"package");
       size = atol((char*)prop);
@@ -1153,10 +1154,10 @@ unsigned long RPMRepomdHandler::FileSize()
    return size;
 }
 
-unsigned long RPMRepomdHandler::InstalledSize()
+off_t RPMRepomdHandler::InstalledSize()
 {
    xmlNode *n;
-   unsigned long size = 0;
+   off_t size = 0;
    if ((n = FindNode("size"))) {
       xmlChar *prop = xmlGetProp(n, (xmlChar*)"installed");
       size = atol((char*)prop);
@@ -1568,12 +1569,12 @@ string RPMSqliteHandler::Directory()
    return flNotFile(Packages->GetCol("location_href"));
 }
 
-unsigned long RPMSqliteHandler::FileSize()
+off_t RPMSqliteHandler::FileSize()
 {
    return Packages->GetColI("size_package");
 }
 
-unsigned long RPMSqliteHandler::InstalledSize()
+off_t RPMSqliteHandler::InstalledSize()
 {
    return Packages->GetColI("size_installed");
 }

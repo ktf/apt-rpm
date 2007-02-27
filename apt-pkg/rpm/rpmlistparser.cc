@@ -427,7 +427,7 @@ bool rpmListParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
 }
                                                                         /*}}}*/
 
-unsigned long rpmListParser::Size() 
+off_t rpmListParser::Size() 
 {
    return (Handler->InstalledSize()+512)/1024;
 }

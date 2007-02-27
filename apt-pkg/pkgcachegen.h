@@ -118,8 +118,8 @@ class pkgCacheGenerator::ListParser
    virtual unsigned short VersionHash() = 0;
    virtual bool UsePackage(pkgCache::PkgIterator Pkg,
 			   pkgCache::VerIterator Ver) = 0;
-   virtual unsigned long Offset() = 0;
-   virtual unsigned long Size() = 0;
+   virtual off_t Offset() = 0;
+   virtual off_t Size() = 0;
 
    // CNC:2003-02-16 - If this is false, the Size of the pkgIndexFile must
    // 		       provide the number of elements, since a sequential

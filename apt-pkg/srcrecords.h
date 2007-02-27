@@ -33,7 +33,7 @@ class pkgSrcRecords
    struct File
    {
       string MD5Hash;
-      unsigned long Size;
+      off_t Size;
       string Path;
       string Type;
    };
@@ -62,8 +62,8 @@ class pkgSrcRecords
       
       virtual bool Restart() = 0;
       virtual bool Step() = 0;
-      virtual bool Jump(unsigned long Off) = 0;
-      virtual unsigned long Offset() = 0;
+      virtual bool Jump(off_t Off) = 0;
+      virtual off_t Offset() = 0;
       virtual string AsStr() = 0;
       
       virtual string Package() const = 0;

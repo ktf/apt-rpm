@@ -67,9 +67,9 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    virtual unsigned short VersionHash();
    virtual bool UsePackage(pkgCache::PkgIterator Pkg,
 			   pkgCache::VerIterator Ver);
-   virtual unsigned long Offset()
+   virtual off_t Offset()
 	{return Handler->Offset();};
-   virtual unsigned long Size();
+   virtual off_t Size();
 
    virtual bool OrderedOffset()
    	{return Handler->OrderedOffset();};

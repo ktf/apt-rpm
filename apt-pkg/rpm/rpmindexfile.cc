@@ -175,7 +175,7 @@ bool rpmListIndex::Exists() const
 // rpmListIndex::Size - Return the size of the index			/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-unsigned long rpmListIndex::Size() const
+off_t rpmListIndex::Size() const
 {
    struct stat S;
    if (stat(IndexPath().c_str(),&S) != 0)
@@ -482,11 +482,11 @@ string rpmPkgDirIndex::ReleasePath() const
 // PkgDirIndex::Size - Return the size of the index			/*{{{*/
 // ---------------------------------------------------------------------
 /* This is really only used for progress reporting. */
-unsigned long rpmPkgDirIndex::Size() const
+off_t rpmPkgDirIndex::Size() const
 {
    // XXX: Must optimize this somehow.
    RPMHandler *Handler = CreateHandler();
-   unsigned long Res = Handler->Size();
+   off_t Res = Handler->Size();
    delete Handler;
    return Res;
 }
@@ -503,11 +503,11 @@ string rpmSrcDirIndex::IndexPath() const
 // SrcDirIndex::Size - Return the size of the index			/*{{{*/
 // ---------------------------------------------------------------------
 /* This is really only used for progress reporting. */
-unsigned long rpmSrcDirIndex::Size() const
+off_t rpmSrcDirIndex::Size() const
 {
    // XXX: Must optimize this somehow.
    RPMHandler *Handler = CreateHandler();
-   unsigned long Res = Handler->Size();
+   off_t Res = Handler->Size();
    delete Handler;
    return Res;
 }
@@ -697,10 +697,10 @@ string rpmRepomdIndex::ReleasePath() const
 // only for progress percentage reporting. A rough estimate would do just
 // fine but using xmlReader appears to be cheap enough. OTOH creating a new 
 // handler like is done for rpmPkgDirIndex is hideously expensive.
-unsigned long rpmRepomdIndex::Size() const
+off_t rpmRepomdIndex::Size() const
 {
    xmlTextReaderPtr Index;
-   unsigned long Res;
+   off_t Res;
    Index = xmlReaderForFile(IndexPath().c_str(), NULL,
 			  XML_PARSE_NONET|XML_PARSE_NOBLANKS);
    if (Index == NULL) return 0;
@@ -835,9 +835,9 @@ bool rpmRepomdDBIndex::GetIndexes(pkgAcquire *Owner) const
    return true;
 }
 
-unsigned long rpmRepomdDBIndex::Size() const
+off_t rpmRepomdDBIndex::Size() const
 {
-   unsigned long Res;
+   off_t Res;
    SqliteDB DB(IndexPath());
    SqliteQuery *Q = DB.Query();
    Q->Exec("select pkgKey from packages");
@@ -846,7 +846,7 @@ unsigned long rpmRepomdDBIndex::Size() const
    return Res;
 #if 0
    RPMHandler *Handler = CreateHandler();
-   unsigned long Res = Handler->Size();
+   off_t Res = Handler->Size();
    delete Handler;
    return Res;
 #endif
@@ -881,7 +881,7 @@ rpmDatabaseIndex::rpmDatabaseIndex()
 // DatabaseIndex::Size - Return the size of the index			/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-unsigned long rpmDatabaseIndex::Size() const
+off_t rpmDatabaseIndex::Size() const
 {
    return rpmSys.GetDBHandler()->Size();
 }

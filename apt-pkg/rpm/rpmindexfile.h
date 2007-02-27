@@ -53,7 +53,7 @@ class rpmDatabaseIndex : public rpmIndexFile
    
    // Interface for the Cache Generator
    virtual bool Exists() const {return true;};
-   virtual unsigned long Size() const;
+   virtual off_t Size() const;
    virtual bool HasPackages() const {return true;};
    virtual bool Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const;
    virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,
@@ -91,7 +91,7 @@ class rpmListIndex : public rpmIndexFile
 
    // Interface for the Cache Generator
    virtual bool Exists() const;
-   virtual unsigned long Size() const;
+   virtual off_t Size() const;
 
    // Interface for acquire
    virtual string Describe(bool Short) const;   
@@ -191,7 +191,7 @@ class rpmPkgDirIndex : public rpmPkgListIndex
    virtual const Type *GetType() const;
    
    // Interface for the Cache Generator
-   virtual unsigned long Size() const;
+   virtual off_t Size() const;
 
    rpmPkgDirIndex(string URI,string Dist,string Section,
 		   pkgRepository *Repository) :
@@ -218,7 +218,7 @@ class rpmSrcDirIndex : public rpmSrcListIndex
    virtual const Type *GetType() const;
    
    // Interface for the Cache Generator
-   virtual unsigned long Size() const;
+   virtual off_t Size() const;
 
    rpmSrcDirIndex(string URI,string Dist,string Section,
 		   pkgRepository *Repository) :
@@ -310,7 +310,7 @@ class rpmRepomdIndex : public rpmIndexFile
 
    // Interface for the Cache Generator
    virtual bool Exists() const;
-   virtual unsigned long Size() const;
+   virtual off_t Size() const;
 
    // Interface for acquire
    virtual string Describe(bool Short) const;
@@ -384,7 +384,7 @@ class rpmRepomdDBIndex : public rpmRepomdIndex
    virtual RPMHandler *CreateHandler() const
           { return new RPMSqliteHandler(IndexFile("primary_db")); };
    virtual bool GetIndexes(pkgAcquire *Owner) const;
-   virtual unsigned long Size() const;
+   virtual off_t Size() const;
    virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,
 		   		  OpProgress &/*Prog*/) const;
 

@@ -80,7 +80,7 @@ class RPMHandler
 
    virtual string FileName() = 0;
    virtual string Directory() = 0;
-   virtual unsigned long FileSize() = 0;
+   virtual off_t FileSize() = 0;
    virtual string MD5Sum() = 0;
    virtual string SHA1Sum() = 0;
    virtual bool ProvideFileName() {return false;};
@@ -96,7 +96,7 @@ class RPMHandler
    virtual string Vendor() = 0;
    virtual string Summary() = 0;
    virtual string Description() = 0;
-   virtual unsigned long InstalledSize() = 0;
+   virtual off_t InstalledSize() = 0;
    virtual string SourceRpm() = 0;
    virtual bool IsSourceRpm() {return SourceRpm().empty();}
 
@@ -117,13 +117,13 @@ class RPMHdrHandler : public RPMHandler
    Header HeaderP;
 
    string GetSTag(rpmTag Tag);
-   unsigned long GetITag(rpmTag Tag);
+   off_t GetITag(rpmTag Tag);
 
    public:
 
    virtual string FileName() {return "";};
    virtual string Directory() {return "";};
-   virtual unsigned long FileSize() {return 1;};
+   virtual off_t FileSize() {return 1;};
    virtual string MD5Sum() {return "";};
    virtual string SHA1Sum() {return "";};
    virtual bool ProvideFileName() {return false;};
@@ -138,7 +138,7 @@ class RPMHdrHandler : public RPMHandler
    virtual string Vendor() {return GetSTag(RPMTAG_VENDOR);};
    virtual string Summary() {return GetSTag(RPMTAG_SUMMARY);};
    virtual string Description() {return GetSTag(RPMTAG_DESCRIPTION);};
-   virtual unsigned long InstalledSize() {return GetITag(RPMTAG_SIZE);};
+   virtual off_t InstalledSize() {return GetITag(RPMTAG_SIZE);};
    virtual string SourceRpm() {return GetSTag(RPMTAG_SOURCERPM);};
    virtual bool IsSourceRpm() {return SourceRpm().empty();}
 
@@ -167,7 +167,7 @@ class RPMFileHandler : public RPMHdrHandler
 
    virtual string FileName();
    virtual string Directory();
-   virtual unsigned long FileSize();
+   virtual off_t FileSize();
    virtual string MD5Sum();
 
    // the rpm-repotype stripped down hdrlists dont carry changelog data
@@ -192,7 +192,7 @@ class RPMSingleFileHandler : public RPMFileHandler
 
    virtual string FileName() {return sFilePath;};
    virtual string Directory() {return "";};
-   virtual unsigned long FileSize();
+   virtual off_t FileSize();
    virtual string MD5Sum();
    virtual bool ProvideFileName() {return true;};
    virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs) { return RPMHandler::ChangeLog(ChangeLogs); };
@@ -258,7 +258,7 @@ class RPMDirHandler : public RPMHdrHandler
    virtual inline bool IsDatabase() {return false;};
 
    virtual string FileName() {return (Dir == NULL)?"":sFileName;};
-   virtual unsigned long FileSize();
+   virtual off_t FileSize();
    virtual string MD5Sum();
 
    RPMDirHandler(string DirName);
@@ -296,8 +296,8 @@ class RPMRepomdHandler : public RPMHandler
 
    virtual string FileName();
    virtual string Directory();
-   virtual unsigned long FileSize();
-   virtual unsigned long InstalledSize();
+   virtual off_t FileSize();
+   virtual off_t InstalledSize();
    virtual string MD5Sum();
    virtual string SHA1Sum();
 
@@ -342,8 +342,8 @@ class RPMRepomdReaderHandler : public RPMHandler
 
    virtual string FileName() {return XmlPath;};
    virtual string Directory() {return "";};
-   virtual unsigned long FileSize() {return 0;};
-   virtual unsigned long InstalledSize() {return 0;};
+   virtual off_t FileSize() {return 0;};
+   virtual off_t InstalledSize() {return 0;};
    virtual string MD5Sum() {return "";};
    virtual string SHA1Sum() {return "";};
 
@@ -406,8 +406,8 @@ class RPMSqliteHandler : public RPMHandler
 
    virtual string FileName();
    virtual string Directory();
-   virtual unsigned long FileSize();
-   virtual unsigned long InstalledSize();
+   virtual off_t FileSize();
+   virtual off_t InstalledSize();
    virtual string MD5Sum();
    virtual string SHA1Sum();
 

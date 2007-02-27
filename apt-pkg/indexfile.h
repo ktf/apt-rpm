@@ -78,7 +78,7 @@ class pkgIndexFile
    // Interface for the Cache Generator
    virtual bool Exists() const = 0;
    virtual bool HasPackages() const = 0;
-   virtual unsigned long Size() const = 0;
+   virtual off_t Size() const = 0;
    virtual bool Merge(pkgCacheGenerator &/*Gen*/,OpProgress &/*Prog*/) const {return false;};
    virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,OpProgress &/*Prog*/) const {return true;};
    virtual pkgCache::PkgFileIterator FindInCache(pkgCache &Cache) const;

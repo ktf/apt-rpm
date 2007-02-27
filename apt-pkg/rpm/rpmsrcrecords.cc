@@ -126,7 +126,7 @@ bool rpmSrcRecordParser::Step()
    return ret;
 }
 
-bool rpmSrcRecordParser::Jump(unsigned long Off)
+bool rpmSrcRecordParser::Jump(off_t Off)
 {
    return Handler->Jump(Off);
 }
@@ -155,7 +155,7 @@ string rpmSrcRecordParser::Section() const
    return Handler->Group();
 }
 
-unsigned long rpmSrcRecordParser::Offset() 
+off_t rpmSrcRecordParser::Offset() 
 {
     return Handler->Offset();
 }
