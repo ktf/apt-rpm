@@ -85,7 +85,7 @@ else
          [RPMDBLIBS="-lrpmdb"],
          [RPMDBLIBS="-ldb-3.1"],
          [-lrpm -lrpmio -lz -lbz2 -lpopt])
-      RPMLIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt -lsqlite3"
+      RPMLIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt"
    fi
    AC_MSG_CHECKING(for RPM libraries)
    AC_MSG_RESULT($RPMLIBS)
@@ -148,6 +148,10 @@ if test "$enable_repomd" != "no"; then
   PKG_CHECK_MODULES([LIBXML2],[libxml-2.0 >= 2.6])
   RPMLIBS="$LIBXML2_LIBS $RPMLIBS"
   CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
+  ## FIXME: Conditionalize this properly. We can support xml repomd without 
+  ## sqlite and repodb with libxml2 older than 2.6. In addition, rollback
+  ## will be using sqlite as well, we only want to check for it once.
+  RPMLIBS="$RPMLIBS -lsqlite3"
 else
   AC_MSG_RESULT(yes)
 fi

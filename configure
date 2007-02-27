@@ -21265,7 +21265,7 @@ else
   RPMDBLIBS="-ldb-3.1"
 fi
 
-      RPMLIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt -lsqlite3"
+      RPMLIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt"
    fi
    echo "$as_me:$LINENO: checking for RPM libraries" >&5
 echo $ECHO_N "checking for RPM libraries... $ECHO_C" >&6
@@ -21647,6 +21647,10 @@ echo "${ECHO_T}yes" >&6
 fi
   RPMLIBS="$LIBXML2_LIBS $RPMLIBS"
   CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
+  ## FIXME: Conditionalize this properly. We can support xml repomd without
+  ## sqlite and repodb with libxml2 older than 2.6. In addition, rollback
+  ## will be using sqlite as well, we only want to check for it once.
+  RPMLIBS="$RPMLIBS -lsqlite3"
 else
   echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
