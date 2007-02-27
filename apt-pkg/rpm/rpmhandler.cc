@@ -1477,6 +1477,7 @@ RPMSqliteHandler::~RPMSqliteHandler()
    if (Primary) delete Primary;
    if (Filelists) delete Filelists;
    if (Other) delete Other;
+   if (Packages) delete Packages;
 }
 
 
@@ -1704,6 +1705,7 @@ bool RPMSqliteHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
       Entry->Text = Changes->GetCol("changelog");
       ChangeLogs.push_back(Entry);
    }
+   delete Changes;
    return true;
 }
 
