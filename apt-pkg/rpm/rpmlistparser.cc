@@ -259,14 +259,22 @@ unsigned short rpmListParser::VersionHash()
    
    for (size_t i = 0; i < sizeof(DepSections)/sizeof(int); i++) {
       vector<Dependency*> Deps;
+      vector<Dependency*> UniqDeps;
+
       if (Handler->PRCO(DepSections[i], Deps) == false) continue;
 
       sort(Deps.begin(), Deps.end(), depsort);
-      // rpmdb can give out dupes for scriptlet dependencies, filter them out
-      vector<Dependency*>::iterator DepEnd = unique(Deps.begin(), Deps.end(), depuniq);
-      vector<Dependency*>::iterator I = Deps.begin();
+
+      // Rpmdb can give out dupes for scriptlet dependencies, filter them out.
+      // XXX Why is this done here instead of the handler?
+      UniqDeps.assign(Deps.begin(), Deps.end());
+      vector<Dependency*>::iterator DepEnd = unique(UniqDeps.begin(), 
+						    UniqDeps.end(), depuniq);
+      vector<Dependency*>::iterator I = UniqDeps.begin();
       for (; I != DepEnd; I++) { 
 	 Result = AddCRC16(Result, (*I)->Name.c_str(), (*I)->Name.length());
+      }
+      for (I = Deps.begin(); I != Deps.end(); I++) { 
 	 delete (*I);
       }
    }
