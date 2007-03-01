@@ -445,6 +445,8 @@ bool RPMHdrHandler::ChangeLog(vector<ChangeLogEntry *> &ChangeLogs)
       Entry->Text = entryl[i];
       ChangeLogs.push_back(Entry);
    }
+   free(entryl);
+   free(authorl);
       
    return true;
 }
@@ -1439,7 +1441,7 @@ bool RPMRepomdOtherHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
 }
 
 RPMSqliteHandler::RPMSqliteHandler(string File) : 
-   Primary(NULL), Filelists(NULL), Other(NULL)
+   Primary(NULL), Filelists(NULL), Other(NULL), Packages(NULL)
 {
    int rc = 0;
    char **res = NULL;
@@ -1612,6 +1614,7 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
    sql  << "select * from " << what << " where pkgKey=" << pkgKey << endl;
    SqliteQuery *prco = Primary->Query();
    if (!prco->Exec(sql.str())) {
+      delete prco;
       return false;
    }
 
@@ -1663,6 +1666,7 @@ bool RPMSqliteHandler::FileList(vector<string> &FileList)
    sql  << "select * from filelist where pkgKey=" << pkgKey << endl;
    SqliteQuery *Files = Filelists->Query();
    if (!Files->Exec(sql.str())) {
+      delete Files;
       return false;
    }
 
@@ -1696,6 +1700,7 @@ bool RPMSqliteHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
 
    SqliteQuery *Changes = Other->Query();
    if (!Changes->Exec(sql.str())) {
+      delete Changes;
       return false;
    }
 
