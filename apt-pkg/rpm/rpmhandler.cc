@@ -1252,6 +1252,7 @@ bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 }
       }
       bool res = PutDep((char*)depname, depver.c_str(), RpmOp, Type, Deps);
+      xmlFree(depname);
    }
    return true;
 }
