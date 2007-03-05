@@ -238,7 +238,7 @@ bool pkgRPMPM::RunScriptsWithPkgs(const char *Cnf)
 // RPMPM::Go - Run the sequence						/*{{{*/
 // ---------------------------------------------------------------------
 /* This globs the operations and calls rpm */
-bool pkgRPMPM::Go(InstProgress &Prog)
+bool pkgRPMPM::Go()
 {
    if (List.empty() == true)
       return true;
@@ -341,7 +341,7 @@ bool pkgRPMPM::Go(InstProgress &Prog)
    }
 #endif
 
-   if (Process(Prog, install, upgrade, uninstall) == false)
+   if (Process(install, upgrade, uninstall) == false)
       Ret = false;
 
 #ifdef APT_WITH_LUA
@@ -640,10 +640,9 @@ bool pkgRPMExtPM::ExecRPM(Item::RPMOps op, vector<const char*> &files)
    return true;
 }
 
-bool pkgRPMExtPM::Process(InstProgress &Prog, 
-		       vector<const char*> &install, 
-		       vector<const char*> &upgrade,
-		       vector<const char*> &uninstall)
+bool pkgRPMExtPM::Process(vector<const char*> &install, 
+			  vector<const char*> &upgrade,
+			  vector<const char*> &uninstall)
 {
    if (uninstall.empty() == false)
        ExecRPM(Item::RPMErase, uninstall);
@@ -745,8 +744,7 @@ bool pkgRPMLibPM::AddToTransaction(Item::RPMOps op, vector<const char*> &files)
    return true;
 }
 
-bool pkgRPMLibPM::Process(InstProgress &Prog,
-			  vector<const char*> &install, 
+bool pkgRPMLibPM::Process(vector<const char*> &install, 
 			  vector<const char*> &upgrade,
 			  vector<const char*> &uninstall)
 {
@@ -832,7 +830,8 @@ bool pkgRPMLibPM::Process(InstProgress &Prog,
    if (upgrade.empty() == false)
        AddToTransaction(Item::RPMUpgrade, upgrade);
 
-   packagesTotal = 0;
+   // XXX temp stuff..
+   int packagesTotal = 0;
    // Figure out exactly how many rpm operations we're going to process,
    // repackages and all.
    int repackage = (tsFlags & RPMTRANS_FLAG_REPACKAGE) ? 1 : 0;
@@ -891,16 +890,16 @@ bool pkgRPMLibPM::Process(InstProgress &Prog,
       goto exit;
    }
 
-   Prog.OverallProgress(0, 1, 1, "Committing changes...");
+   Progress->OverallProgress(0, 1, 1, "Committing changes...");
 #if RPM_VERSION >= 0x040100
    probFilter |= rpmtsFilterFlags(TS);
    rpmtsSetFlags(TS, (rpmtransFlags)(rpmtsFlags(TS) | tsFlags));
    rpmtsClean(TS);
-   rc = rpmtsSetNotifyCallback(TS, rpmCallback, &Prog);
+   rc = rpmtsSetNotifyCallback(TS, rpmCallback, Progress);
    rc = rpmtsRun(TS, NULL, (rpmprobFilterFlags)probFilter);
    probs = rpmtsProblems(TS);
 #else
-   rc = rpmRunTransactions(TS, rpmpmShowProgress, (void *)notifyFlags, NULL,
+   rc = rpmRunTransactions(TS, rpmCallback, Progress, NULL,
                            &probs, (rpmtransFlags)tsFlags,
 			   (rpmprobFilterFlags)probFilter);
 #endif

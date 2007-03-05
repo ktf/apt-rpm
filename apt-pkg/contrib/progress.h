@@ -25,18 +25,20 @@
 #pragma interface "apt-pkg/progress.h"
 #endif 
 
+#include <map>
 #include <string>
 #include <sys/time.h>
 
 using std::string;
+using std::map;
 
 class Configuration;
 class OpProgress
 {
-   unsigned long Current;
-   unsigned long Total;
-   unsigned long Size;
-   unsigned long SubTotal;
+   off_t Current;
+   off_t Total;
+   off_t Size;
+   off_t SubTotal;
    float LastPercent;
    
    // Change reduction code
@@ -51,6 +53,7 @@ class OpProgress
    float Percent;
    
    bool MajorChange;
+   bool SubChange;
    
    bool CheckChange(float Interval = 0.7);		    
    virtual void Update() {};
@@ -89,30 +92,50 @@ class OpTextProgress : public OpProgress
    virtual ~OpTextProgress() {Done();};
 };
 
+
 class InstProgress : public OpProgress
 {
-   protected:
-
    public:
-   InstProgress(Configuration &Config) : OpProgress() {};
+   enum InstallStates { Preparing, Installing, Repackaging, Removing };
+
+   void SetState(enum InstallStates St) {State = St;};
+   void SetPackageData(map<string,string> *PkgData) {PackageData=PkgData;};
+   InstProgress(Configuration &Config) : OpProgress(), PackageData(NULL) {};
    virtual ~InstProgress() {};
+
+   protected:
+   map<string,string> *PackageData;
+   enum InstallStates State;
 };
 
-class InstTextProgress : public InstProgress
+// Progress class that emulates "rpm -Uv --percent" output for Synaptic
+// compatibility 
+class InstPercentProgress : public InstProgress
 {
    protected:
-   string OldOp;
-   bool NoUpdate;
-   bool NoDisplay;
-   unsigned long LastLen;
    virtual void Update();
-   void Write(const char *S);
 
    public:
    virtual void Done();
 
-   InstTextProgress(Configuration &Config);
-   virtual ~InstTextProgress() {Done();};
+   InstPercentProgress(Configuration &Config);
+   virtual ~InstPercentProgress() {Done();};
+};
+
+// Progress class similar to rpm -Uvh but with erasure callbacks and whatnot
+// TODO: actually implement it ;)
+class InstHashProgress : public InstProgress
+{
+   protected:
+
+   virtual void Update();
+   void PrintHashes();
+
+   public:
+   virtual void Done();
+
+   InstHashProgress(Configuration &Config) : InstProgress(Config) {};
+   virtual ~InstHashProgress() {Done();};
 };
 #endif
 

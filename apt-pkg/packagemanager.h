@@ -48,6 +48,7 @@ class pkgPackageManager : protected pkgCache::Namespace
    string *FileNames;
    pkgDepCache &Cache;
    pkgOrderList *List;
+   InstProgress *Progress;
    bool Debug;
          
    bool DepAdd(pkgOrderList &Order,PkgIterator P,int Depth = 0);
@@ -69,7 +70,7 @@ class pkgPackageManager : protected pkgCache::Namespace
    virtual bool Install(PkgIterator /*Pkg*/,string /*File*/) {return false;};
    virtual bool Configure(PkgIterator /*Pkg*/) {return false;};
    virtual bool Remove(PkgIterator /*Pkg*/,bool /*Purge*/=false) {return false;};
-   virtual bool Go(InstProgress &Prog) {return true;};
+   virtual bool Go() {return true;};
    virtual void Reset() {};
    
    public:
@@ -77,7 +78,8 @@ class pkgPackageManager : protected pkgCache::Namespace
    // Main action members
    bool GetArchives(pkgAcquire *Owner,pkgSourceList *Sources,
 		    pkgRecords *Recs);
-   OrderResult DoInstall(InstProgress &Prog);
+   OrderResult DoInstall(InstProgress *Prog);
+   OrderResult DoInstall();
    bool FixMissing();
    
    pkgPackageManager(pkgDepCache *Cache);

@@ -18,6 +18,7 @@
 #include <apti18n.h>
 
 #include <iostream>
+#include <iomanip>
 #include <stdio.h>
 									/*}}}*/
 
@@ -110,8 +111,10 @@ bool OpProgress::CheckChange(float Interval)
    if (SubOp != LastSubOp)
    {
       LastSubOp = SubOp;
+      SubChange = true;
       return true;
    }
+   SubChange = false;
    
    if ((int)LastPercent == (int)Percent)
       return false;
@@ -219,82 +222,84 @@ void OpTextProgress::Write(const char *S)
 }
 									/*}}}*/
 
-InstTextProgress::InstTextProgress(Configuration &Config) : 
-				InstProgress(Config),
-                               	NoUpdate(false), NoDisplay(false), LastLen(0) 
+InstPercentProgress::InstPercentProgress(Configuration &Config) : 
+				InstProgress(Config)
 {
 }
 
-void InstTextProgress::Done()
+void InstPercentProgress::Done()
 {
-   if (NoUpdate == false && OldOp.empty() == false)
-   {
-      char S[300];
-      if (_error->PendingError() == true)
-	 snprintf(S,sizeof(S),_("%c%s... Error!"),'\r',OldOp.c_str());
-      else
-	 snprintf(S,sizeof(S),_("%c%s... Done"),'\r',OldOp.c_str());
-      Write(S);
-      cout << endl;
-      OldOp = string();
-   }
-   
-   if (NoUpdate == true && NoDisplay == false && OldOp.empty() == false)
-   {
-      OldOp = string();
-      cout << endl;   
-   }   
+   Percent = 100;
+   Update();
 }
 									/*}}}*/
-// OpTextProgress::Update - Simple text spinner				/*{{{*/
-// ---------------------------------------------------------------------
-/* */
-void InstTextProgress::Update()
+void InstPercentProgress::Update()
 {
-   if (CheckChange((NoUpdate == true?0:0.7)) == false)
+   if (CheckChange(0.001) == false)
       return;
-   
-   // No percent spinner
-   if (NoUpdate == true)
-   {
-      if (MajorChange == false)
-	 return;
-      if (NoDisplay == false)
-      {
-	 if (OldOp.empty() == false)
-	    cout << endl;
-	 OldOp = "a";
-	 cout << Op << "..." << flush;
+
+   //cout << "major " << Op << " " << MajorChange << " new " << SubOp << " changed " << SubChange << endl << flush;
+   if (MajorChange == true)
+      return;
+   if (SubChange == true) {
+      if (State == Preparing) {
+	 cout << SubOp << endl << flush;
+      } else if (State == Installing) {
+	 cout << (*PackageData)["name"] << "-";
+	 cout << (*PackageData)["version"] << "-";
+	 cout << (*PackageData)["release"];
+	 cout << endl << flush;
       }
-      
+   } else if (State == Installing or State == Preparing) {
+      cout.setf(ios_base::showpoint);
+      cout.setf(ios_base::fixed, ios_base::floatfield);
+      cout << "%% " << setprecision(6) << Percent << endl << flush;
+   }
+}
+
+void InstHashProgress::Update()
+{
+   if (CheckChange(0.001) == false)
+      return;
+
+   if (MajorChange == true) {
+      cout << endl << Op << flush;
       return;
    }
-
-   // Erase the old text and 'log' the event
-   char S[300];
-   if (MajorChange == true && OldOp.empty() == false)
-   {
-      snprintf(S,sizeof(S),"\r%s",OldOp.c_str());
-      Write(S);
-      cout << endl;
+   if (SubChange == true) {
+      cout << endl << flush;
    }
-   
-   // Print the spinner
-   snprintf(S,sizeof(S),"\r%s... %s: %u%%",Op.c_str(),SubOp.c_str(), (unsigned int)Percent);
-   Write(S);
+   string s;
+   if (State == Preparing) {
+      s = SubOp; 
+   } else {
+      s = (*PackageData)["name"] + "-" + 
+          (*PackageData)["version"] + "-" + 
+          (*PackageData)["release"]; 
+   }
+   cout << "\r";
+   cout.setf(ios_base::left);
+   cout << setw(25) << s << " ";
+   PrintHashes();
+}
 
-   OldOp = Op;
-}
-									/*}}}*/
-// OpTextProgress::Write - Write the progress string			/*{{{*/
-// ---------------------------------------------------------------------
-/* This space fills the end to overwrite the previous text */
-void InstTextProgress::Write(const char *S)
+void InstHashProgress::PrintHashes()
 {
-   cout << S;
-   for (unsigned int I = strlen(S); I < LastLen; I++)
-      cout << ' ';
-   cout << '\r' << flush;
-   LastLen = strlen(S);
+   int hashesTotal = 50;
+   int hashesNeeded = int(50 * Percent / 100);
+           
+   for (int i=0; i < hashesNeeded; i++ ) {
+      cout << "#";
+   }
+   cout << flush;
+   //cout << "need hashes " << hashesNeeded << " for " << Percent << endl << flush;
 }
+
+void InstHashProgress::Done()
+{
+   Percent = 100;
+   Update();
+   cout << endl;
+}
+
 // vim:sts=3:sw=3

@@ -56,12 +56,11 @@ class pkgRPMPM : public pkgPackageManager
    virtual bool Configure(PkgIterator Pkg);
    virtual bool Remove(PkgIterator Pkg,bool Purge = false);
     
-   virtual bool Process(InstProgress &Prog,
-	        vector<const char*> &install,
-		vector<const char*> &upgrade,
-		vector<const char*> &uninstall) {return false;};
+   virtual bool Process(vector<const char*> &install,
+			vector<const char*> &upgrade,
+			vector<const char*> &uninstall) {return false;};
    
-   virtual bool Go(InstProgress &Prog);
+   virtual bool Go();
    virtual void Reset();
    
    public:
@@ -74,10 +73,9 @@ class pkgRPMExtPM : public pkgRPMPM
 {
    protected:
    bool ExecRPM(Item::RPMOps op, vector<const char*> &files);
-   virtual bool Process(InstProgress &Prog,
-	        vector<const char*> &install,
-		vector<const char*> &upgrade,
-		vector<const char*> &uninstall);
+   virtual bool Process(vector<const char*> &install,
+			vector<const char*> &upgrade,
+			vector<const char*> &uninstall);
 
    public:
    pkgRPMExtPM(pkgDepCache *Cache);
@@ -96,10 +94,9 @@ class pkgRPMLibPM : public pkgRPMPM
 
    bool ParseRpmOpts(const char *Cnf, int *tsFlags, int *probFilter);
    bool AddToTransaction(Item::RPMOps op, vector<const char*> &files);
-   virtual bool Process(InstProgress &Prog,
-	        vector<const char*> &install,
-		vector<const char*> &upgrade,
-		vector<const char*> &uninstall);
+   virtual bool Process(vector<const char*> &install,
+			vector<const char*> &upgrade,
+			vector<const char*> &uninstall);
 
    public:
 

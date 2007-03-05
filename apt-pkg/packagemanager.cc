@@ -664,13 +664,27 @@ pkgPackageManager::OrderResult pkgPackageManager::OrderInstall()
 // ---------------------------------------------------------------------
 /* This uses the filenames in FileNames and the information in the
    DepCache to perform the installation of packages.*/
-pkgPackageManager::OrderResult pkgPackageManager::DoInstall(InstProgress &Prog)
+pkgPackageManager::OrderResult pkgPackageManager::DoInstall(InstProgress *Prog)
 {
+   Progress = Prog;
    OrderResult Res = OrderInstall();
    if (Res != Failed)
-      if (Go(Prog) == false)
+      if (Go() == false)
 	 return Failed;
    return Res;
 }
 									/*}}}*/
+pkgPackageManager::OrderResult pkgPackageManager::DoInstall()
+{
+   InstProgress *Prog;
+   pkgPackageManager::OrderResult res;
+   if (_config->FindB("RPM::Interactive",true)) {
+      Prog = new InstHashProgress(*_config);
+   } else {
+      Prog = new InstPercentProgress(*_config);
+   }
+   res = DoInstall(Prog);
+   delete Prog;
+   return res; 
+}
 // vim:sts=3:sw=3

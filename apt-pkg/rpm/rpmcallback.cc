@@ -1,4 +1,4 @@
-
+#include <map>
 #include <stdio.h>
 #include <rpm/rpmlib.h>
 #include <apti18n.h>
@@ -9,9 +9,26 @@
 #include <iostream>
 using namespace std;
 
-static int progressCurrent = 0;
-static int progressTotal = 0;
-int packagesTotal = 0;
+static char *copyTags[] = {"name", 
+			   "version", 
+			   "release", 
+			   "arch", 
+			   "summary", 
+			   NULL};
+
+static void getPackageData(const Header h, map<string,string> &Data)
+{
+   char **Tag = &copyTags[0];
+   char rTag[20];
+   Data.clear();
+   for (Tag = &copyTags[0]; *Tag != NULL; *Tag++) {
+      sprintf(rTag, "%{%s}", *Tag);
+      char *s = headerSprintf(h, rTag, rpmTagTable, rpmHeaderFormats, NULL);
+      Data[*Tag] = s;
+      free(s);
+   }
+
+}
 
 #if RPM_VERSION < 0x040000
 void * rpmCallback(const Header h,
@@ -29,12 +46,13 @@ void * rpmCallback(const void * arg,
 #endif
 
    char * s;
-   OpProgress *Prog = (OpProgress*)data;
+   InstProgress *Prog = (InstProgress*)data;
    void * rc = NULL;
    const char * filename = (const char *) pkgKey;
    static FD_t fd = NULL;
    static rpmCallbackType state;
    static bool repackage;
+   static map<string,string> Data;
 
    switch (what) {
    case RPMCALLBACK_INST_OPEN_FILE:
@@ -57,49 +75,46 @@ void * rpmCallback(const void * arg,
    case RPMCALLBACK_INST_START:
       if (state != what && repackage == false) {
 	 state = what;
-	 Prog->Progress(100);
 	 Prog->OverallProgress(0,1,1, "Installing");
+	 Prog->SetState(InstProgress::Installing);
       }
 
-      s = headerSprintf(h, "%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}",
-				  rpmTagTable, rpmHeaderFormats, NULL);
-      Prog->SubProgress(100, s);
+      getPackageData(h, Data);
+      Prog->SubProgress(total, Data["name"]);
+      Prog->Progress(amount);
       break;
 
    case RPMCALLBACK_TRANS_PROGRESS:
+      //cout << "RPMCALLBACK_TRANS_PROGRESS " << amount << " " << total << endl << flush;
    case RPMCALLBACK_INST_PROGRESS:
-      Prog->Progress((int) (total ? ((((float) amount) / total) * 100): 100.0));
+      //cout << "RPMCALLBACK_INST_PROGRESS " << amount << " " << total << endl << flush;
+      Prog->Progress(amount);
       break;
 
    case RPMCALLBACK_TRANS_START:
+      //cout << "RPMCALLBACK_TRANS_START " << amount << " " << total << endl << flush;
       state = what;
       repackage = false;
-      progressTotal = 1;
-      progressCurrent = 0;
-      Prog->OverallProgress(0,100,1, "Preparing");
+      Prog->SetState(InstProgress::Preparing);
+      Prog->SubProgress(total, "Preparing");
+      Prog->SetPackageData(&Data);
    break;
 
    case RPMCALLBACK_TRANS_STOP:
-      Prog->Progress(100);
       Prog->Done();
-      progressTotal = packagesTotal;
-      progressCurrent = 0;
       break;
 
    case RPMCALLBACK_REPACKAGE_START:
-      progressCurrent = 0;
       repackage = true;
       Prog->OverallProgress(0,1,1, "Repackaging");
+      Prog->SetState(InstProgress::Repackaging);
       break;
 
    case RPMCALLBACK_REPACKAGE_PROGRESS:
-      Prog->Progress(100);
+      Prog->Progress(amount);
       break;
 
    case RPMCALLBACK_REPACKAGE_STOP:
-      progressTotal = total;
-      progressCurrent = total;
-      progressTotal = packagesTotal;
       repackage = false;
       break;
 
@@ -107,18 +122,25 @@ void * rpmCallback(const void * arg,
       break;
 
    case RPMCALLBACK_UNINST_START:
+      if (h == NULL) {
+	 cout << "uninst start, header null ;(" << endl;
+	 break;
+      }
       if (state != what) {
 	 state = what;
+	 Prog->SetState(InstProgress::Removing);
 	 Prog->OverallProgress(0,1,1, "Removing");
       }
+      getPackageData(h, Data);
+      Prog->SubProgress(total, Data["name"]);
+      Prog->Progress(total);
       break;
 
    case RPMCALLBACK_UNINST_STOP:
+      Prog->Progress(total);
       if (h == NULL)
 	 break;
-      s = headerSprintf(h, "%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}",
-				  rpmTagTable, rpmHeaderFormats, NULL);
-      Prog->SubProgress(1, s);
+      getPackageData(h, Data);
       break;
    default: // Fall through
       break;

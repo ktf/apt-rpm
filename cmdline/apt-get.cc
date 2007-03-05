@@ -271,8 +271,7 @@ bool InstallPackages(CacheFile &Cache,bool ShwKept,bool Ask = true,
    if (_config->FindB("APT::Get::Simulate") == true)
    {
       pkgSimulate PM(Cache);
-      InstTextProgress Prog(*_config);
-      pkgPackageManager::OrderResult Res = PM.DoInstall(Prog);
+      pkgPackageManager::OrderResult Res = PM.DoInstall();
       if (Res == pkgPackageManager::Failed)
 	 return false;
       if (Res != pkgPackageManager::Completed)
@@ -514,8 +513,7 @@ bool InstallPackages(CacheFile &Cache,bool ShwKept,bool Ask = true,
 	    _config->Set("RPM::Install-Options::", "--nodeps");
 	 }
 	 _system->UnLock();
-	 InstTextProgress Prog(*_config);
-	 pkgPackageManager::OrderResult Res = PM->DoInstall(Prog);
+	 pkgPackageManager::OrderResult Res = PM->DoInstall();
 	 if (Res == pkgPackageManager::Failed || _error->PendingError() == true)
 	 {
 	    if (Transient == false)
