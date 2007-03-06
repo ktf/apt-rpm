@@ -65,6 +65,8 @@ libapt_pkg_la_SOURCES = \
 	rpm/rpmsystem.h \
 	rpm/rpmversion.cc \
 	rpm/rpmversion.h \
+	rpm/xmlutil.cc \
+	rpm/xmlutil.h \
 	acquire.cc \
 	acquire.h \
 	acquire-item.cc \

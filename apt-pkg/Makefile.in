@@ -74,12 +74,13 @@ am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	rpm/rpmcallback.lo rpm/rpmhandler.lo rpm/rpmindexfile.lo \
 	rpm/rpmlistparser.lo rpm/rpmpackagedata.lo rpm/rpmpm.lo \
 	rpm/rpmrecords.lo rpm/rpmsrcrecords.lo rpm/rpmsystem.lo \
-	rpm/rpmversion.lo acquire.lo acquire-item.lo acquire-method.lo \
-	acquire-worker.lo algorithms.lo cachefile.lo clean.lo \
-	depcache.lo indexfile.lo init.lo luaiface.lo orderlist.lo \
-	packagemanager.lo pkgcache.lo pkgcachegen.lo pkgrecords.lo \
-	pkgsystem.lo policy.lo repository.lo sourcelist.lo \
-	srcrecords.lo tagfile.lo version.lo versionmatch.lo
+	rpm/rpmversion.lo rpm/xmlutil.lo acquire.lo acquire-item.lo \
+	acquire-method.lo acquire-worker.lo algorithms.lo cachefile.lo \
+	clean.lo depcache.lo indexfile.lo init.lo luaiface.lo \
+	orderlist.lo packagemanager.lo pkgcache.lo pkgcachegen.lo \
+	pkgrecords.lo pkgsystem.lo policy.lo repository.lo \
+	sourcelist.lo srcrecords.lo tagfile.lo version.lo \
+	versionmatch.lo
 libapt_pkg_la_OBJECTS = $(am_libapt_pkg_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include -I$(top_builddir)/include/apt-pkg
 depcomp = $(SHELL) $(top_srcdir)/buildlib/depcomp
@@ -302,6 +303,8 @@ libapt_pkg_la_SOURCES = \
 	rpm/rpmsystem.h \
 	rpm/rpmversion.cc \
 	rpm/rpmversion.h \
+	rpm/xmlutil.cc \
+	rpm/xmlutil.h \
 	acquire.cc \
 	acquire.h \
 	acquire-item.cc \
@@ -488,6 +491,7 @@ rpm/rpmsrcrecords.lo: rpm/$(am__dirstamp) \
 	rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmsystem.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmversion.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
+rpm/xmlutil.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 libapt-pkg.la: $(libapt_pkg_la_OBJECTS) $(libapt_pkg_la_DEPENDENCIES) 
 	$(CXXLINK) -rpath $(libdir) $(libapt_pkg_la_LDFLAGS) $(libapt_pkg_la_OBJECTS) $(libapt_pkg_la_LIBADD) $(LIBS)
 
@@ -541,6 +545,8 @@ mostlyclean-compile:
 	-rm -f rpm/rpmsystem.lo
 	-rm -f rpm/rpmversion.$(OBJEXT)
 	-rm -f rpm/rpmversion.lo
+	-rm -f rpm/xmlutil.$(OBJEXT)
+	-rm -f rpm/xmlutil.lo
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -593,6 +599,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmsrcrecords.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmsystem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmversion.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/xmlutil.Plo@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`; \

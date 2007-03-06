@@ -280,12 +280,6 @@ class RPMRepomdHandler : public RPMHandler
    string FilelistPath;
    string OtherPath;
 
-   xmlNode *FindNode(const string Name);
-   xmlNode *FindNode(xmlNode *Node, const string Name);
-
-   string FindTag(xmlNode *Node, const string Tag);
-   string GetProp(xmlNode *Node, char *Prop);
-
    public:
 
 
@@ -301,17 +295,17 @@ class RPMRepomdHandler : public RPMHandler
    virtual string MD5Sum();
    virtual string SHA1Sum();
 
-   virtual string Name() {return FindTag(NodeP, "name");};
-   virtual string Arch() {return FindTag(NodeP, "arch");};
+   virtual string Name();
+   virtual string Arch();
    virtual string Epoch();
    virtual string Version();
    virtual string Release();
 
    virtual string Group();
-   virtual string Packager() {return FindTag(NodeP, "packager");};
+   virtual string Packager();
    virtual string Vendor();
-   virtual string Summary() {return FindTag(NodeP, "summary");};
-   virtual string Description() {return FindTag(NodeP, "description");};
+   virtual string Summary();
+   virtual string Description();
    virtual string SourceRpm();
 
    virtual bool HasFile(const char *File);

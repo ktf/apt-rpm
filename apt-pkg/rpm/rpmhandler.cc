@@ -33,6 +33,7 @@
 #include <libxml/xmlreader.h>
 #include <sstream>
 #include <apt-pkg/sqlite.h>
+#include "xmlutil.h"
 #endif
 
 #include <apti18n.h>
@@ -1019,82 +1020,60 @@ void RPMRepomdHandler::Rewind()
    PkgIter = Pkgs.begin();
 }
 
-xmlNode *RPMRepomdHandler::FindNode(const string Name)
+string RPMRepomdHandler::Name() 
 {
-   for (xmlNode *n = NodeP->children; n; n = n->next) {
-      if (xmlStrcmp(n->name, (xmlChar*)Name.c_str()) == 0) {
-         return n;
-      }
-   }
-   return NULL;
+   return XmlFindNodeContent(NodeP, "name");
 }
 
-xmlNode *RPMRepomdHandler::FindNode(xmlNode *Node, const string Name)
+string RPMRepomdHandler::Arch() 
 {
-   for (xmlNode *n = Node->children; n; n = n->next) {
-      if (xmlStrcmp(n->name, (xmlChar*)Name.c_str()) == 0) {
-         return n;
-      }
-   }
-   return NULL;
+   return XmlFindNodeContent(NodeP, "arch");
 }
 
-string RPMRepomdHandler::FindTag(xmlNode *Node, string Tag)
+string RPMRepomdHandler::Packager() 
 {
-   xmlNode *n = FindNode(Node, Tag);
-   string str = "";
-   if (n) {
-      xmlChar *content = xmlNodeGetContent(n);
-      if (content) {
-	 str = (char*)content;
-	 xmlFree(content);
-      }
-   }
-   return str;
+   return XmlFindNodeContent(NodeP, "packager");
 }
 
-string RPMRepomdHandler::GetProp(xmlNode *Node, char *Prop)
+string RPMRepomdHandler::Summary() 
 {
-   string str = "";
-   if (Node) {
-      xmlChar *prop = xmlGetProp(Node, (xmlChar*)Prop);
-      if (prop) {
-	 str = (char*)prop;
-	 xmlFree(prop);
-      }
-   }
-   return str;
+   return XmlFindNodeContent(NodeP, "summary");
+}
+
+string RPMRepomdHandler::Description() 
+{
+   return XmlFindNodeContent(NodeP, "description");
 }
 
 string RPMRepomdHandler::Group()
 {
-   xmlNode *n = FindNode("format");
-   return FindTag(n, "group");
+   xmlNode *n = XmlFindNode(NodeP, "format");
+   return XmlFindNodeContent(n, "group");
 }
 
 string RPMRepomdHandler::Vendor()
 {
-   xmlNode *n = FindNode("format");
-   return FindTag(n, "vendor");
+   xmlNode *n = XmlFindNode(NodeP, "format");
+   return XmlFindNodeContent(n, "vendor");
 }
 
 string RPMRepomdHandler::Release()
 {
-   xmlNode *n = FindNode("version");
-   return GetProp(n, "rel");
+   xmlNode *n = XmlFindNode(NodeP, "version");
+   return XmlGetProp(n, "rel");
 }
 
 string RPMRepomdHandler::Version()
 {
-   xmlNode *n = FindNode("version");
-   return GetProp(n, "ver");
+   xmlNode *n = XmlFindNode(NodeP, "version");
+   return XmlGetProp(n, "ver");
 }
 
 string RPMRepomdHandler::Epoch()
 {
    string epoch;
-   xmlNode *n = FindNode("version");
-   epoch = GetProp(n, "epoch");
+   xmlNode *n = XmlFindNode(NodeP, "version");
+   epoch = XmlGetProp(n, "epoch");
    // XXX createrepo stomps epoch zero on packages without epoch, hide
    // them. Rpm treats zero and empty equally anyway so it doesn't matter.
    if (epoch == "0")
@@ -1106,7 +1085,7 @@ string RPMRepomdHandler::FileName()
 {
    xmlNode *n;
    string str = "";
-   if ((n = FindNode("location"))) {
+   if ((n = XmlFindNode(NodeP, "location"))) {
       xmlChar *prop = xmlGetProp(n, (xmlChar*)"href");
       str = basename((char*)prop);
       xmlFree(prop);
@@ -1118,7 +1097,7 @@ string RPMRepomdHandler::Directory()
 {
    xmlNode *n;
    string str = "";
-   if ((n = FindNode("location"))) {
+   if ((n = XmlFindNode(NodeP, "location"))) {
       xmlChar *prop = xmlGetProp(n, (xmlChar*)"href");
       if (prop) {
 	 str = dirname((char*)prop);
@@ -1139,7 +1118,7 @@ string RPMRepomdHandler::SHA1Sum()
 {
    xmlNode *n;
    string str = "";
-   if ((n = FindNode("checksum"))) {
+   if ((n = XmlFindNode(NodeP, "checksum"))) {
       xmlChar *content = xmlNodeGetContent(n);
       str = (char*)content;
       xmlFree(content);
@@ -1151,7 +1130,7 @@ off_t RPMRepomdHandler::FileSize()
 {
    xmlNode *n;
    off_t size = 0;
-   if ((n = FindNode("size"))) {
+   if ((n = XmlFindNode(NodeP, "size"))) {
       xmlChar *prop = xmlGetProp(n, (xmlChar*)"package");
       size = atol((char*)prop);
       xmlFree(prop);
@@ -1163,7 +1142,7 @@ off_t RPMRepomdHandler::InstalledSize()
 {
    xmlNode *n;
    off_t size = 0;
-   if ((n = FindNode("size"))) {
+   if ((n = XmlFindNode(NodeP, "size"))) {
       xmlChar *prop = xmlGetProp(n, (xmlChar*)"installed");
       size = atol((char*)prop);
       xmlFree(prop);
@@ -1173,27 +1152,27 @@ off_t RPMRepomdHandler::InstalledSize()
 
 string RPMRepomdHandler::SourceRpm()
 {
-   xmlNode *n = FindNode("format");
-   return FindTag(n, "sourcerpm");
+   xmlNode *n = XmlFindNode(NodeP, "format");
+   return XmlFindNodeContent(n, "sourcerpm");
 }
 
 bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 {
-   xmlNode *format = FindNode("format");
+   xmlNode *format = XmlFindNode(NodeP, "format");
    xmlNode *prco = NULL;
 
    switch (Type) {
       case pkgCache::Dep::Depends:
-         prco = FindNode(format, "requires");
+         prco = XmlFindNode(format, "requires");
          break;
       case pkgCache::Dep::Conflicts:
-         prco = FindNode(format, "conflicts");
+         prco = XmlFindNode(format, "conflicts");
          break;
       case pkgCache::Dep::Obsoletes:
-         prco = FindNode(format, "obsoletes");
+         prco = XmlFindNode(format, "obsoletes");
          break;
       case pkgCache::Dep::Provides:
-         prco = FindNode(format, "provides");
+         prco = XmlFindNode(format, "provides");
          break;
    }
 
@@ -1281,7 +1260,7 @@ bool RPMRepomdHandler::HasFile(const char *File)
 
 bool RPMRepomdHandler::ShortFileList(vector<string> &FileList)
 {
-   xmlNode *format = FindNode("format");
+   xmlNode *format = XmlFindNode(NodeP, "format");
    for (xmlNode *n = format->children; n; n = n->next) {
       if (xmlStrcmp(n->name, (xmlChar*)"file") != 0)  continue;
       xmlChar *Filename = xmlNodeGetContent(n);
