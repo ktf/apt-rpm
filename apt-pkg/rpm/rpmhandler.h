@@ -101,8 +101,8 @@ class RPMHandler
    virtual bool IsSourceRpm() {return SourceRpm().empty();}
 
    virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps) = 0;
-   virtual bool FileList(vector<string> &FileList) { return false; };
-   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs) { return false; };
+   virtual bool FileList(vector<string> &FileList) = 0;
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs) = 0;
 
    virtual bool HasFile(const char *File);
 
@@ -195,7 +195,7 @@ class RPMSingleFileHandler : public RPMFileHandler
    virtual off_t FileSize();
    virtual string MD5Sum();
    virtual bool ProvideFileName() {return true;};
-   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs) { return RPMHandler::ChangeLog(ChangeLogs); };
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
 
    RPMSingleFileHandler(string File) : RPMFileHandler(File), sFilePath(File) {};
    virtual ~RPMSingleFileHandler() {};
@@ -362,7 +362,6 @@ class RPMRepomdReaderHandler : public RPMHandler
    virtual bool PRCO(unsigned int Type, vector<Dependency*> &Deps)
        {return true;};
 
-   virtual bool FileList(vector<string> &FileList) {return true;};
    RPMRepomdReaderHandler(string File);
    virtual ~RPMRepomdReaderHandler();
 };
@@ -372,13 +371,16 @@ class RPMRepomdFLHandler : public RPMRepomdReaderHandler
    public:
    virtual bool FileList(vector<string> &FileList);
    RPMRepomdFLHandler(string File) : RPMRepomdReaderHandler(File) {};
+   virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs) {return true;};
    virtual ~RPMRepomdFLHandler() {};
 };
 
 class RPMRepomdOtherHandler : public RPMRepomdReaderHandler
 {
    public:
+   virtual bool FileList(vector<string> &FileList) {return true;};
    virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
+
    RPMRepomdOtherHandler(string File) : RPMRepomdReaderHandler(File) {};
    virtual ~RPMRepomdOtherHandler() {};
 };

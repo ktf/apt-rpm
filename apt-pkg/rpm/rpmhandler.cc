@@ -600,6 +600,11 @@ string RPMSingleFileHandler::MD5Sum()
    return MD5.Result().Value();
 }
 
+bool RPMSingleFileHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
+{
+   return RPMHdrHandler::ChangeLog(ChangeLogs);
+}
+
 RPMDirHandler::RPMDirHandler(string DirName)
    : sDirName(DirName)
 {
@@ -933,16 +938,14 @@ void RPMDBHandler::Rewind()
 #endif
 
 #ifdef APT_WITH_REPOMD
-RPMRepomdHandler::RPMRepomdHandler(string File)
+RPMRepomdHandler::RPMRepomdHandler(string File): RPMHandler(),
+      Root(NULL), Primary(NULL), PrimaryPath(File)
 {
-   PrimaryPath = File;
    string DBBase = PrimaryPath.substr(0, File.size() - strlen("primary.xml"));
    FilelistPath = DBBase + "filelists.xml";
    OtherPath = DBBase + "other.xml";
 
    ID = File;
-   Root = NULL;
-   Primary = NULL;
    xmlChar *packages = NULL;
    off_t pkgcount = 0;
    
@@ -1311,12 +1314,10 @@ RPMRepomdHandler::~RPMRepomdHandler()
    xmlFreeDoc(Primary);
 }
 
-RPMRepomdReaderHandler::RPMRepomdReaderHandler(string File) : RPMHandler()
+RPMRepomdReaderHandler::RPMRepomdReaderHandler(string File) : RPMHandler(),
+   XmlPath(File), NodeP(NULL), XmlFile(NULL)
 {
-   XmlPath = File;
    ID = File;
-   XmlFile = NULL;
-   NodeP = NULL;
    iOffset = -1;
 
    if (FileExists(XmlPath)) {
