@@ -333,6 +333,7 @@ class RPMRepomdReaderHandler : public RPMHandler
    xmlNode *NodeP;
 
    string FindTag(char *Tag);
+   string FindVerTag(char *Tag);
 
    public:
    virtual bool Skip();
@@ -349,9 +350,9 @@ class RPMRepomdReaderHandler : public RPMHandler
 
    virtual string Name() {return FindTag("name");};
    virtual string Arch() {return FindTag("arch");};
-   virtual string Epoch() {return FindTag("epoch");};
-   virtual string Version() {return FindTag("version");};
-   virtual string Release() {return FindTag("release");};
+   virtual string Epoch() {return FindVerTag("epoch");};
+   virtual string Version() {return FindVerTag("ver");};
+   virtual string Release() {return FindVerTag("rel");};
 
    virtual string Group() {return "";};
    virtual string Packager() {return "";};

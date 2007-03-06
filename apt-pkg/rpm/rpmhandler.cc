@@ -1391,15 +1391,29 @@ bool RPMRepomdReaderHandler::Skip()
 
 string RPMRepomdReaderHandler::FindTag(char *Tag)
 {
-     string str = "";
-     if (NodeP) {
-         xmlChar *attr = xmlGetProp(NodeP, (xmlChar*)Tag);
-         if (attr) {
-            str = (char*)attr;
-            xmlFree(attr);
-         }
-     }
-     return str;
+   string str = "";
+   if (NodeP) {
+       xmlChar *attr = xmlGetProp(NodeP, (xmlChar*)Tag);
+       if (attr) {
+          str = (char*)attr;
+          xmlFree(attr);
+       }
+   }
+   return str;
+}
+
+string RPMRepomdReaderHandler::FindVerTag(char *Tag)
+{
+   string str = "";
+   for (xmlNode *n = NodeP->children; n; n = n->next) {
+      if (xmlStrcmp(n->name, (xmlChar*)"version") != 0)  continue;
+      xmlChar *attr = xmlGetProp(n, (xmlChar*)Tag);
+      if (attr) {
+	 str = (char*)attr;
+	 xmlFree(attr);
+      }
+   }
+   return str;
 }
 
 RPMRepomdReaderHandler::~RPMRepomdReaderHandler()
