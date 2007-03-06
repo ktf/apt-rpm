@@ -284,12 +284,14 @@ bool pkgCacheGenerator::MergeFileProvides(ListParser &List)
 	    Progress->Progress(Counter);
       }
 
-      unsigned long Hash = List.VersionHash();
+      string Arch = List.Architecture();
       pkgCache::VerIterator Ver = Pkg.VersionList();
       for (; Ver.end() == false; Ver++)
       {
-	 // CNC:2002-07-25
-	 if (Ver->Hash == Hash && strcmp(Version.c_str(), Ver.VerStr()) == 0)
+	 // We'd want to check against versionhash but repomd filelists
+	 // don't carry all the necessary data. Settle for ver-arch match.
+	 if (strcmp(Version.c_str(), Ver.VerStr()) == 0 &&
+	     strcmp(Arch.c_str(), Ver.Arch()) == 0)
 	 {
 	    if (List.CollectFileProvides(Cache,Ver) == false)
 	       return _error->Error(_("Error occured while processing %s (CollectFileProvides)"),PackageName.c_str());
