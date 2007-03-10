@@ -259,7 +259,7 @@ void InstPercentProgress::Update()
 
 void InstHashProgress::Update()
 {
-   if (CheckChange(0.001) == false)
+   if (CheckChange(0.000001) == false)
       return;
 
    if (MajorChange == true) {
@@ -285,14 +285,14 @@ void InstHashProgress::Update()
 
 void InstHashProgress::PrintHashes()
 {
-   int hashesTotal = 50;
-   int hashesNeeded = int(50 * Percent / 100);
+   int hashesTotal = 44;
+   int hashesNeeded = int(hashesTotal * Percent / 100);
            
-   for (int i=0; i < hashesNeeded; i++ ) {
-      cout << "#";
-   }
+   cout << setw(hashesNeeded) << setfill('#') << "";
+   cout << setw(hashesTotal-hashesNeeded) << setfill(' ') << "";
+   cout.setf(ios_base::left);
+   cout << " [" << setw(3) << int(Percent) << "%]";
    cout << flush;
-   //cout << "need hashes " << hashesNeeded << " for " << Percent << endl << flush;
 }
 
 void InstHashProgress::Done()

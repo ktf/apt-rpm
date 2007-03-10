@@ -85,18 +85,16 @@ void * rpmCallback(const void * arg,
       break;
 
    case RPMCALLBACK_TRANS_PROGRESS:
-      //cout << "RPMCALLBACK_TRANS_PROGRESS " << amount << " " << total << endl << flush;
    case RPMCALLBACK_INST_PROGRESS:
-      //cout << "RPMCALLBACK_INST_PROGRESS " << amount << " " << total << endl << flush;
       Prog->Progress(amount);
       break;
 
    case RPMCALLBACK_TRANS_START:
-      //cout << "RPMCALLBACK_TRANS_START " << amount << " " << total << endl << flush;
       state = what;
       repackage = false;
       Prog->SetState(InstProgress::Preparing);
       Prog->SubProgress(total, "Preparing");
+      Prog->Progress(0);
       Prog->SetPackageData(&Data);
    break;
 
@@ -122,22 +120,21 @@ void * rpmCallback(const void * arg,
       break;
 
    case RPMCALLBACK_UNINST_START:
-      if (h == NULL) {
-	 cout << "uninst start, header null ;(" << endl;
-	 break;
-      }
       if (state != what) {
 	 state = what;
 	 Prog->SetState(InstProgress::Removing);
 	 Prog->OverallProgress(0,1,1, "Removing");
       }
+      if (h == NULL) {
+	 break;
+      }
       getPackageData(h, Data);
-      Prog->SubProgress(total, Data["name"]);
-      Prog->Progress(total);
+      Prog->SubProgress(100, Data["name"]);
+      Prog->Progress(0);
       break;
 
    case RPMCALLBACK_UNINST_STOP:
-      Prog->Progress(total);
+      Prog->Progress(100);
       if (h == NULL)
 	 break;
       getPackageData(h, Data);
