@@ -238,7 +238,6 @@ void InstPercentProgress::Update()
    if (CheckChange(0.001) == false)
       return;
 
-   //cout << "major " << Op << " " << MajorChange << " new " << SubOp << " changed " << SubChange << endl << flush;
    if (MajorChange == true)
       return;
    if (SubChange == true) {
@@ -263,11 +262,8 @@ void InstHashProgress::Update()
       return;
 
    if (MajorChange == true) {
-      cout << endl << Op << flush;
+      cout << Op << endl << flush;
       return;
-   }
-   if (SubChange == true) {
-      cout << endl << flush;
    }
    string s;
    if (State == Preparing) {
@@ -292,6 +288,9 @@ void InstHashProgress::PrintHashes()
    cout << setw(hashesTotal-hashesNeeded) << setfill(' ') << "";
    cout.setf(ios_base::left);
    cout << " [" << setw(3) << int(Percent) << "%]";
+   if (hashesTotal == hashesNeeded) {
+      cout << endl;
+   }
    cout << flush;
 }
 
@@ -299,7 +298,7 @@ void InstHashProgress::Done()
 {
    Percent = 100;
    Update();
-   cout << endl;
+   cout << "Done." << endl;
 }
 
 // vim:sts=3:sw=3

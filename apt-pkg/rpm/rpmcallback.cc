@@ -122,8 +122,8 @@ void * rpmCallback(const void * arg,
    case RPMCALLBACK_UNINST_START:
       if (state != what) {
 	 state = what;
-	 Prog->SetState(InstProgress::Removing);
 	 Prog->OverallProgress(0,1,1, "Removing");
+	 Prog->SetState(InstProgress::Removing);
       }
       if (h == NULL) {
 	 break;
