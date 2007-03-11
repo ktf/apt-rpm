@@ -99,7 +99,7 @@ void * rpmCallback(const void * arg,
    break;
 
    case RPMCALLBACK_TRANS_STOP:
-      Prog->Done();
+      Prog->Progress(total);
       break;
 
    case RPMCALLBACK_REPACKAGE_START:
