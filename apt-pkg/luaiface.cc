@@ -985,6 +985,7 @@ static int AptLua_verpkg(lua_State *L)
    if (VerI == NULL)
       return 0;
    pushudata(pkgCache::Package*, VerI->ParentPkg());
+   delete VerI;
    return 1;
 }
 
@@ -1020,7 +1021,9 @@ static int AptLua_verisonline(lua_State *L)
    pkgCache::VerIterator *VerI = AptAux_ToVerIterator(L, 1);
    if (VerI == NULL)
       return 0;
-   return AptAux_PushBool(L, VerI->Downloadable());
+   int Ret = AptAux_PushBool(L, VerI->Downloadable());
+   delete VerI;
+   return Ret;
 }
 
 static int AptLua_verprovlist(lua_State *L)
@@ -1055,6 +1058,7 @@ static int AptLua_verprovlist(lua_State *L)
       lua_settable(L, -3);
       lua_rawseti(L, -2, i++);
    }
+   delete VerI;
    return 1;
 }
 
@@ -1101,6 +1105,7 @@ static int AptLua_verdeplist(lua_State *L)
       lua_settable(L, -3);
       lua_rawseti(L, -2, i++);
    }
+   delete VerI;
    return 1;
 }
 
@@ -1126,6 +1131,7 @@ static int AptLua_verfilelist(lua_State *L)
       lua_pushstring(L, (*FI).c_str());
       lua_rawseti(L, -2, i++);
    }
+   delete VerI;
    return 1;
 }
 
@@ -1160,6 +1166,7 @@ static int AptLua_verchangeloglist(lua_State *L)
       lua_settable(L, -3);
       lua_rawseti(L, -2, i++);
    }
+   delete VerI;
    return 1;
 }
 

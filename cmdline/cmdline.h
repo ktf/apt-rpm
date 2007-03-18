@@ -37,6 +37,7 @@ class cmdCacheFile : public pkgCacheFile
    void Sort();
 
    cmdCacheFile() : List(0) {};
+   virtual ~cmdCacheFile();
 };
 
 class LogCleaner : public pkgArchiveCleaner

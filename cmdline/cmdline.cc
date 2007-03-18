@@ -184,6 +184,13 @@ void cmdCacheFile::Sort()
    qsort(List,Cache->Head().PackageCount,sizeof(*List),NameComp);
 }
 
+cmdCacheFile::~cmdCacheFile()
+{
+   if (List) {
+      delete [] List;
+   }
+}
+
 // ShowBroken - Debugging aide						/*{{{*/
 // ---------------------------------------------------------------------
 /* This prints out the names of all the packages that are broken along

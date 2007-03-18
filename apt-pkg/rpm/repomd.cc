@@ -95,6 +95,7 @@ bool repomdRepository::ParseRelease(string File)
       } else {
 	 CheckMethod = "MDA5-Hash";
       }
+      xmlFree(type);
    }
    
    GotRelease = true;
