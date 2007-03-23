@@ -654,6 +654,12 @@ bool rpmRepomdIndex::GetReleases(pkgAcquire *Owner) const
 
 bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 {
+   string TypeURI;
+   if (! Repository->FindURI("primary", TypeURI)) {
+      _error->Error(_("Primary metadata not found in repository %s %s"),
+		     Repository->URI.c_str(), Repository->Dist.c_str());
+      return false;
+   }
 
    new pkgAcqIndex(Owner,Repository,IndexURI("primary"),
 	           Info("primary.xml"), "primary.xml");
@@ -823,6 +829,15 @@ string rpmRepomdSrcIndex::SourceInfo(pkgSrcRecords::Parser const &Record,
 
 bool rpmRepomdDBIndex::GetIndexes(pkgAcquire *Owner) const
 {
+   string TypeURI;
+   // XXX Optimally we'd just fall back to repomd if sqlite data is not
+   // available but that'd require combining repomd and repomddb index
+   // types which in turn has other issues...
+   if (! Repository->FindURI("primary_db", TypeURI)) {
+      _error->Error(_("Primary metadata not found in repository %s %s"),
+		     Repository->URI.c_str(), Repository->Dist.c_str());
+      return false;
+   }
 
    new pkgAcqIndex(Owner,Repository,IndexURI("primary_db"),
 	           Info("primary.sqlite"), "primary.sqlite");
