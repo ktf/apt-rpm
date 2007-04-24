@@ -31,16 +31,22 @@ class pkgRepository;
 
 class rpmIndexFile : public pkgIndexFile
 {
+   protected:
+   virtual string IndexPath() const = 0;
    
    public:
 
    virtual RPMHandler *CreateHandler() const = 0;
    virtual bool HasPackages() const {return false;};
+   virtual off_t Size() const;
 
 };
 
 class rpmDatabaseIndex : public rpmIndexFile
 {
+   protected:
+   virtual string IndexPath() const;
+
    public:
 
    virtual const Type *GetType() const;
@@ -52,8 +58,8 @@ class rpmDatabaseIndex : public rpmIndexFile
    virtual string Describe(bool Short) const {return "RPM Database";};
    
    // Interface for the Cache Generator
-   virtual bool Exists() const {return true;};
    virtual off_t Size() const;
+   virtual bool Exists() const {return true;};
    virtual bool HasPackages() const {return true;};
    virtual bool Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const;
    virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,
@@ -91,7 +97,6 @@ class rpmListIndex : public rpmIndexFile
 
    // Interface for the Cache Generator
    virtual bool Exists() const;
-   virtual off_t Size() const;
 
    // Interface for acquire
    virtual string Describe(bool Short) const;   
@@ -189,9 +194,6 @@ class rpmPkgDirIndex : public rpmPkgListIndex
 	   { return new RPMDirHandler(IndexPath()); };
 
    virtual const Type *GetType() const;
-   
-   // Interface for the Cache Generator
-   virtual off_t Size() const;
 
    rpmPkgDirIndex(string URI,string Dist,string Section,
 		   pkgRepository *Repository) :
@@ -217,9 +219,6 @@ class rpmSrcDirIndex : public rpmSrcListIndex
 
    virtual const Type *GetType() const;
    
-   // Interface for the Cache Generator
-   virtual off_t Size() const;
-
    rpmSrcDirIndex(string URI,string Dist,string Section,
 		   pkgRepository *Repository) :
 	   rpmSrcListIndex(URI,Dist,Section,Repository)
@@ -310,7 +309,6 @@ class rpmRepomdIndex : public rpmIndexFile
 
    // Interface for the Cache Generator
    virtual bool Exists() const;
-   virtual off_t Size() const;
 
    // Interface for acquire
    virtual string Describe(bool Short) const;
@@ -384,7 +382,6 @@ class rpmRepomdDBIndex : public rpmRepomdIndex
    virtual RPMHandler *CreateHandler() const
           { return new RPMSqliteHandler(IndexFile("primary_db")); };
    virtual bool GetIndexes(pkgAcquire *Owner) const;
-   virtual off_t Size() const;
    virtual bool MergeFileProvides(pkgCacheGenerator &/*Gen*/,
 		   		  OpProgress &/*Prog*/) const;
 

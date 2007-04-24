@@ -40,6 +40,28 @@
 									/*}}}*/
 vector<pkgRepository *> RepList;
 
+extern map<string,int> IndexSizes;
+
+// Hack to avoid potentially very expensive CreateHandler() calls from
+// indexfile progress reporting. It's only used for progress so it doesn't
+// really matter if it's even accurate. 
+map<string,int> rpmIndexSizes;
+
+off_t rpmIndexFile::Size() const
+{
+   off_t Res;
+   string IP = IndexPath();
+
+   if (rpmIndexSizes.find(IP) == rpmIndexSizes.end()) {
+      RPMHandler *Handler = CreateHandler();
+      Res = Handler->Size();
+      delete Handler;
+   } else {
+      Res = rpmIndexSizes[IP];
+   }
+   return Res;
+}
+
 // rpmListIndex::Release* - Return the URI to the release file		/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -170,17 +192,6 @@ string rpmListIndex::IndexURI(string Type) const
 bool rpmListIndex::Exists() const
 {
    return FileExists(IndexPath());
-}
-									/*}}}*/
-// rpmListIndex::Size - Return the size of the index			/*{{{*/
-// ---------------------------------------------------------------------
-/* */
-off_t rpmListIndex::Size() const
-{
-   struct stat S;
-   if (stat(IndexPath().c_str(),&S) != 0)
-      return 0;
-   return S.st_size;
 }
 									/*}}}*/
 // rpmListIndex::Describe - Give a descriptive path to the index	/*{{{*/
@@ -479,19 +490,6 @@ string rpmPkgDirIndex::ReleasePath() const
    return ::URI(IndexURI("release")).Path;
 }
 									/*}}}*/
-// PkgDirIndex::Size - Return the size of the index			/*{{{*/
-// ---------------------------------------------------------------------
-/* This is really only used for progress reporting. */
-off_t rpmPkgDirIndex::Size() const
-{
-   // XXX: Must optimize this somehow.
-   RPMHandler *Handler = CreateHandler();
-   off_t Res = Handler->Size();
-   delete Handler;
-   return Res;
-}
-									/*}}}*/
-
 // SrcDirIndex::Index* - Return the URI to the index files		/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -500,17 +498,6 @@ string rpmSrcDirIndex::IndexPath() const
    return ::URI(ArchiveURI("")).Path;
 }
 									/*}}}*/
-// SrcDirIndex::Size - Return the size of the index			/*{{{*/
-// ---------------------------------------------------------------------
-/* This is really only used for progress reporting. */
-off_t rpmSrcDirIndex::Size() const
-{
-   // XXX: Must optimize this somehow.
-   RPMHandler *Handler = CreateHandler();
-   off_t Res = Handler->Size();
-   delete Handler;
-   return Res;
-}
 
 // SinglePkgIndex::ArchiveURI - URI for the archive       	        /*{{{*/
 // ---------------------------------------------------------------------
@@ -699,29 +686,6 @@ string rpmRepomdIndex::ReleasePath() const
    return _config->FindDir("Dir::State::lists")+URItoFileName(ReleaseURI("repomd.xml"));
 }
 
-// This gets called several times per each index during cache generation,
-// only for progress percentage reporting. A rough estimate would do just
-// fine but using xmlReader appears to be cheap enough. OTOH creating a new 
-// handler like is done for rpmPkgDirIndex is hideously expensive.
-off_t rpmRepomdIndex::Size() const
-{
-   xmlTextReaderPtr Index;
-   off_t Res;
-   Index = xmlReaderForFile(IndexPath().c_str(), NULL,
-			  XML_PARSE_NONET|XML_PARSE_NOBLANKS);
-   if (Index == NULL) return 0;
-
-   if (xmlTextReaderRead(Index) == 1) {
-      xmlChar *pkgs = xmlTextReaderGetAttribute(Index, (xmlChar*)"packages");
-      Res = atoi((char*)pkgs);
-      xmlFree(pkgs);
-   } else {
-      Res = 0;
-   }
-   xmlFreeTextReader(Index);
-   return Res;
-}
-
 bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
 {
    string PackageFile = IndexPath();
@@ -850,22 +814,6 @@ bool rpmRepomdDBIndex::GetIndexes(pkgAcquire *Owner) const
    return true;
 }
 
-off_t rpmRepomdDBIndex::Size() const
-{
-   off_t Res;
-   SqliteDB DB(IndexPath());
-   SqliteQuery *Q = DB.Query();
-   Q->Exec("select pkgKey from packages");
-   Res = Q->Size();
-   delete Q;
-   return Res;
-#if 0
-   RPMHandler *Handler = CreateHandler();
-   off_t Res = Handler->Size();
-   delete Handler;
-   return Res;
-#endif
-}
 bool rpmRepomdDBIndex::MergeFileProvides(pkgCacheGenerator &Gen,
 					OpProgress &Prog) const
 {
@@ -893,6 +841,12 @@ rpmDatabaseIndex::rpmDatabaseIndex()
 {
 }
 									/*}}}*/
+
+string rpmDatabaseIndex::IndexPath() const
+{
+   return rpmSys.GetDBHandler()->DataPath(false);
+}
+
 // DatabaseIndex::Size - Return the size of the index			/*{{{*/
 // ---------------------------------------------------------------------
 /* */
