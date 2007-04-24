@@ -99,6 +99,11 @@ bool repomdRepository::ParseRelease(string File)
    }
    
    GotRelease = true;
+   if (RepoFiles.find("primary_db") != RepoFiles.end()) {
+      ComprMethod = "bz2";
+   } else {
+      ComprMethod = "gz";
+   }
 
    xmlFreeDoc(RepoMD);
    return true;
