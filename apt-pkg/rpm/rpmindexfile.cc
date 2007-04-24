@@ -40,8 +40,6 @@
 									/*}}}*/
 vector<pkgRepository *> RepList;
 
-extern map<string,int> IndexSizes;
-
 // Hack to avoid potentially very expensive CreateHandler() calls from
 // indexfile progress reporting. It's only used for progress so it doesn't
 // really matter if it's even accurate. 
