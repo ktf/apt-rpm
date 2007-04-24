@@ -12,6 +12,7 @@
 #include <apt-pkg/fileutl.h>
 #include <apt-pkg/error.h>
 
+#include <cstdlib>
 #include <apti18n.h>
 #include <config.h>
 #include <sys/stat.h>

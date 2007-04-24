@@ -21,6 +21,7 @@
 #include <apt-pkg/error.h>
 #include <apt-pkg/sptr.h>
 
+#include <cstdlib>
 #include <iostream>
 #include <unistd.h>
 #include <fcntl.h>

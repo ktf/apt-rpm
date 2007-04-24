@@ -34,6 +34,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 									/*}}}*/
 
 // IsMounted - Returns true if the mount point is mounted		/*{{{*/
