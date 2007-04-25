@@ -151,7 +151,8 @@ string rpmListIndex::Info(string Type) const
 /* */
 inline string rpmListIndex::IndexFile(string Type) const
 {
-   return _config->FindDir("Dir::State::lists")+URItoFileName(IndexURI(Type));
+   return _config->FindDir("Dir::State::lists") +
+	  URItoFileName(flNoExtension(IndexURI(Type)));
 }
 
 
@@ -170,6 +171,9 @@ string rpmListIndex::IndexURI(string Type) const
       Res = URI + Dist + "/base/";
    
    Res += Type + '.' + Section;
+   if (Type == "pkglist" || Type == "srclist") {
+      Res += ".bz2";
+   }
 
    if (rpmdata->HasIndexTranslation() == true)
    {
@@ -530,6 +534,16 @@ string rpmRepomdIndex::ArchiveURI(string File) const
    return Res;
 }
 
+bool rpmRepomdIndex::HasDBExtension() const
+{
+   string TypeURI;
+   if (Repository->FindURI("primary_db", TypeURI)) {
+      return true;
+   } else {
+      return false;
+   }
+}
+
 string rpmRepomdIndex::ArchiveInfo(pkgCache::VerIterator Ver) const
 {
    string Res = ::URI::SiteOnly(URI) + ' ';
@@ -597,6 +611,8 @@ string rpmRepomdIndex::ReleaseInfo(string Type) const
 string rpmRepomdIndex::Info(string Type) const 
 {
    string Info = ::URI::SiteOnly(URI) + ' ';
+   string File;
+   Repository->FindURI(Type, File);
    assert( Dist.size() > 0 );
    if (Dist[Dist.size() - 1] == '/')
    {
@@ -606,7 +622,7 @@ string rpmRepomdIndex::Info(string Type) const
    else
       Info += Dist + '/' ;   
    Info += " ";
-   Info += Type;
+   Info += flNotDir(File);
    return Info;
 }
 
@@ -626,7 +642,16 @@ string rpmRepomdIndex::IndexURI(string Type) const
    assert(Res.size() > 0);
    return Res;
 }
-									/*}}}*/
+
+string rpmRepomdIndex::AutoType(string Type) const
+{
+   string TypeURI;
+   if (Repository->FindURI(Type + "_db", TypeURI)) {
+      return Type + "_db";
+   }
+   return Type;
+}
+
 bool rpmRepomdIndex::GetReleases(pkgAcquire *Owner) const
 {
    if (!Repository->Acquire)
@@ -641,31 +666,28 @@ bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 {
    string TypeURI;
    bool AcqOther = _config->FindB("Acquire::RepoMD::OtherData", false);
-   if (Repository->FindURI("primary_db", TypeURI)) {
-      new pkgAcqIndex(Owner,Repository,IndexURI("primary_db"),
-		      Info("primary.sqlite"), "primary.sqlite");
-      new pkgAcqIndex(Owner,Repository,IndexURI("filelists_db"),
-		      Info("filelists.sqlite"), "filelists.sqlite");
-      if (AcqOther) {
-	 new pkgAcqIndex(Owner,Repository,IndexURI("other_db"),
-			Info("other.sqlite"), "other.sqlite");
-      }
-      return true;
-   } 
-   
+   bool AcqGroup = _config->FindB("Acquire::RepoMD::Group", false);
+   bool Res = false;
    if (! Repository->FindURI("primary", TypeURI)) {
-      _error->Error(_("Primary metadata not found in repository %s %s"),
-		     Repository->URI.c_str(), Repository->Dist.c_str());
-      return false;
+      return _error->Error(_("Primary metadata not found in repository %s %s"),
+			Repository->URI.c_str(), Repository->Dist.c_str());
    }
 
-   new pkgAcqIndex(Owner,Repository,IndexURI("primary"),
-	           Info("primary.xml"), "primary.xml");
-   new pkgAcqIndex(Owner,Repository,IndexURI("filelists"),
-		   Info("filelists.xml"), "filelists.xml");
+   new pkgAcqIndex(Owner,Repository,IndexURI(AutoType("primary")),
+		   Info(AutoType("primary")), "primary");
+   new pkgAcqIndex(Owner,Repository,IndexURI(AutoType("filelists")),
+		   Info(AutoType("filelists")), "filelists");
    if (AcqOther) {
-      new pkgAcqIndex(Owner,Repository,IndexURI("other"),
-		     Info("other.xml"), "other.xml");
+      new pkgAcqIndex(Owner,Repository,IndexURI(AutoType("other")),
+		     Info(AutoType("other")), "other");
+   }
+
+   if (Res && AcqGroup) {
+      string GroupURI;
+      if (Repository->FindURI("group", GroupURI)) {
+	 new pkgAcqIndex(Owner,Repository,IndexURI("group"),
+			   ReleaseInfo("comps.xml"), "comps.xml");
+      }
    }
    return true;
 }
@@ -681,9 +703,15 @@ string rpmRepomdIndex::Describe(bool Short) const
    return S;
 }
 
+string rpmRepomdIndex::IndexPath() const
+{
+   return IndexFile("primary");
+}
+
 string rpmRepomdIndex::IndexFile(string Type) const
 {
-   return _config->FindDir("Dir::State::lists")+URItoFileName(IndexURI(Type));
+   return _config->FindDir("Dir::State::lists") +
+	  URItoFileName(flNoExtension(IndexURI(AutoType(Type))));
 }
 
 
@@ -694,14 +722,15 @@ bool rpmRepomdIndex::Exists() const
 
 string rpmRepomdIndex::ReleasePath() const
 {
-   return _config->FindDir("Dir::State::lists")+URItoFileName(ReleaseURI("repomd.xml"));
+   return _config->FindDir("Dir::State::lists") +
+	  URItoFileName(ReleaseURI("repomd.xml"));
 }
 
 RPMHandler* rpmRepomdIndex::CreateHandler() const
 {
    string TypeURI;
-   if (Repository->FindURI("primary_db", TypeURI)) {
-      return new RPMSqliteHandler(IndexFile("primary_db"));
+   if (HasDBExtension()) {
+      return new RPMSqliteHandler(IndexFile("primary"));
    } else {
       return new RPMRepomdHandler(IndexFile("primary"));
    }
@@ -760,7 +789,12 @@ bool rpmRepomdIndex::MergeFileProvides(pkgCacheGenerator &Gen,
 					OpProgress &Prog) const
 {
    string PackageFile = IndexPath();
-   RPMHandler *Handler = new RPMRepomdFLHandler(IndexFile("filelists"));
+   RPMHandler *Handler = NULL;
+   if (HasDBExtension()) {
+      Handler = CreateHandler();
+   } else {
+      Handler = new RPMRepomdFLHandler(IndexFile("filelists"));
+   }
    rpmListParser Parser(Handler);
    if (_error->PendingError() == true) {
       delete Handler;

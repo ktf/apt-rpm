@@ -72,7 +72,6 @@ bool repomdRepository::ParseRelease(string File)
 
       n = NULL;
       if (flExtension(Path) == "gz" || flExtension(Path) == "bz2") {
-	 Path = Path.substr(0, Path.size()-flExtension(Path).size()-1);
 	 n = FindNode(Node, "open-checksum");
       } else {
 	 n = FindNode(Node, "checksum");
@@ -97,13 +96,7 @@ bool repomdRepository::ParseRelease(string File)
       }
       xmlFree(type);
    }
-   
    GotRelease = true;
-   if (RepoFiles.find("primary_db") != RepoFiles.end()) {
-      ComprMethod = "bz2";
-   } else {
-      ComprMethod = "gz";
-   }
 
    xmlFreeDoc(RepoMD);
    return true;

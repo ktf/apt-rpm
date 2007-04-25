@@ -295,8 +295,11 @@ class rpmRepomdIndex : public rpmIndexFile
    string IndexFile(string Type) const;
    string IndexURI(string Type) const;
 
+   string AutoType(string Type) const;
+   bool HasDBExtension() const;
+
    virtual string MainType() const = 0;
-   virtual string IndexPath() const {return IndexFile("primary");};
+   virtual string IndexPath() const;
    virtual string ReleasePath() const;
 
    public:

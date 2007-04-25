@@ -208,8 +208,7 @@ pkgAcqIndex::pkgAcqIndex(pkgAcquire *Owner,pkgRepository *Repository,
    DestFile += URItoFileName(URI);
 
    // Create the item
-   // CNC:2002-07-03
-   Desc.URI = URI + "." + Repository->GetComprMethod();
+   Desc.URI = URI; 
    Desc.Description = URIDesc;
    Desc.Owner = this;
    Desc.ShortDesc = ShortDesc;
@@ -296,7 +295,7 @@ void pkgAcqIndex::Done(string Message,off_t Size,string MD5,
       string MD5Hash;
 
       if (Repository != NULL && Repository->HasRelease() == true &&
-	  Repository->FindChecksums(RealURI,FSize,MD5Hash) == true)
+	  Repository->FindChecksums(flUnCompressed(RealURI),FSize,MD5Hash) == true)
       {
 	 // We must always get here if the repository is authenticated
 	 
@@ -333,14 +332,14 @@ void pkgAcqIndex::Done(string Message,off_t Size,string MD5,
 	 
       // Done, move it into position
       string FinalFile = _config->FindDir("Dir::State::lists");
-      FinalFile += URItoFileName(RealURI);
+      FinalFile += URItoFileName(flUnCompressed(RealURI));
       Rename(DestFile,FinalFile);
       chmod(FinalFile.c_str(),0644);
       
       /* We restore the original name to DestFile so that the clean operation
          will work OK */
       DestFile = _config->FindDir("Dir::State::lists") + "partial/";
-      DestFile += URItoFileName(RealURI);
+      DestFile += URItoFileName(flUnCompressed(RealURI));
       
       // Remove the compressed version.
       if (Erase == true)
@@ -386,16 +385,15 @@ void pkgAcqIndex::Done(string Message,off_t Size,string MD5,
    
    Decompression = true;
    DestFile += ".decomp";
-   // LORG:2006-02-23 compression is a feature of repository type
-   if (Repository->GetComprMethod() == "gz") {
+   if (flExtension(FileName) == "gz") {
       Desc.URI = "gzip:" + FileName;
       Mode = "gzip";
-   } else if (Repository->GetComprMethod() == "bz2") {
+   } else if (flExtension(FileName) == "bz2") {
       Desc.URI = "bzip2:" + FileName;
       Mode = "bzip2";
    } else {
-      _error->Warning(_("Unknown compression extension, trying uncompressed"));
-      Desc.URI = FileName;
+      Desc.URI = "copy:" + FileName;
+      Mode = "copy";
    }
    QueueURI(Desc);
 }

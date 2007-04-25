@@ -191,6 +191,16 @@ string flNoExtension(string File)
    return string(File, 0, Res-1);
 }
 
+string flUnCompressed(string File)
+{
+   string Ext = flExtension(File);
+   if (Ext == "gz" or Ext == "bz2") {
+      return flNoExtension(File);
+   }
+   return File;
+}
+
+
 // flNoLink - If file is a symlink then deref it			/*{{{*/
 // ---------------------------------------------------------------------
 /* If the name is not a link then the returned path is the input. */
@@ -610,3 +620,5 @@ bool FileFd::Sync()
    return true;
 }
 									/*}}}*/
+
+// vim:sts=3:sw=3
