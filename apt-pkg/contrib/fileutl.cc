@@ -182,6 +182,15 @@ string flExtension(string File)
    return string(File,Res,Res - File.length());
 }
 									/*}}}*/
+string flNoExtension(string File)
+{
+   string::size_type Res = File.rfind('.');
+   if (Res == string::npos)
+      return File;
+   Res++;
+   return string(File, 0, Res-1);
+}
+
 // flNoLink - If file is a symlink then deref it			/*{{{*/
 // ---------------------------------------------------------------------
 /* If the name is not a link then the returned path is the input. */

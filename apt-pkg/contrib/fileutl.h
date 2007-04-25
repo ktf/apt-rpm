@@ -95,6 +95,7 @@ string flNotDir(string File);
 string flNotFile(string File);
 string flNoLink(string File);
 string flExtension(string File);
+string flNoExtension(string File);
 string flCombine(string Dir,string File);
 
 #endif
