@@ -394,6 +394,8 @@ class RPMSqliteHandler : public RPMHandler
    string FilesDBPath;
    string OtherDBPath;
 
+   int DBVersion;
+
    public:
 
    virtual bool Skip();

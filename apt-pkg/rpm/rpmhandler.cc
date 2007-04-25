@@ -1446,12 +1446,6 @@ bool RPMRepomdOtherHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
 RPMSqliteHandler::RPMSqliteHandler(string File) : 
    Primary(NULL), Filelists(NULL), Other(NULL), Packages(NULL)
 {
-   int rc = 0;
-   char **res = NULL;
-   int nrow, ncol = 0;
-   string sql;
-   
-
    ID = File;
    DBPath = File; 
    // ugh, pass this in to the constructor or something..
@@ -1468,11 +1462,24 @@ RPMSqliteHandler::RPMSqliteHandler(string File) :
 
    Packages = Primary->Query();
 
+   // see if it's a db scheme we support
+   SqliteQuery *DBI = Primary->Query();
+   DBI->Exec("select * from db_info");
+   DBI->Step();
+   DBVersion = DBI->GetColI("dbversion");
+   delete DBI;
+   if (DBVersion < 9) {
+      _error->Error(_("Unsupported database scheme (%d)"), DBVersion);
+      return;
+   } 
+
    // XXX without these indexes cache generation will take minutes.. ick
-   Packages->Exec("create index requireIdx on requires (pkgKey)");
-   Packages->Exec("create index provideIdx on provides (pkgKey)");
-   Packages->Exec("create index obsoleteIdx on obsoletes (pkgKey)");
-   Packages->Exec("create index conflictIdx on conflicts (pkgKey)");
+   if (DBVersion < 10) {
+      Packages->Exec("create index requireIdx on requires (pkgKey)");
+      Packages->Exec("create index provideIdx on provides (pkgKey)");
+      Packages->Exec("create index obsoleteIdx on obsoletes (pkgKey)");
+      Packages->Exec("create index conflictIdx on conflicts (pkgKey)");
+   }
 
    Packages->Exec("select * from packages");
    iSize = Packages->Size();
