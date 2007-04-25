@@ -102,14 +102,13 @@ bool repomdRepository::ParseRelease(string File)
    return true;
 }
 
-bool repomdRepository::FindURI(string DataType, string &URI)
+string repomdRepository::FindURI(string DataType)
 {
-   bool found = false;
+   string Res = "";
    if (RepoFiles.find(DataType) != RepoFiles.end()) {
-        URI = RepoFiles[DataType].Path;
-        found = true;
+        Res = RepoFiles[DataType].Path;
    }
-   return found;
+   return Res;
 }
 
 

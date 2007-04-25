@@ -536,12 +536,10 @@ string rpmRepomdIndex::ArchiveURI(string File) const
 
 bool rpmRepomdIndex::HasDBExtension() const
 {
-   string TypeURI;
-   if (Repository->FindURI("primary_db", TypeURI)) {
+   if (! Repository->FindURI("primary_db").empty()) {
       return true;
-   } else {
-      return false;
-   }
+   } 
+   return false;
 }
 
 string rpmRepomdIndex::ArchiveInfo(pkgCache::VerIterator Ver) const
@@ -612,7 +610,6 @@ string rpmRepomdIndex::Info(string Type) const
 {
    string Info = ::URI::SiteOnly(URI) + ' ';
    string File;
-   Repository->FindURI(Type, File);
    assert( Dist.size() > 0 );
    if (Dist[Dist.size() - 1] == '/')
    {
@@ -622,7 +619,7 @@ string rpmRepomdIndex::Info(string Type) const
    else
       Info += Dist + '/' ;   
    Info += " ";
-   Info += flNotDir(File);
+   Info += flNotDir(Repository->FindURI(Type));
    return Info;
 }
 
@@ -633,8 +630,8 @@ string rpmRepomdIndex::IndexURI(string Type) const
    if (Dist[Dist.size() - 1] != '/') {
 	 Res += "/";
    }
-   string TypeURI;
-   if (Repository->FindURI(Type, TypeURI)) {
+   string TypeURI = Repository->FindURI(Type);
+   if (! TypeURI.empty()) {
       Res += TypeURI;
    } else {
       Res = "";
@@ -645,8 +642,7 @@ string rpmRepomdIndex::IndexURI(string Type) const
 
 string rpmRepomdIndex::AutoType(string Type) const
 {
-   string TypeURI;
-   if (Repository->FindURI(Type + "_db", TypeURI)) {
+   if (! Repository->FindURI(Type + "_db").empty()) {
       return Type + "_db";
    }
    return Type;
@@ -664,11 +660,10 @@ bool rpmRepomdIndex::GetReleases(pkgAcquire *Owner) const
 
 bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 {
-   string TypeURI;
    bool AcqOther = _config->FindB("Acquire::RepoMD::OtherData", false);
    bool AcqGroup = _config->FindB("Acquire::RepoMD::Group", false);
    bool Res = false;
-   if (! Repository->FindURI("primary", TypeURI)) {
+   if (Repository->FindURI("primary").empty()) {
       return _error->Error(_("Primary metadata not found in repository %s %s"),
 			Repository->URI.c_str(), Repository->Dist.c_str());
    }
@@ -683,8 +678,7 @@ bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
    }
 
    if (Res && AcqGroup) {
-      string GroupURI;
-      if (Repository->FindURI("group", GroupURI)) {
+      if (! Repository->FindURI("group").empty()) {
 	 new pkgAcqIndex(Owner,Repository,IndexURI("group"),
 			   ReleaseInfo("comps.xml"), "comps.xml");
       }

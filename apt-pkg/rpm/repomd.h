@@ -36,7 +36,7 @@ class repomdRepository : public pkgRepository
 
    virtual bool IsAuthenticated() const { return false; };
    virtual bool ParseRelease(string File);
-   bool FindURI(string DataType, string &URI);
+   virtual string FindURI(string DataType);
    
    repomdRepository(string URI,string Dist, const pkgSourceList::Vendor *Vendor,
 		 string RootURI)
