@@ -92,7 +92,7 @@ string rpmListParser::Package()
    bool IsDup = false;
 
    if (RpmData->IsMultilibSys() && RpmData->IsCompatArch(Architecture())) {
-	 Name += ".32bit";	 
+	 Name += RpmData->GetCompatArchSuffix();
 	 CurrentName = Name;
    }
 

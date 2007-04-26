@@ -28,7 +28,7 @@ class RPMPackageData
    hash_map<string,vector<string>*,hash_string> FakeProvides;
    hash_map<string,int,hash_string> IgnorePackages;
    hash_map<string,int,hash_string> DuplicatedPackages;
-   hash_map<string,vector<string>,hash_string> CompatArch;
+   hash_map<string,bool,hash_string> CompatArch;
    typedef map<string,pkgCache::VerIterator> VerMapValueType;
    typedef hash_map<unsigned long,VerMapValueType> VerMapType;
    typedef hash_map<const char*,int,
@@ -39,7 +39,7 @@ class RPMPackageData
    map<string,vector<string>*> FakeProvides;
    map<string,int> IgnorePackages;
    map<string,int> DuplicatedPackages;
-   map<string,vector<string> > CompatArch;
+   map<string,bool> > CompatArch;
    typedef map<string,pkgCache::VerIterator> VerMapValueType;
    typedef map<unsigned long,VerMapValueType> VerMapType;
    typedef map<const char*,int,cstr_lt_pred> ArchScoresType;
@@ -68,6 +68,8 @@ class RPMPackageData
    int RpmArchScore(const char *Arch);
 
    string BaseArch;
+   string PreferredArch;
+   string CompatArchSuffix;
    bool MultilibSys;
 
    public:
@@ -115,6 +117,7 @@ class RPMPackageData
 
    bool IsCompatArch(string Arch);
    bool IsMultilibSys() { return MultilibSys; };
+   string GetCompatArchSuffix() { return CompatArchSuffix; };
 
    void SetDupPackage(const string &Name)
    	{DuplicatedPackages[Name] = 1;};

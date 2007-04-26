@@ -7,7 +7,7 @@ ACLOCAL_AMFLAGS = -I m4 -I buildlib
 EXTRA_DIST = \
 		AUTHORS.RPM \
 		COPYING.GPL \
-		rpmpriorities \
+		etc/rpmpriorities \
 		python/apt.i \
 		python/apt.py \
 		python/apt_wrap.cxx \
@@ -88,7 +88,7 @@ aptsources_list_ddir = $(aptconfigdir)/sources.list.d
 aptsources_list_d_DATA =
 
 aptconf_ddir = $(aptconfigdir)/apt.conf.d
-aptconf_d_DATA =
+aptconf_d_DATA = etc/multilib.conf
 
 aptvendors_list_ddir = $(aptconfigdir)/vendors.list.d
 aptvendors_list_d_DATA =

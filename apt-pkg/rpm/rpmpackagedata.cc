@@ -24,22 +24,24 @@ RPMPackageData::RPMPackageData()
    , ArchScores(31)
 #endif
 {
+   const Configuration::Item *Top = NULL;
    BaseArch = _config->Find("APT::Architecture");
-   if (BaseArch == "x86_64" || BaseArch == "ia64" ||
-       BaseArch == "ppc64" || BaseArch == "sparc64")
-      MultilibSys = true;
-   else
-      MultilibSys = false;
+
+   // Figure out multilib stuff..
+   string MLBase = "RPM::Multilib::" + BaseArch;
+   MultilibSys = _config->Exists(MLBase.c_str());
 
    if (MultilibSys) {
-      CompatArch["x86_64"].push_back("i386");
-      CompatArch["x86_64"].push_back("i486");
-      CompatArch["x86_64"].push_back("i586");
-      CompatArch["x86_64"].push_back("i686");
-      CompatArch["x86_64"].push_back("athlon");
-      CompatArch["ia64"] = CompatArch["x86_64"];
-      CompatArch["ppc64"].push_back("ppc");
-      CompatArch["sparc64"].push_back("sparc");
+      string CA = MLBase + "::CompatArchs";
+      Top = _config->Tree(CA.c_str());
+      for (Top = Top->Child; Top != 0; Top = Top->Next) {
+	 CompatArch[Top->Value] = true;
+      }
+
+      string PA = MLBase + "::PreferredArch";
+      PreferredArch = _config->Find(PA.c_str(), BaseArch.c_str());
+      string CAS = MLBase + "::CompatArchSuffix";
+      CompatArchSuffix = _config->Find(CAS.c_str(), ".32bit");
    }
 
    // Populate priorities
@@ -100,7 +102,7 @@ RPMPackageData::RPMPackageData()
    }
 
    // Populate holding packages
-   const Configuration::Item *Top = _config->Tree("RPM::Hold");
+   Top = _config->Tree("RPM::Hold");
    for (Top = (Top == 0?0:Top->Child); Top != 0; Top = Top->Next)
    {
       regex_t *ptrn = new regex_t;
@@ -303,14 +305,8 @@ int RPMPackageData::RpmArchScore(const char *Arch)
 
 bool RPMPackageData::IsCompatArch(string Arch)
 {
-   for (vector<string>::iterator I = CompatArch[BaseArch].begin();
-        I != CompatArch[BaseArch].end(); I++) {
-      if (Arch == *I)
-         return true;
-   }
-   return false;
+   return CompatArch.find(Arch) != CompatArch.end();
 }
-
 
 bool RPMPackageData::IsDupPackage(const string &Name)
 {
