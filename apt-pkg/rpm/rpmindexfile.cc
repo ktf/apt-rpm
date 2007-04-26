@@ -536,7 +536,8 @@ string rpmRepomdIndex::ArchiveURI(string File) const
 
 bool rpmRepomdIndex::HasDBExtension() const
 {
-   if (! Repository->FindURI("primary_db").empty()) {
+   if (! Repository->FindURI("primary_db").empty() && 
+       _config->FindB("Acquire::RepoMD::NoDB", false) == false) {
       return true;
    } 
    return false;
@@ -642,7 +643,7 @@ string rpmRepomdIndex::IndexURI(string Type) const
 
 string rpmRepomdIndex::AutoType(string Type) const
 {
-   if (! Repository->FindURI(Type + "_db").empty()) {
+   if (HasDBExtension()) {
       return Type + "_db";
    }
    return Type;
