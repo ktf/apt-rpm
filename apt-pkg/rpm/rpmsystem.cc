@@ -371,6 +371,9 @@ unsigned long rpmSystem::OptionsHash() const
    HashOptionTree(Hash, "RPM::Allow-Duplicated");
    HashOptionTree(Hash, "RPM::Ignore");
    HashOptionFile(Hash, "Dir::Etc::rpmpriorities");
+   // FIXME: the whole RPM::Multilib::<basearch> tree should be hashed,
+   // but HashOptionTree doesn't recurse so it's useless for this at the moment
+   // HashOptionTree(Hash, "RPM::Multilib");
    HashEnv(Hash, "LANG");
    HashEnv(Hash, "LC_ALL");
    HashEnv(Hash, "LC_MESSAGES");
