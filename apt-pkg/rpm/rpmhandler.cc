@@ -1468,18 +1468,10 @@ RPMSqliteHandler::RPMSqliteHandler(string File) :
    DBI->Step();
    DBVersion = DBI->GetColI("dbversion");
    delete DBI;
-   if (DBVersion < 9) {
+   if (DBVersion < 10) {
       _error->Error(_("Unsupported database scheme (%d)"), DBVersion);
       return;
    } 
-
-   // XXX without these indexes cache generation will take minutes.. ick
-   if (DBVersion < 10) {
-      Packages->Exec("create index requireIdx on requires (pkgKey)");
-      Packages->Exec("create index provideIdx on provides (pkgKey)");
-      Packages->Exec("create index obsoleteIdx on obsoletes (pkgKey)");
-      Packages->Exec("create index conflictIdx on conflicts (pkgKey)");
-   }
 
    Packages->Exec("select * from packages");
    iSize = Packages->Size();
