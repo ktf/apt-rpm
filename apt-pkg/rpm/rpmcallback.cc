@@ -75,7 +75,7 @@ void * rpmCallback(const void * arg,
    case RPMCALLBACK_INST_START:
       if (state != what && repackage == false) {
 	 state = what;
-	 Prog->OverallProgress(0,1,1, "Installing");
+	 Prog->OverallProgress(0,1,1, "Updating / installing");
 	 Prog->SetState(InstProgress::Installing);
       }
 
@@ -122,7 +122,7 @@ void * rpmCallback(const void * arg,
    case RPMCALLBACK_UNINST_START:
       if (state != what) {
 	 state = what;
-	 Prog->OverallProgress(0,1,1, "Removing");
+	 Prog->OverallProgress(0,1,1, "Cleaning up / removing");
 	 Prog->SetState(InstProgress::Removing);
       }
       if (h == NULL) {

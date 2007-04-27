@@ -271,17 +271,19 @@ void InstHashProgress::Update()
    } else {
       s = (*PackageData)["name"] + "-" + 
           (*PackageData)["version"] + "-" + 
-          (*PackageData)["release"]; 
+          (*PackageData)["release"] + "." +
+	  (*PackageData)["arch"]; 
    }
+   const int namemax = 40;
    cout << "\r";
    cout.setf(ios_base::left);
-   cout << setw(25) << s << " ";
+   cout << setw(namemax) << s.substr(0, namemax) << " ";
    PrintHashes();
 }
 
 void InstHashProgress::PrintHashes()
 {
-   int hashesTotal = 44;
+   int hashesTotal = 30;
    int hashesNeeded = int(hashesTotal * Percent / 100);
            
    cout << setw(hashesNeeded) << setfill('#') << "";
