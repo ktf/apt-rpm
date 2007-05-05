@@ -946,18 +946,41 @@ void RPMDBHandler::Rewind()
 
 #ifdef APT_WITH_REPOMD
 RPMRepomdHandler::RPMRepomdHandler(string File): RPMHandler(),
-      Root(NULL), Primary(NULL), PrimaryPath(File)
+      Root(NULL), Primary(NULL), PrimaryPath(File), HavePrimary(false)
 {
    string DBBase = PrimaryPath.substr(0, File.size() - strlen("primary.xml"));
    FilelistPath = DBBase + "filelists.xml";
    OtherPath = DBBase + "other.xml";
 
    ID = File;
+
+   xmlTextReaderPtr Index;
+   unsigned long Res;
+   Index = xmlReaderForFile(PrimaryPath.c_str(), NULL,
+                          XML_PARSE_NONET|XML_PARSE_NOBLANKS);
+   if (Index == NULL) {
+      _error->Error(_("Failed to open package index %s"), PrimaryPath.c_str());
+      return;
+   }
+
+   if (xmlTextReaderRead(Index) == 1) {
+      xmlChar *pkgs = xmlTextReaderGetAttribute(Index, (xmlChar*)"packages");
+      iSize = atoi((char*)pkgs);
+      xmlFree(pkgs);
+   } else {
+      iSize = 0;
+   }
+   xmlFreeTextReader(Index);
+   rpmIndexSizes[ID] = iSize;
+
+}
+
+bool RPMRepomdHandler::LoadPrimary()
+{
    xmlChar *packages = NULL;
    off_t pkgcount = 0;
-   
 
-   Primary = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET|XML_PARSE_NOBLANKS);
+   Primary = xmlReadFile(ID.c_str(), NULL, XML_PARSE_NONET|XML_PARSE_NOBLANKS);
    if ((Root = xmlDocGetRootElement(Primary)) == NULL) {
       _error->Error(_("Failed to open package index %s"), PrimaryPath.c_str());
       goto error;
@@ -982,21 +1005,26 @@ RPMRepomdHandler::RPMRepomdHandler(string File): RPMHandler(),
    // There seem to be broken version(s) of createrepo around which report
    // to have one more package than is in the repository. Warn and work around.
    if (iSize != pkgcount) {
-      _error->Warning(_("Inconsistent metadata, package count doesn't match in %s"), File.c_str());
+      _error->Warning(_("Inconsistent metadata, package count doesn't match in %s"), ID.c_str());
       iSize = pkgcount;
    }
    rpmIndexSizes[ID] = iSize;
+   HavePrimary = true;
 
-   return;
+   return true;
 
 error:
    if (Primary) {
       xmlFreeDoc(Primary);
    }
+   return false;
 }
 
 bool RPMRepomdHandler::Skip()
 {
+   if (HavePrimary == false) {
+      LoadPrimary();
+   }
    if (PkgIter == Pkgs.end()) {
       return false;
    }
@@ -1009,6 +1037,9 @@ bool RPMRepomdHandler::Skip()
 
 bool RPMRepomdHandler::Jump(off_t Offset)
 {
+   if (HavePrimary == false) {
+      LoadPrimary();
+   }
    if (Offset >= iSize) {
       return false;
    }

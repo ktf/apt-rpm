@@ -280,8 +280,10 @@ class RPMRepomdHandler : public RPMHandler
    string FilelistPath;
    string OtherPath;
 
-   public:
+   bool HavePrimary;
+   bool LoadPrimary();
 
+   public:
 
    virtual bool Skip();
    virtual bool Jump(off_t Offset);
