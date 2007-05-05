@@ -62,6 +62,26 @@ bool repomdRepository::ParseRelease(string File)
 
       xmlChar *type = xmlGetProp(Node, (xmlChar*)"type");
       DataType = (char*)type;
+      xmlFree(type);
+
+      // If it's a sqlite _db file, see if we can use it and skip otherwise
+      if (DataType.substr(DataType.size()-3, 3) == "_db") {
+	 n = FindNode(Node, "database_version");
+	 bool db_supported = false;
+	 if (n) {
+	    xmlChar *x = xmlNodeGetContent(n);
+	    int dbver = atoi((char*)x);
+	    xmlFree(x);
+	    // XXX should ask about supported version from sqlite handler
+	    // or something instead of hardcoding in several places...
+	    if (dbver == 10) {
+	       db_supported = true;
+	    }
+	 } 
+	 if (db_supported == false) {
+	    continue;
+	 }
+      }
 
       n = FindNode(Node, "location");
       if (n) {
@@ -94,7 +114,6 @@ bool repomdRepository::ParseRelease(string File)
       } else {
 	 CheckMethod = "MDA5-Hash";
       }
-      xmlFree(type);
    }
    GotRelease = true;
 
