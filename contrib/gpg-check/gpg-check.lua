@@ -6,7 +6,7 @@ if table.getn(files_install) < 1 then
     return
 end
 
-hash = '###########################################'
+hash = '##############################'
 hashestotal = string.len(hash)
 interactive = confget("RPM::Interactive/b", "true")
 quiet = tonumber(confget("quiet", 0))
@@ -15,7 +15,7 @@ function printhash(amount, total)
     percent = amount/total*100
     if interactive == "true" then
 	nrhash = hashestotal - hashestotal / total * amount
-	line = string.format("%-44s[%3d%%]", string.sub(hash, nrhash), percent)
+	line = string.format("%-31s[%3d%%]", string.sub(hash, nrhash), percent)
 	io.stdout.write(io.stdout, line)
 	io.stdout.flush(io.stdout)
 	for i = 1, string.len(line) do
@@ -38,7 +38,7 @@ errors = {}
 
 skiplist = confgetlist("RPM::GPG::Skip-Check", "")
 
-io.stdout.write(io.stdout, string.format("%-28s", _("Checking GPG signatures...")))
+io.stdout.write(io.stdout, string.format("%-41s", _("Checking GPG signatures...")))
 if interactive == "false" then
 	io.stdout.write(io.stdout, '\n')
 end
