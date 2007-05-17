@@ -38,8 +38,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-DIST_COMMON = $(am__configure_deps) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(top_srcdir)/apt-pkg/aptconf.h.in \
+DIST_COMMON = $(am__configure_deps) $(dist_aptconf_d_DATA) \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(top_srcdir)/apt-pkg/aptconf.h.in \
 	$(top_srcdir)/buildlib/config.h.in \
 	$(top_srcdir)/buildlib/gettext.h \
 	$(top_srcdir)/buildlib/inttypes.h \
@@ -71,11 +72,10 @@ am__installdirs = "$(DESTDIR)$(aptscriptsdir)" \
 	"$(DESTDIR)$(aptcache_archives_partialdir)" \
 	"$(DESTDIR)$(aptcache_genpkglistdir)" \
 	"$(DESTDIR)$(aptcache_gensrclistdir)" \
-	"$(DESTDIR)$(aptconf_ddir)" \
 	"$(DESTDIR)$(aptsources_list_ddir)" "$(DESTDIR)$(aptstatedir)" \
 	"$(DESTDIR)$(aptstate_lists_partialdir)" \
 	"$(DESTDIR)$(aptvendors_list_ddir)" \
-	"$(DESTDIR)$(aptincludedir)"
+	"$(DESTDIR)$(aptconf_ddir)" "$(DESTDIR)$(aptincludedir)"
 aptscriptsSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 SCRIPTS = $(aptscripts_SCRIPTS)
 SOURCES =
@@ -96,15 +96,16 @@ aptcacheDATA_INSTALL = $(INSTALL_DATA)
 aptcache_archives_partialDATA_INSTALL = $(INSTALL_DATA)
 aptcache_genpkglistDATA_INSTALL = $(INSTALL_DATA)
 aptcache_gensrclistDATA_INSTALL = $(INSTALL_DATA)
-aptconf_dDATA_INSTALL = $(INSTALL_DATA)
 aptsources_list_dDATA_INSTALL = $(INSTALL_DATA)
 aptstateDATA_INSTALL = $(INSTALL_DATA)
 aptstate_lists_partialDATA_INSTALL = $(INSTALL_DATA)
 aptvendors_list_dDATA_INSTALL = $(INSTALL_DATA)
+dist_aptconf_dDATA_INSTALL = $(INSTALL_DATA)
 DATA = $(aptcache_DATA) $(aptcache_archives_partial_DATA) \
 	$(aptcache_genpkglist_DATA) $(aptcache_gensrclist_DATA) \
-	$(aptconf_d_DATA) $(aptsources_list_d_DATA) $(aptstate_DATA) \
-	$(aptstate_lists_partial_DATA) $(aptvendors_list_d_DATA)
+	$(aptsources_list_d_DATA) $(aptstate_DATA) \
+	$(aptstate_lists_partial_DATA) $(aptvendors_list_d_DATA) \
+	$(dist_aptconf_d_DATA)
 nodist_aptincludeHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(nodist_aptinclude_HEADERS)
 ETAGS = etags
@@ -303,7 +304,7 @@ aptconfigdir = ${sysconfdir}/apt
 aptsources_list_ddir = $(aptconfigdir)/sources.list.d
 aptsources_list_d_DATA = 
 aptconf_ddir = $(aptconfigdir)/apt.conf.d
-aptconf_d_DATA = etc/multilib.conf
+dist_aptconf_d_DATA = etc/multilib.conf
 aptvendors_list_ddir = $(aptconfigdir)/vendors.list.d
 aptvendors_list_d_DATA = 
 aptcachedir = $(localstatedir)/cache/apt
@@ -478,23 +479,6 @@ uninstall-aptcache_gensrclistDATA:
 	  echo " rm -f '$(DESTDIR)$(aptcache_gensrclistdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(aptcache_gensrclistdir)/$$f"; \
 	done
-install-aptconf_dDATA: $(aptconf_d_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(aptconf_ddir)" || $(mkdir_p) "$(DESTDIR)$(aptconf_ddir)"
-	@list='$(aptconf_d_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f=$(am__strip_dir) \
-	  echo " $(aptconf_dDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(aptconf_ddir)/$$f'"; \
-	  $(aptconf_dDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(aptconf_ddir)/$$f"; \
-	done
-
-uninstall-aptconf_dDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(aptconf_d_DATA)'; for p in $$list; do \
-	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(aptconf_ddir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(aptconf_ddir)/$$f"; \
-	done
 install-aptsources_list_dDATA: $(aptsources_list_d_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(aptsources_list_ddir)" || $(mkdir_p) "$(DESTDIR)$(aptsources_list_ddir)"
@@ -562,6 +546,23 @@ uninstall-aptvendors_list_dDATA:
 	  f=$(am__strip_dir) \
 	  echo " rm -f '$(DESTDIR)$(aptvendors_list_ddir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(aptvendors_list_ddir)/$$f"; \
+	done
+install-dist_aptconf_dDATA: $(dist_aptconf_d_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(aptconf_ddir)" || $(mkdir_p) "$(DESTDIR)$(aptconf_ddir)"
+	@list='$(dist_aptconf_d_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(dist_aptconf_dDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(aptconf_ddir)/$$f'"; \
+	  $(dist_aptconf_dDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(aptconf_ddir)/$$f"; \
+	done
+
+uninstall-dist_aptconf_dDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_aptconf_d_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(aptconf_ddir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(aptconf_ddir)/$$f"; \
 	done
 install-nodist_aptincludeHEADERS: $(nodist_aptinclude_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -860,7 +861,7 @@ check: check-recursive
 all-am: Makefile $(SCRIPTS) $(DATA) $(HEADERS)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(aptscriptsdir)" "$(DESTDIR)$(aptcachedir)" "$(DESTDIR)$(aptcache_archives_partialdir)" "$(DESTDIR)$(aptcache_genpkglistdir)" "$(DESTDIR)$(aptcache_gensrclistdir)" "$(DESTDIR)$(aptconf_ddir)" "$(DESTDIR)$(aptsources_list_ddir)" "$(DESTDIR)$(aptstatedir)" "$(DESTDIR)$(aptstate_lists_partialdir)" "$(DESTDIR)$(aptvendors_list_ddir)" "$(DESTDIR)$(aptincludedir)"; do \
+	for dir in "$(DESTDIR)$(aptscriptsdir)" "$(DESTDIR)$(aptcachedir)" "$(DESTDIR)$(aptcache_archives_partialdir)" "$(DESTDIR)$(aptcache_genpkglistdir)" "$(DESTDIR)$(aptcache_gensrclistdir)" "$(DESTDIR)$(aptsources_list_ddir)" "$(DESTDIR)$(aptstatedir)" "$(DESTDIR)$(aptstate_lists_partialdir)" "$(DESTDIR)$(aptvendors_list_ddir)" "$(DESTDIR)$(aptconf_ddir)" "$(DESTDIR)$(aptincludedir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-recursive
@@ -910,10 +911,11 @@ info-am:
 install-data-am: install-aptcacheDATA \
 	install-aptcache_archives_partialDATA \
 	install-aptcache_genpkglistDATA \
-	install-aptcache_gensrclistDATA install-aptconf_dDATA \
-	install-aptscriptsSCRIPTS install-aptsources_list_dDATA \
-	install-aptstateDATA install-aptstate_lists_partialDATA \
-	install-aptvendors_list_dDATA install-nodist_aptincludeHEADERS
+	install-aptcache_gensrclistDATA install-aptscriptsSCRIPTS \
+	install-aptsources_list_dDATA install-aptstateDATA \
+	install-aptstate_lists_partialDATA \
+	install-aptvendors_list_dDATA install-dist_aptconf_dDATA \
+	install-nodist_aptincludeHEADERS
 
 install-exec-am:
 
@@ -944,11 +946,11 @@ ps-am:
 uninstall-am: uninstall-aptcacheDATA \
 	uninstall-aptcache_archives_partialDATA \
 	uninstall-aptcache_genpkglistDATA \
-	uninstall-aptcache_gensrclistDATA uninstall-aptconf_dDATA \
-	uninstall-aptscriptsSCRIPTS uninstall-aptsources_list_dDATA \
-	uninstall-aptstateDATA uninstall-aptstate_lists_partialDATA \
-	uninstall-aptvendors_list_dDATA uninstall-info-am \
-	uninstall-nodist_aptincludeHEADERS
+	uninstall-aptcache_gensrclistDATA uninstall-aptscriptsSCRIPTS \
+	uninstall-aptsources_list_dDATA uninstall-aptstateDATA \
+	uninstall-aptstate_lists_partialDATA \
+	uninstall-aptvendors_list_dDATA uninstall-dist_aptconf_dDATA \
+	uninstall-info-am uninstall-nodist_aptincludeHEADERS
 
 uninstall-info: uninstall-info-recursive
 
@@ -962,24 +964,25 @@ uninstall-info: uninstall-info-recursive
 	install install-am install-aptcacheDATA \
 	install-aptcache_archives_partialDATA \
 	install-aptcache_genpkglistDATA \
-	install-aptcache_gensrclistDATA install-aptconf_dDATA \
-	install-aptscriptsSCRIPTS install-aptsources_list_dDATA \
-	install-aptstateDATA install-aptstate_lists_partialDATA \
+	install-aptcache_gensrclistDATA install-aptscriptsSCRIPTS \
+	install-aptsources_list_dDATA install-aptstateDATA \
+	install-aptstate_lists_partialDATA \
 	install-aptvendors_list_dDATA install-data install-data-am \
-	install-exec install-exec-am install-info install-info-am \
-	install-man install-nodist_aptincludeHEADERS install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	maintainer-clean maintainer-clean-generic \
-	maintainer-clean-recursive mostlyclean mostlyclean-generic \
-	mostlyclean-libtool mostlyclean-recursive pdf pdf-am ps ps-am \
-	tags tags-recursive uninstall uninstall-am \
-	uninstall-aptcacheDATA uninstall-aptcache_archives_partialDATA \
+	install-dist_aptconf_dDATA install-exec install-exec-am \
+	install-info install-info-am install-man \
+	install-nodist_aptincludeHEADERS install-strip installcheck \
+	installcheck-am installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic maintainer-clean-recursive \
+	mostlyclean mostlyclean-generic mostlyclean-libtool \
+	mostlyclean-recursive pdf pdf-am ps ps-am tags tags-recursive \
+	uninstall uninstall-am uninstall-aptcacheDATA \
+	uninstall-aptcache_archives_partialDATA \
 	uninstall-aptcache_genpkglistDATA \
-	uninstall-aptcache_gensrclistDATA uninstall-aptconf_dDATA \
-	uninstall-aptscriptsSCRIPTS uninstall-aptsources_list_dDATA \
-	uninstall-aptstateDATA uninstall-aptstate_lists_partialDATA \
-	uninstall-aptvendors_list_dDATA uninstall-info-am \
-	uninstall-nodist_aptincludeHEADERS
+	uninstall-aptcache_gensrclistDATA uninstall-aptscriptsSCRIPTS \
+	uninstall-aptsources_list_dDATA uninstall-aptstateDATA \
+	uninstall-aptstate_lists_partialDATA \
+	uninstall-aptvendors_list_dDATA uninstall-dist_aptconf_dDATA \
+	uninstall-info-am uninstall-nodist_aptincludeHEADERS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

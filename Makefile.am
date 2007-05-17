@@ -88,7 +88,7 @@ aptsources_list_ddir = $(aptconfigdir)/sources.list.d
 aptsources_list_d_DATA =
 
 aptconf_ddir = $(aptconfigdir)/apt.conf.d
-aptconf_d_DATA = etc/multilib.conf
+dist_aptconf_d_DATA = etc/multilib.conf
 
 aptvendors_list_ddir = $(aptconfigdir)/vendors.list.d
 aptvendors_list_d_DATA =
