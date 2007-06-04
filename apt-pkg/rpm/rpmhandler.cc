@@ -1622,7 +1622,7 @@ string RPMSqliteHandler::MD5Sum()
 
 string RPMSqliteHandler::SHA1Sum()
 {
-   return Packages->GetCol("checksum_value");
+   return Packages->GetCol("pkgId");
 }
 
 bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
