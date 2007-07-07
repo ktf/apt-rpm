@@ -5,6 +5,8 @@
 #pragma interface "apt-pkg/sqlite.h"
 #endif
 
+#ifdef WITH_SQLITE3
+
 #include <sqlite3.h>
 #include <string>
 #include <map>
@@ -54,6 +56,8 @@ class SqliteDB
    SqliteDB(string DBPath);
    ~SqliteDB();
 };
+
+#endif /* WITH_SQLITE3 */
 
 #endif
 // vim:sts=3:sw=3

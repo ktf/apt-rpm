@@ -2,6 +2,10 @@
 #pragma implementation "apt-pkg/sqlite.h"
 #endif
 
+#include <config.h>
+
+#ifdef WITH_SQLITE3
+
 #include <apt-pkg/sqlite.h>
 #include <apt-pkg/error.h>
 
@@ -104,5 +108,8 @@ SqliteQuery::~SqliteQuery()
       sqlite3_free_table(res);
    }
 }
+
+#endif /* WITH_SQLITE3 */
+
 
 // vim:sts=3:sw=3

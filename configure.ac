@@ -106,6 +106,19 @@ using namespace __gnu_cxx;
 ],[AC_MSG_RESULT(no)])
 AC_LANG_POP([C++])
 
+dnl sqlite3
+SAVE_LIBS="$LIBS"
+LIBS=""
+AC_SEARCH_LIBS([sqlite3_open], [sqlite3], [], [have_sqlite3="no"])
+if test "x$have_sqlite3" != "xno"; then
+   AC_DEFINE([WITH_SQLITE3], [1], [yes])
+   SQLITE3LIBS="$LIBS"
+fi
+LIBS="$SAVE_LIBS"
+
+AM_CONDITIONAL([WITH_SQLITE3], [test ! "x$have_sqlite3" = "no"])
+AC_SUBST(SQLITE3LIBS)
+
 dnl CNC:2003-03-20
 AC_MSG_CHECKING(for --disable-scripts)
 AC_ARG_ENABLE([scripts],
@@ -135,6 +148,7 @@ else
 fi
 AM_CONDITIONAL(WITH_SELINUX, test "$enable_selinux" != "no")
 
+
 dnl Repomd support
 AC_MSG_CHECKING(for --disable-repomd)
 AC_ARG_ENABLE([repomd],
@@ -151,7 +165,7 @@ if test "$enable_repomd" != "no"; then
   ## FIXME: Conditionalize this properly. We can support xml repomd without 
   ## sqlite and repodb with libxml2 older than 2.6. In addition, rollback
   ## will be using sqlite as well, we only want to check for it once.
-  RPMLIBS="$RPMLIBS -lsqlite3"
+  RPMLIBS="$RPMLIBS $SQLITE3LIBS"
 else
   AC_MSG_RESULT(yes)
 fi

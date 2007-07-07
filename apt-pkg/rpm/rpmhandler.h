@@ -382,6 +382,7 @@ class RPMRepomdOtherHandler : public RPMRepomdReaderHandler
    virtual ~RPMRepomdOtherHandler() {};
 };
 
+#ifdef WITH_SQLITE3
 class RPMSqliteHandler : public RPMHandler
 {
    protected:
@@ -432,6 +433,8 @@ class RPMSqliteHandler : public RPMHandler
    RPMSqliteHandler(string File);
    virtual ~RPMSqliteHandler();
 };
+#endif /* WITH_SQLITE3 */
+
 #endif /* APT_WITH_REPOMD */
 
 #endif

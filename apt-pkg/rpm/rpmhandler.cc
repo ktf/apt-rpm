@@ -32,7 +32,9 @@
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
 #include <sstream>
+#ifdef WITH_SQLITE3
 #include <apt-pkg/sqlite.h>
+#endif
 #include "xmlutil.h"
 #endif
 
@@ -1474,6 +1476,7 @@ bool RPMRepomdOtherHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
    return true;
 }
 
+#ifdef WITH_SQLITE3
 RPMSqliteHandler::RPMSqliteHandler(string File) : 
    Primary(NULL), Filelists(NULL), Other(NULL), Packages(NULL)
 {
@@ -1748,7 +1751,7 @@ bool RPMSqliteHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
    delete Changes;
    return true;
 }
-
+#endif /* WITH_SQLITE3 */
 
 #endif /* APT_WITH_REPOMD */
 

@@ -44,8 +44,10 @@ rpmRecordParser::rpmRecordParser(string File, pkgCache &Cache)
       else if (flExtension(File) == "rpm")
 	 Handler = new RPMSingleFileHandler(File);
 #ifdef APT_WITH_REPOMD
+#ifdef WITH_SQLITE3
       else if (flExtension(File) == "sqlite")
 	 Handler = new RPMSqliteHandler(File);
+#endif
       else if (flExtension(File) == "xml")
 	 Handler = new RPMRepomdHandler(File);
 #endif

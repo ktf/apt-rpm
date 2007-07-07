@@ -533,10 +533,12 @@ string rpmRepomdIndex::ArchiveURI(string File) const
 
 bool rpmRepomdIndex::HasDBExtension() const
 {
+#ifdef WITH_SQLITE3
    if (! Repository->FindURI("primary_db").empty() && 
        _config->FindB("Acquire::RepoMD::NoDB", false) == false) {
       return true;
    } 
+#endif
    return false;
 }
 
@@ -721,11 +723,12 @@ string rpmRepomdIndex::ReleasePath() const
 RPMHandler* rpmRepomdIndex::CreateHandler() const
 {
    string TypeURI;
+#if WITH_SQLITE3
    if (HasDBExtension()) {
       return new RPMSqliteHandler(IndexFile("primary"));
-   } else {
-      return new RPMRepomdHandler(IndexFile("primary"));
    }
+#endif
+   return new RPMRepomdHandler(IndexFile("primary"));
 } 
 
 bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
