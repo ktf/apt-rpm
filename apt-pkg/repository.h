@@ -49,6 +49,7 @@ class pkgRepository
    virtual string FindURI(string DataType) {return "";};
    // LORG:2006-02-23 
    virtual string GetCheckMethod() {return CheckMethod;};
+   virtual string GetComprMethod(string URI) {return "bz2";};
    
    pkgRepository(string URI,string Dist, const pkgSourceList::Vendor *Vendor,
 		 string RootURI)

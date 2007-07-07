@@ -152,7 +152,7 @@ string rpmListIndex::Info(string Type) const
 inline string rpmListIndex::IndexFile(string Type) const
 {
    return _config->FindDir("Dir::State::lists") +
-	  URItoFileName(flNoExtension(IndexURI(Type)));
+	  URItoFileName(IndexURI(Type));
 }
 
 
@@ -171,9 +171,6 @@ string rpmListIndex::IndexURI(string Type) const
       Res = URI + Dist + "/base/";
    
    Res += Type + '.' + Section;
-   if (Type == "pkglist" || Type == "srclist") {
-      Res += ".bz2";
-   }
 
    if (rpmdata->HasIndexTranslation() == true)
    {
@@ -706,7 +703,7 @@ string rpmRepomdIndex::IndexPath() const
 string rpmRepomdIndex::IndexFile(string Type) const
 {
    return _config->FindDir("Dir::State::lists") +
-	  URItoFileName(flNoExtension(IndexURI(AutoType(Type))));
+	  URItoFileName(IndexURI(AutoType(Type)));
 }
 
 

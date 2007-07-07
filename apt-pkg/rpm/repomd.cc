@@ -54,6 +54,7 @@ bool repomdRepository::ParseRelease(string File)
 	 continue;
 
       string Hash = "";
+      string RealPath = "";
       string Path = "";
       string ChecksumType = "";
       string DataType = "";
@@ -91,7 +92,9 @@ bool repomdRepository::ParseRelease(string File)
       }
 
       n = NULL;
+      RealPath = Path;
       if (flExtension(Path) == "gz" || flExtension(Path) == "bz2") {
+	 Path = Path.substr(0, Path.size()-flExtension(Path).size()-1);
 	 n = FindNode(Node, "open-checksum");
       } else {
 	 n = FindNode(Node, "checksum");
@@ -108,6 +111,7 @@ bool repomdRepository::ParseRelease(string File)
       IndexChecksums[Path].MD5 = Hash;
       IndexChecksums[Path].Size = 0;
       RepoFiles[DataType].Path = Path;
+      RepoFiles[DataType].RealPath = RealPath;
       RepoFiles[DataType].TimeStamp = TimeStamp;
       if (ChecksumType == "sha") {
 	 CheckMethod = "SHA1-Hash";
@@ -130,6 +134,20 @@ string repomdRepository::FindURI(string DataType)
    return Res;
 }
 
+string repomdRepository::GetComprMethod(string URI)
+{
+   string Res = "";
+   string Path = string(URI,RootURI.size());
+   
+   map<string,RepoFile>::iterator I;
+   for (I = RepoFiles.begin(); I != RepoFiles.end(); I++) {
+      if (Path == flUnCompressed(I->second.RealPath)) {
+	 Res = flExtension(I->second.RealPath);
+      }
+   }
+   return Res;
+}
+   
 
 #endif /* APT_WITH_REPOMD */
 

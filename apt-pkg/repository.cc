@@ -92,5 +92,5 @@ bool pkgRepository::FindChecksums(string URI,off_t &Size, string &MD5)
    MD5 = IndexChecksums[Path].MD5;
    return true;
 }
-									/*}}}*/
+
 // vim:sts=3:sw=3

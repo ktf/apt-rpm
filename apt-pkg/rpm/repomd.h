@@ -26,6 +26,7 @@ class repomdRepository : public pkgRepository
    
    struct RepoFile {
       string Path;
+      string RealPath;
       string Type;
       string TimeStamp;
    };
@@ -37,6 +38,7 @@ class repomdRepository : public pkgRepository
    virtual bool IsAuthenticated() const { return false; };
    virtual bool ParseRelease(string File);
    virtual string FindURI(string DataType);
+   virtual string GetComprMethod(string URI);
    
    repomdRepository(string URI,string Dist, const pkgSourceList::Vendor *Vendor,
 		 string RootURI)
