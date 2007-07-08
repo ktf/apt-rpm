@@ -7,6 +7,7 @@ ACLOCAL_AMFLAGS = -I m4 -I buildlib
 EXTRA_DIST = \
 		AUTHORS.RPM \
 		COPYING.GPL \
+		ChangeLog \
 		etc/rpmpriorities \
 		python/apt.i \
 		python/apt.py \
@@ -110,3 +111,6 @@ aptstate_DATA =
 
 aptstate_lists_partialdir = $(aptstatedir)/lists/partial
 aptstate_lists_partial_DATA =
+
+ChangeLog:
+	git-log --pretty > ChangeLog
