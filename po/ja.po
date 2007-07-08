@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt 0.5.15lorg3\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2007-05-17 14:58+0300\n"
+"POT-Creation-Date: 2007-07-08 21:46+0300\n"
 "PO-Revision-Date: 2006-05-05 00:08+0900\n"
 "Last-Translator: Daisuke SUZUKI <daisuke@linux.or.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -1874,98 +1874,98 @@ msgstr "%c%s... 完了"
 msgid "Selection %s not found"
 msgstr "選択された %s が見つかりません"
 
-#: apt-pkg/rpm/repomd.cc:48
+#: apt-pkg/rpm/repomd.cc:38
 #, fuzzy, c-format
 msgid "Could not open metadata file '%s'"
 msgstr "'%s' をオープンできません"
 
-#: apt-pkg/rpm/rpmhandler.cc:96
+#: apt-pkg/rpm/rpmhandler.cc:108
 #, c-format
 msgid "Impossible flags %d in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:522
+#: apt-pkg/rpm/rpmhandler.cc:534
 msgid "could not rewind RPMFileHandler"
 msgstr "RPMFileHandler を巻戻すことができません"
 
-#: apt-pkg/rpm/rpmhandler.cc:559 apt-pkg/rpm/rpmhandler.cc:566
+#: apt-pkg/rpm/rpmhandler.cc:571 apt-pkg/rpm/rpmhandler.cc:578
 #: apt-pkg/rpm/rpmpm.cc:692 apt-pkg/rpm/rpmpm.cc:697
 #, c-format
 msgid "Failed reading file %s"
 msgstr "ファイル %s の読み込みに失敗しました"
 
-#: apt-pkg/rpm/rpmhandler.cc:736
+#: apt-pkg/rpm/rpmhandler.cc:748
 msgid "Unable to determine the file size"
 msgstr "ファイルサイズをを特定することが出来ません"
 
-#: apt-pkg/rpm/rpmhandler.cc:785
+#: apt-pkg/rpm/rpmhandler.cc:797
 msgid "could not open RPM database"
 msgstr "RPMデータベースがオープンできません。"
 
-#: apt-pkg/rpm/rpmhandler.cc:792
+#: apt-pkg/rpm/rpmhandler.cc:804
 msgid "could not create RPM database iterator"
 msgstr "RPMデータベースイテレータを作成できません。"
 
-#: apt-pkg/rpm/rpmhandler.cc:962 apt-pkg/rpm/rpmhandler.cc:985
+#: apt-pkg/rpm/rpmhandler.cc:989 apt-pkg/rpm/rpmhandler.cc:1012
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "パッケージファイル %s をパースすることができません(1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:989
+#: apt-pkg/rpm/rpmhandler.cc:1016
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "パッケージ %s が見付かりません"
 
-#: apt-pkg/rpm/rpmhandler.cc:1008
+#: apt-pkg/rpm/rpmhandler.cc:1035
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1259 apt-pkg/rpm/rpmhandler.cc:1675
+#: apt-pkg/rpm/rpmhandler.cc:1286 apt-pkg/rpm/rpmhandler.cc:1703
 #, c-format
 msgid "Ignoring unknown dependency type %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1345
+#: apt-pkg/rpm/rpmhandler.cc:1372
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "%s.new を開くことができません"
 
-#: apt-pkg/rpm/rpmhandler.cc:1391
+#: apt-pkg/rpm/rpmhandler.cc:1418
 #, c-format
 msgid "Unable to handle xmlReader rewind from offset %d!"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1503
+#: apt-pkg/rpm/rpmhandler.cc:1531
 #, c-format
 msgid "Unsupported database scheme (%d)"
 msgstr ""
 
-#: apt-pkg/rpm/rpmindexfile.cc:389 apt-pkg/rpm/rpmindexfile.cc:744
+#: apt-pkg/rpm/rpmindexfile.cc:386 apt-pkg/rpm/rpmindexfile.cc:749
 #, c-format
 msgid "Problem with SelectFile %s"
 msgstr "SelectFile %s で問題が発生しました"
 
-#: apt-pkg/rpm/rpmindexfile.cc:398 apt-pkg/rpm/rpmindexfile.cc:753
-#: apt-pkg/rpm/rpmindexfile.cc:892
+#: apt-pkg/rpm/rpmindexfile.cc:395 apt-pkg/rpm/rpmindexfile.cc:758
+#: apt-pkg/rpm/rpmindexfile.cc:897
 #, c-format
 msgid "Failed to stat %s"
 msgstr "%s の stat に失敗しました"
 
-#: apt-pkg/rpm/rpmindexfile.cc:407 apt-pkg/rpm/rpmindexfile.cc:443
-#: apt-pkg/rpm/rpmindexfile.cc:762 apt-pkg/rpm/rpmindexfile.cc:796
+#: apt-pkg/rpm/rpmindexfile.cc:404 apt-pkg/rpm/rpmindexfile.cc:440
+#: apt-pkg/rpm/rpmindexfile.cc:767 apt-pkg/rpm/rpmindexfile.cc:801
 #, c-format
 msgid "Problem opening %s"
 msgstr "%s を開くことができません"
 
-#: apt-pkg/rpm/rpmindexfile.cc:413 apt-pkg/rpm/rpmindexfile.cc:768
-#: apt-pkg/rpm/rpmindexfile.cc:897
+#: apt-pkg/rpm/rpmindexfile.cc:410 apt-pkg/rpm/rpmindexfile.cc:773
+#: apt-pkg/rpm/rpmindexfile.cc:902
 #, c-format
 msgid "Problem with MergeList %s"
 msgstr "MergeList %s で問題が発生しました"
 
-#: apt-pkg/rpm/rpmindexfile.cc:448 apt-pkg/rpm/rpmindexfile.cc:801
-#: apt-pkg/rpm/rpmindexfile.cc:915
+#: apt-pkg/rpm/rpmindexfile.cc:445 apt-pkg/rpm/rpmindexfile.cc:806
+#: apt-pkg/rpm/rpmindexfile.cc:920
 #, c-format
 msgid "Problem with MergeFileProvides %s"
 msgstr "MergeFileProvides %s で問題が発生しました"
@@ -1975,25 +1975,25 @@ msgstr "MergeFileProvides %s で問題が発生しました"
 msgid "Primary metadata not found in repository %s %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmindexfile.cc:882 apt-pkg/rpm/rpmindexfile.cc:911
+#: apt-pkg/rpm/rpmindexfile.cc:887 apt-pkg/rpm/rpmindexfile.cc:916
 msgid "Problem opening RPM database"
 msgstr "RPMデータベースのオープンで問題が発生しました"
 
-#: apt-pkg/rpm/rpmindexfile.cc:886
+#: apt-pkg/rpm/rpmindexfile.cc:891
 msgid "Problem with SelectFile RPM Database"
 msgstr "RPM データベースの SelectFile で問題が発生しました"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1119 apt-pkg/sourcelist.cc:98
+#: apt-pkg/rpm/rpmindexfile.cc:1124 apt-pkg/sourcelist.cc:98
 #, c-format
 msgid "Malformed line %lu in source list %s (URI)"
 msgstr "不正なライン %lu がソースリスト %s にあります (URI)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1121 apt-pkg/sourcelist.cc:100
+#: apt-pkg/rpm/rpmindexfile.cc:1126 apt-pkg/sourcelist.cc:100
 #, c-format
 msgid "Malformed line %lu in source list %s (dist)"
 msgstr "不正なライン %lu がソースリスト %s にあります (dist)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1124 apt-pkg/sourcelist.cc:103
+#: apt-pkg/rpm/rpmindexfile.cc:1129 apt-pkg/sourcelist.cc:103
 #, c-format
 msgid "Malformed line %lu in source list %s (URI parse)"
 msgstr "不正なライン %lu がソースリスト %s にあります (URI parse)"
@@ -2150,7 +2150,7 @@ msgstr ""
 msgid "Some errors occurred while running transaction"
 msgstr "トランザクション処理中にエラーが発生しました"
 
-#: apt-pkg/rpm/rpmrecords.cc:178 apt-pkg/rpm/rpmsrcrecords.cc:179
+#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:179
 msgid "Could not allocate buffer for record text"
 msgstr "レコードテキストにバッファを割り当てることができません"
 
@@ -2174,43 +2174,43 @@ msgstr "アーカイブディレクトリ %spartial が見つかりません。"
 msgid "rename failed, %s (%s -> %s)."
 msgstr "リネームに失敗しました: %s (%s -> %s)"
 
-#: apt-pkg/acquire-item.cc:230 apt-pkg/acquire-item.cc:437
+#: apt-pkg/acquire-item.cc:230 apt-pkg/acquire-item.cc:438
 #, c-format
 msgid "%s is not listed in the checksum list for its repository"
 msgstr "%s はリポジトリのチェックサムにリストされていません"
 
-#: apt-pkg/acquire-item.cc:250 apt-pkg/acquire-item.cc:457
+#: apt-pkg/acquire-item.cc:250 apt-pkg/acquire-item.cc:458
 #, c-format
 msgid "Release information not available for %s"
 msgstr "%s のリリース情報が用意されていません"
 
-#: apt-pkg/acquire-item.cc:308 apt-pkg/acquire-item.cc:590
-#: apt-pkg/acquire-item.cc:863
+#: apt-pkg/acquire-item.cc:308 apt-pkg/acquire-item.cc:591
+#: apt-pkg/acquire-item.cc:864
 msgid "Size mismatch"
 msgstr "サイズが適合しません"
 
-#: apt-pkg/acquire-item.cc:319 apt-pkg/acquire-item.cc:600
-#: apt-pkg/acquire-item.cc:873
+#: apt-pkg/acquire-item.cc:319 apt-pkg/acquire-item.cc:601
+#: apt-pkg/acquire-item.cc:874
 msgid "MD5Sum mismatch"
 msgstr "MD5SUM が適合しません"
 
-#: apt-pkg/acquire-item.cc:506
+#: apt-pkg/acquire-item.cc:507
 msgid "No valid signatures found in Release file"
 msgstr "リリースファイルに適正なsignatureが存在しません"
 
-#: apt-pkg/acquire-item.cc:514
+#: apt-pkg/acquire-item.cc:515
 msgid "Signature fingerprint of Release file does not match (expected "
 msgstr "リリースファイルの Signature fingerprint が適合しません (予期しない "
 
-#: apt-pkg/acquire-item.cc:515
+#: apt-pkg/acquire-item.cc:516
 msgid ", got "
 msgstr ", "
 
-#: apt-pkg/acquire-item.cc:540
+#: apt-pkg/acquire-item.cc:541
 msgid "Could not read checksum list from Release file"
 msgstr "リリースファイルからチェックサムリストを読み込むことができませんでした"
 
-#: apt-pkg/acquire-item.cc:676
+#: apt-pkg/acquire-item.cc:677
 #, c-format
 msgid ""
 "I wasn't able to locate a file for the %s package. This might mean you need "
@@ -2219,7 +2219,7 @@ msgstr ""
 "パッケージ %s のファイルの位置を決められません。おそらくこの問題を手動で修正"
 "する必要があります。(アーキテクチャが不足しているなど)"
 
-#: apt-pkg/acquire-item.cc:715
+#: apt-pkg/acquire-item.cc:716
 #, c-format
 msgid ""
 "I wasn't able to locate file for the %s package. This might mean you need to "
@@ -2228,7 +2228,7 @@ msgstr ""
 "パッケージ %s のファイルの位置を決められません。おそらくこの問題を手動で修正"
 "する必要があります。"
 
-#: apt-pkg/acquire-item.cc:754
+#: apt-pkg/acquire-item.cc:755
 #, c-format
 msgid ""
 "The package index files are corrupted. No Filename: field for package %s."
@@ -2455,22 +2455,22 @@ msgstr "%s を処理中にエラーが発生しました (CollectFileProvides)"
 msgid "Package %s %s was not found while processing file dependencies"
 msgstr "パッケージ %s %s がファイル依存の処理中に見つかりませんでした"
 
-#: apt-pkg/pkgcachegen.cc:719 apt-pkg/pkgcachegen.cc:746
-#: apt-pkg/pkgcachegen.cc:788 apt-pkg/pkgcachegen.cc:793
-#: apt-pkg/pkgcachegen.cc:997
+#: apt-pkg/pkgcachegen.cc:721 apt-pkg/pkgcachegen.cc:748
+#: apt-pkg/pkgcachegen.cc:790 apt-pkg/pkgcachegen.cc:795
+#: apt-pkg/pkgcachegen.cc:999
 msgid "Reading Package Lists"
 msgstr "パッケージリストを読みこんでいます"
 
-#: apt-pkg/pkgcachegen.cc:786
+#: apt-pkg/pkgcachegen.cc:788
 #, c-format
 msgid "Unable to write to %s"
 msgstr "'%s' に書き込むことができません"
 
-#: apt-pkg/pkgcachegen.cc:801
+#: apt-pkg/pkgcachegen.cc:803
 msgid "Error pre-processing package lists"
 msgstr "パッケージリストの前処理中にエラーが発生しました"
 
-#: apt-pkg/pkgcachegen.cc:918 apt-pkg/pkgcachegen.cc:925
+#: apt-pkg/pkgcachegen.cc:920 apt-pkg/pkgcachegen.cc:927
 msgid "IO Error saving source cache"
 msgstr "ソースキャッシュの保存中に IO エラーが発生しました"
 

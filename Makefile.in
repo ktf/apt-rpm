@@ -253,8 +253,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = lua apt-pkg methods cmdline tools doc po test
 ACLOCAL_AMFLAGS = -I m4 -I buildlib
-EXTRA_DIST = AUTHORS.RPM COPYING.GPL etc/rpmpriorities python/apt.i \
-	python/apt.py python/apt_wrap.cxx python/Makefile \
+EXTRA_DIST = AUTHORS.RPM COPYING.GPL ChangeLog etc/rpmpriorities \
+	python/apt.i python/apt.py python/apt_wrap.cxx python/Makefile \
 	python/swig-1.3.16-cxx.patch contrib/gpg-check/README \
 	contrib/gpg-check/gpg-check.conf \
 	contrib/gpg-check/gpg-import.lua \
@@ -984,6 +984,9 @@ uninstall-am: uninstall-aptcacheDATA \
 	uninstall-aptvendors_list_dDATA uninstall-dist_aptconf_dDATA \
 	uninstall-nodist_aptincludeHEADERS
 
+
+ChangeLog:
+	git-log --pretty > ChangeLog
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

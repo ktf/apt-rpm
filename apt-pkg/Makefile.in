@@ -240,7 +240,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libapt-pkg.la
 libapt_pkg_la_LIBADD = @RPMLIBS@ $(am__append_1)
-libapt_pkg_la_LDFLAGS = -version-info 2:0:0
+libapt_pkg_la_LDFLAGS = -version-info 3:0:0
 AM_CPPFLAGS = -DLIBDIR=\"$(libdir)\" -DPKGDATADIR=\"$(pkgdatadir)\" \
 	-DLOCALEDIR=\"$(localedir)\" -DAPT_DOMAIN=\"$(PACKAGE)\" \
 	-I$(top_srcdir)/lua/include -I$(top_srcdir)/lua/local

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2007-05-17 14:58+0300\n"
+"POT-Creation-Date: 2007-07-08 21:46+0300\n"
 "PO-Revision-Date: 2001-01-11 15:40-02:00\n"
 "Last-Translator: Stefano Corsi <ippo@madeinlinux.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -1598,101 +1598,101 @@ msgstr ""
 msgid "Selection %s not found"
 msgstr ""
 
-#: apt-pkg/rpm/repomd.cc:48
+#: apt-pkg/rpm/repomd.cc:38
 #, fuzzy, c-format
 msgid "Could not open metadata file '%s'"
 msgstr "Impossibile aprire l'indice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:96
+#: apt-pkg/rpm/rpmhandler.cc:108
 #, c-format
 msgid "Impossible flags %d in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:522
+#: apt-pkg/rpm/rpmhandler.cc:534
 #, fuzzy
 msgid "could not rewind RPMFileHandler"
 msgstr "Impossibile aprire l'indice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:559 apt-pkg/rpm/rpmhandler.cc:566
+#: apt-pkg/rpm/rpmhandler.cc:571 apt-pkg/rpm/rpmhandler.cc:578
 #: apt-pkg/rpm/rpmpm.cc:692 apt-pkg/rpm/rpmpm.cc:697
 #, fuzzy, c-format
 msgid "Failed reading file %s"
 msgstr "Recupero dell' archivio hash fallito:"
 
-#: apt-pkg/rpm/rpmhandler.cc:736
+#: apt-pkg/rpm/rpmhandler.cc:748
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Impossibile ridurre il gruppo da aggiornare"
 
-#: apt-pkg/rpm/rpmhandler.cc:785
+#: apt-pkg/rpm/rpmhandler.cc:797
 #, fuzzy
 msgid "could not open RPM database"
 msgstr "Impossibile aprire l'indice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:792
+#: apt-pkg/rpm/rpmhandler.cc:804
 msgid "could not create RPM database iterator"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:962 apt-pkg/rpm/rpmhandler.cc:985
+#: apt-pkg/rpm/rpmhandler.cc:989 apt-pkg/rpm/rpmhandler.cc:1012
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Impossibile analizzare il pacchetto %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:989
+#: apt-pkg/rpm/rpmhandler.cc:1016
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "Il pacchetto %s non è stato trovato"
 
-#: apt-pkg/rpm/rpmhandler.cc:1008
+#: apt-pkg/rpm/rpmhandler.cc:1035
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1259 apt-pkg/rpm/rpmhandler.cc:1675
+#: apt-pkg/rpm/rpmhandler.cc:1286 apt-pkg/rpm/rpmhandler.cc:1703
 #, c-format
 msgid "Ignoring unknown dependency type %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1345
+#: apt-pkg/rpm/rpmhandler.cc:1372
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Impossibile aprire %s.new"
 
-#: apt-pkg/rpm/rpmhandler.cc:1391
+#: apt-pkg/rpm/rpmhandler.cc:1418
 #, c-format
 msgid "Unable to handle xmlReader rewind from offset %d!"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1503
+#: apt-pkg/rpm/rpmhandler.cc:1531
 #, c-format
 msgid "Unsupported database scheme (%d)"
 msgstr ""
 
-#: apt-pkg/rpm/rpmindexfile.cc:389 apt-pkg/rpm/rpmindexfile.cc:744
+#: apt-pkg/rpm/rpmindexfile.cc:386 apt-pkg/rpm/rpmindexfile.cc:749
 #, c-format
 msgid "Problem with SelectFile %s"
 msgstr "Problema con SelectFile %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:398 apt-pkg/rpm/rpmindexfile.cc:753
-#: apt-pkg/rpm/rpmindexfile.cc:892
+#: apt-pkg/rpm/rpmindexfile.cc:395 apt-pkg/rpm/rpmindexfile.cc:758
+#: apt-pkg/rpm/rpmindexfile.cc:897
 #, fuzzy, c-format
 msgid "Failed to stat %s"
 msgstr "Recupero fallito"
 
-#: apt-pkg/rpm/rpmindexfile.cc:407 apt-pkg/rpm/rpmindexfile.cc:443
-#: apt-pkg/rpm/rpmindexfile.cc:762 apt-pkg/rpm/rpmindexfile.cc:796
+#: apt-pkg/rpm/rpmindexfile.cc:404 apt-pkg/rpm/rpmindexfile.cc:440
+#: apt-pkg/rpm/rpmindexfile.cc:767 apt-pkg/rpm/rpmindexfile.cc:801
 #, c-format
 msgid "Problem opening %s"
 msgstr "Problema nell'apertura di %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:413 apt-pkg/rpm/rpmindexfile.cc:768
-#: apt-pkg/rpm/rpmindexfile.cc:897
+#: apt-pkg/rpm/rpmindexfile.cc:410 apt-pkg/rpm/rpmindexfile.cc:773
+#: apt-pkg/rpm/rpmindexfile.cc:902
 #, c-format
 msgid "Problem with MergeList %s"
 msgstr "Problema con la MergeList %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:448 apt-pkg/rpm/rpmindexfile.cc:801
-#: apt-pkg/rpm/rpmindexfile.cc:915
+#: apt-pkg/rpm/rpmindexfile.cc:445 apt-pkg/rpm/rpmindexfile.cc:806
+#: apt-pkg/rpm/rpmindexfile.cc:920
 #, fuzzy, c-format
 msgid "Problem with MergeFileProvides %s"
 msgstr "Problema con la MergeList %s"
@@ -1702,27 +1702,27 @@ msgstr "Problema con la MergeList %s"
 msgid "Primary metadata not found in repository %s %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmindexfile.cc:882 apt-pkg/rpm/rpmindexfile.cc:911
+#: apt-pkg/rpm/rpmindexfile.cc:887 apt-pkg/rpm/rpmindexfile.cc:916
 #, fuzzy
 msgid "Problem opening RPM database"
 msgstr "Problema nell'apertura di %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:886
+#: apt-pkg/rpm/rpmindexfile.cc:891
 #, fuzzy
 msgid "Problem with SelectFile RPM Database"
 msgstr "Problema con SelectFile %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1119 apt-pkg/sourcelist.cc:98
+#: apt-pkg/rpm/rpmindexfile.cc:1124 apt-pkg/sourcelist.cc:98
 #, fuzzy, c-format
 msgid "Malformed line %lu in source list %s (URI)"
 msgstr "Linea %u errata nella lista di sorgenti %s (URI)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1121 apt-pkg/sourcelist.cc:100
+#: apt-pkg/rpm/rpmindexfile.cc:1126 apt-pkg/sourcelist.cc:100
 #, fuzzy, c-format
 msgid "Malformed line %lu in source list %s (dist)"
 msgstr "Linea %u errata nella lista di sorgenti %s (dist)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1124 apt-pkg/sourcelist.cc:103
+#: apt-pkg/rpm/rpmindexfile.cc:1129 apt-pkg/sourcelist.cc:103
 #, fuzzy, c-format
 msgid "Malformed line %lu in source list %s (URI parse)"
 msgstr "Linea %u errata nella lista di sorgenti %s (URI)"
@@ -1871,7 +1871,7 @@ msgstr ""
 msgid "Some errors occurred while running transaction"
 msgstr "Errore nel processare %s (NewVersion1)"
 
-#: apt-pkg/rpm/rpmrecords.cc:178 apt-pkg/rpm/rpmsrcrecords.cc:179
+#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:179
 #, fuzzy
 msgid "Could not allocate buffer for record text"
 msgstr "Impossibile attendere il sottoprocesso"
@@ -1896,57 +1896,57 @@ msgstr "La lista di file %spartial &egrave mancante."
 msgid "rename failed, %s (%s -> %s)."
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:230 apt-pkg/acquire-item.cc:437
+#: apt-pkg/acquire-item.cc:230 apt-pkg/acquire-item.cc:438
 #, c-format
 msgid "%s is not listed in the checksum list for its repository"
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:250 apt-pkg/acquire-item.cc:457
+#: apt-pkg/acquire-item.cc:250 apt-pkg/acquire-item.cc:458
 #, c-format
 msgid "Release information not available for %s"
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:308 apt-pkg/acquire-item.cc:590
-#: apt-pkg/acquire-item.cc:863
+#: apt-pkg/acquire-item.cc:308 apt-pkg/acquire-item.cc:591
+#: apt-pkg/acquire-item.cc:864
 msgid "Size mismatch"
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:319 apt-pkg/acquire-item.cc:600
-#: apt-pkg/acquire-item.cc:873
+#: apt-pkg/acquire-item.cc:319 apt-pkg/acquire-item.cc:601
+#: apt-pkg/acquire-item.cc:874
 msgid "MD5Sum mismatch"
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:506
+#: apt-pkg/acquire-item.cc:507
 msgid "No valid signatures found in Release file"
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:514
+#: apt-pkg/acquire-item.cc:515
 msgid "Signature fingerprint of Release file does not match (expected "
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:515
+#: apt-pkg/acquire-item.cc:516
 msgid ", got "
 msgstr ", ottenuto "
 
-#: apt-pkg/acquire-item.cc:540
+#: apt-pkg/acquire-item.cc:541
 msgid "Could not read checksum list from Release file"
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:676
+#: apt-pkg/acquire-item.cc:677
 #, c-format
 msgid ""
 "I wasn't able to locate a file for the %s package. This might mean you need "
 "to manually fix this package. (due to missing arch)"
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:715
+#: apt-pkg/acquire-item.cc:716
 #, c-format
 msgid ""
 "I wasn't able to locate file for the %s package. This might mean you need to "
 "manually fix this package."
 msgstr ""
 
-#: apt-pkg/acquire-item.cc:754
+#: apt-pkg/acquire-item.cc:755
 #, c-format
 msgid ""
 "The package index files are corrupted. No Filename: field for package %s."
@@ -2178,23 +2178,23 @@ msgstr "Errore nel processare %s (NewFileVer1)"
 msgid "Package %s %s was not found while processing file dependencies"
 msgstr ""
 
-#: apt-pkg/pkgcachegen.cc:719 apt-pkg/pkgcachegen.cc:746
-#: apt-pkg/pkgcachegen.cc:788 apt-pkg/pkgcachegen.cc:793
-#: apt-pkg/pkgcachegen.cc:997
+#: apt-pkg/pkgcachegen.cc:721 apt-pkg/pkgcachegen.cc:748
+#: apt-pkg/pkgcachegen.cc:790 apt-pkg/pkgcachegen.cc:795
+#: apt-pkg/pkgcachegen.cc:999
 msgid "Reading Package Lists"
 msgstr "Lettura della lista di pacchetti"
 
-#: apt-pkg/pkgcachegen.cc:786
+#: apt-pkg/pkgcachegen.cc:788
 #, fuzzy, c-format
 msgid "Unable to write to %s"
 msgstr "Impossibile cambiare a %s"
 
-#: apt-pkg/pkgcachegen.cc:801
+#: apt-pkg/pkgcachegen.cc:803
 #, fuzzy
 msgid "Error pre-processing package lists"
 msgstr "Errore nel processare %s (NewPackage)"
 
-#: apt-pkg/pkgcachegen.cc:918 apt-pkg/pkgcachegen.cc:925
+#: apt-pkg/pkgcachegen.cc:920 apt-pkg/pkgcachegen.cc:927
 msgid "IO Error saving source cache"
 msgstr "Errore I/O nel salvare la cache sorgente"
 

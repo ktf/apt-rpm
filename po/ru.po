@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt-0.5.15cnc4-alt0.1\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2007-05-17 14:58+0300\n"
+"POT-Creation-Date: 2007-07-08 21:46+0300\n"
 "PO-Revision-Date: 2003-12-08 17:41+1200\n"
 "Last-Translator: Anton V. Denisov <avd@altlinux.org>\n"
 "Language-Team: ALT Linux Team <devel@altlinux.org>\n"
@@ -1921,99 +1921,99 @@ msgstr "%c%s... Завершено"
 msgid "Selection %s not found"
 msgstr "Строк, соответствующих %s, не найдено."
 
-#: apt-pkg/rpm/repomd.cc:48
+#: apt-pkg/rpm/repomd.cc:38
 #, fuzzy, c-format
 msgid "Could not open metadata file '%s'"
 msgstr "Невозможно открыть файл %s."
 
-#: apt-pkg/rpm/rpmhandler.cc:96
+#: apt-pkg/rpm/rpmhandler.cc:108
 #, c-format
 msgid "Impossible flags %d in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:522
+#: apt-pkg/rpm/rpmhandler.cc:534
 msgid "could not rewind RPMFileHandler"
 msgstr "откат RPMFileHandler невозможен"
 
-#: apt-pkg/rpm/rpmhandler.cc:559 apt-pkg/rpm/rpmhandler.cc:566
+#: apt-pkg/rpm/rpmhandler.cc:571 apt-pkg/rpm/rpmhandler.cc:578
 #: apt-pkg/rpm/rpmpm.cc:692 apt-pkg/rpm/rpmpm.cc:697
 #, c-format
 msgid "Failed reading file %s"
 msgstr "Ошибка чтения файла %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:736
+#: apt-pkg/rpm/rpmhandler.cc:748
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Невозможно определить имя удалённой системы"
 
-#: apt-pkg/rpm/rpmhandler.cc:785
+#: apt-pkg/rpm/rpmhandler.cc:797
 msgid "could not open RPM database"
 msgstr "невозможно открыть базу данных RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:792
+#: apt-pkg/rpm/rpmhandler.cc:804
 msgid "could not create RPM database iterator"
 msgstr "невозможно создать итератор базы данных RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:962 apt-pkg/rpm/rpmhandler.cc:985
+#: apt-pkg/rpm/rpmhandler.cc:989 apt-pkg/rpm/rpmhandler.cc:1012
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Невозможно прочитать пакетный файл %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:989
+#: apt-pkg/rpm/rpmhandler.cc:1016
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "Невозможно найти пакет %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:1008
+#: apt-pkg/rpm/rpmhandler.cc:1035
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1259 apt-pkg/rpm/rpmhandler.cc:1675
+#: apt-pkg/rpm/rpmhandler.cc:1286 apt-pkg/rpm/rpmhandler.cc:1703
 #, c-format
 msgid "Ignoring unknown dependency type %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1345
+#: apt-pkg/rpm/rpmhandler.cc:1372
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Не удалось открыть %s.new"
 
-#: apt-pkg/rpm/rpmhandler.cc:1391
+#: apt-pkg/rpm/rpmhandler.cc:1418
 #, c-format
 msgid "Unable to handle xmlReader rewind from offset %d!"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1503
+#: apt-pkg/rpm/rpmhandler.cc:1531
 #, c-format
 msgid "Unsupported database scheme (%d)"
 msgstr ""
 
-#: apt-pkg/rpm/rpmindexfile.cc:389 apt-pkg/rpm/rpmindexfile.cc:744
+#: apt-pkg/rpm/rpmindexfile.cc:386 apt-pkg/rpm/rpmindexfile.cc:749
 #, c-format
 msgid "Problem with SelectFile %s"
 msgstr "Ошибка SelectFile %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:398 apt-pkg/rpm/rpmindexfile.cc:753
-#: apt-pkg/rpm/rpmindexfile.cc:892
+#: apt-pkg/rpm/rpmindexfile.cc:395 apt-pkg/rpm/rpmindexfile.cc:758
+#: apt-pkg/rpm/rpmindexfile.cc:897
 #, fuzzy, c-format
 msgid "Failed to stat %s"
 msgstr "Невозможно получить информацию"
 
-#: apt-pkg/rpm/rpmindexfile.cc:407 apt-pkg/rpm/rpmindexfile.cc:443
-#: apt-pkg/rpm/rpmindexfile.cc:762 apt-pkg/rpm/rpmindexfile.cc:796
+#: apt-pkg/rpm/rpmindexfile.cc:404 apt-pkg/rpm/rpmindexfile.cc:440
+#: apt-pkg/rpm/rpmindexfile.cc:767 apt-pkg/rpm/rpmindexfile.cc:801
 #, c-format
 msgid "Problem opening %s"
 msgstr "Ошибка открытия %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:413 apt-pkg/rpm/rpmindexfile.cc:768
-#: apt-pkg/rpm/rpmindexfile.cc:897
+#: apt-pkg/rpm/rpmindexfile.cc:410 apt-pkg/rpm/rpmindexfile.cc:773
+#: apt-pkg/rpm/rpmindexfile.cc:902
 #, c-format
 msgid "Problem with MergeList %s"
 msgstr "Ошибка с MergeList %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:448 apt-pkg/rpm/rpmindexfile.cc:801
-#: apt-pkg/rpm/rpmindexfile.cc:915
+#: apt-pkg/rpm/rpmindexfile.cc:445 apt-pkg/rpm/rpmindexfile.cc:806
+#: apt-pkg/rpm/rpmindexfile.cc:920
 #, c-format
 msgid "Problem with MergeFileProvides %s"
 msgstr "Ошибка с MergeFileProvides %s"
@@ -2023,25 +2023,25 @@ msgstr "Ошибка с MergeFileProvides %s"
 msgid "Primary metadata not found in repository %s %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmindexfile.cc:882 apt-pkg/rpm/rpmindexfile.cc:911
+#: apt-pkg/rpm/rpmindexfile.cc:887 apt-pkg/rpm/rpmindexfile.cc:916
 msgid "Problem opening RPM database"
 msgstr "Ошибка открытия базы данных RPM"
 
-#: apt-pkg/rpm/rpmindexfile.cc:886
+#: apt-pkg/rpm/rpmindexfile.cc:891
 msgid "Problem with SelectFile RPM Database"
 msgstr "Ошибка SelectFile базы данных RPM."
 
-#: apt-pkg/rpm/rpmindexfile.cc:1119 apt-pkg/sourcelist.cc:98
+#: apt-pkg/rpm/rpmindexfile.cc:1124 apt-pkg/sourcelist.cc:98
 #, c-format
 msgid "Malformed line %lu in source list %s (URI)"
 msgstr "Неправильная строка %lu в списке источников %s (URI)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1121 apt-pkg/sourcelist.cc:100
+#: apt-pkg/rpm/rpmindexfile.cc:1126 apt-pkg/sourcelist.cc:100
 #, c-format
 msgid "Malformed line %lu in source list %s (dist)"
 msgstr "Неправильная строка %lu в списке источников %s (дистрибутив)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1124 apt-pkg/sourcelist.cc:103
+#: apt-pkg/rpm/rpmindexfile.cc:1129 apt-pkg/sourcelist.cc:103
 #, c-format
 msgid "Malformed line %lu in source list %s (URI parse)"
 msgstr "Неправильная строка %lu в списке источников %s (обработка URI)"
@@ -2203,7 +2203,7 @@ msgstr "Ошибка во время исполнения транзакции"
 msgid "Some errors occurred while running transaction"
 msgstr "Произошли ошибки при выполнении транзакции"
 
-#: apt-pkg/rpm/rpmrecords.cc:178 apt-pkg/rpm/rpmsrcrecords.cc:179
+#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:179
 #, fuzzy
 msgid "Could not allocate buffer for record text"
 msgstr "Невозможно выделить память"
@@ -2228,43 +2228,43 @@ msgstr "Директория с архивными пакетами %spartial отсутствует."
 msgid "rename failed, %s (%s -> %s)."
 msgstr "Ошибка переименования, %s (%s -> %s)."
 
-#: apt-pkg/acquire-item.cc:230 apt-pkg/acquire-item.cc:437
+#: apt-pkg/acquire-item.cc:230 apt-pkg/acquire-item.cc:438
 #, c-format
 msgid "%s is not listed in the checksum list for its repository"
 msgstr "%s отсутствует в списке контрольных сумм своего репозитория."
 
-#: apt-pkg/acquire-item.cc:250 apt-pkg/acquire-item.cc:457
+#: apt-pkg/acquire-item.cc:250 apt-pkg/acquire-item.cc:458
 #, c-format
 msgid "Release information not available for %s"
 msgstr "Описание %s не найдено."
 
-#: apt-pkg/acquire-item.cc:308 apt-pkg/acquire-item.cc:590
-#: apt-pkg/acquire-item.cc:863
+#: apt-pkg/acquire-item.cc:308 apt-pkg/acquire-item.cc:591
+#: apt-pkg/acquire-item.cc:864
 msgid "Size mismatch"
 msgstr "Несовпадение размера"
 
-#: apt-pkg/acquire-item.cc:319 apt-pkg/acquire-item.cc:600
-#: apt-pkg/acquire-item.cc:873
+#: apt-pkg/acquire-item.cc:319 apt-pkg/acquire-item.cc:601
+#: apt-pkg/acquire-item.cc:874
 msgid "MD5Sum mismatch"
 msgstr "Несовпадение контрольной суммы MD5"
 
-#: apt-pkg/acquire-item.cc:506
+#: apt-pkg/acquire-item.cc:507
 msgid "No valid signatures found in Release file"
 msgstr "Не найдено пригодных подписей в файле описания"
 
-#: apt-pkg/acquire-item.cc:514
+#: apt-pkg/acquire-item.cc:515
 msgid "Signature fingerprint of Release file does not match (expected "
 msgstr "Неверная подпись файла описания (должно быть "
 
-#: apt-pkg/acquire-item.cc:515
+#: apt-pkg/acquire-item.cc:516
 msgid ", got "
 msgstr ", а получено "
 
-#: apt-pkg/acquire-item.cc:540
+#: apt-pkg/acquire-item.cc:541
 msgid "Could not read checksum list from Release file"
 msgstr "Невозможно прочитать список контрольных сумм из файла описания."
 
-#: apt-pkg/acquire-item.cc:676
+#: apt-pkg/acquire-item.cc:677
 #, c-format
 msgid ""
 "I wasn't able to locate a file for the %s package. This might mean you need "
@@ -2273,7 +2273,7 @@ msgstr ""
 "Невозможно найти файл пакета %s. Возможно, потребуется исправить пакет "
 "вручную (в связи с отсутствием нужной платформы)."
 
-#: apt-pkg/acquire-item.cc:715
+#: apt-pkg/acquire-item.cc:716
 #, c-format
 msgid ""
 "I wasn't able to locate file for the %s package. This might mean you need to "
@@ -2282,7 +2282,7 @@ msgstr ""
 "Невозможно найти файл пакета %s. Возможно, потребуется исправить пакет "
 "вручную."
 
-#: apt-pkg/acquire-item.cc:754
+#: apt-pkg/acquire-item.cc:755
 #, c-format
 msgid ""
 "The package index files are corrupted. No Filename: field for package %s."
@@ -2511,22 +2511,22 @@ msgstr "При обработке %s (CollectFileProvides) произошла ошибка."
 msgid "Package %s %s was not found while processing file dependencies"
 msgstr "Не найден пакет %s %s при обработке файловых зависимостей."
 
-#: apt-pkg/pkgcachegen.cc:719 apt-pkg/pkgcachegen.cc:746
-#: apt-pkg/pkgcachegen.cc:788 apt-pkg/pkgcachegen.cc:793
-#: apt-pkg/pkgcachegen.cc:997
+#: apt-pkg/pkgcachegen.cc:721 apt-pkg/pkgcachegen.cc:748
+#: apt-pkg/pkgcachegen.cc:790 apt-pkg/pkgcachegen.cc:795
+#: apt-pkg/pkgcachegen.cc:999
 msgid "Reading Package Lists"
 msgstr "Чтение списков пакетов"
 
-#: apt-pkg/pkgcachegen.cc:786
+#: apt-pkg/pkgcachegen.cc:788
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Запись в %s невозможна"
 
-#: apt-pkg/pkgcachegen.cc:801
+#: apt-pkg/pkgcachegen.cc:803
 msgid "Error pre-processing package lists"
 msgstr "Во время предварительной обработки списков пакетов произошла ошибка."
 
-#: apt-pkg/pkgcachegen.cc:918 apt-pkg/pkgcachegen.cc:925
+#: apt-pkg/pkgcachegen.cc:920 apt-pkg/pkgcachegen.cc:927
 msgid "IO Error saving source cache"
 msgstr "Ошибка ввода-вывода в момент сохранения кэша репозитория"
 
