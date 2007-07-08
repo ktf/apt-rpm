@@ -664,7 +664,6 @@ bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 {
    bool AcqOther = _config->FindB("Acquire::RepoMD::OtherData", false);
    bool AcqGroup = _config->FindB("Acquire::RepoMD::Group", false);
-   bool Res = false;
    if (Repository->FindURI("primary").empty()) {
       return _error->Error(_("Primary metadata not found in repository %s %s"),
 			Repository->URI.c_str(), Repository->Dist.c_str());
@@ -679,7 +678,7 @@ bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 		     Info(AutoType("other")), "other");
    }
 
-   if (Res && AcqGroup) {
+   if (AcqGroup) {
       if (! Repository->FindURI("group").empty()) {
 	 new pkgAcqIndex(Owner,Repository,IndexURI("group"),
 			   ReleaseInfo("comps.xml"), "comps.xml");
