@@ -686,6 +686,8 @@ static unsigned long ComputeSize(FileIterator Start,FileIterator End)
    {
       if ((*Start)->HasPackages() == false)
 	 continue;      
+      if ((*Start)->Exists() == false)
+	 continue;
       TotalSize += (*Start)->Size();
    }
    return TotalSize;

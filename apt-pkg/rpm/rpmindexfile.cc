@@ -711,6 +711,10 @@ string rpmRepomdIndex::IndexFile(string Type) const
 
 bool rpmRepomdIndex::Exists() const
 {
+   /* repomd requires release to be present to find any other files */
+   if (!FileExists(ReleasePath())) {
+      return false;
+   }
    return FileExists(IndexPath());
 }
 
