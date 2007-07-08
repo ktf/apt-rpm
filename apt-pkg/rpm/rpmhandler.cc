@@ -16,6 +16,7 @@
 #include <sys/stat.h>
 #include <utime.h>
 #include <unistd.h>
+#include <signal.h>
 #include <assert.h>
 #include <libgen.h>
 
@@ -45,6 +46,15 @@
 #include <rpm/rpmdb.h>
 #include <rpm/rpmds.h>
 #include <rpm/rpmfi.h>
+
+// XXX we'd need to include rpmsq.h but it's not valid C++ in many
+// existing rpm versions so just declare rpmsqCaught extern.. sigh.
+#if 1
+extern sigset_t rpmsqCaught;
+#else
+#include <rpm/rpmsq.h>
+#endif
+
 #define rpmxxInitIterator(a,b,c,d) rpmtsInitIterator(a,(rpmTag)b,c,d)
 #else
 #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
@@ -831,13 +841,28 @@ RPMDBHandler::~RPMDBHandler()
        headerFree(HeaderP);
 #endif
 
-   if (Handler != NULL) {
 #if RPM_VERSION >= 0x040100
+   /* 
+    * If termination signal, do nothing as rpmdb has already freed
+    * our ts set behind our back and rpmtsFree() will crash and burn with a 
+    * doublefree within rpmlib.
+    * There's a WTF involved as rpmCheckSignals() actually calls exit()
+    * so we shouldn't even get here really?!
+    */
+   if (sigismember(&rpmsqCaught, SIGINT) || 
+       sigismember(&rpmsqCaught, SIGQUIT) ||
+       sigismember(&rpmsqCaught, SIGHUP) ||
+       sigismember(&rpmsqCaught, SIGTERM) ||
+       sigismember(&rpmsqCaught, SIGPIPE)) {
+      /* do nothing */
+   } else if (Handler != NULL) {
       rpmtsFree(Handler);
-#else
-      rpmdbClose(Handler);
-#endif
    }
+#else
+   if (Handler != NULL) {
+      rpmdbClose(Handler);
+   }
+#endif
 
    // Restore just after opening the database, and just after closing.
    if (WriteLock) {
