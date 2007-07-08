@@ -23,21 +23,11 @@
 #include <apt-pkg/error.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include "xmlutil.h"
 
 #include <apti18n.h>
 
 using namespace std;
-
-xmlNode *FindNode(xmlNode *Node, const string Name)
-{
-   for (xmlNode *n = Node->children; n; n = n->next) {
-      if (strcmp((char*)n->name, Name.c_str()) == 0) {
-         return n;
-      }
-   }
-   return NULL;
-}
-
 
 // Parse repomd.xml file for checksums
 bool repomdRepository::ParseRelease(string File)
@@ -67,7 +57,7 @@ bool repomdRepository::ParseRelease(string File)
 
       // If it's a sqlite _db file, see if we can use it and skip otherwise
       if (DataType.substr(DataType.size()-3, 3) == "_db") {
-	 n = FindNode(Node, "database_version");
+	 n = XmlFindNode(Node, "database_version");
 	 bool db_supported = false;
 	 if (n) {
 	    xmlChar *x = xmlNodeGetContent(n);
@@ -84,7 +74,7 @@ bool repomdRepository::ParseRelease(string File)
 	 }
       }
 
-      n = FindNode(Node, "location");
+      n = XmlFindNode(Node, "location");
       if (n) {
 	 xmlChar *href = xmlGetProp(n, (xmlChar*)"href");
 	 Path = (char*)href;
@@ -95,9 +85,9 @@ bool repomdRepository::ParseRelease(string File)
       RealPath = Path;
       if (flExtension(Path) == "gz" || flExtension(Path) == "bz2") {
 	 Path = Path.substr(0, Path.size()-flExtension(Path).size()-1);
-	 n = FindNode(Node, "open-checksum");
+	 n = XmlFindNode(Node, "open-checksum");
       } else {
-	 n = FindNode(Node, "checksum");
+	 n = XmlFindNode(Node, "checksum");
       }
       if (n) {
 	 xmlChar *hash = xmlNodeGetContent(n);
