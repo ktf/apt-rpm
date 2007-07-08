@@ -643,7 +643,9 @@ string rpmRepomdIndex::IndexURI(string Type) const
 string rpmRepomdIndex::AutoType(string Type) const
 {
    if (HasDBExtension()) {
-      return Type + "_db";
+      if (! Repository->FindURI(Type + "_db").empty()) {
+	 return Type + "_db";
+      }
    }
    return Type;
 }
