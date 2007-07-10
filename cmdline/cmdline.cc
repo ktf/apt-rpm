@@ -12,6 +12,7 @@
 #include <regex.h>
 #include <sys/stat.h>
 #include <fnmatch.h>
+#include <langinfo.h>
 
 using namespace std;
 
