@@ -956,10 +956,6 @@ bool pkgRPMLibPM::ParseRpmOpts(const char *Cnf, int *tsFlags, int *probFilter)
 	 else if (Opts->Value == "--test")
 	    *tsFlags |= RPMTRANS_FLAG_TEST;
 #if RPM_VERSION >= 0x040000
-#if RPM_VERSION < 0x040406
-	 else if (Opts->Value == "--nomd5")
-	    *tsFlags |= RPMTRANS_FLAG_NOMD5;
-#endif
 	 else if (Opts->Value == "--repackage")
 	    *tsFlags |= RPMTRANS_FLAG_REPACKAGE;
 #endif
@@ -971,6 +967,13 @@ bool pkgRPMLibPM::ParseRpmOpts(const char *Cnf, int *tsFlags, int *probFilter)
 #if RPM_VERSION >= 0x040300
 	 else if (Opts->Value == "--nocontexts")
             *tsFlags |= RPMTRANS_FLAG_NOCONTEXTS;
+#endif
+#if RPM_VERSION >= 0x040406
+         else if (Opts->Value == "--nofdigests")
+            *tsFlags |= RPMTRANS_FLAG_NOFDIGESTS;
+#else
+	 else if (Opts->Value == "--nomd5")
+	    *tsFlags |= RPMTRANS_FLAG_NOMD5;
 #endif
 
 	 // Problem filter flags
