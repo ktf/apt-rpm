@@ -11,6 +11,10 @@
 [^-]*-kfreebsd.*-gnu   freebsd
 [^-]*-gnu[^-]*   hurd
 
+# These are used by MacPorts
+[^-]*-darwin.*   darwin
+[^-]*-freebsd.*  freebsd
+
 # These are samples. 
 hp-hpux[^-]*	    hp-ux
 sun-solaris[^-]*    solaris
