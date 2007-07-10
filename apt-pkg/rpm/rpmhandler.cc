@@ -322,7 +322,7 @@ bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 break;
 #if RPM_VERSION >= 0x040403
       case pkgCache::Dep::Suggests:
-	 deptype = RPMTAG_SUGGESTNAME;
+	 deptype = RPMTAG_SUGGESTSNAME;
 	 break;
 #if 0 // Enhances dep type is not even known to apt, sigh..
       case pkgCache::Dep::Enhances:
