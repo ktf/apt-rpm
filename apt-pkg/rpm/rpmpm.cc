@@ -850,7 +850,7 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    if (_config->FindB("RPM::NoDeps", false) == false) {
       rc = rpmtsCheck(TS);
       probs = rpmtsProblems(TS);
-      if (rc || probs->numProblems > 0) {
+      if (rc || rpmpsNumProblems(probs) > 0) {
 	 rpmpsPrint(NULL, probs);
 	 rpmpsFree(probs);
 	 _error->Error(_("Transaction set check failed"));
@@ -906,7 +906,11 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
 
    if (rc > 0) {
       _error->Error(_("Error while running transaction"));
+#if RPM_VERSION >= 0x040100
+      if (rpmpsNumProblems(probs) > 0)
+#else
       if (probs->numProblems > 0)
+#endif
 	 rpmpsPrint(stderr, probs);
    } else {
       Success = true;
@@ -952,8 +956,10 @@ bool pkgRPMLibPM::ParseRpmOpts(const char *Cnf, int *tsFlags, int *probFilter)
 	 else if (Opts->Value == "--test")
 	    *tsFlags |= RPMTRANS_FLAG_TEST;
 #if RPM_VERSION >= 0x040000
+#if RPM_VERSION < 0x040406
 	 else if (Opts->Value == "--nomd5")
 	    *tsFlags |= RPMTRANS_FLAG_NOMD5;
+#endif
 	 else if (Opts->Value == "--repackage")
 	    *tsFlags |= RPMTRANS_FLAG_REPACKAGE;
 #endif
