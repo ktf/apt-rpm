@@ -334,7 +334,11 @@ bool copyFields(Header h, Header newHeader,
 }
 
 
+#if defined(__APPLE__) || defined(__FREEBSD__)
+int selectDirent(struct dirent *ent)
+#else
 int selectDirent(const struct dirent *ent)
+#endif
 {
    int state = 0;
    const char *p = ent->d_name;
