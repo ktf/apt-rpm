@@ -1,7 +1,7 @@
 // CNC:2002-07-03
 
 #ifndef PKGLIB_REPOSITORY_H
-#define PKBLIB_REPOSITORY_H
+#define PKGLIB_REPOSITORY_H
 
 #ifdef __GNUG__
 #pragma interface "apt-pkg/repository.h"
