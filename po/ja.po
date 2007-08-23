@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt 0.5.15lorg3\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2007-07-08 21:46+0300\n"
+"POT-Creation-Date: 2007-08-23 12:07+0300\n"
 "PO-Revision-Date: 2006-05-05 00:08+0900\n"
 "Last-Translator: Daisuke SUZUKI <daisuke@linux.or.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -120,14 +120,14 @@ msgstr "合計スラック空間"
 msgid "Total Space Accounted for: "
 msgstr "Total Space Accounted for: "
 
-#: cmdline/apt-cache.cc:323 cmdline/cmdline.cc:1039
+#: cmdline/apt-cache.cc:323 cmdline/cmdline.cc:1040
 #, c-format
 msgid "Package file %s is out of sync."
 msgstr "パッケージファイル %s は同期されていません"
 
 #: cmdline/apt-cache.cc:489 cmdline/apt-cache.cc:707 cmdline/apt-cache.cc:1050
-#: cmdline/cmdline.cc:962 cmdline/cmdline.cc:1075 cmdline/cmdline.cc:1169
-#: cmdline/cmdline.cc:1258 cmdline/cmdline.cc:1823
+#: cmdline/cmdline.cc:963 cmdline/cmdline.cc:1076 cmdline/cmdline.cc:1170
+#: cmdline/cmdline.cc:1259 cmdline/cmdline.cc:1824
 #, c-format
 msgid "Unable to locate package %s"
 msgstr "パッケージ %s を特定することができません"
@@ -489,7 +489,7 @@ msgid "Packages need to be removed but Remove is disabled."
 msgstr "パッケージは削除される必要がありますが、削除は無効になっています。"
 
 #: cmdline/apt-get.cc:294 cmdline/apt-get.cc:1542 cmdline/apt-shell.cc:356
-#: cmdline/apt-shell.cc:1479 cmdline/cmdline.cc:720
+#: cmdline/apt-shell.cc:1479 cmdline/cmdline.cc:721
 msgid "Unable to lock the download directory"
 msgstr "ダウンロードディレクトリをロックできません"
 
@@ -609,7 +609,7 @@ msgid "Package %s is a virtual package with no good providers.\n"
 msgstr "パッケージ %s は提供されていないバーチャルパッケージです。\n"
 
 #: cmdline/apt-get.cc:687 cmdline/apt-get.cc:743 cmdline/apt-shell.cc:714
-#: cmdline/apt-shell.cc:770 cmdline/cmdline.cc:1829
+#: cmdline/apt-shell.cc:770 cmdline/cmdline.cc:1830
 #, c-format
 msgid "Package %s is a virtual package provided by:\n"
 msgstr "%s は以下のパッケージで提供されているバーチャルパッケージです。\n"
@@ -743,7 +743,7 @@ msgstr "'%s' をパースすることができませんでした"
 msgid "Couldn't find package %s"
 msgstr "パッケージ %s が見付かりません"
 
-#: cmdline/apt-get.cc:1275 cmdline/apt-shell.cc:1303 cmdline/cmdline.cc:47
+#: cmdline/apt-get.cc:1275 cmdline/apt-shell.cc:1303 cmdline/cmdline.cc:48
 #, c-format
 msgid "Regex compilation error - %s"
 msgstr "正規表現の展開エラー - %s"
@@ -1500,78 +1500,78 @@ msgstr "APT シェルへようこそ。詳細は \"help\" を実行してくだ�
 msgid "Exceeded maximum number of command arguments"
 msgstr "コマンドの引数の上限を越えました"
 
-#: cmdline/cmdline.cc:25
+#: cmdline/cmdline.cc:26
 msgid "Y"
 msgstr "Y"
 
-#: cmdline/cmdline.cc:208
+#: cmdline/cmdline.cc:209
 msgid "The following packages have unmet dependencies:"
 msgstr "以下のパッケージは解決できない依存関係を持っています:"
 
-#: cmdline/cmdline.cc:306
+#: cmdline/cmdline.cc:307
 #, c-format
 msgid "but %s is installed"
 msgstr "しかし、%s がすでにインストールされています"
 
-#: cmdline/cmdline.cc:308
+#: cmdline/cmdline.cc:309
 #, c-format
 msgid "but %s is to be installed"
 msgstr "しかし、%s がインストールされています"
 
-#: cmdline/cmdline.cc:315
+#: cmdline/cmdline.cc:316
 msgid "but it is not installable"
 msgstr "それをインストールすることができません"
 
-#: cmdline/cmdline.cc:317
+#: cmdline/cmdline.cc:318
 msgid "but it is a virtual package"
 msgstr "それは仮想パッケージです"
 
-#: cmdline/cmdline.cc:320
+#: cmdline/cmdline.cc:321
 msgid "but it is not installed"
 msgstr "それはインストールされていません"
 
-#: cmdline/cmdline.cc:320
+#: cmdline/cmdline.cc:321
 msgid "but it is not going to be installed"
 msgstr "それはインストールされません"
 
-#: cmdline/cmdline.cc:325
+#: cmdline/cmdline.cc:326
 msgid " or"
 msgstr " または"
 
-#: cmdline/cmdline.cc:355
+#: cmdline/cmdline.cc:356
 msgid "The following NEW packages will be installed:"
 msgstr "以下のパッケージが新たにインストールされます:"
 
-#: cmdline/cmdline.cc:408
+#: cmdline/cmdline.cc:409
 msgid "The following packages will be REPLACED:"
 msgstr "以下のパッケージがリプレースされます:"
 
-#: cmdline/cmdline.cc:409
+#: cmdline/cmdline.cc:410
 msgid "The following packages will be REMOVED:"
 msgstr "以下のパッケージが削除されます:"
 
-#: cmdline/cmdline.cc:438
+#: cmdline/cmdline.cc:439
 msgid "The following packages have been kept back"
 msgstr "以下のパッケージは保留されます:"
 
-#: cmdline/cmdline.cc:466
+#: cmdline/cmdline.cc:467
 msgid "The following packages will be upgraded"
 msgstr "以下のパッケージがアップグレードされます:"
 
-#: cmdline/cmdline.cc:494
+#: cmdline/cmdline.cc:495
 msgid "The following packages will be DOWNGRADED"
 msgstr "以下のパッケージがダウングレードされます:"
 
-#: cmdline/cmdline.cc:516
+#: cmdline/cmdline.cc:517
 msgid "The following held packages will be changed:"
 msgstr "以下の保留パッケージが変更されます"
 
-#: cmdline/cmdline.cc:607
+#: cmdline/cmdline.cc:608
 #, c-format
 msgid "%s (due to %s) "
 msgstr "%s (%s が依存) "
 
-#: cmdline/cmdline.cc:615
+#: cmdline/cmdline.cc:616
 msgid ""
 "WARNING: The following essential packages will be removed\n"
 "This should NOT be done unless you know exactly what you are doing!"
@@ -1579,77 +1579,77 @@ msgstr ""
 "＊注意＊ 以下の重要なパッケージが削除されます\n"
 "何をしようとしているか分からない場合は、＊絶対に＊実行してはいけません"
 
-#: cmdline/cmdline.cc:681
+#: cmdline/cmdline.cc:682
 #, c-format
 msgid "%lu upgraded, %lu newly installed, "
 msgstr "アップグレード: %lu 個, 新規インストール: %lu 個, "
 
-#: cmdline/cmdline.cc:685
+#: cmdline/cmdline.cc:686
 #, c-format
 msgid "%lu reinstalled, "
 msgstr "再インストール: %lu 個, "
 
-#: cmdline/cmdline.cc:687
+#: cmdline/cmdline.cc:688
 #, c-format
 msgid "%lu downgraded, "
 msgstr "ダウングレード: %lu 個, "
 
-#: cmdline/cmdline.cc:690
+#: cmdline/cmdline.cc:691
 #, c-format
 msgid "%lu replaced, "
 msgstr "リプレース: %lu 個, "
 
-#: cmdline/cmdline.cc:694
+#: cmdline/cmdline.cc:695
 #, c-format
 msgid "%lu removed and %lu not upgraded.\n"
 msgstr "削除: %lu 個, 保留: %lu 個\n"
 
-#: cmdline/cmdline.cc:697
+#: cmdline/cmdline.cc:698
 #, c-format
 msgid "%lu removed and %lu kept.\n"
 msgstr "削除: %lu 個, 保留: %lu 個\n"
 
-#: cmdline/cmdline.cc:701
+#: cmdline/cmdline.cc:702
 #, c-format
 msgid "%lu not fully installed or removed.\n"
 msgstr "%lu 個のパッケージが完全にインストールまたは削除されていません。\n"
 
-#: cmdline/cmdline.cc:923
+#: cmdline/cmdline.cc:924
 #, c-format
 msgid "Package %s version %s has an unmet dep:\n"
 msgstr "パッケージ %s のバージョン %s は解決不可能な依存情報を持っています:\n"
 
-#: cmdline/cmdline.cc:1555
+#: cmdline/cmdline.cc:1556
 msgid "Name"
 msgstr "名前"
 
-#: cmdline/cmdline.cc:1556
+#: cmdline/cmdline.cc:1557
 msgid "Installed"
 msgstr "インストール済"
 
-#: cmdline/cmdline.cc:1557
+#: cmdline/cmdline.cc:1558
 msgid "Candidate"
 msgstr "候補"
 
-#: cmdline/cmdline.cc:1668
+#: cmdline/cmdline.cc:1669
 msgid "You must give exactly one pattern"
 msgstr "パターンは1つだけ指定して下さい"
 
-#: cmdline/cmdline.cc:1840
+#: cmdline/cmdline.cc:1841
 msgid "You should explicitly select one to show."
 msgstr "表示するパッケージを明示的に選択する必要があります。"
 
-#: cmdline/cmdline.cc:1841
+#: cmdline/cmdline.cc:1842
 #, c-format
 msgid "Package %s is a virtual package with multiple providers."
 msgstr ""
 "パッケージ %s は複数のパッケージで提供されているバーチャルパッケージです。"
 
-#: cmdline/cmdline.cc:1904
+#: cmdline/cmdline.cc:1905
 msgid "No packages found"
 msgstr "パッケージがみつかりません"
 
-#: cmdline/cmdline.cc:1922
+#: cmdline/cmdline.cc:1923
 msgid "Changelog data not available for the repository."
 msgstr ""
 
@@ -2146,11 +2146,11 @@ msgstr "%d 個のパッケージの並べ替えに失敗しました"
 msgid "Error while running transaction"
 msgstr ""
 
-#: apt-pkg/rpm/rpmpm.cc:914
+#: apt-pkg/rpm/rpmpm.cc:918
 msgid "Some errors occurred while running transaction"
 msgstr "トランザクション処理中にエラーが発生しました"
 
-#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:179
+#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:183
 msgid "Could not allocate buffer for record text"
 msgstr "レコードテキストにバッファを割り当てることができません"
 

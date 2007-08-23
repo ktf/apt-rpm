@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt-0.5.15cnc4-alt0.1\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2007-07-08 21:46+0300\n"
+"POT-Creation-Date: 2007-08-23 12:07+0300\n"
 "PO-Revision-Date: 2003-12-08 17:41+1200\n"
 "Last-Translator: Anton V. Denisov <avd@altlinux.org>\n"
 "Language-Team: ALT Linux Team <devel@altlinux.org>\n"
@@ -120,14 +120,14 @@ msgstr "Всего занято места: "
 msgid "Total Space Accounted for: "
 msgstr "Всего будет занято места: "
 
-#: cmdline/apt-cache.cc:323 cmdline/cmdline.cc:1039
+#: cmdline/apt-cache.cc:323 cmdline/cmdline.cc:1040
 #, c-format
 msgid "Package file %s is out of sync."
 msgstr "Файл пакета %s вышел из под контроля."
 
 #: cmdline/apt-cache.cc:489 cmdline/apt-cache.cc:707 cmdline/apt-cache.cc:1050
-#: cmdline/cmdline.cc:962 cmdline/cmdline.cc:1075 cmdline/cmdline.cc:1169
-#: cmdline/cmdline.cc:1258 cmdline/cmdline.cc:1823
+#: cmdline/cmdline.cc:963 cmdline/cmdline.cc:1076 cmdline/cmdline.cc:1170
+#: cmdline/cmdline.cc:1259 cmdline/cmdline.cc:1824
 #, c-format
 msgid "Unable to locate package %s"
 msgstr "Невозможно найти пакет %s"
@@ -497,7 +497,7 @@ msgstr ""
 "Remove (не удалять)."
 
 #: cmdline/apt-get.cc:294 cmdline/apt-get.cc:1542 cmdline/apt-shell.cc:356
-#: cmdline/apt-shell.cc:1479 cmdline/cmdline.cc:720
+#: cmdline/apt-shell.cc:1479 cmdline/cmdline.cc:721
 msgid "Unable to lock the download directory"
 msgstr "Невозможно разблокировать временный каталог для скачиваемых файлов"
 
@@ -619,7 +619,7 @@ msgid "Package %s is a virtual package with no good providers.\n"
 msgstr "Виртуальный пакет %s предоставляется следующими пакетами:\n"
 
 #: cmdline/apt-get.cc:687 cmdline/apt-get.cc:743 cmdline/apt-shell.cc:714
-#: cmdline/apt-shell.cc:770 cmdline/cmdline.cc:1829
+#: cmdline/apt-shell.cc:770 cmdline/cmdline.cc:1830
 #, c-format
 msgid "Package %s is a virtual package provided by:\n"
 msgstr "Виртуальный пакет %s предоставляется следующими пакетами:\n"
@@ -752,7 +752,7 @@ msgstr "Невозможно разобрать имя '%s'"
 msgid "Couldn't find package %s"
 msgstr "Невозможно найти пакет %s"
 
-#: cmdline/apt-get.cc:1275 cmdline/apt-shell.cc:1303 cmdline/cmdline.cc:47
+#: cmdline/apt-get.cc:1275 cmdline/apt-shell.cc:1303 cmdline/cmdline.cc:48
 #, c-format
 msgid "Regex compilation error - %s"
 msgstr "Ошибка компиляции регулярного выражения - %s"
@@ -1542,78 +1542,78 @@ msgstr ""
 msgid "Exceeded maximum number of command arguments"
 msgstr "Превышено максимальное количество аргументов команды"
 
-#: cmdline/cmdline.cc:25
+#: cmdline/cmdline.cc:26
 msgid "Y"
 msgstr "Y"
 
-#: cmdline/cmdline.cc:208
+#: cmdline/cmdline.cc:209
 msgid "The following packages have unmet dependencies:"
 msgstr "Следующие пакеты имеют неудовлетворенные зависимости:"
 
-#: cmdline/cmdline.cc:306
+#: cmdline/cmdline.cc:307
 #, c-format
 msgid "but %s is installed"
 msgstr "но %s уже установлен"
 
-#: cmdline/cmdline.cc:308
+#: cmdline/cmdline.cc:309
 #, c-format
 msgid "but %s is to be installed"
 msgstr "но %s будет установлен"
 
-#: cmdline/cmdline.cc:315
+#: cmdline/cmdline.cc:316
 msgid "but it is not installable"
 msgstr "но пакет не может быть установлен"
 
-#: cmdline/cmdline.cc:317
+#: cmdline/cmdline.cc:318
 msgid "but it is a virtual package"
 msgstr "но пакет является виртуальным пакетом"
 
-#: cmdline/cmdline.cc:320
+#: cmdline/cmdline.cc:321
 msgid "but it is not installed"
 msgstr "но пакет не установлен"
 
-#: cmdline/cmdline.cc:320
+#: cmdline/cmdline.cc:321
 msgid "but it is not going to be installed"
 msgstr "но пакет не будет установлен"
 
-#: cmdline/cmdline.cc:325
+#: cmdline/cmdline.cc:326
 msgid " or"
 msgstr " или"
 
-#: cmdline/cmdline.cc:355
+#: cmdline/cmdline.cc:356
 msgid "The following NEW packages will be installed:"
 msgstr "Следующие НОВЫЕ пакеты будут установлены:"
 
-#: cmdline/cmdline.cc:408
+#: cmdline/cmdline.cc:409
 msgid "The following packages will be REPLACED:"
 msgstr "Следующие пакеты будут ЗАМЕНЕНЫ:"
 
-#: cmdline/cmdline.cc:409
+#: cmdline/cmdline.cc:410
 msgid "The following packages will be REMOVED:"
 msgstr "Следующие пакеты будут УДАЛЕНЫ:"
 
-#: cmdline/cmdline.cc:438
+#: cmdline/cmdline.cc:439
 msgid "The following packages have been kept back"
 msgstr "Следующие пакеты будут СОХРАНЕНЫ:"
 
-#: cmdline/cmdline.cc:466
+#: cmdline/cmdline.cc:467
 msgid "The following packages will be upgraded"
 msgstr "Следующие пакеты будут ОБНОВЛЕНЫ:"
 
-#: cmdline/cmdline.cc:494
+#: cmdline/cmdline.cc:495
 msgid "The following packages will be DOWNGRADED"
 msgstr "Следующие пакеты будут ЗАМЕНЕНЫ БОЛЕЕ СТАРЫМИ ВЕРСИЯМИ:"
 
-#: cmdline/cmdline.cc:516
+#: cmdline/cmdline.cc:517
 msgid "The following held packages will be changed:"
 msgstr "Следующие удерживаемые пакеты будут изменены:"
 
-#: cmdline/cmdline.cc:607
+#: cmdline/cmdline.cc:608
 #, c-format
 msgid "%s (due to %s) "
 msgstr "%s (по причине %s)"
 
-#: cmdline/cmdline.cc:615
+#: cmdline/cmdline.cc:616
 msgid ""
 "WARNING: The following essential packages will be removed\n"
 "This should NOT be done unless you know exactly what you are doing!"
@@ -1622,77 +1622,77 @@ msgstr ""
 "Обычно этого делать не следует. Вы должны точно понимать возможные "
 "последствия!"
 
-#: cmdline/cmdline.cc:681
+#: cmdline/cmdline.cc:682
 #, c-format
 msgid "%lu upgraded, %lu newly installed, "
 msgstr "%lu будет обновлено, %lu новых установлено, "
 
-#: cmdline/cmdline.cc:685
+#: cmdline/cmdline.cc:686
 #, c-format
 msgid "%lu reinstalled, "
 msgstr "%lu пакетов будет переустановлено, "
 
-#: cmdline/cmdline.cc:687
+#: cmdline/cmdline.cc:688
 #, c-format
 msgid "%lu downgraded, "
 msgstr "%lu пакетов будет заменено на старые версии, "
 
-#: cmdline/cmdline.cc:690
+#: cmdline/cmdline.cc:691
 #, c-format
 msgid "%lu replaced, "
 msgstr "%lu пакетов будет заменено, "
 
-#: cmdline/cmdline.cc:694
+#: cmdline/cmdline.cc:695
 #, c-format
 msgid "%lu removed and %lu not upgraded.\n"
 msgstr "%lu пакетов будет удалено и %lu не будет обновлено.\n"
 
-#: cmdline/cmdline.cc:697
+#: cmdline/cmdline.cc:698
 #, c-format
 msgid "%lu removed and %lu kept.\n"
 msgstr "%lu пакетов будет удалено и %lu будет сохранено.\n"
 
-#: cmdline/cmdline.cc:701
+#: cmdline/cmdline.cc:702
 #, c-format
 msgid "%lu not fully installed or removed.\n"
 msgstr "%lu не установлено или не удалено целиком.\n"
 
-#: cmdline/cmdline.cc:923
+#: cmdline/cmdline.cc:924
 #, c-format
 msgid "Package %s version %s has an unmet dep:\n"
 msgstr "Пакет %s версии %s имеет неудовлетворенные зависимости:\n"
 
-#: cmdline/cmdline.cc:1555
+#: cmdline/cmdline.cc:1556
 msgid "Name"
 msgstr "Имя"
 
-#: cmdline/cmdline.cc:1556
+#: cmdline/cmdline.cc:1557
 msgid "Installed"
 msgstr "Установлено"
 
-#: cmdline/cmdline.cc:1557
+#: cmdline/cmdline.cc:1558
 msgid "Candidate"
 msgstr "Кандидат"
 
-#: cmdline/cmdline.cc:1668
+#: cmdline/cmdline.cc:1669
 msgid "You must give exactly one pattern"
 msgstr "Необходимо указать только один образец"
 
-#: cmdline/cmdline.cc:1840
+#: cmdline/cmdline.cc:1841
 #, fuzzy
 msgid "You should explicitly select one to show."
 msgstr "Необходимо точно указать, какой из пакетов должен быть установлен."
 
-#: cmdline/cmdline.cc:1841
+#: cmdline/cmdline.cc:1842
 #, fuzzy, c-format
 msgid "Package %s is a virtual package with multiple providers."
 msgstr "Виртуальный пакет %s предоставляется следующими пакетами:\n"
 
-#: cmdline/cmdline.cc:1904
+#: cmdline/cmdline.cc:1905
 msgid "No packages found"
 msgstr "Не найдено ни одного пакета"
 
-#: cmdline/cmdline.cc:1922
+#: cmdline/cmdline.cc:1923
 msgid "Changelog data not available for the repository."
 msgstr ""
 
@@ -2199,11 +2199,11 @@ msgstr "Упорядочивание не удалось для %d пакетов"
 msgid "Error while running transaction"
 msgstr "Ошибка во время исполнения транзакции"
 
-#: apt-pkg/rpm/rpmpm.cc:914
+#: apt-pkg/rpm/rpmpm.cc:918
 msgid "Some errors occurred while running transaction"
 msgstr "Произошли ошибки при выполнении транзакции"
 
-#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:179
+#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:183
 #, fuzzy
 msgid "Could not allocate buffer for record text"
 msgstr "Невозможно выделить память"

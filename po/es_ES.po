@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2007-07-08 21:46+0300\n"
+"POT-Creation-Date: 2007-08-23 12:07+0300\n"
 "PO-Revision-Date: 2001-01-11 15:40-02:00\n"
 "Last-Translator: Jorge Carrasquilla Soares <jorge@conectiva.com.br>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -116,14 +116,14 @@ msgstr "Espacio temporal total: "
 msgid "Total Space Accounted for: "
 msgstr "Espacio total contabilizado para: "
 
-#: cmdline/apt-cache.cc:323 cmdline/cmdline.cc:1039
+#: cmdline/apt-cache.cc:323 cmdline/cmdline.cc:1040
 #, c-format
 msgid "Package file %s is out of sync."
 msgstr "El paquete %s no está sincronizado."
 
 #: cmdline/apt-cache.cc:489 cmdline/apt-cache.cc:707 cmdline/apt-cache.cc:1050
-#: cmdline/cmdline.cc:962 cmdline/cmdline.cc:1075 cmdline/cmdline.cc:1169
-#: cmdline/cmdline.cc:1258 cmdline/cmdline.cc:1823
+#: cmdline/cmdline.cc:963 cmdline/cmdline.cc:1076 cmdline/cmdline.cc:1170
+#: cmdline/cmdline.cc:1259 cmdline/cmdline.cc:1824
 #, c-format
 msgid "Unable to locate package %s"
 msgstr "Imposible ubicar el paquete %s"
@@ -429,7 +429,7 @@ msgstr ""
 "Eliminar."
 
 #: cmdline/apt-get.cc:294 cmdline/apt-get.cc:1542 cmdline/apt-shell.cc:356
-#: cmdline/apt-shell.cc:1479 cmdline/cmdline.cc:720
+#: cmdline/apt-shell.cc:1479 cmdline/cmdline.cc:721
 msgid "Unable to lock the download directory"
 msgstr "Imposible bloquear el directorio para descargas"
 
@@ -545,7 +545,7 @@ msgid "Package %s is a virtual package with no good providers.\n"
 msgstr " es un paquete virtual suministrado por:"
 
 #: cmdline/apt-get.cc:687 cmdline/apt-get.cc:743 cmdline/apt-shell.cc:714
-#: cmdline/apt-shell.cc:770 cmdline/cmdline.cc:1829
+#: cmdline/apt-shell.cc:770 cmdline/cmdline.cc:1830
 #, fuzzy, c-format
 msgid "Package %s is a virtual package provided by:\n"
 msgstr " es un paquete virtual suministrado por:"
@@ -671,7 +671,7 @@ msgstr "No se encontró el paquete %s"
 msgid "Couldn't find package %s"
 msgstr "No se encontró el paquete %s"
 
-#: cmdline/apt-get.cc:1275 cmdline/apt-shell.cc:1303 cmdline/cmdline.cc:47
+#: cmdline/apt-get.cc:1275 cmdline/apt-shell.cc:1303 cmdline/cmdline.cc:48
 #, fuzzy, c-format
 msgid "Regex compilation error - %s"
 msgstr "Error de compilación de Regex"
@@ -1203,85 +1203,85 @@ msgstr ""
 msgid "Exceeded maximum number of command arguments"
 msgstr ""
 
-#: cmdline/cmdline.cc:25
+#: cmdline/cmdline.cc:26
 msgid "Y"
 msgstr "S"
 
-#: cmdline/cmdline.cc:208
+#: cmdline/cmdline.cc:209
 #, fuzzy
 msgid "The following packages have unmet dependencies:"
 msgstr "Los paquetes siguientes tienen dependencias no resueltas:"
 
-#: cmdline/cmdline.cc:306
+#: cmdline/cmdline.cc:307
 #, fuzzy, c-format
 msgid "but %s is installed"
 msgstr " está instalado"
 
-#: cmdline/cmdline.cc:308
+#: cmdline/cmdline.cc:309
 #, fuzzy, c-format
 msgid "but %s is to be installed"
 msgstr "se instalará"
 
-#: cmdline/cmdline.cc:315
+#: cmdline/cmdline.cc:316
 #, fuzzy
 msgid "but it is not installable"
 msgstr "no se puede instalar"
 
-#: cmdline/cmdline.cc:317
+#: cmdline/cmdline.cc:318
 #, fuzzy
 msgid "but it is a virtual package"
 msgstr "es un paquete virtual"
 
-#: cmdline/cmdline.cc:320
+#: cmdline/cmdline.cc:321
 #, fuzzy
 msgid "but it is not installed"
 msgstr "no está instalado"
 
-#: cmdline/cmdline.cc:320
+#: cmdline/cmdline.cc:321
 #, fuzzy
 msgid "but it is not going to be installed"
 msgstr "no será instalado"
 
-#: cmdline/cmdline.cc:325
+#: cmdline/cmdline.cc:326
 msgid " or"
 msgstr " o"
 
-#: cmdline/cmdline.cc:355
+#: cmdline/cmdline.cc:356
 msgid "The following NEW packages will be installed:"
 msgstr "Se instalarán los paquetes NUEVOS siguientes:"
 
-#: cmdline/cmdline.cc:408
+#: cmdline/cmdline.cc:409
 #, fuzzy
 msgid "The following packages will be REPLACED:"
 msgstr "Se ELIMINARÁN los siguientes paquetes:"
 
-#: cmdline/cmdline.cc:409
+#: cmdline/cmdline.cc:410
 msgid "The following packages will be REMOVED:"
 msgstr "Se ELIMINARÁN los siguientes paquetes:"
 
-#: cmdline/cmdline.cc:438
+#: cmdline/cmdline.cc:439
 msgid "The following packages have been kept back"
 msgstr "Se han manetenido los siguientes paquetes"
 
-#: cmdline/cmdline.cc:466
+#: cmdline/cmdline.cc:467
 msgid "The following packages will be upgraded"
 msgstr "Se actualizarán los siguientes paquetes"
 
-#: cmdline/cmdline.cc:494
+#: cmdline/cmdline.cc:495
 #, fuzzy
 msgid "The following packages will be DOWNGRADED"
 msgstr "Se ELIMINARÁN los siguientes paquetes:"
 
-#: cmdline/cmdline.cc:516
+#: cmdline/cmdline.cc:517
 msgid "The following held packages will be changed:"
 msgstr "Los siguientes paquetes serán alterados:"
 
-#: cmdline/cmdline.cc:607
+#: cmdline/cmdline.cc:608
 #, c-format
 msgid "%s (due to %s) "
 msgstr "%s (debido a %s) "
 
-#: cmdline/cmdline.cc:615
+#: cmdline/cmdline.cc:616
 #, fuzzy
 msgid ""
 "WARNING: The following essential packages will be removed\n"
@@ -1290,80 +1290,80 @@ msgstr ""
 "¡Esto NO debe hacerse, a menos que usted sepa exactamente lo que está "
 "haciendo!"
 
-#: cmdline/cmdline.cc:681
+#: cmdline/cmdline.cc:682
 #, fuzzy, c-format
 msgid "%lu upgraded, %lu newly installed, "
 msgstr " paquetes actualizados, "
 
-#: cmdline/cmdline.cc:685
+#: cmdline/cmdline.cc:686
 #, fuzzy, c-format
 msgid "%lu reinstalled, "
 msgstr " reinstalados, "
 
-#: cmdline/cmdline.cc:687
+#: cmdline/cmdline.cc:688
 #, c-format
 msgid "%lu downgraded, "
 msgstr ""
 
-#: cmdline/cmdline.cc:690
+#: cmdline/cmdline.cc:691
 #, c-format
 msgid "%lu replaced, "
 msgstr ""
 
-#: cmdline/cmdline.cc:694
+#: cmdline/cmdline.cc:695
 #, c-format
 msgid "%lu removed and %lu not upgraded.\n"
 msgstr ""
 
-#: cmdline/cmdline.cc:697
+#: cmdline/cmdline.cc:698
 #, c-format
 msgid "%lu removed and %lu kept.\n"
 msgstr ""
 
-#: cmdline/cmdline.cc:701
+#: cmdline/cmdline.cc:702
 #, fuzzy, c-format
 msgid "%lu not fully installed or removed.\n"
 msgstr " paquetes no instalados o eliminados totalmente."
 
-#: cmdline/cmdline.cc:923
+#: cmdline/cmdline.cc:924
 #, fuzzy, c-format
 msgid "Package %s version %s has an unmet dep:\n"
 msgstr " hay una dep. no resuelta:"
 
-#: cmdline/cmdline.cc:1555
+#: cmdline/cmdline.cc:1556
 msgid "Name"
 msgstr ""
 
-#: cmdline/cmdline.cc:1556
+#: cmdline/cmdline.cc:1557
 #, fuzzy
 msgid "Installed"
 msgstr " [Instalado]"
 
-#: cmdline/cmdline.cc:1557
+#: cmdline/cmdline.cc:1558
 #, fuzzy
 msgid "Candidate"
 msgstr "Versiones propuestas"
 
-#: cmdline/cmdline.cc:1668
+#: cmdline/cmdline.cc:1669
 msgid "You must give exactly one pattern"
 msgstr "Debe escribir exactamente un patrón"
 
-#: cmdline/cmdline.cc:1840
+#: cmdline/cmdline.cc:1841
 #, fuzzy
 msgid "You should explicitly select one to show."
 msgstr "Debería explicitar uno para instalarlo."
 
-#: cmdline/cmdline.cc:1841
+#: cmdline/cmdline.cc:1842
 #, fuzzy, c-format
 msgid "Package %s is a virtual package with multiple providers."
 msgstr " es un paquete virtual suministrado por:"
 
-#: cmdline/cmdline.cc:1904
+#: cmdline/cmdline.cc:1905
 #, fuzzy
 msgid "No packages found"
 msgstr " índice de paquetes y "
 
-#: cmdline/cmdline.cc:1922
+#: cmdline/cmdline.cc:1923
 msgid "Changelog data not available for the repository."
 msgstr ""
 
@@ -1861,12 +1861,12 @@ msgstr ""
 msgid "Error while running transaction"
 msgstr ""
 
-#: apt-pkg/rpm/rpmpm.cc:914
+#: apt-pkg/rpm/rpmpm.cc:918
 #, fuzzy
 msgid "Some errors occurred while running transaction"
 msgstr "Error ocurrido al procesar %s (NewVersion1)"
 
-#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:179
+#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:183
 #, fuzzy
 msgid "Could not allocate buffer for record text"
 msgstr "No se pudo esperar al subproceso"
