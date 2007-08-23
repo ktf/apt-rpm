@@ -280,6 +280,7 @@ AC_CONFIG_FILES([
 	  Makefile
 	  lua/Makefile
 	  apt-pkg/Makefile
+	  apt-pkg/libapt-pkg.pc
 	  methods/Makefile
 	  cmdline/Makefile
 	  tools/Makefile

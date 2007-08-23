@@ -2,6 +2,9 @@ localedir = $(datadir)/locale
 
 lib_LTLIBRARIES = libapt-pkg.la
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libapt-pkg.pc
+
 libapt_pkg_la_LIBADD = @RPMLIBS@
 libapt_pkg_la_LDFLAGS = -version-info 3:0:0
 
@@ -158,6 +161,9 @@ $(top_builddir)/include/%: contrib/%
 $(top_builddir)/include/%: rpm/%
 	@$(mkinstalldirs) $(top_builddir)/include/apt-pkg
 	cp -f -p $< $@
+
+DISTCLEANFILES = libapt-pkg.pc
+EXTRA_DIST = libapt-pkg.pc.in
 
 clean-local:
 	rm -f $(PRIVCOPYHEADERS)

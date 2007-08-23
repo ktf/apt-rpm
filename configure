@@ -26764,7 +26764,7 @@ _ACEOF
 
 
 
-ac_config_files="$ac_config_files Makefile lua/Makefile apt-pkg/Makefile methods/Makefile cmdline/Makefile tools/Makefile doc/Makefile test/Makefile po/Makefile.in"
+ac_config_files="$ac_config_files Makefile lua/Makefile apt-pkg/Makefile apt-pkg/libapt-pkg.pc methods/Makefile cmdline/Makefile tools/Makefile doc/Makefile test/Makefile po/Makefile.in"
 
 ac_config_links="$ac_config_links include/apti18n.h:buildlib/gettext.h"
 
@@ -27458,6 +27458,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "lua/Makefile") CONFIG_FILES="$CONFIG_FILES lua/Makefile" ;;
     "apt-pkg/Makefile") CONFIG_FILES="$CONFIG_FILES apt-pkg/Makefile" ;;
+    "apt-pkg/libapt-pkg.pc") CONFIG_FILES="$CONFIG_FILES apt-pkg/libapt-pkg.pc" ;;
     "methods/Makefile") CONFIG_FILES="$CONFIG_FILES methods/Makefile" ;;
     "cmdline/Makefile") CONFIG_FILES="$CONFIG_FILES cmdline/Makefile" ;;
     "tools/Makefile") CONFIG_FILES="$CONFIG_FILES tools/Makefile" ;;
