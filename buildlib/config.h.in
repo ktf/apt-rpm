@@ -58,6 +58,12 @@
 /* Define if RPM backend is available */
 #undef HAVE_RPM
 
+/* Define to 1 if you have the <rpm/misc.h> header file. */
+#undef HAVE_RPM_MISC_H
+
+/* Define to 1 if you have the <rpm/rpmsx.h> header file. */
+#undef HAVE_RPM_RPMSX_H
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 

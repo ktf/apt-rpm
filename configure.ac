@@ -74,9 +74,9 @@ else
 		[AC_MSG_ERROR([Can't find libz library])])
    AC_CHECK_HEADERS(db1/db.h)
 
-   CPPFLAGS="$CPPFLAGS -I/usr/include/rpm"
    AC_CHECK_HEADER(rpm/rpmlib.h, [],
 		   [AC_MSG_ERROR([Can't find rpmlib.h])])
+   AC_CHECK_HEADERS([rpm/rpmsx.h rpm/misc.h])
 
    if test $RPM_VERSION_MAJOR -lt 4; then
       RPMLIBS="-lrpm -lz -lbz2 -lpopt"
