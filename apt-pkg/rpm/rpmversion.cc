@@ -250,6 +250,7 @@ string rpmVersioningSystem::UpstreamVersion(const char *Ver)
    return string(Ver,Last);
 }
 									/*}}}*/
+/* XXX dummy comment */
 
 #endif /* HAVE_RPM */
 
