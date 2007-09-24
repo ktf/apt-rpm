@@ -42,7 +42,7 @@
 									/*}}}*/
 // for distrover
 #if RPM_VERSION >= 0x040101
-#include <rpmdb.h>
+#include <rpm/rpmdb.h>
 #endif
 
 #if RPM_VERSION >= 0x040201

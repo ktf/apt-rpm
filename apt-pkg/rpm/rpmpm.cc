@@ -34,6 +34,10 @@
 #include <stdio.h>
 #include <iostream>
 
+#if HAVE_RPM_RPMSX_H
+#include <rpm/rpmsx.h
+#endif
+
 #if RPM_VERSION >= 0x040100
 #include <rpm/rpmdb.h>
 #else
@@ -789,7 +793,7 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
       tsFlags |= RPMTRANS_FLAG_REPACKAGE;
 #endif
 		     
-#if RPM_VERSION >= 0x040300
+#if HAVE_RPM_RPMSX_H
 #ifdef WITH_SELINUX
    /* Initialize security context patterns for SELinux */
    if (!(tsFlags & RPMTRANS_FLAG_NOCONTEXTS)) {

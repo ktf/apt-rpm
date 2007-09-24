@@ -23,7 +23,9 @@
 #include <apt-pkg/pkgcache.h>
 
 #include <rpm/rpmlib.h>
+#if HAVE_RPM_MISC_H
 #include <rpm/misc.h>
+#endif
 
 #include <stdlib.h>
 #include <assert.h>
