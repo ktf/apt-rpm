@@ -35,7 +35,7 @@
 #include <iostream>
 
 #if HAVE_RPM_RPMSX_H
-#include <rpm/rpmsx.h
+#include <rpm/rpmsx.h>
 #endif
 
 #if RPM_VERSION >= 0x040100
