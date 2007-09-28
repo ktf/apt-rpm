@@ -39,7 +39,7 @@ class RPMPackageData
    map<string,vector<string>*> FakeProvides;
    map<string,int> IgnorePackages;
    map<string,int> DuplicatedPackages;
-   map<string,bool> > CompatArch;
+   map<string,bool> CompatArch;
    typedef map<string,pkgCache::VerIterator> VerMapValueType;
    typedef map<unsigned long,VerMapValueType> VerMapType;
    typedef map<const char*,int,cstr_lt_pred> ArchScoresType;
