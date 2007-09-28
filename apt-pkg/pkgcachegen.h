@@ -59,7 +59,7 @@ class pkgCacheGenerator
    public:
 
    // CNC:2003-02-27 - We need this in rpmListParser.
-   bool NewPackage(pkgCache::PkgIterator &Pkg,string Pkg);
+   bool NewPackage(pkgCache::PkgIterator &Pkg,string Name);
 
    unsigned long WriteUniqString(const char *S,unsigned int Size);
    inline unsigned long WriteUniqString(string S) {return WriteUniqString(S.c_str(),S.length());};
