@@ -42,6 +42,10 @@ RPMPackageData::RPMPackageData()
       PreferredArch = _config->Find(PA.c_str(), BaseArch.c_str());
       string CAS = MLBase + "::CompatArchSuffix";
       CompatArchSuffix = _config->Find(CAS.c_str(), ".32bit");
+
+      // Blech, export for easy use elsewhere .. for now 
+      _config->Set("RPM::PreferredArch", PreferredArch);
+      _config->Set("RPM::CompatArchSuffix", CompatArchSuffix);
    }
 
    // Populate priorities

@@ -295,6 +295,13 @@ signed short pkgPolicy::GetPkgPriority(const pkgCache::PkgIterator &Pkg)
 	    Max = Prio;
       }      
    }
+
+   /* XXX HACK alert: give non-native packages slightly lower priority */
+   string CAS = _config->Find("RPM::CompatArchSuffix");
+   if (!CAS.empty() && 
+	string(Pkg.Name()).rfind(CAS) != string::npos) {
+        Max--;
+   }
    return Max;
 }
 									/*}}}*/
