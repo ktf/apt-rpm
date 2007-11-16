@@ -962,8 +962,9 @@ bool pkgProblemResolver::Resolve(bool BrokenFix)
 		    End->Type != pkgCache::Dep::Conflicts &&
 		    End->Type != pkgCache::Dep::Obsoletes))
 	       {
-		  // Try a little harder to fix protected packages..
-		  if ((Flags[I->ID] & Protected) == Protected)
+		  // Try a little harder for protected packages and obsoletes..
+		  if ((Flags[I->ID] & Protected) == Protected ||
+		      End->Type == pkgCache::Dep::Obsoletes)
 		  {
 		     if (DoUpgrade(Pkg) == true)
 		     {
