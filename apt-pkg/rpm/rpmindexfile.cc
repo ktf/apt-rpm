@@ -561,7 +561,12 @@ string rpmRepomdIndex::ArchiveInfo(pkgCache::VerIterator Ver) const
 }
 pkgCache::PkgFileIterator rpmRepomdIndex::FindInCache(pkgCache &Cache) const
 {
-   string FileName = IndexPath();
+   string FileName = "";
+   /* repomd requires release to be present to find any other files */
+   if (FileExists(ReleasePath())) {
+      FileName = IndexPath();
+   }
+
    pkgCache::PkgFileIterator File = Cache.FileBegin();
    for (; File.end() == false; File++)
    {
