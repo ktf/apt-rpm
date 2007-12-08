@@ -129,7 +129,8 @@ bool RPMHandler::HasFile(const char *File)
 bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag) 
 {
    if (strncmp(name, "rpmlib(", strlen("rpmlib(")) == 0) {
-#if RPM_VERSION >= 0x040404
+#if RPM_VERSION >= 0x040100
+#if RPM_HAVE_DSRPMLIB
      rpmds rpmlibProv = NULL;
      rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
 			    name, ver?ver:NULL, flag);
@@ -137,11 +138,12 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
      int res = rpmdsSearch(rpmlibProv, ds) >= 0;
      rpmdsFree(ds);
      rpmdsFree(rpmlibProv);
-#elif RPM_VERSION >= 0x040100
+#else
       rpmds ds = rpmdsSingle(RPMTAG_PROVIDENAME,
 			     name, ver?ver:NULL, flag);
       int res = rpmCheckRpmlibProvides(ds);
       rpmdsFree(ds);
+#endif
 #else
       int res = rpmCheckRpmlibProvides(name, ver?ver:NULL,
 				       flag);
@@ -150,7 +152,7 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
 	 return true;
    }
 
-#if RPM_VERSION >= 0x040404
+#if RPM_HAVE_DSGETCONF
    // uhhuh, any of these changing would require full cache rebuild...
    if (strncmp(name, "getconf(", strlen("getconf(")) == 0)
    {

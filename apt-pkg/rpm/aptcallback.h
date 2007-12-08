@@ -4,7 +4,7 @@
 #include <apt-pkg/progress.h>
 #include <rpm/rpmcli.h>
 
-#if RPM_VERSION >= 0x040405
+#if HAVE_RPM_RPMCB_H
 typedef unsigned long long rpmCallbackSize_t;
 #else
 typedef unsigned long rpmCallbackSize_t;

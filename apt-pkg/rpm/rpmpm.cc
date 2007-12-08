@@ -38,6 +38,10 @@
 #include <rpm/rpmsx.h>
 #endif
 
+#if !HAVE_RPM_RPMMESSAGES_H
+#include <rpm/rpmlog.h>
+#endif
+
 #if RPM_VERSION >= 0x040100
 #include <rpm/rpmdb.h>
 #else
@@ -972,7 +976,7 @@ bool pkgRPMLibPM::ParseRpmOpts(const char *Cnf, int *tsFlags, int *probFilter)
 	 else if (Opts->Value == "--nocontexts")
             *tsFlags |= RPMTRANS_FLAG_NOCONTEXTS;
 #endif
-#if RPM_VERSION >= 0x040406
+#if RPM_HAVE_FDIGESTS
          else if (Opts->Value == "--nofdigests")
             *tsFlags |= RPMTRANS_FLAG_NOFDIGESTS;
 #else

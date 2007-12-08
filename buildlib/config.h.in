@@ -61,6 +61,9 @@
 /* Define to 1 if you have the <rpm/misc.h> header file. */
 #undef HAVE_RPM_MISC_H
 
+/* Define to 1 if you have the <rpm/rpmcallback.h> header file. */
+#undef HAVE_RPM_RPMCALLBACK_H
+
 /* Define to 1 if you have the <rpm/rpmsx.h> header file. */
 #undef HAVE_RPM_RPMSX_H
 
@@ -117,6 +120,9 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* rpmdsGetconf */
+#undef RPM_HAVE_DSGETCONF
 
 /* Define to the RPM version */
 #undef RPM_VERSION
