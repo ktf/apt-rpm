@@ -24,6 +24,9 @@
 #include <rpm/rpmlib.h>
 #include <rpm/rpmmacro.h>
 
+#include <sys/types.h>
+#include <dirent.h>
+
 #include <vector>
 
 // Our Extra RPM tags. These should not be accessed directly. Use
