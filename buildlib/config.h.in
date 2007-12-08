@@ -64,6 +64,12 @@
 /* Define to 1 if you have the <rpm/rpmcallback.h> header file. */
 #undef HAVE_RPM_RPMCALLBACK_H
 
+/* Define to 1 if you have the <rpm/rpmcb.h> header file. */
+#undef HAVE_RPM_RPMCB_H
+
+/* Define to 1 if you have the <rpm/rpmmessages.h> header file. */
+#undef HAVE_RPM_RPMMESSAGES_H
+
 /* Define to 1 if you have the <rpm/rpmsx.h> header file. */
 #undef HAVE_RPM_RPMSX_H
 
@@ -123,6 +129,12 @@
 
 /* rpmdsGetconf */
 #undef RPM_HAVE_DSGETCONF
+
+/* rpmdsRpmlib */
+#undef RPM_HAVE_DSRPMLIB
+
+/* fdigests */
+#undef RPM_HAVE_FDIGESTS
 
 /* Define to the RPM version */
 #undef RPM_VERSION

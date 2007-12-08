@@ -76,7 +76,7 @@ else
 
    AC_CHECK_HEADER(rpm/rpmlib.h, [],
 		   [AC_MSG_ERROR([Can't find rpmlib.h])])
-   AC_CHECK_HEADERS([rpm/rpmsx.h rpm/misc.h rpm/rpmcallback.h, rpm/rpmcb.h,
+   AC_CHECK_HEADERS([rpm/rpmsx.h rpm/misc.h rpm/rpmcallback.h rpm/rpmcb.h \
 		     rpm/rpmmessages.h])
 
    if test $RPM_VERSION_MAJOR -lt 4; then
@@ -105,7 +105,7 @@ AC_EGREP_HEADER(rpmdsRpmlib, rpm/rpmds.h,
 	[AC_MSG_RESULT(no) ])
 	
 AC_MSG_CHECKING(for fdigests)
-AC_EGREP_HEADER(RPMTRANS_FLAG_NOFDIGESTS, rpm/rpmlib.h
+AC_EGREP_HEADER(RPMTRANS_FLAG_NOFDIGESTS, rpm/rpmlib.h,
 	[AC_MSG_RESULT(yes) AC_DEFINE(RPM_HAVE_FDIGESTS, 1, [fdigests]) ],
 	[AC_MSG_RESULT(no) ])
 
