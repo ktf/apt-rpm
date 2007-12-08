@@ -67,7 +67,7 @@ am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	contrib/fileutl.lo contrib/hashes.lo contrib/md5.lo \
 	contrib/mmap.lo contrib/progress.lo contrib/sha1.lo \
 	contrib/sqlite.lo contrib/strutl.lo rpm/repomd.lo \
-	rpm/rpmcallback.lo rpm/rpmhandler.lo rpm/rpmindexfile.lo \
+	rpm/aptcallback.lo rpm/rpmhandler.lo rpm/rpmindexfile.lo \
 	rpm/rpmlistparser.lo rpm/rpmpackagedata.lo rpm/rpmpm.lo \
 	rpm/rpmrecords.lo rpm/rpmsrcrecords.lo rpm/rpmsystem.lo \
 	rpm/rpmversion.lo rpm/xmlutil.lo acquire.lo acquire-item.lo \
@@ -281,8 +281,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/system.h \
 	rpm/repomd.cc \
 	rpm/repomd.h \
-	rpm/rpmcallback.h \
-	rpm/rpmcallback.cc \
+	rpm/aptcallback.h \
+	rpm/aptcallback.cc \
 	rpm/rpmhandler.cc \
 	rpm/rpmhandler.h \
 	rpm/rpmindexfile.cc \
@@ -481,7 +481,7 @@ rpm/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) rpm/$(DEPDIR)
 	@: > rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/repomd.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
-rpm/rpmcallback.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
+rpm/aptcallback.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmhandler.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmindexfile.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmlistparser.lo: rpm/$(am__dirstamp) \
@@ -526,10 +526,10 @@ mostlyclean-compile:
 	-rm -f contrib/sqlite.lo
 	-rm -f contrib/strutl.$(OBJEXT)
 	-rm -f contrib/strutl.lo
+	-rm -f rpm/aptcallback.$(OBJEXT)
+	-rm -f rpm/aptcallback.lo
 	-rm -f rpm/repomd.$(OBJEXT)
 	-rm -f rpm/repomd.lo
-	-rm -f rpm/rpmcallback.$(OBJEXT)
-	-rm -f rpm/rpmcallback.lo
 	-rm -f rpm/rpmhandler.$(OBJEXT)
 	-rm -f rpm/rpmhandler.lo
 	-rm -f rpm/rpmindexfile.$(OBJEXT)
@@ -591,8 +591,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/sha1.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/sqlite.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/strutl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/aptcallback.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/repomd.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmcallback.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmhandler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmindexfile.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmlistparser.Plo@am__quote@

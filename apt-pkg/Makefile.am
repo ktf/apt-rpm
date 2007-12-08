@@ -47,8 +47,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/system.h \
 	rpm/repomd.cc \
 	rpm/repomd.h \
-	rpm/rpmcallback.h \
-	rpm/rpmcallback.cc \
+	rpm/aptcallback.h \
+	rpm/aptcallback.cc \
 	rpm/rpmhandler.cc \
 	rpm/rpmhandler.h \
 	rpm/rpmindexfile.cc \
