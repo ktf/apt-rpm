@@ -49,7 +49,7 @@
 #define rpmprobFilterFlags int
 #endif
 #endif
-#include "rpmcallback.h"
+#include "aptcallback.h"
 
 extern int packagesTotal;
 
