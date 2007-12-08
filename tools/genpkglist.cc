@@ -517,10 +517,10 @@ int main(int argc, char ** argv)
    
    
    if (pkgListAppend == true && FileExists(pkglist_path)) {
-      outfd = fdOpen(pkglist_path.c_str(), O_WRONLY|O_APPEND, 0644);
+      outfd = Fopen(pkglist_path.c_str(), "a");
    } else {
       unlink(pkglist_path.c_str());
-      outfd = fdOpen(pkglist_path.c_str(), O_WRONLY|O_TRUNC|O_CREAT, 0644);
+      outfd = Fopen(pkglist_path.c_str(), "w+");
    }
    if (!outfd) {
       cerr << "genpkglist: error creating file" << pkglist_path << ":"
@@ -558,7 +558,7 @@ int main(int argc, char ** argv)
 	 Header h;
 	 int rc;
 	 
-	 fd = fdOpen(dirEntries[entry_cur]->d_name, O_RDONLY, 0666);
+	 fd = Fopen(dirEntries[entry_cur]->d_name, "r");
 
 	 if (!fd) {
 	    cerr << "\nWarning: " << strerror(errno) << ": " << 

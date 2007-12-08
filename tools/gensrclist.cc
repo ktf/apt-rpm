@@ -274,10 +274,10 @@ int main(int argc, char ** argv)
       sprintf(buf, "%s/srclist.%s", cwd, arg_suffix);
    
    if (srcListAppend == true && FileExists(buf)) {
-      outfd = fdOpen(buf, O_WRONLY|O_APPEND, 0644);
+      outfd = Fopen(buf, "a");
    } else {
       unlink(buf);
-      outfd = fdOpen(buf, O_WRONLY|O_TRUNC|O_CREAT, 0644);
+      outfd = Fopen(buf, "w+");
    }
    if (!outfd) {
       cerr << "gensrclist: error creating file" << buf << ":"
@@ -309,7 +309,7 @@ int main(int argc, char ** argv)
 	 continue;
       }
       
-      fd = fdOpen(dirEntries[entry_cur]->d_name, O_RDONLY, 0666);
+      fd = Fopen(dirEntries[entry_cur]->d_name, "r");
 	 
       if (!fd) {
 	 cerr << "\nWarning: " << strerror(errno) << ": " <<
