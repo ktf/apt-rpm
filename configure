@@ -876,8 +876,10 @@ ac_ct_F77
 LIBTOOL
 SOCKETLIBS
 PTHREADLIB
+PKG_CONFIG
+RPM_CFLAGS
+RPM_LIBS
 RPM_PATH
-RPMLIBS
 WITH_SQLITE3_TRUE
 WITH_SQLITE3_FALSE
 SQLITE3LIBS
@@ -885,7 +887,6 @@ WITH_LUA_TRUE
 WITH_LUA_FALSE
 WITH_SELINUX_TRUE
 WITH_SELINUX_FALSE
-PKG_CONFIG
 LIBXML2_CFLAGS
 LIBXML2_LIBS
 WITH_REPOMD_TRUE
@@ -929,6 +930,8 @@ CXXCPP
 F77
 FFLAGS
 PKG_CONFIG
+RPM_CFLAGS
+RPM_LIBS
 LIBXML2_CFLAGS
 LIBXML2_LIBS'
 
@@ -1554,6 +1557,8 @@ Some influential environment variables:
   F77         Fortran 77 compiler command
   FFLAGS      Fortran 77 compiler flags
   PKG_CONFIG  path to pkg-config utility
+  RPM_CFLAGS  C compiler flags for RPM, overriding pkg-config
+  RPM_LIBS    linker flags for RPM, overriding pkg-config
   LIBXML2_CFLAGS
               C compiler flags for LIBXML2, overriding pkg-config
   LIBXML2_LIBS
@@ -4398,7 +4403,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4401 "configure"' > conftest.$ac_ext
+  echo '#line 4406 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -7141,11 +7146,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7144: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7149: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7148: \$? = $ac_status" >&5
+   echo "$as_me:7153: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -7431,11 +7436,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7434: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7439: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7438: \$? = $ac_status" >&5
+   echo "$as_me:7443: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -7535,11 +7540,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7538: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7543: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:7542: \$? = $ac_status" >&5
+   echo "$as_me:7547: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -9886,7 +9891,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 9889 "configure"
+#line 9894 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -9986,7 +9991,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 9989 "configure"
+#line 9994 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12406,11 +12411,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:12409: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12414: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:12413: \$? = $ac_status" >&5
+   echo "$as_me:12418: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -12510,11 +12515,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:12513: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12518: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:12517: \$? = $ac_status" >&5
+   echo "$as_me:12522: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -14074,11 +14079,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14077: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14082: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14081: \$? = $ac_status" >&5
+   echo "$as_me:14086: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14178,11 +14183,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14181: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14186: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14185: \$? = $ac_status" >&5
+   echo "$as_me:14190: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -16367,11 +16372,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16370: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16375: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16374: \$? = $ac_status" >&5
+   echo "$as_me:16379: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -16657,11 +16662,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16660: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16665: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16664: \$? = $ac_status" >&5
+   echo "$as_me:16669: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -16761,11 +16766,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16764: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16769: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:16768: \$? = $ac_status" >&5
+   echo "$as_me:16773: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -21287,101 +21292,6 @@ LIBS="$SAVE_LIBS"
 
 
 
-# Extract the first word of "rpm", so it can be a program name with args.
-set dummy rpm; ac_word=$2
-{ echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
-if test "${ac_cv_path_RPM_PATH+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  case $RPM_PATH in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_RPM_PATH="$RPM_PATH" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_path_RPM_PATH="$as_dir/$ac_word$ac_exec_ext"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_path_RPM_PATH" && ac_cv_path_RPM_PATH="none"
-  ;;
-esac
-fi
-RPM_PATH=$ac_cv_path_RPM_PATH
-if test -n "$RPM_PATH"; then
-  { echo "$as_me:$LINENO: result: $RPM_PATH" >&5
-echo "${ECHO_T}$RPM_PATH" >&6; }
-else
-  { echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-fi
-
-
-if test "$RPM_PATH" = "none"; then
-   { { echo "$as_me:$LINENO: error: RPM executable was not found in your system" >&5
-echo "$as_me: error: RPM executable was not found in your system" >&2;}
-   { (exit 1); exit 1; }; }
-else
-
-cat >>confdefs.h <<_ACEOF
-#define HAVE_RPM 1
-_ACEOF
-
-
-      { echo "$as_me:$LINENO: checking for RPM version" >&5
-echo $ECHO_N "checking for RPM version... $ECHO_C" >&6; }
-   RPM_VERSION_RAW=`LANG= LC_ALL= $RPM_PATH --version | sed 's/^RPM version //'`
-   RPM_VERSION_MAJOR=`echo $RPM_VERSION_RAW | cut -d. -f1`
-   RPM_VERSION_MINOR=`echo $RPM_VERSION_RAW | cut -d. -f2`
-   RPM_VERSION_MICRO=`echo $RPM_VERSION_RAW | cut -d. -f3`
-   if test -z "$RPM_VERSION_MAJOR" -o -z "$RPM_VERSION_MINOR"; then
-      { { echo "$as_me:$LINENO: error: can't parse RPM version" >&5
-echo "$as_me: error: can't parse RPM version" >&2;}
-   { (exit 1); exit 1; }; }
-   fi
-   if test -z "$RPM_VERSION_MICRO"; then
-      RPM_VERSION_MICRO=0
-   fi
-
-cat >>confdefs.h <<_ACEOF
-#define RPM_VERSION_MAJOR $RPM_VERSION_MAJOR
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define RPM_VERSION_MINOR $RPM_VERSION_MINOR
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define RPM_VERSION_MICRO $RPM_VERSION_MICRO
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define RPM_VERSION ((RPM_VERSION_MAJOR<<16)|(RPM_VERSION_MINOR<<8)|RPM_VERSION_MICRO)
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define RPM_VERSION_RAW "$RPM_VERSION_RAW"
-_ACEOF
-
-   { echo "$as_me:$LINENO: result: $RPM_VERSION_RAW" >&5
-echo "${ECHO_T}$RPM_VERSION_RAW" >&6; }
-
-
 
 { echo "$as_me:$LINENO: checking for BZ2_bzopen in -lbz2" >&5
 echo $ECHO_N "checking for BZ2_bzopen in -lbz2... $ECHO_C" >&6; }
@@ -21533,6 +21443,360 @@ echo "$as_me: error: Can't find libz library" >&2;}
 fi
 
 
+
+
+if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+	if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
+set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_PKG_CONFIG+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+PKG_CONFIG=$ac_cv_path_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  { echo "$as_me:$LINENO: result: $PKG_CONFIG" >&5
+echo "${ECHO_T}$PKG_CONFIG" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+fi
+if test -z "$ac_cv_path_PKG_CONFIG"; then
+  ac_pt_PKG_CONFIG=$PKG_CONFIG
+  # Extract the first word of "pkg-config", so it can be a program name with args.
+set dummy pkg-config; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_ac_pt_PKG_CONFIG+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $ac_pt_PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
+if test -n "$ac_pt_PKG_CONFIG"; then
+  { echo "$as_me:$LINENO: result: $ac_pt_PKG_CONFIG" >&5
+echo "${ECHO_T}$ac_pt_PKG_CONFIG" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+  if test "x$ac_pt_PKG_CONFIG" = x; then
+    PKG_CONFIG=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ echo "$as_me:$LINENO: WARNING: In the future, Autoconf will not detect cross-tools
+whose name does not start with the host triplet.  If you think this
+configuration is useful to you, please write to autoconf@gnu.org." >&5
+echo "$as_me: WARNING: In the future, Autoconf will not detect cross-tools
+whose name does not start with the host triplet.  If you think this
+configuration is useful to you, please write to autoconf@gnu.org." >&2;}
+ac_tool_warned=yes ;;
+esac
+    PKG_CONFIG=$ac_pt_PKG_CONFIG
+  fi
+else
+  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
+fi
+
+fi
+if test -n "$PKG_CONFIG"; then
+	_pkg_min_version=0.9.0
+	{ echo "$as_me:$LINENO: checking pkg-config is at least version $_pkg_min_version" >&5
+echo $ECHO_N "checking pkg-config is at least version $_pkg_min_version... $ECHO_C" >&6; }
+	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+		{ echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+	else
+		{ echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+		PKG_CONFIG=""
+	fi
+
+fi
+
+pkg_failed=no
+{ echo "$as_me:$LINENO: checking for RPM" >&5
+echo $ECHO_N "checking for RPM... $ECHO_C" >&6; }
+
+if test -n "$PKG_CONFIG"; then
+    if test -n "$RPM_CFLAGS"; then
+        pkg_cv_RPM_CFLAGS="$RPM_CFLAGS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"rpm\"") >&5
+  ($PKG_CONFIG --exists --print-errors "rpm") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_RPM_CFLAGS=`$PKG_CONFIG --cflags "rpm" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+if test -n "$PKG_CONFIG"; then
+    if test -n "$RPM_LIBS"; then
+        pkg_cv_RPM_LIBS="$RPM_LIBS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"rpm\"") >&5
+  ($PKG_CONFIG --exists --print-errors "rpm") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_RPM_LIBS=`$PKG_CONFIG --libs "rpm" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        RPM_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "rpm"`
+        else
+	        RPM_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "rpm"`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$RPM_PKG_ERRORS" >&5
+
+	{ echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+
+      # Extract the first word of "rpm", so it can be a program name with args.
+set dummy rpm; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_RPM_PATH+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $RPM_PATH in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_RPM_PATH="$RPM_PATH" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_RPM_PATH="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_RPM_PATH" && ac_cv_path_RPM_PATH="none"
+  ;;
+esac
+fi
+RPM_PATH=$ac_cv_path_RPM_PATH
+if test -n "$RPM_PATH"; then
+  { echo "$as_me:$LINENO: result: $RPM_PATH" >&5
+echo "${ECHO_T}$RPM_PATH" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+      if test "$RPM_PATH" = "none"; then
+         { { echo "$as_me:$LINENO: error: RPM executable was not found in your system" >&5
+echo "$as_me: error: RPM executable was not found in your system" >&2;}
+   { (exit 1); exit 1; }; }
+      else
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_RPM 1
+_ACEOF
+
+         RPM_VERSION_RAW=`LANG= LC_ALL= $RPM_PATH --version | sed 's/^RPM version //'`
+      fi
+
+
+elif test $pkg_failed = untried; then
+
+      # Extract the first word of "rpm", so it can be a program name with args.
+set dummy rpm; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_RPM_PATH+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $RPM_PATH in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_RPM_PATH="$RPM_PATH" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_RPM_PATH="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_RPM_PATH" && ac_cv_path_RPM_PATH="none"
+  ;;
+esac
+fi
+RPM_PATH=$ac_cv_path_RPM_PATH
+if test -n "$RPM_PATH"; then
+  { echo "$as_me:$LINENO: result: $RPM_PATH" >&5
+echo "${ECHO_T}$RPM_PATH" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+      if test "$RPM_PATH" = "none"; then
+         { { echo "$as_me:$LINENO: error: RPM executable was not found in your system" >&5
+echo "$as_me: error: RPM executable was not found in your system" >&2;}
+   { (exit 1); exit 1; }; }
+      else
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_RPM 1
+_ACEOF
+
+         RPM_VERSION_RAW=`LANG= LC_ALL= $RPM_PATH --version | sed 's/^RPM version //'`
+      fi
+
+
+else
+	RPM_CFLAGS=$pkg_cv_RPM_CFLAGS
+	RPM_LIBS=$pkg_cv_RPM_LIBS
+        { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+
+      RPM_VERSION_RAW=`pkg-config --modversion rpm`
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_RPM 1
+_ACEOF
+
+      CPPFLAGS="$RPM_CFLAGS $CPPFLAGS"
+      LDFLAGS="$RPM_LIBS $LDFLAGS"
+
+fi
+
+{ echo "$as_me:$LINENO: checking for RPM version" >&5
+echo $ECHO_N "checking for RPM version... $ECHO_C" >&6; }
+RPM_VERSION_MAJOR=`echo $RPM_VERSION_RAW | cut -d. -f1`
+RPM_VERSION_MINOR=`echo $RPM_VERSION_RAW | cut -d. -f2`
+RPM_VERSION_MICRO=`echo $RPM_VERSION_RAW | cut -d. -f3`
+if test -z "$RPM_VERSION_MAJOR" -o -z "$RPM_VERSION_MINOR"; then
+   { { echo "$as_me:$LINENO: error: can't parse RPM version" >&5
+echo "$as_me: error: can't parse RPM version" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "$RPM_VERSION_MICRO"; then
+   RPM_VERSION_MICRO=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define RPM_VERSION_MAJOR $RPM_VERSION_MAJOR
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define RPM_VERSION_MINOR $RPM_VERSION_MINOR
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define RPM_VERSION_MICRO $RPM_VERSION_MICRO
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define RPM_VERSION ((RPM_VERSION_MAJOR<<16)|(RPM_VERSION_MINOR<<8)|RPM_VERSION_MICRO)
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define RPM_VERSION_RAW "$RPM_VERSION_RAW"
+_ACEOF
+
+{ echo "$as_me:$LINENO: result: $RPM_VERSION_RAW" >&5
+echo "${ECHO_T}$RPM_VERSION_RAW" >&6; }
+
+if test -z "$RPM_LIBS"; then
+
 for ac_header in db1/db.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -21678,7 +21942,86 @@ fi
 done
 
 
-   if test "${ac_cv_header_rpm_rpmlib_h+set}" = set; then
+   if test $RPM_VERSION_MAJOR -lt 4; then
+      RPM_LIBS="-lrpm -lz -lbz2 -lpopt"
+   else
+      { echo "$as_me:$LINENO: checking for rpmdbOpen in -lrpmdb" >&5
+echo $ECHO_N "checking for rpmdbOpen in -lrpmdb... $ECHO_C" >&6; }
+if test "${ac_cv_lib_rpmdb_rpmdbOpen+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lrpmdb -lrpm -lrpmio -lz -lbz2 -lpopt $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char rpmdbOpen ();
+int
+main ()
+{
+return rpmdbOpen ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext &&
+       $as_test_x conftest$ac_exeext; then
+  ac_cv_lib_rpmdb_rpmdbOpen=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_lib_rpmdb_rpmdbOpen=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ echo "$as_me:$LINENO: result: $ac_cv_lib_rpmdb_rpmdbOpen" >&5
+echo "${ECHO_T}$ac_cv_lib_rpmdb_rpmdbOpen" >&6; }
+if test $ac_cv_lib_rpmdb_rpmdbOpen = yes; then
+  RPMDBLIBS="-lrpmdb"
+else
+  RPMDBLIBS="-ldb-3.1"
+fi
+
+      RPM_LIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt"
+   fi
+   { echo "$as_me:$LINENO: checking for RPM libraries" >&5
+echo $ECHO_N "checking for RPM libraries... $ECHO_C" >&6; }
+   { echo "$as_me:$LINENO: result: $RPM_LIBS" >&5
+echo "${ECHO_T}$RPM_LIBS" >&6; }
+
+fi
+
+if test "${ac_cv_header_rpm_rpmlib_h+set}" = set; then
   { echo "$as_me:$LINENO: checking for rpm/rpmlib.h" >&5
 echo $ECHO_N "checking for rpm/rpmlib.h... $ECHO_C" >&6; }
 if test "${ac_cv_header_rpm_rpmlib_h+set}" = set; then
@@ -21823,7 +22166,7 @@ fi
 
 
 for ac_header in rpm/rpmsx.h rpm/misc.h rpm/rpmcallback.h rpm/rpmcb.h \
-		     rpm/rpmmessages.h
+	     rpm/rpmmessages.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if { as_var=$as_ac_Header; eval "test \"\${$as_var+set}\" = set"; }; then
@@ -21967,85 +22310,6 @@ fi
 
 done
 
-
-   if test $RPM_VERSION_MAJOR -lt 4; then
-      RPMLIBS="-lrpm -lz -lbz2 -lpopt"
-   else
-      { echo "$as_me:$LINENO: checking for rpmdbOpen in -lrpmdb" >&5
-echo $ECHO_N "checking for rpmdbOpen in -lrpmdb... $ECHO_C" >&6; }
-if test "${ac_cv_lib_rpmdb_rpmdbOpen+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lrpmdb -lrpm -lrpmio -lz -lbz2 -lpopt $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char rpmdbOpen ();
-int
-main ()
-{
-return rpmdbOpen ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (ac_try="$ac_link"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
-  (eval "$ac_link") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_c_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest$ac_exeext &&
-       $as_test_x conftest$ac_exeext; then
-  ac_cv_lib_rpmdb_rpmdbOpen=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-	ac_cv_lib_rpmdb_rpmdbOpen=no
-fi
-
-rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
-      conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ echo "$as_me:$LINENO: result: $ac_cv_lib_rpmdb_rpmdbOpen" >&5
-echo "${ECHO_T}$ac_cv_lib_rpmdb_rpmdbOpen" >&6; }
-if test $ac_cv_lib_rpmdb_rpmdbOpen = yes; then
-  RPMDBLIBS="-lrpmdb"
-else
-  RPMDBLIBS="-ldb-3.1"
-fi
-
-      RPMLIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt"
-   fi
-   { echo "$as_me:$LINENO: checking for RPM libraries" >&5
-echo $ECHO_N "checking for RPM libraries... $ECHO_C" >&6; }
-   { echo "$as_me:$LINENO: result: $RPMLIBS" >&5
-echo "${ECHO_T}$RPMLIBS" >&6; }
-
-fi
 
 { echo "$as_me:$LINENO: checking for rpmdsGetconf" >&5
 echo $ECHO_N "checking for rpmdsGetconf... $ECHO_C" >&6; }
@@ -22382,126 +22646,6 @@ _ACEOF
 
   ## xmlReadFile is not available before 2.6.0
 
-
-if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
-	if test -n "$ac_tool_prefix"; then
-  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
-set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
-{ echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
-if test "${ac_cv_path_PKG_CONFIG+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  case $PKG_CONFIG in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_path_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-IFS=$as_save_IFS
-
-  ;;
-esac
-fi
-PKG_CONFIG=$ac_cv_path_PKG_CONFIG
-if test -n "$PKG_CONFIG"; then
-  { echo "$as_me:$LINENO: result: $PKG_CONFIG" >&5
-echo "${ECHO_T}$PKG_CONFIG" >&6; }
-else
-  { echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-fi
-
-
-fi
-if test -z "$ac_cv_path_PKG_CONFIG"; then
-  ac_pt_PKG_CONFIG=$PKG_CONFIG
-  # Extract the first word of "pkg-config", so it can be a program name with args.
-set dummy pkg-config; ac_word=$2
-{ echo "$as_me:$LINENO: checking for $ac_word" >&5
-echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
-if test "${ac_cv_path_ac_pt_PKG_CONFIG+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  case $ac_pt_PKG_CONFIG in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-  for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
-    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-done
-IFS=$as_save_IFS
-
-  ;;
-esac
-fi
-ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
-if test -n "$ac_pt_PKG_CONFIG"; then
-  { echo "$as_me:$LINENO: result: $ac_pt_PKG_CONFIG" >&5
-echo "${ECHO_T}$ac_pt_PKG_CONFIG" >&6; }
-else
-  { echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-fi
-
-  if test "x$ac_pt_PKG_CONFIG" = x; then
-    PKG_CONFIG=""
-  else
-    case $cross_compiling:$ac_tool_warned in
-yes:)
-{ echo "$as_me:$LINENO: WARNING: In the future, Autoconf will not detect cross-tools
-whose name does not start with the host triplet.  If you think this
-configuration is useful to you, please write to autoconf@gnu.org." >&5
-echo "$as_me: WARNING: In the future, Autoconf will not detect cross-tools
-whose name does not start with the host triplet.  If you think this
-configuration is useful to you, please write to autoconf@gnu.org." >&2;}
-ac_tool_warned=yes ;;
-esac
-    PKG_CONFIG=$ac_pt_PKG_CONFIG
-  fi
-else
-  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
-fi
-
-fi
-if test -n "$PKG_CONFIG"; then
-	_pkg_min_version=0.9.0
-	{ echo "$as_me:$LINENO: checking pkg-config is at least version $_pkg_min_version" >&5
-echo $ECHO_N "checking pkg-config is at least version $_pkg_min_version... $ECHO_C" >&6; }
-	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
-		{ echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6; }
-	else
-		{ echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-		PKG_CONFIG=""
-	fi
-
-fi
-
 pkg_failed=no
 { echo "$as_me:$LINENO: checking for LIBXML2" >&5
 echo $ECHO_N "checking for LIBXML2... $ECHO_C" >&6; }
@@ -22612,12 +22756,12 @@ else
 echo "${ECHO_T}yes" >&6; }
 	:
 fi
-  RPMLIBS="$LIBXML2_LIBS $RPMLIBS"
+  RPM_LIBS="$LIBXML2_LIBS $RPM_LIBS"
   CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
   ## FIXME: Conditionalize this properly. We can support xml repomd without
   ## sqlite and repodb with libxml2 older than 2.6. In addition, rollback
   ## will be using sqlite as well, we only want to check for it once.
-  RPMLIBS="$RPMLIBS $SQLITE3LIBS"
+  RPM_LIBS="$RPM_LIBS $SQLITE3LIBS"
 else
   { echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6; }
@@ -27993,8 +28137,10 @@ ac_ct_F77!$ac_ct_F77$ac_delim
 LIBTOOL!$LIBTOOL$ac_delim
 SOCKETLIBS!$SOCKETLIBS$ac_delim
 PTHREADLIB!$PTHREADLIB$ac_delim
+PKG_CONFIG!$PKG_CONFIG$ac_delim
+RPM_CFLAGS!$RPM_CFLAGS$ac_delim
+RPM_LIBS!$RPM_LIBS$ac_delim
 RPM_PATH!$RPM_PATH$ac_delim
-RPMLIBS!$RPMLIBS$ac_delim
 WITH_SQLITE3_TRUE!$WITH_SQLITE3_TRUE$ac_delim
 WITH_SQLITE3_FALSE!$WITH_SQLITE3_FALSE$ac_delim
 SQLITE3LIBS!$SQLITE3LIBS$ac_delim
@@ -28002,7 +28148,6 @@ WITH_LUA_TRUE!$WITH_LUA_TRUE$ac_delim
 WITH_LUA_FALSE!$WITH_LUA_FALSE$ac_delim
 WITH_SELINUX_TRUE!$WITH_SELINUX_TRUE$ac_delim
 WITH_SELINUX_FALSE!$WITH_SELINUX_FALSE$ac_delim
-PKG_CONFIG!$PKG_CONFIG$ac_delim
 LIBXML2_CFLAGS!$LIBXML2_CFLAGS$ac_delim
 LIBXML2_LIBS!$LIBXML2_LIBS$ac_delim
 WITH_REPOMD_TRUE!$WITH_REPOMD_TRUE$ac_delim
@@ -28031,7 +28176,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 46; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 47; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

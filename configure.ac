@@ -38,60 +38,71 @@ dnl if test "$PTHREADLIB" != "-lpthread"; then
 dnl   AC_MSG_ERROR(failed: I need posix threads, pthread)
 dnl fi
 
-dnl Check for RPM executable path
-AC_PATH_PROG(RPM_PATH,rpm,none)
-if test "$RPM_PATH" = "none"; then
-   AC_MSG_ERROR([RPM executable was not found in your system])
-else
-   AC_DEFINE_UNQUOTED([HAVE_RPM],1,[Define if RPM backend is available])
+dnl Apt acquirer methods need bz2 and libz
+AC_CHECK_LIB(bz2,BZ2_bzopen, [],
+	[AC_MSG_ERROR([Can't find libbz2 library])])
+AC_CHECK_LIB(z,gzopen, [],
+	[AC_MSG_ERROR([Can't find libz library])])
 
-   dnl Check for RPM version
-   AC_MSG_CHECKING(for RPM version)
-   RPM_VERSION_RAW=`LANG= LC_ALL= $RPM_PATH --version | sed 's/^RPM version //'`
-   RPM_VERSION_MAJOR=`echo $RPM_VERSION_RAW | cut -d. -f1`
-   RPM_VERSION_MINOR=`echo $RPM_VERSION_RAW | cut -d. -f2`
-   RPM_VERSION_MICRO=`echo $RPM_VERSION_RAW | cut -d. -f3`
-   if test -z "$RPM_VERSION_MAJOR" -o -z "$RPM_VERSION_MINOR"; then
-      AC_MSG_ERROR([can't parse RPM version])
-   fi
-   if test -z "$RPM_VERSION_MICRO"; then
-      RPM_VERSION_MICRO=0
-   fi
-   AC_DEFINE_UNQUOTED([RPM_VERSION_MAJOR],$RPM_VERSION_MAJOR,[RPM major version])
-   AC_DEFINE_UNQUOTED([RPM_VERSION_MINOR],$RPM_VERSION_MINOR,[RPM minor version])
-   AC_DEFINE_UNQUOTED([RPM_VERSION_MICRO],$RPM_VERSION_MICRO,[RPM micro version])
-   AC_DEFINE_UNQUOTED([RPM_VERSION],
+dnl See if we have pkgconfig for rpm, resort to old behavior if not
+PKG_CHECK_MODULES([RPM], [rpm], [
+      RPM_VERSION_RAW=`pkg-config --modversion rpm` 
+      AC_DEFINE_UNQUOTED([HAVE_RPM],1,[Define if RPM backend is available])
+      CPPFLAGS="$RPM_CFLAGS $CPPFLAGS"
+      LDFLAGS="$RPM_LIBS $LDFLAGS"
+   ], [
+      AC_PATH_PROG(RPM_PATH,rpm,none)
+      if test "$RPM_PATH" = "none"; then
+         AC_MSG_ERROR([RPM executable was not found in your system])
+      else
+         AC_DEFINE_UNQUOTED([HAVE_RPM],1,[Define if RPM backend is available])
+         RPM_VERSION_RAW=`LANG= LC_ALL= $RPM_PATH --version | sed 's/^RPM version //'`
+      fi
+   ]
+)
+
+AC_MSG_CHECKING(for RPM version)
+RPM_VERSION_MAJOR=`echo $RPM_VERSION_RAW | cut -d. -f1`
+RPM_VERSION_MINOR=`echo $RPM_VERSION_RAW | cut -d. -f2`
+RPM_VERSION_MICRO=`echo $RPM_VERSION_RAW | cut -d. -f3`
+if test -z "$RPM_VERSION_MAJOR" -o -z "$RPM_VERSION_MINOR"; then
+   AC_MSG_ERROR([can't parse RPM version])
+fi
+if test -z "$RPM_VERSION_MICRO"; then
+   RPM_VERSION_MICRO=0
+fi
+AC_DEFINE_UNQUOTED([RPM_VERSION_MAJOR],$RPM_VERSION_MAJOR,[RPM major version])
+AC_DEFINE_UNQUOTED([RPM_VERSION_MINOR],$RPM_VERSION_MINOR,[RPM minor version])
+AC_DEFINE_UNQUOTED([RPM_VERSION_MICRO],$RPM_VERSION_MICRO,[RPM micro version])
+AC_DEFINE_UNQUOTED([RPM_VERSION],
       [((RPM_VERSION_MAJOR<<16)|(RPM_VERSION_MINOR<<8)|RPM_VERSION_MICRO)],
       [Define to the RPM version])
-   AC_DEFINE_UNQUOTED([RPM_VERSION_RAW],"$RPM_VERSION_RAW",[RPM raw version])
-   AC_MSG_RESULT($RPM_VERSION_RAW)
+AC_DEFINE_UNQUOTED([RPM_VERSION_RAW],"$RPM_VERSION_RAW",[RPM raw version])
+AC_MSG_RESULT($RPM_VERSION_RAW)
 
-   dnl Check for RPM libraries and headers
-
-   AC_CHECK_LIB(bz2,BZ2_bzopen, [],
-		[AC_MSG_ERROR([Can't find libbz2 library])])
-   AC_CHECK_LIB(z,gzopen, [],
-		[AC_MSG_ERROR([Can't find libz library])])
+dnl No pkgconfig, manually check for RPM libraries and headers
+if test -z "$RPM_LIBS"; then
    AC_CHECK_HEADERS(db1/db.h)
 
-   AC_CHECK_HEADER(rpm/rpmlib.h, [],
-		   [AC_MSG_ERROR([Can't find rpmlib.h])])
-   AC_CHECK_HEADERS([rpm/rpmsx.h rpm/misc.h rpm/rpmcallback.h rpm/rpmcb.h \
-		     rpm/rpmmessages.h])
-
    if test $RPM_VERSION_MAJOR -lt 4; then
-      RPMLIBS="-lrpm -lz -lbz2 -lpopt"
+      RPM_LIBS="-lrpm -lz -lbz2 -lpopt"
    else
       AC_CHECK_LIB(rpmdb,rpmdbOpen,
          [RPMDBLIBS="-lrpmdb"],
          [RPMDBLIBS="-ldb-3.1"],
          [-lrpm -lrpmio -lz -lbz2 -lpopt])
-      RPMLIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt"
+      RPM_LIBS="-lrpm $RPMDBLIBS -lrpmio -lz -lbz2 -lpopt"
    fi
    AC_MSG_CHECKING(for RPM libraries)
-   AC_MSG_RESULT($RPMLIBS)
-   AC_SUBST(RPMLIBS)
+   AC_MSG_RESULT($RPM_LIBS)
+   AC_SUBST(RPM_LIBS)
 fi
+
+dnl Various rpm header checks..
+AC_CHECK_HEADER(rpm/rpmlib.h, [],
+	   [AC_MSG_ERROR([Can't find rpmlib.h])])
+AC_CHECK_HEADERS([rpm/rpmsx.h rpm/misc.h rpm/rpmcallback.h rpm/rpmcb.h \
+	     rpm/rpmmessages.h])
 
 dnl Various rpm variant capability checks
 AC_MSG_CHECKING(for rpmdsGetconf)
@@ -177,12 +188,12 @@ if test "$enable_repomd" != "no"; then
   AC_DEFINE(APT_WITH_REPOMD, 1, [Define if you want to enable repomd support]) 
   ## xmlReadFile is not available before 2.6.0
   PKG_CHECK_MODULES([LIBXML2],[libxml-2.0 >= 2.6])
-  RPMLIBS="$LIBXML2_LIBS $RPMLIBS"
+  RPM_LIBS="$LIBXML2_LIBS $RPM_LIBS"
   CPPFLAGS="$LIBXML2_CFLAGS $CPPFLAGS"
   ## FIXME: Conditionalize this properly. We can support xml repomd without 
   ## sqlite and repodb with libxml2 older than 2.6. In addition, rollback
   ## will be using sqlite as well, we only want to check for it once.
-  RPMLIBS="$RPMLIBS $SQLITE3LIBS"
+  RPM_LIBS="$RPM_LIBS $SQLITE3LIBS"
 else
   AC_MSG_RESULT(yes)
 fi

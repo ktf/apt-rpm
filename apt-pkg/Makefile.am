@@ -5,7 +5,7 @@ lib_LTLIBRARIES = libapt-pkg.la
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libapt-pkg.pc
 
-libapt_pkg_la_LIBADD = @RPMLIBS@
+libapt_pkg_la_LIBADD = @RPM_LIBS@
 libapt_pkg_la_LDFLAGS = -version-info 3:0:0
 
 AM_CPPFLAGS = -DLIBDIR=\"$(libdir)\" -DPKGDATADIR=\"$(pkgdatadir)\"

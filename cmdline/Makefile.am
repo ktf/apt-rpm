@@ -10,7 +10,7 @@ if COMPILE_STATIC
 bin_PROGRAMS += apt-get-static apt-cache-static apt-cdrom-static
 endif
 
-LDADD = ../apt-pkg/libapt-pkg.la $(RPMLIBS)
+LDADD = ../apt-pkg/libapt-pkg.la $(RPM_LIBS)
 
 apt_get_SOURCES = apt-get.cc acqprogress.cc acqprogress.h cmdline.cc cmdline.h
 apt_cache_SOURCES = apt-cache.cc cmdline.cc cmdline.h
