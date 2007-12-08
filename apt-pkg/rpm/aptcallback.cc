@@ -4,7 +4,7 @@
 #include <apti18n.h>
 
 #include <apt-pkg/progress.h>
-#include "rpmcallback.h"
+#include "aptcallback.h"
 
 #include <iostream>
 using namespace std;
