@@ -36,6 +36,13 @@ SqliteQuery *SqliteDB::Query()
    return new SqliteQuery(DB);
 }
 
+bool SqliteDB::Exclusive(bool mode)
+{
+   string cmd = "PRAGMA locking_mode = ";
+   cmd += mode ? "EXCLUSIVE" : "NORMAL";
+   return (sqlite3_exec(DB, cmd.c_str(), NULL, NULL, NULL) == SQLITE_OK);
+}
+
 bool SqliteQuery::Exec(string SQL)
 {
    int rc;

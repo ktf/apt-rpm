@@ -52,6 +52,7 @@ class SqliteDB
 
    public:
    SqliteQuery *Query();
+   bool Exclusive(bool mode);
 
    SqliteDB(string DBPath);
    ~SqliteDB();
