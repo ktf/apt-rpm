@@ -52,12 +52,13 @@ bool SqliteQuery::Exec(string SQL)
       nrow = 0;
       ncol = 0;
       res = NULL;
+      curptr = NULL;
    }
    ColNames.clear();
    for (int col = 0; col < ncol; col++) {
       ColNames[res[col]] = col;
    }
-      
+   curptr = res;
    return (rc == SQLITE_OK);
 }
 
@@ -67,12 +68,14 @@ bool SqliteQuery::Step()
       return false;
    }
    cur ++;
+   curptr += ncol;
    return true;
 }
 
 bool SqliteQuery::Rewind()
 {
    cur = 0;
+   curptr = res;
    return true;
 }
 
@@ -82,13 +85,14 @@ bool SqliteQuery::Jump(unsigned long Pos)
       return false;
    }
    cur = Pos;
+   curptr = res + (cur * ncol);
    return true;
 }
 
 string SqliteQuery::GetCol(string ColName)
 {
    string val = "";
-   char *item = res[cur*ncol+ColNames[ColName]];
+   const char *item = *(curptr + ColNames[ColName]);
    if (item != NULL)
       val = item;
    return val;
@@ -97,13 +101,14 @@ string SqliteQuery::GetCol(string ColName)
 unsigned long SqliteQuery::GetColI(string ColName)
 {
    unsigned long val = 0;
-   char *item = res[cur*ncol+ColNames[ColName]];
+   const char *item = *(curptr + ColNames[ColName]);
    if (item != NULL)
       val = atol(item);
    return val;
 } 
+
 SqliteQuery::SqliteQuery(sqlite3 *DB) : 
-   DB(DB), res(NULL), nrow(0), ncol(0), cur(0)
+   DB(DB), res(NULL), nrow(0), ncol(0), cur(0), curptr(NULL)
 {
    //cout << __PRETTY_FUNCTION__ << endl;
 }

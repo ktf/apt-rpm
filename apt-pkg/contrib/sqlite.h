@@ -21,6 +21,7 @@ class SqliteQuery
    protected:
    sqlite3 *DB;
    char **res;
+   char **curptr;
    int nrow, ncol;
    int cur;
 
