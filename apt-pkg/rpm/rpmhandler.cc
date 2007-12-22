@@ -1515,10 +1515,13 @@ RPMSqliteHandler::RPMSqliteHandler(string File) :
    OtherDBPath = DBBase + "other.sqlite";
 
    Primary = new SqliteDB(DBPath);
+   Primary->Exclusive(true);
    // XXX open these only if needed? 
    Filelists = new SqliteDB(FilesDBPath);
+   Filelists->Exclusive(true);
    if (FileExists(OtherDBPath)) {
       Other = new SqliteDB(OtherDBPath);
+      Other->Exclusive(true);
    }
 
    Packages = Primary->Query();
