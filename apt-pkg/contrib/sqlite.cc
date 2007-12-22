@@ -89,7 +89,7 @@ bool SqliteQuery::Jump(unsigned long Pos)
    return true;
 }
 
-string SqliteQuery::GetCol(string ColName)
+string SqliteQuery::GetCol(const string ColName)
 {
    string val = "";
    const char *item = *(curptr + ColNames[ColName]);
@@ -98,7 +98,7 @@ string SqliteQuery::GetCol(string ColName)
    return val;
 } 
 
-unsigned long SqliteQuery::GetColI(string ColName)
+unsigned long SqliteQuery::GetColI(const string ColName)
 {
    unsigned long val = 0;
    const char *item = *(curptr + ColNames[ColName]);

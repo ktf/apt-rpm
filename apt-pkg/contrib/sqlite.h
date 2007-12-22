@@ -28,7 +28,7 @@ class SqliteQuery
    map<string,int> ColNames;
 
    public:
-   bool Exec(string SQL);
+   bool Exec(const string SQL);
    int Size() { return nrow; };
    //bool FetchOne(map<string,string> &Row);
 
@@ -38,8 +38,8 @@ class SqliteQuery
    bool Step();
    unsigned long inline Offset() {return cur-1;};
 
-   string GetCol(string ColName);
-   unsigned long GetColI(string ColName);
+   string GetCol(const string ColName);
+   unsigned long GetColI(const string ColName);
 
    SqliteQuery(sqlite3 *DB);
    ~SqliteQuery();
