@@ -1688,11 +1688,12 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
    while (prco->Step()) {
       int_32 RpmOp = 0;
       string deptype, depver = "";
+      string e, v, r;
 
-      if (prco->GetCol("flags").empty()) {
+      deptype = prco->GetCol("flags");
+      if (deptype.empty()) {
 	 RpmOp == RPMSENSE_ANY;
       } else {
-	 deptype = prco->GetCol("flags");
 	 if (deptype == "EQ") {
 	    RpmOp = RPMSENSE_EQUAL;
 	 } else if (deptype == "GE") {
@@ -1709,14 +1710,17 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 			      deptype.c_str());
 	    continue;
 	 }
-	 if (! prco->GetCol("epoch").empty()) {
-	    depver += prco->GetCol("epoch") + ":";
+	 e = prco->GetCol("epoch");
+	 v = prco->GetCol("version");
+	 r = prco->GetCol("release");
+	 if (! e.empty()) {
+	    depver += e + ":";
 	 }
-	 if (! prco->GetCol("version").empty()) {
-	    depver += prco->GetCol("version");
+	 if (! v.empty()) {
+	    depver += v;
 	 }
-	 if (! prco->GetCol("release").empty()) {
-	    depver += "-" + prco->GetCol("release");
+	 if (! r.empty()) {
+	    depver += "-" + r;
 	 }
       }
       string depname = prco->GetCol("name");
