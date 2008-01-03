@@ -331,8 +331,8 @@ class RPMRepomdReaderHandler : public RPMHandler
    string XmlPath;
    xmlNode *NodeP;
 
-   string FindTag(char *Tag);
-   string FindVerTag(char *Tag);
+   string FindTag(const char *Tag);
+   string FindVerTag(const char *Tag);
 
    public:
    virtual bool Skip();
