@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 
-static char *copyTags[] = {"name", 
+static const char *copyTags[] = {"name", 
 			   "version", 
 			   "release", 
 			   "arch", 
@@ -18,7 +18,7 @@ static char *copyTags[] = {"name",
 
 static void getPackageData(const Header h, map<string,string> &Data)
 {
-   char **Tag = &copyTags[0];
+   const char **Tag = &copyTags[0];
    char rTag[20];
    Data.clear();
    for (Tag = &copyTags[0]; *Tag != NULL; *Tag++) {
