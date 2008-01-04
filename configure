@@ -22389,6 +22389,32 @@ fi
 rm -f conftest*
 
 
+{ echo "$as_me:$LINENO: checking for rpm_data_t" >&5
+echo $ECHO_N "checking for rpm_data_t... $ECHO_C" >&6; }
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <rpm/header.h>
+
+_ACEOF
+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+  $EGREP "rpm_data_t" >/dev/null 2>&1; then
+  { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+cat >>confdefs.h <<\_ACEOF
+#define RPM_HAVE_DATA_T 1
+_ACEOF
+
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+rm -f conftest*
+
+
 
 
 { echo "$as_me:$LINENO: checking for g++ hash_map extension" >&5

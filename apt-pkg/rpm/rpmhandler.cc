@@ -61,6 +61,12 @@ extern sigset_t rpmsqCaught;
 #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
 #endif
 
+#ifndef RPM_HAVE_DATA_T
+typedef void * rpm_data_t;
+typedef int_32 rpm_count_t;
+typedef int_32 rpm_tagtype_t;
+#endif
+
 // An attempt to deal with false zero epochs from repomd. With older rpm's we
 // can only blindly trust the repo admin created the repository with options
 // suitable for those versions. For rpm >= 4.2.1 this is linked with
@@ -271,8 +277,10 @@ bool RPMHandler::PutDep(const char *name, const char *ver, int_32 flags,
 string RPMHdrHandler::Epoch()
 {
    char str[512] = "";
-   int_32 count, type, *epoch;
-   void *val;
+   rpm_count_t count;
+   rpm_tagtype_t type;
+   rpm_data_t val;
+   int_32 *epoch;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH, &type, &val, &count);
    epoch = (int_32*)val;
@@ -284,24 +292,27 @@ string RPMHdrHandler::Epoch()
 
 off_t RPMHdrHandler::GetITag(rpmTag Tag)
 {
-   int_32 count, type, *num;
-   void *val;
+   rpm_count_t count;
+   rpm_tagtype_t type;
+   rpm_data_t val;
+   int_32 *num;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, Tag,
-			   &type, (void**)&val, &count);
+			   &type, &val, &count);
    num = (int_32*)val;
    return rc?num[0]:0;
 }
 
 string RPMHdrHandler::GetSTag(rpmTag Tag)
 {
-   char *str;
-   void *val;
-   int_32 count, type;
+   const char *str;
+   rpm_data_t val;
+   rpm_count_t count;
+   rpm_tagtype_t type;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, Tag,
-			   &type, (void**)&val, &count);
-   str = (char *)val;
+			   &type, &val, &count);
+   str = (const char *)val;
    return string(rc?str:"");
 }
 
@@ -445,12 +456,14 @@ bool RPMHdrHandler::ChangeLog(vector<ChangeLogEntry *> &ChangeLogs)
    int *timel = NULL;
    char **authorl = NULL;
    char **entryl = NULL;
-   void *timeval, *authorval, *entryval;
-   int res, type, count;
+   rpm_data_t timeval, authorval, entryval;
+   rpm_tagtype_t type;
+   rpm_count_t count;
+   int res;
 
-   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTIME, &type, (void **)&timeval, &count);
-   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGNAME, &type, (void **)&authorval, &count);
-   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTEXT, &type, (void **)&entryval, &count);
+   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTIME, &type, &timeval, &count);
+   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGNAME, &type, &authorval, &count);
+   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTEXT, &type, &entryval, &count);
 
    timel = (int*)timeval;
    authorl = (char**)authorval;

@@ -29,6 +29,12 @@
 #include <rpm/rpmts.h>
 #endif
 
+#ifndef RPM_HAVE_DATA_T
+typedef void * rpm_data_t;
+typedef int_32 rpm_count_t;
+typedef int_32 rpm_tagtype_t;
+#endif
+
 #define CRPMTAG_TIMESTAMP   1012345
 
 int tags[] =  {
@@ -97,14 +103,13 @@ static inline int usefullFile(char *a)
 
 static void copyStrippedFileList(Header header, Header newHeader)
 {
-   int i;
-   int i1, i2;
+   rpm_count_t i, i1, i2;
    
-   int type1, type2, type3;
-   int count1, count2, count3;
+   rpm_tagtype_t type1, type2, type3;
+   rpm_count_t count1, count2, count3;
    char **dirnames = NULL, **basenames = NULL;
    int_32 *dirindexes = NULL;
-   void *dirnameval = NULL, *basenameval = NULL, *dirindexval = NULL;
+   rpm_data_t dirnameval = NULL, basenameval = NULL, dirindexval = NULL;
    char **dnames, **bnames;
    int_32 *dindexes;
    int res1, res2, res3;
@@ -112,11 +117,11 @@ static void copyStrippedFileList(Header header, Header newHeader)
 #define FREE(a) if (a) free(a);
    
    res1 = headerGetEntry(header, RPMTAG_DIRNAMES, &type1, 
-			 (void**)&dirnameval, &count1);
+			 &dirnameval, &count1);
    res2 = headerGetEntry(header, RPMTAG_BASENAMES, &type2, 
-			 (void**)&basenameval, &count2);
+			 &basenameval, &count2);
    res3 = headerGetEntry(header, RPMTAG_DIRINDEXES, &type3, 
-			 (void**)&dirindexval, &count3);
+			 &dirindexval, &count3);
    dirnames = (char **)dirnameval;
    basenames = (char **)basenameval;
    dirindexes = (int_32 *)dirindexval;
@@ -152,7 +157,7 @@ static void copyStrippedFileList(Header header, Header newHeader)
       
       if (ok)
       {
-	 int j;
+	 rpm_count_t j;
 	 
 	 bnames[i1] = basenames[i];
 	 for (j = 0; j < i2; j++)
@@ -255,18 +260,18 @@ bool copyFields(Header h, Header newHeader,
    }
  
    if (fullFileList) {
-      int type1, type2, type3;
-      int count1, count2, count3;
+      rpm_tagtype_t type1, type2, type3;
+      rpm_count_t count1, count2, count3;
       char **dnames, **bnames, **dindexes;
-      void *dnameval, *bnameval, *dindexval;
+      rpm_data_t dnameval, bnameval, dindexval;
       int res;
    
       res = headerGetEntry(h, RPMTAG_DIRNAMES, &type1, 
-			   (void**)&dnameval, &count1);
+			   &dnameval, &count1);
       res = headerGetEntry(h, RPMTAG_BASENAMES, &type2, 
-			   (void**)&bnameval, &count2);
+			   &bnameval, &count2);
       res = headerGetEntry(h, RPMTAG_DIRINDEXES, &type3, 
-			   (void**)&dindexval, &count3);
+			   &dindexval, &count3);
 
       dnames = (char **)dnameval;
       bnames = (char **)bnameval;
@@ -283,15 +288,16 @@ bool copyFields(Header h, Header newHeader,
    
    // update index of srpms
    if (idxfile) {
-      int_32 type, count;
+      rpm_tagtype_t type;
+      rpm_count_t count;
+      rpm_data_t srpmval, nameval;
       char *srpm, *name;
-      void *srpmval, *nameval;
       int res;
       
       res = headerGetEntry(h, RPMTAG_NAME, &type, 
-			   (void**)&nameval, &count);
+			   &nameval, &count);
       res = headerGetEntry(h, RPMTAG_SOURCERPM, &type, 
-			   (void**)&srpmval, &count);
+			   &srpmval, &count);
       name = (char *)nameval;
       srpm = (char *)srpmval;
 
