@@ -1436,7 +1436,7 @@ bool RPMRepomdReaderHandler::Skip()
    return true;
 }
 
-string RPMRepomdReaderHandler::FindTag(char *Tag)
+string RPMRepomdReaderHandler::FindTag(const char *Tag)
 {
    string str = "";
    if (NodeP) {
@@ -1449,7 +1449,7 @@ string RPMRepomdReaderHandler::FindTag(char *Tag)
    return str;
 }
 
-string RPMRepomdReaderHandler::FindVerTag(char *Tag)
+string RPMRepomdReaderHandler::FindVerTag(const char *Tag)
 {
    string str = "";
    for (xmlNode *n = NodeP->children; n; n = n->next) {
