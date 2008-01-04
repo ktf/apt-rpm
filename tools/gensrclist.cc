@@ -164,7 +164,7 @@ int main(int argc, char ** argv)
    const char *srcListSuffix = NULL;
    bool srcListAppend = false;
 
-   putenv("LC_ALL="); // Is this necessary yet (after i18n was supported)?
+   putenv((char *)"LC_ALL="); // Is this necessary yet (after i18n was supported)?
    for (i = 1; i < argc; i++) {
       if (strcmp(argv[i], "--mapi") == 0) {
 	 mapi = true;

@@ -406,7 +406,7 @@ int main(int argc, char ** argv)
    const char *pkgListSuffix = NULL;
    bool pkgListAppend = false;
    
-   putenv("LC_ALL="); // Is this necessary yet (after i18n was supported)?
+   putenv((char *)"LC_ALL="); // Is this necessary yet (after i18n was supported)?
    for (i = 1; i < argc; i++) {
       if (strcmp(argv[i], "--index") == 0) {
 	 i++;
