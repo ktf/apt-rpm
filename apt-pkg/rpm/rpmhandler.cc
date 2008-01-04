@@ -1706,7 +1706,7 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 
       deptype = prco->GetCol("flags");
       if (deptype.empty()) {
-	 RpmOp == RPMSENSE_ANY;
+	 RpmOp = RPMSENSE_ANY;
       } else {
 	 if (deptype == "EQ") {
 	    RpmOp = RPMSENSE_EQUAL;
