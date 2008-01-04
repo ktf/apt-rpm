@@ -22,6 +22,7 @@
 #include <apt-pkg/sptr.h>
 
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <unistd.h>
 #include <fcntl.h>

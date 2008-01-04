@@ -29,6 +29,7 @@
 #include <apti18n.h>
     
 #include <iostream>
+#include <cstring>
 									/*}}}*/
 using namespace std;
 

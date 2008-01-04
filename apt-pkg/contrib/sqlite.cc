@@ -9,6 +9,8 @@
 #include <apt-pkg/sqlite.h>
 #include <apt-pkg/error.h>
 
+#include <cstdlib>
+
 // debug stuff..
 #include <iostream>
 using namespace std;

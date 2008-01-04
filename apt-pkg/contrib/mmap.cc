@@ -30,6 +30,7 @@
 
 #include <apti18n.h>
 
+#include <cstring>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>

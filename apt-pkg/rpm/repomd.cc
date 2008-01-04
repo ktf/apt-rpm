@@ -19,6 +19,8 @@
 #ifdef APT_WITH_REPOMD
 
 #include <iostream>
+#include <cstring>
+
 #include <apt-pkg/repomd.h>
 #include <apt-pkg/error.h>
 #include <libxml/parser.h>
@@ -26,6 +28,7 @@
 #include "xmlutil.h"
 
 #include <apti18n.h>
+
 
 using namespace std;
 

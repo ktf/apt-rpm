@@ -17,6 +17,7 @@
 
 #include <apti18n.h>
 
+#include <cstring>
 #include <iostream>
 #include <iomanip>
 #include <stdio.h>

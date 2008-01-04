@@ -33,6 +33,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <iostream>
+#include <cstring>
 
 #if HAVE_RPM_RPMSX_H
 #include <rpm/rpmsx.h>

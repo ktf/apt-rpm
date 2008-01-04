@@ -17,6 +17,7 @@
 #include <apt-pkg/pkgsystem.h>
 #include <apt-pkg/policy.h>
 									/*}}}*/
+#include <cstring>
 
 pkgSystem *_system = 0;
 static pkgSystem *SysList[10];

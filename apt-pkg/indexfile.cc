@@ -15,6 +15,7 @@
 #include <apt-pkg/indexfile.h>
 #include <apt-pkg/error.h>
 									/*}}}*/
+#include <cstring>
 
 // Global list of Item supported
 static  pkgIndexFile::Type *ItmList[10];

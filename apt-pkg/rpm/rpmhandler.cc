@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <assert.h>
 #include <libgen.h>
+#include <cstring>
 
 #include <apt-pkg/error.h>
 #include <apt-pkg/configuration.h>

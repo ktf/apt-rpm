@@ -31,6 +31,7 @@
 
 #include <apti18n.h>
     
+#include <cstring>
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>

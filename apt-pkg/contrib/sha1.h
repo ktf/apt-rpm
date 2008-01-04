@@ -18,6 +18,7 @@
 #pragma interface "apt-pkg/sha1.h"
 #endif 
 
+#include <cstring>
 #include <string>
 
 using std::string;

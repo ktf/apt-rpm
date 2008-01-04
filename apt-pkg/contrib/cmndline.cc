@@ -19,6 +19,8 @@
 #include <apt-pkg/strutl.h>
 
 #include <apti18n.h>    
+
+#include <cstring>
 									/*}}}*/
 using namespace std;
 

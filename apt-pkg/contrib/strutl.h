@@ -21,6 +21,7 @@
 #endif 
 
 #include <stdlib.h>
+#include <cstring>
 #include <string>
 #include <vector>
 #include <iostream>

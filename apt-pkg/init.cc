@@ -13,6 +13,7 @@
 #include <apt-pkg/error.h>
 
 #include <cstdlib>
+#include <cstring>
 #include <apti18n.h>
 #include <config.h>
 #include <sys/stat.h>

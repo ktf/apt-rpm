@@ -3,6 +3,8 @@
 
 #include <apt-pkg/aptconf.h>
 
+#include <cstring>
+
 #ifdef APT_WITH_GNU_HASH_MAP
 
 #include <ext/hash_map>

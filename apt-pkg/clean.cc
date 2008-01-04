@@ -19,6 +19,7 @@
 
 #include <apti18n.h>    
 
+#include <cstring>
 #include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>

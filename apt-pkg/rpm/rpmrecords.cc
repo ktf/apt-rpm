@@ -25,6 +25,8 @@
 
 #include <apti18n.h>
 
+#include <cstring>
+
 using namespace std;
 
 // RecordParser::rpmRecordParser - Constructor				/*{{{*/
