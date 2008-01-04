@@ -353,7 +353,7 @@ bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
    ds = rpmdsNew(HeaderP, deptype, 0);
    if (ds != NULL) {
       while (rpmdsNext(ds) >= 0) {
-	 bool r = PutDep(rpmdsN(ds), rpmdsEVR(ds), rpmdsFlags(ds), Type, Deps);
+	 PutDep(rpmdsN(ds), rpmdsEVR(ds), rpmdsFlags(ds), Type, Deps);
       }
    }
    rpmdsFree(ds);
@@ -998,7 +998,6 @@ RPMRepomdHandler::RPMRepomdHandler(string File): RPMHandler(),
    ID = File;
 
    xmlTextReaderPtr Index;
-   unsigned long Res;
    Index = xmlReaderForFile(PrimaryPath.c_str(), NULL,
                           XML_PARSE_NONET|XML_PARSE_NOBLANKS);
    if (Index == NULL) {
@@ -1314,7 +1313,7 @@ bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	    xmlFree(pre);
 	 }
       }
-      bool res = PutDep((char*)depname, depver.c_str(), RpmOp, Type, Deps);
+      PutDep((char*)depname, depver.c_str(), RpmOp, Type, Deps);
       xmlFree(depname);
    }
    return true;
@@ -1737,7 +1736,7 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 }
       }
       string depname = prco->GetCol("name");
-      bool res = PutDep(depname.c_str(), depver.c_str(), RpmOp, Type, Deps);
+      PutDep(depname.c_str(), depver.c_str(), RpmOp, Type, Deps);
    }
    delete prco;
    return true;
