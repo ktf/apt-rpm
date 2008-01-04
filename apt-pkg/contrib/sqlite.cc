@@ -15,7 +15,7 @@
 #include <iostream>
 using namespace std;
 
-SqliteDB::SqliteDB(string DBPath): DBPath(DBPath), DB(NULL)
+SqliteDB::SqliteDB(string DBPath): DB(NULL), DBPath(DBPath)
 {
    int rc;
    //cout << __PRETTY_FUNCTION__ << " " << DBPath << endl;
@@ -110,7 +110,7 @@ unsigned long SqliteQuery::GetColI(const string ColName)
 } 
 
 SqliteQuery::SqliteQuery(sqlite3 *DB) : 
-   DB(DB), res(NULL), nrow(0), ncol(0), cur(0), curptr(NULL)
+   DB(DB), res(NULL), curptr(NULL), nrow(0), ncol(0), cur(0)
 {
    //cout << __PRETTY_FUNCTION__ << endl;
 }

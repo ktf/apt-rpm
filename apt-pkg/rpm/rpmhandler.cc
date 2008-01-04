@@ -989,7 +989,7 @@ void RPMDBHandler::Rewind()
 
 #ifdef APT_WITH_REPOMD
 RPMRepomdHandler::RPMRepomdHandler(string File): RPMHandler(),
-      Root(NULL), Primary(NULL), PrimaryPath(File), HavePrimary(false)
+      Primary(NULL), Root(NULL), PrimaryPath(File), HavePrimary(false)
 {
    string DBBase = PrimaryPath.substr(0, File.size() - strlen("primary.xml"));
    FilelistPath = DBBase + "filelists.xml";
@@ -1375,7 +1375,7 @@ RPMRepomdHandler::~RPMRepomdHandler()
 }
 
 RPMRepomdReaderHandler::RPMRepomdReaderHandler(string File) : RPMHandler(),
-   XmlPath(File), NodeP(NULL), XmlFile(NULL)
+   XmlFile(NULL), XmlPath(File), NodeP(NULL)
 {
    ID = File;
    iOffset = -1;
