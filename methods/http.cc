@@ -939,11 +939,33 @@ int HttpMethod::DealWithHeaders(FetchResult &Res,ServerState *Srv)
 	    {
 	       AuthUser = CurrentAuth->User;
 	       AuthPass = CurrentAuth->Password;
+	       CurrentAuth->AuthURIs.push_back(&(Queue->Uri));
 	       break;
 	    }
       }
       else
-	 CurrentAuth = AuthList.end();
+      {
+         bool setLogin = false;
+	 for (CurrentAuth = AuthList.begin(); CurrentAuth != AuthList.end();
+	      CurrentAuth++)
+	    if (CurrentAuth->Host == Srv->ServerName.Host &&
+		CurrentAuth->Realm == Srv->Realm)
+	    {
+	       vector<string *>::iterator CurrentUri = find(CurrentAuth->AuthURIs.begin(), CurrentAuth->AuthURIs.end(), &(Queue->Uri));
+	       if (CurrentUri == CurrentAuth->AuthURIs.end())
+	       {
+	           //We have not give the new passwd yet
+		   AuthUser = CurrentAuth->User;
+		   AuthPass = CurrentAuth->Password;
+		   CurrentAuth->AuthURIs.push_back(&(Queue->Uri));
+		   setLogin = true;
+		   break;
+	       }
+	    }
+         
+	 if (setLogin == false)
+	     CurrentAuth = AuthList.end();
+      }
 
       // Nope - get username and password
       if (CurrentAuth == AuthList.end())

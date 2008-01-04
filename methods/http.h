@@ -13,6 +13,7 @@
 
 #define MAXLEN 360
 
+#include <vector>
 #include <iostream>
 
 using std::cout;
@@ -131,6 +132,7 @@ class HttpMethod : public pkgAcqMethod
       string Realm;
       string User;
       string Password;
+      vector <string *> AuthURIs;
    };
 
    void SendReq(FetchItem *Itm,CircleBuf &Out);
