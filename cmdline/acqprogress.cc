@@ -39,7 +39,7 @@ AcqTextStatus::AcqTextStatus(unsigned int &ScreenWidth,unsigned int Quiet) :
 void AcqTextStatus::Start() 
 {
    pkgAcquireStatus::Start(); 
-   BlankLine[0] = 0;
+   memset(BlankLine, 0, sizeof(BlankLine));
    ID = 1;
 }
 									/*}}}*/
@@ -157,6 +157,7 @@ bool AcqTextStatus::Pulse(pkgAcquire *Owner)
    char Buffer[sizeof(BlankLine)];
    char *End = Buffer + sizeof(Buffer);
    char *S = Buffer;
+   memset(Buffer, 0, sizeof(Buffer));
    if (ScreenWidth >= sizeof(Buffer))
       ScreenWidth = sizeof(Buffer)-1;
 
