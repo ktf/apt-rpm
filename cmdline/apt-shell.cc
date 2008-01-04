@@ -2318,7 +2318,7 @@ void GetInitialize()
 /* */
 char *ReadLineCompCommands(const char *Text, int State)
 {
-   static char *Commands[] =  {"update", "upgrade", "install", "remove",
+   static const char *Commands[] =  {"update", "upgrade", "install", "remove",
 	 "keep", "dist-upgrade", "dselect-upgrade", "build-dep", "clean",
 	 "autoclean", "check", "help", "commit", "exit", "quit", "status",
 	 "showpkg", "unmet", "search", "depends", "whatdepends", "rdepends",
