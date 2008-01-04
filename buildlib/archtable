@@ -20,6 +20,8 @@ powerpc64	powerpc64
 mipsel  mipsel
 mipseb	mips
 mips	mips
+mips64el	mips64el
+mips64	mips64
 sheb	sheb
 shel	sh
 sh	sh
