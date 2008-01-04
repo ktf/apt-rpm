@@ -1888,12 +1888,9 @@ bool cmdShowPackage(CommandLine &CmdL, pkgCache &Cache)
    matchPackages(CmdL, Cache, PkgVersions, 
 	         _config->FindB("APT::Cache::AllVersions", false));
 
-   pkgRecords Recs(Cache);
-
    vector<pkgCache::Version *>::iterator Ver = PkgVersions.begin();
    for (; Ver != PkgVersions.end(); Ver++) {
       pkgCache::VerIterator V(Cache, (*Ver));
-      pkgRecords::Parser &Parse = Recs.Lookup(V.FileList());
       pkgCache::PkgIterator Pkg = V.ParentPkg();
    
       if (cmdDisplayRecord(V, Cache) == false)
