@@ -49,6 +49,7 @@
 // CNC:2003-02-14 - apti18n.h includes libintl.h which includes locale.h,
 // 		    as reported by Radu Greab.
 //#include <locale.h>
+#include <set>
 #include <langinfo.h>
 #include <fstream>
 #include <termios.h>
@@ -1600,6 +1601,7 @@ bool DoSource(CommandLine &CmdL)
    pkgAcquire Fetcher(&Stat);
 
    DscFile *Dsc = new DscFile[CmdL.FileSize()];
+   set<string> queued;
    
    // Load the requestd sources into the fetcher
    unsigned J = 0;
@@ -1657,7 +1659,14 @@ bool DoSource(CommandLine &CmdL)
 	 } else {
 	    continue;
 	 }
-	 
+
+	 // don't download the same uri twice (should this be moved to
+	 // the fetcher interface itself?)
+	 if(queued.find(Last->Index().ArchiveURI(I->Path)) != queued.end())
+	    continue;
+
+	 queued.insert(Last->Index().ArchiveURI(I->Path));
+	    
 	 new pkgAcqFile(&Fetcher,Last->Index().ArchiveURI(I->Path),
 			I->MD5Hash,I->Size,
 			Last->Index().SourceInfo(*Last,*I),Src);
