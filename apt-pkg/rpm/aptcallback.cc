@@ -22,7 +22,7 @@ static void getPackageData(const Header h, map<string,string> &Data)
    char rTag[20];
    Data.clear();
    for (Tag = &copyTags[0]; *Tag != NULL; *Tag++) {
-      sprintf(rTag, "%{%s}", *Tag);
+      sprintf(rTag, "%%{%s}", *Tag);
       char *s = headerSprintf(h, rTag, rpmTagTable, rpmHeaderFormats, NULL);
       Data[*Tag] = s;
       free(s);
@@ -45,7 +45,6 @@ void * rpmCallback(const void * arg,
    Header h = (Header) arg;
 #endif
 
-   char * s;
    InstProgress *Prog = (InstProgress*)data;
    void * rc = NULL;
    const char * filename = (const char *) pkgKey;
