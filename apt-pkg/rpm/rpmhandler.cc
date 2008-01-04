@@ -1431,8 +1431,7 @@ void RPMRepomdReaderHandler::Rewind()
    // handle at the moment. Other cases shouldn't be needed due to usage
    // patterns but just in case...
    if (iOffset != -1) {
-      _error->Error(_("Unable to handle xmlReader rewind from offset %d!"), 
-		      iOffset);
+      _error->Error(_("Internal error: xmlReader cannot rewind"));
    }
 }
 
