@@ -414,6 +414,7 @@ bool Configuration::ExistsAny(const char *Name) const
    string key = Name;
 
    if (key.size() > 2 && key.end()[-2] == '/')
+   {
       if (key.find_first_of("fdbi",key.size()-1) < key.size())
       {
          key.resize(key.size() - 2);
@@ -424,6 +425,7 @@ bool Configuration::ExistsAny(const char *Name) const
       {
          _error->Warning(_("Unrecognized type abbreviation: '%c'"), key.end()[-3]);
       }
+   }
 
    return Exists(Name);
 }
