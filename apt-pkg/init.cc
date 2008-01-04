@@ -52,12 +52,10 @@ bool pkgInitConfig(Configuration &Cnf)
    // State   
    Cnf.Set("Dir::State","var/lib/apt/");
    
-   /* Just in case something goes horribly wrong, we can fall back to the
-      old /var/state paths.. */
    struct stat St;   
-   if (stat("/var/lib/apt/.",&St) != 0 &&
-       stat("/var/state/apt/.",&St) == 0)
-      Cnf.Set("Dir::State","var/state/apt/");
+   if (stat(Cnf.FindDir("Dir::State").c_str(),&St) != 0)
+      return _error->Error(_("State directory %s doesn't exist."), 
+		Cnf.FindDir("Dir::State").c_str());
        
    Cnf.Set("Dir::State::lists","lists/");
    Cnf.Set("Dir::State::cdroms","cdroms.list");
