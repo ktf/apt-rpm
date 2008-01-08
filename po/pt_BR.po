@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2007-08-23 12:07+0300\n"
+"POT-Creation-Date: 2008-01-08 12:35+0200\n"
 "PO-Revision-Date: 2001-12-12 17:50-0200\n"
 "Last-Translator: Gustavo Niemeyer <niemeyer@conectiva.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -36,12 +36,12 @@ msgstr "Err "
 msgid "Fetched %sB in %s (%sB/s)\n"
 msgstr "Obtidos %sB em %s (%sB/s)\n"
 
-#: cmdline/acqprogress.cc:227
+#: cmdline/acqprogress.cc:228
 #, c-format
 msgid " [Working]"
 msgstr " [Trabalhando]"
 
-#: cmdline/acqprogress.cc:273
+#: cmdline/acqprogress.cc:274
 #, c-format
 msgid ""
 "Media Change: Please insert the disc labeled\n"
@@ -52,14 +52,14 @@ msgstr ""
 " '%s'\n"
 "no drive '%s' e pressione enter\n"
 
-#: cmdline/acqprogress.cc:296
+#: cmdline/acqprogress.cc:297
 #, c-format
 msgid ""
 "Please login to %s\n"
 "Username: "
 msgstr ""
 
-#: cmdline/acqprogress.cc:310
+#: cmdline/acqprogress.cc:311
 msgid "Password: "
 msgstr ""
 
@@ -178,7 +178,7 @@ msgid "       %4i %s\n"
 msgstr "       %4i %s\n"
 
 #: cmdline/apt-cache.cc:1130 cmdline/apt-cdrom.cc:824 cmdline/apt-config.cc:72
-#: cmdline/apt-get.cc:2119 cmdline/apt-shell.cc:1965
+#: cmdline/apt-get.cc:2128 cmdline/apt-shell.cc:1965
 #, c-format
 msgid "%s %s for %s %s compiled on %s %s\n"
 msgstr "%s %s para %s %s compilado em %s %s\n"
@@ -448,93 +448,93 @@ msgstr ""
 "  -c=? Ler o arquivo de configuração fornecido\n"
 "  -o=? Configurar uma opção arbitrária, ex. -o dir::cache=/tmp\n"
 
-#: cmdline/apt-get.cc:158
+#: cmdline/apt-get.cc:159
 msgid "There are changes to be made"
 msgstr "Existem mudanças a serem efetuadas"
 
-#: cmdline/apt-get.cc:193 cmdline/apt-shell.cc:255
+#: cmdline/apt-get.cc:194 cmdline/apt-shell.cc:255
 msgid "Correcting dependencies..."
 msgstr "Corrigindo dependências..."
 
-#: cmdline/apt-get.cc:196 cmdline/apt-shell.cc:258
+#: cmdline/apt-get.cc:197 cmdline/apt-shell.cc:258
 msgid " failed."
 msgstr " falhou."
 
-#: cmdline/apt-get.cc:199 cmdline/apt-shell.cc:261
+#: cmdline/apt-get.cc:200 cmdline/apt-shell.cc:261
 msgid "Unable to correct dependencies"
 msgstr "Impossível corrigir dependências"
 
-#: cmdline/apt-get.cc:202 cmdline/apt-shell.cc:264
+#: cmdline/apt-get.cc:203 cmdline/apt-shell.cc:264
 msgid "Unable to minimize the upgrade set"
 msgstr "Impossível minimizar o grupo de atualização"
 
-#: cmdline/apt-get.cc:204 cmdline/apt-shell.cc:266
+#: cmdline/apt-get.cc:205 cmdline/apt-shell.cc:266
 msgid " Done"
 msgstr " Feito"
 
-#: cmdline/apt-get.cc:208
+#: cmdline/apt-get.cc:209
 #, fuzzy
 msgid "You might want to run `apt-get --fix-broken install' to correct these."
 msgstr "Você pode executar `apt-get -f install' para corrigí-los."
 
-#: cmdline/apt-get.cc:211 cmdline/apt-shell.cc:273
+#: cmdline/apt-get.cc:212 cmdline/apt-shell.cc:273
 #, fuzzy
 msgid "Unmet dependencies. Try using --fix-broken."
 msgstr "Dependências não resolvidas. Tente usar -f."
 
-#: cmdline/apt-get.cc:268 cmdline/apt-shell.cc:330
+#: cmdline/apt-get.cc:269 cmdline/apt-shell.cc:330
 msgid "Packages need to be removed but Remove is disabled."
 msgstr "Pacotes precisam ser removidos mas Remove está desabilitado."
 
-#: cmdline/apt-get.cc:294 cmdline/apt-get.cc:1542 cmdline/apt-shell.cc:356
+#: cmdline/apt-get.cc:295 cmdline/apt-get.cc:1543 cmdline/apt-shell.cc:356
 #: cmdline/apt-shell.cc:1479 cmdline/cmdline.cc:721
 msgid "Unable to lock the download directory"
 msgstr "Impossível bloquar o diretório de download"
 
-#: cmdline/apt-get.cc:304 cmdline/apt-get.cc:1590 cmdline/apt-get.cc:1808
+#: cmdline/apt-get.cc:305 cmdline/apt-get.cc:1591 cmdline/apt-get.cc:1817
 #: cmdline/apt-shell.cc:366 cmdline/apt-shell.cc:1538 apt-pkg/cachefile.cc:71
 msgid "The list of sources could not be read."
 msgstr "A lista de fontes não pôde ser lida."
 
-#: cmdline/apt-get.cc:324 cmdline/apt-shell.cc:386
+#: cmdline/apt-get.cc:325 cmdline/apt-shell.cc:386
 #, c-format
 msgid "Need to get %sB/%sB of archives.\n"
 msgstr "É preciso pegar %sB/%sB de arquivos.\n"
 
-#: cmdline/apt-get.cc:327 cmdline/apt-shell.cc:389
+#: cmdline/apt-get.cc:328 cmdline/apt-shell.cc:389
 #, c-format
 msgid "Need to get %sB of archives.\n"
 msgstr "É preciso obter %sB de arquivos.\n"
 
-#: cmdline/apt-get.cc:332 cmdline/apt-shell.cc:205 cmdline/apt-shell.cc:394
+#: cmdline/apt-get.cc:333 cmdline/apt-shell.cc:205 cmdline/apt-shell.cc:394
 #, c-format
 msgid "After unpacking %sB of additional disk space will be used.\n"
 msgstr "Após desempacotar %sB de espaço adicional serão utilizados.\n"
 
-#: cmdline/apt-get.cc:335 cmdline/apt-shell.cc:208 cmdline/apt-shell.cc:397
+#: cmdline/apt-get.cc:336 cmdline/apt-shell.cc:208 cmdline/apt-shell.cc:397
 #, c-format
 msgid "After unpacking %sB disk space will be freed.\n"
 msgstr "Após descompactar %sB de espaço serão liberados.\n"
 
-#: cmdline/apt-get.cc:353 cmdline/apt-shell.cc:415
+#: cmdline/apt-get.cc:354 cmdline/apt-shell.cc:415
 #, c-format
 msgid "You don't have enough free space in %s."
 msgstr "Você não tem espaço suficiente em %s."
 
-#: cmdline/apt-get.cc:362 cmdline/apt-shell.cc:424
+#: cmdline/apt-get.cc:363 cmdline/apt-shell.cc:424
 msgid "There are problems and -y was used without --force-yes"
 msgstr "Existem problemas e -y foi usado sem --force-yes"
 
-#: cmdline/apt-get.cc:368 cmdline/apt-get.cc:388 cmdline/apt-shell.cc:430
+#: cmdline/apt-get.cc:369 cmdline/apt-get.cc:389 cmdline/apt-shell.cc:430
 #: cmdline/apt-shell.cc:450
 msgid "Trivial Only specified but this is not a trivial operation."
 msgstr "Trivial-Only foi especificado mas esta não é uma operação trivial."
 
-#: cmdline/apt-get.cc:370 cmdline/apt-shell.cc:432
+#: cmdline/apt-get.cc:371 cmdline/apt-shell.cc:432
 msgid "Yes, do as I say!"
 msgstr "Sim, prossiga como eu digo!"
 
-#: cmdline/apt-get.cc:372 cmdline/apt-shell.cc:434
+#: cmdline/apt-get.cc:373 cmdline/apt-shell.cc:434
 #, c-format
 msgid ""
 "You are about to do something potentially harmful\n"
@@ -545,30 +545,30 @@ msgstr ""
 "Para continuar digite a frase '%s'\n"
 " ?] "
 
-#: cmdline/apt-get.cc:378 cmdline/apt-get.cc:397 cmdline/apt-shell.cc:223
+#: cmdline/apt-get.cc:379 cmdline/apt-get.cc:398 cmdline/apt-shell.cc:223
 #: cmdline/apt-shell.cc:440 cmdline/apt-shell.cc:459
 msgid "Abort."
 msgstr "Abortado."
 
-#: cmdline/apt-get.cc:393 cmdline/apt-shell.cc:221 cmdline/apt-shell.cc:455
+#: cmdline/apt-get.cc:394 cmdline/apt-shell.cc:221 cmdline/apt-shell.cc:455
 msgid "Do you want to continue? [Y/n] "
 msgstr "Você quer continuar? [S/n] "
 
-#: cmdline/apt-get.cc:471 cmdline/apt-get.cc:576 cmdline/apt-get.cc:993
-#: cmdline/apt-get.cc:1720 cmdline/apt-shell.cc:532 cmdline/apt-shell.cc:1014
+#: cmdline/apt-get.cc:472 cmdline/apt-get.cc:577 cmdline/apt-get.cc:994
+#: cmdline/apt-get.cc:1729 cmdline/apt-shell.cc:532 cmdline/apt-shell.cc:1014
 #, c-format
 msgid "Failed to fetch %s  %s\n"
 msgstr "Falha ao obter %s  %s\n"
 
-#: cmdline/apt-get.cc:489 cmdline/apt-shell.cc:550
+#: cmdline/apt-get.cc:490 cmdline/apt-shell.cc:550
 msgid "Some files failed to download"
 msgstr "Houve falha ao baixar alguns arquivos"
 
-#: cmdline/apt-get.cc:490 cmdline/apt-get.cc:1729 cmdline/apt-shell.cc:551
+#: cmdline/apt-get.cc:491 cmdline/apt-get.cc:1738 cmdline/apt-shell.cc:551
 msgid "Download complete and in download only mode"
 msgstr "Download completo e em modo de somente download"
 
-#: cmdline/apt-get.cc:496 cmdline/apt-shell.cc:557
+#: cmdline/apt-get.cc:497 cmdline/apt-shell.cc:557
 msgid ""
 "Unable to fetch some archives, maybe run apt-get update or try with --fix-"
 "missing?"
@@ -576,66 +576,66 @@ msgstr ""
 "Impossível obter alguns arquivos, talvez rodar apt-get update ou tentar com "
 "--fix-missing?"
 
-#: cmdline/apt-get.cc:500 cmdline/apt-shell.cc:561
+#: cmdline/apt-get.cc:501 cmdline/apt-shell.cc:561
 msgid "--fix-missing and media swapping is not currently supported"
 msgstr "--fix-missing e troca de mídia não são suportados atualmente"
 
-#: cmdline/apt-get.cc:505 cmdline/apt-shell.cc:566
+#: cmdline/apt-get.cc:506 cmdline/apt-shell.cc:566
 msgid "Unable to correct missing packages."
 msgstr "Impossível corrigir pacotes faltosos."
 
-#: cmdline/apt-get.cc:506 cmdline/apt-shell.cc:567
+#: cmdline/apt-get.cc:507 cmdline/apt-shell.cc:567
 msgid "Aborting Install."
 msgstr "Abortando Instalação."
 
-#: cmdline/apt-get.cc:581 cmdline/apt-get.cc:1725
+#: cmdline/apt-get.cc:582 cmdline/apt-get.cc:1734
 msgid "Failed to fetch some archives."
 msgstr "Falha ao obter alguns arquivos."
 
-#: cmdline/apt-get.cc:675 cmdline/apt-get.cc:1188 cmdline/apt-get.cc:1251
-#: cmdline/apt-get.cc:1286 cmdline/apt-get.cc:1629 cmdline/apt-shell.cc:702
+#: cmdline/apt-get.cc:676 cmdline/apt-get.cc:1189 cmdline/apt-get.cc:1252
+#: cmdline/apt-get.cc:1287 cmdline/apt-get.cc:1631 cmdline/apt-shell.cc:702
 #: cmdline/apt-shell.cc:1279 cmdline/apt-shell.cc:1314
 #, c-format
 msgid "Selecting %s for '%s'\n"
 msgstr "Selecionando %s para '%s'\n"
 
-#: cmdline/apt-get.cc:681 cmdline/apt-shell.cc:708
+#: cmdline/apt-get.cc:682 cmdline/apt-shell.cc:708
 #, fuzzy, c-format
 msgid "Package %s is a virtual package with no good providers.\n"
 msgstr "O pacote %s é um pacote virtual provido por:\n"
 
-#: cmdline/apt-get.cc:687 cmdline/apt-get.cc:743 cmdline/apt-shell.cc:714
+#: cmdline/apt-get.cc:688 cmdline/apt-get.cc:744 cmdline/apt-shell.cc:714
 #: cmdline/apt-shell.cc:770 cmdline/cmdline.cc:1830
 #, c-format
 msgid "Package %s is a virtual package provided by:\n"
 msgstr "O pacote %s é um pacote virtual provido por:\n"
 
-#: cmdline/apt-get.cc:695 cmdline/apt-get.cc:755 cmdline/apt-shell.cc:722
+#: cmdline/apt-get.cc:696 cmdline/apt-get.cc:756 cmdline/apt-shell.cc:722
 #: cmdline/apt-shell.cc:782
 msgid " [Installed]"
 msgstr " [Instalado]"
 
-#: cmdline/apt-get.cc:700 cmdline/apt-get.cc:760 cmdline/apt-shell.cc:727
+#: cmdline/apt-get.cc:701 cmdline/apt-get.cc:761 cmdline/apt-shell.cc:727
 #: cmdline/apt-shell.cc:787
 msgid "You should explicitly select one to install."
 msgstr "Você deve selecionar um explicitamente para instalar."
 
-#: cmdline/apt-get.cc:701 cmdline/apt-shell.cc:728
+#: cmdline/apt-get.cc:702 cmdline/apt-shell.cc:728
 #, fuzzy, c-format
 msgid "Package %s is a virtual package with multiple good providers.\n"
 msgstr "O pacote %s é um pacote virtual provido por:\n"
 
-#: cmdline/apt-get.cc:712 cmdline/apt-shell.cc:739
+#: cmdline/apt-get.cc:713 cmdline/apt-shell.cc:739
 #, c-format
 msgid "Skipping %s, it is already installed and upgrade is not set.\n"
 msgstr "Omitindo %s, já instalado e atualização não está habilitada.\n"
 
-#: cmdline/apt-get.cc:730 cmdline/apt-shell.cc:757
+#: cmdline/apt-get.cc:731 cmdline/apt-shell.cc:757
 #, c-format
 msgid "Package %s is not installed, so not removed\n"
 msgstr "O pacote %s não está instalado, então não será removido\n"
 
-#: cmdline/apt-get.cc:766 cmdline/apt-shell.cc:793
+#: cmdline/apt-get.cc:767 cmdline/apt-shell.cc:793
 #, c-format
 msgid ""
 "Package %s has no available version, but exists in the database.\n"
@@ -648,64 +648,64 @@ msgstr ""
 "e nunca foi enviado, se tornou obsoleto ou não está disponível a partir\n"
 "das fontes do sources.list\n"
 
-#: cmdline/apt-get.cc:788 cmdline/apt-shell.cc:815
+#: cmdline/apt-get.cc:789 cmdline/apt-shell.cc:815
 msgid "However the following packages replace it:"
 msgstr "Porém, os pacotes a seguir o substituem:"
 
-#: cmdline/apt-get.cc:791 cmdline/apt-shell.cc:818
+#: cmdline/apt-get.cc:792 cmdline/apt-shell.cc:818
 #, c-format
 msgid "Package %s has no installation candidate"
 msgstr "O pacote %s não tem candidato a instalação"
 
-#: cmdline/apt-get.cc:811 cmdline/apt-shell.cc:844
+#: cmdline/apt-get.cc:812 cmdline/apt-shell.cc:844
 #, c-format
 msgid "Reinstallation of %s is not possible, it cannot be downloaded.\n"
 msgstr "A reinstalação de %s não é possível, este não pode ser obtido.\n"
 
-#: cmdline/apt-get.cc:819 cmdline/apt-shell.cc:852
+#: cmdline/apt-get.cc:820 cmdline/apt-shell.cc:852
 #, c-format
 msgid "%s is already the newest version.\n"
 msgstr "%s já está na versão mais nova.\n"
 
-#: cmdline/apt-get.cc:848 cmdline/apt-shell.cc:881
+#: cmdline/apt-get.cc:849 cmdline/apt-shell.cc:881
 #, c-format
 msgid "Release %s'%s' for '%s' was not found"
 msgstr "Release %s'%s' para '%s' não foi encontrada"
 
-#: cmdline/apt-get.cc:850 cmdline/apt-shell.cc:883
+#: cmdline/apt-get.cc:851 cmdline/apt-shell.cc:883
 #, c-format
 msgid "Version %s'%s' for '%s' was not found"
 msgstr "Versão %s'%s' para '%s' não foi encontrada"
 
-#: cmdline/apt-get.cc:858 cmdline/apt-shell.cc:891
+#: cmdline/apt-get.cc:859 cmdline/apt-shell.cc:891
 #, c-format
 msgid "Selected version %s (%s) for %s\n"
 msgstr "Selecionada a versão %s (%s) para %s\n"
 
-#: cmdline/apt-get.cc:861 cmdline/apt-shell.cc:894
+#: cmdline/apt-get.cc:862 cmdline/apt-shell.cc:894
 #, c-format
 msgid "Selected version %s for %s\n"
 msgstr "Selecionada a versão %s para %s\n"
 
-#: cmdline/apt-get.cc:894
+#: cmdline/apt-get.cc:895
 msgid "The update command takes no arguments"
 msgstr "O comando update não possui argumentos"
 
-#: cmdline/apt-get.cc:917 cmdline/apt-shell.cc:941
+#: cmdline/apt-get.cc:918 cmdline/apt-shell.cc:941
 #, c-format
 msgid "Sources list %s could not be read"
 msgstr "A lista de fontes %s não pôde ser lida."
 
-#: cmdline/apt-get.cc:920 cmdline/apt-shell.cc:944
+#: cmdline/apt-get.cc:921 cmdline/apt-shell.cc:944
 #, c-format
 msgid "Sources list %s doesn't exist"
 msgstr "Arquivos de fontes %s não existe"
 
-#: cmdline/apt-get.cc:933 cmdline/apt-shell.cc:956
+#: cmdline/apt-get.cc:934 cmdline/apt-shell.cc:956
 msgid "Unable to lock the list directory"
 msgstr "Impossível bloquear o diretório list"
 
-#: cmdline/apt-get.cc:965 cmdline/apt-shell.cc:986
+#: cmdline/apt-get.cc:966 cmdline/apt-shell.cc:986
 msgid ""
 "Release files for some repositories could not be retrieved or authenticated. "
 "Such repositories are being ignored."
@@ -713,7 +713,7 @@ msgstr ""
 "Alguns arquivos de release não puderam ser obtidos ou autenticados. Estes "
 "repositórios estão sendo ignorados."
 
-#: cmdline/apt-get.cc:1033 cmdline/apt-shell.cc:1048
+#: cmdline/apt-get.cc:1034 cmdline/apt-shell.cc:1048
 msgid ""
 "Some index files failed to download, they have been ignored, or old ones "
 "used instead."
@@ -721,33 +721,33 @@ msgstr ""
 "Houve falha no download de alguns arquivos de índice, eles foram ignorados "
 "ou os antigos serão usados."
 
-#: cmdline/apt-get.cc:1052 cmdline/apt-shell.cc:1077
+#: cmdline/apt-get.cc:1053 cmdline/apt-shell.cc:1077
 msgid "Internal Error, AllUpgrade broke stuff"
 msgstr "Erro interno no AllUpgrade"
 
-#: cmdline/apt-get.cc:1149 cmdline/apt-get.cc:1166 cmdline/apt-shell.cc:1179
+#: cmdline/apt-get.cc:1150 cmdline/apt-get.cc:1167 cmdline/apt-shell.cc:1179
 #: cmdline/apt-shell.cc:1196
 #, c-format
 msgid "Couldn't parse name '%s'"
 msgstr "Não foi possível processar o nome '%s'"
 
-#: cmdline/apt-get.cc:1261 cmdline/apt-get.cc:1300 cmdline/apt-shell.cc:1289
+#: cmdline/apt-get.cc:1262 cmdline/apt-get.cc:1301 cmdline/apt-shell.cc:1289
 #: cmdline/apt-shell.cc:1329
 #, c-format
 msgid "Couldn't find package %s"
 msgstr "Não foi possível encontrar o pacote %s"
 
-#: cmdline/apt-get.cc:1275 cmdline/apt-shell.cc:1303 cmdline/cmdline.cc:48
+#: cmdline/apt-get.cc:1276 cmdline/apt-shell.cc:1303 cmdline/cmdline.cc:48
 #, c-format
 msgid "Regex compilation error - %s"
 msgstr "Erro de compilação de expressão regular - %s"
 
-#: cmdline/apt-get.cc:1330
+#: cmdline/apt-get.cc:1331
 #, fuzzy
 msgid "You might want to run `apt-get --fix-broken install' to correct these:"
 msgstr "Você pode querer rodar `apt-get -f install' para corrigir estas:"
 
-#: cmdline/apt-get.cc:1333
+#: cmdline/apt-get.cc:1334
 #, fuzzy
 msgid ""
 "Unmet dependencies. Try 'apt-get --fix-broken install' with no packages (or "
@@ -756,7 +756,7 @@ msgstr ""
 "Dependências não resolvidas. Tente 'apt-get -f install' sem pacotes (ou "
 "especifique uma solução)."
 
-#: cmdline/apt-get.cc:1355 cmdline/apt-shell.cc:1392
+#: cmdline/apt-get.cc:1356 cmdline/apt-shell.cc:1392
 #, fuzzy
 msgid ""
 "Some packages could not be installed. This may mean that you have\n"
@@ -768,7 +768,7 @@ msgstr ""
 "distribuição instável, que alguns pacotes requeridos não foram \n"
 "criados ainda ou foram tirados do Incoming."
 
-#: cmdline/apt-get.cc:1362 cmdline/apt-shell.cc:1399
+#: cmdline/apt-get.cc:1363 cmdline/apt-shell.cc:1399
 msgid ""
 "Since you only requested a single operation it is extremely likely that\n"
 "the package is simply not installable and a bug report against\n"
@@ -778,99 +778,99 @@ msgstr ""
 "o pacote esteja simplesmente não instalável e um relato de erro sobre\n"
 "esse pacote deve ser enviado."
 
-#: cmdline/apt-get.cc:1367 cmdline/apt-shell.cc:1404
+#: cmdline/apt-get.cc:1368 cmdline/apt-shell.cc:1404
 msgid "The following information may help to resolve the situation:"
 msgstr "A seguinte informação pode ajudar a resolver a situação:"
 
-#: cmdline/apt-get.cc:1370 cmdline/apt-shell.cc:1408
+#: cmdline/apt-get.cc:1371 cmdline/apt-shell.cc:1408
 msgid "Broken packages"
 msgstr "Pacotes quebrados"
 
-#: cmdline/apt-get.cc:1397
+#: cmdline/apt-get.cc:1398
 msgid "The following extra packages will be installed:"
 msgstr "Os seguintes pacotes extras serão instalados:"
 
-#: cmdline/apt-get.cc:1477
+#: cmdline/apt-get.cc:1478
 msgid "Suggested packages:"
 msgstr "Pacotes sugeridos:"
 
-#: cmdline/apt-get.cc:1478
+#: cmdline/apt-get.cc:1479
 msgid "Recommended packages:"
 msgstr "Pacotes recomendados"
 
-#: cmdline/apt-get.cc:1502 cmdline/apt-shell.cc:1435
+#: cmdline/apt-get.cc:1503 cmdline/apt-shell.cc:1435
 msgid "Calculating Upgrade... "
 msgstr "Calculando Atualização... "
 
-#: cmdline/apt-get.cc:1505 cmdline/apt-shell.cc:1438 methods/connect.cc:102
+#: cmdline/apt-get.cc:1506 cmdline/apt-shell.cc:1438 methods/connect.cc:102
 #: methods/ftp.cc:706
 msgid "Failed"
 msgstr "Falhou"
 
-#: cmdline/apt-get.cc:1521 cmdline/apt-shell.cc:1450
+#: cmdline/apt-get.cc:1522 cmdline/apt-shell.cc:1450
 msgid "Done"
 msgstr "Feito"
 
-#: cmdline/apt-get.cc:1585
+#: cmdline/apt-get.cc:1586
 msgid "Must specify at least one package to fetch source for"
 msgstr "Deve-se especificar pelo menos um pacote para buscar o fonte"
 
-#: cmdline/apt-get.cc:1642 cmdline/apt-get.cc:1826 cmdline/apt-shell.cc:1556
+#: cmdline/apt-get.cc:1644 cmdline/apt-get.cc:1835 cmdline/apt-shell.cc:1556
 #, c-format
 msgid "Unable to find a source package for %s"
 msgstr "Impossível encontrar um pacote-fonte para %s"
 
-#: cmdline/apt-get.cc:1680
+#: cmdline/apt-get.cc:1689
 #, c-format
 msgid "You don't have enough free space in %s"
 msgstr "Você não tem espaço livre suficiente em %s"
 
-#: cmdline/apt-get.cc:1685
+#: cmdline/apt-get.cc:1694
 #, c-format
 msgid "Need to get %sB/%sB of source archives.\n"
 msgstr "É necessário obter %sB/%sB de arquivos fonte.\n"
 
-#: cmdline/apt-get.cc:1688
+#: cmdline/apt-get.cc:1697
 #, c-format
 msgid "Need to get %sB of source archives.\n"
 msgstr "É necessário obter %sB de arquivos fonte.\n"
 
-#: cmdline/apt-get.cc:1694
+#: cmdline/apt-get.cc:1703
 #, c-format
 msgid "Fetch Source %s\n"
 msgstr "Obter Fonte %s\n"
 
-#: cmdline/apt-get.cc:1754
+#: cmdline/apt-get.cc:1763
 #, c-format
 msgid "Build command '%s' failed.\n"
 msgstr "Comando de construção '%s' falhou.\n"
 
-#: cmdline/apt-get.cc:1766
+#: cmdline/apt-get.cc:1775
 #, c-format
 msgid "Unpack command '%s' failed.\n"
 msgstr "Comando de desempacotamento '%s' falhou.\n"
 
-#: cmdline/apt-get.cc:1785
+#: cmdline/apt-get.cc:1794
 msgid "Child process failed"
 msgstr "Processo filho falhou"
 
-#: cmdline/apt-get.cc:1803 cmdline/apt-shell.cc:1533
+#: cmdline/apt-get.cc:1812 cmdline/apt-shell.cc:1533
 msgid "Must specify at least one package to check builddeps for"
 msgstr ""
 "Deve-se especificar pelo menos um pacote para que se verifique as "
 "dependências de construção"
 
-#: cmdline/apt-get.cc:1831 cmdline/apt-shell.cc:1561
+#: cmdline/apt-get.cc:1840 cmdline/apt-shell.cc:1561
 #, c-format
 msgid "Unable to get build-dependency information for %s"
 msgstr "Impossível obter informações de dependência de construção para %s"
 
-#: cmdline/apt-get.cc:1851 cmdline/apt-shell.cc:1581
+#: cmdline/apt-get.cc:1860 cmdline/apt-shell.cc:1581
 #, c-format
 msgid "%s has no build depends.\n"
 msgstr "%s não possui dependências de construção.\n"
 
-#: cmdline/apt-get.cc:1922 cmdline/apt-shell.cc:1652
+#: cmdline/apt-get.cc:1931 cmdline/apt-shell.cc:1652
 #, c-format
 msgid ""
 "%s dependency for %s cannot be satisfied because the package %s cannot be "
@@ -879,7 +879,7 @@ msgstr ""
 "A dependência %s por %s não pode ser satisfeita porque o pacote %s não pode "
 "ser encontrado"
 
-#: cmdline/apt-get.cc:1974 cmdline/apt-shell.cc:1704
+#: cmdline/apt-get.cc:1983 cmdline/apt-shell.cc:1704
 #, c-format
 msgid ""
 "%s dependency for %s cannot be satisfied because no available versions of "
@@ -888,19 +888,19 @@ msgstr ""
 "A dependência de %s por %s não pode ser satisfeita porque nenhum versão "
 "disponível do pacote %s pôde satisfazer os requisitos de versão"
 
-#: cmdline/apt-get.cc:2009 cmdline/apt-shell.cc:1738
+#: cmdline/apt-get.cc:2018 cmdline/apt-shell.cc:1738
 #, c-format
 msgid "Failed to satisfy %s dependency for %s: Installed package %s is too new"
 msgstr ""
 "Impossível satisfazer a dependência %s de %s: Pacote %s instalado é muito "
 "novo"
 
-#: cmdline/apt-get.cc:2034 cmdline/apt-shell.cc:1763
+#: cmdline/apt-get.cc:2043 cmdline/apt-shell.cc:1763
 #, c-format
 msgid "Failed to satisfy %s dependency for %s: %s"
 msgstr "Impossível satisfazer dependencia %s para %s: %s"
 
-#: cmdline/apt-get.cc:2051 cmdline/apt-shell.cc:1777
+#: cmdline/apt-get.cc:2060 cmdline/apt-shell.cc:1777
 #, fuzzy, c-format
 msgid ""
 "Some broken packages were found while trying to process build-dependencies "
@@ -911,15 +911,15 @@ msgstr ""
 "as dependências de construção para %s.\n"
 "Você pode querer rodar `apt-get -f install' para corrigí-los."
 
-#: cmdline/apt-get.cc:2057
+#: cmdline/apt-get.cc:2066
 msgid "Failed to process build dependencies"
 msgstr "Falha ao processar as dependências de construção"
 
-#: cmdline/apt-get.cc:2124 cmdline/apt-shell.cc:1970
+#: cmdline/apt-get.cc:2133 cmdline/apt-shell.cc:1970
 msgid "Supported Modules:"
 msgstr "Módulos Suportados:"
 
-#: cmdline/apt-get.cc:2165
+#: cmdline/apt-get.cc:2174
 msgid ""
 "Usage: apt-get [options] command\n"
 "       apt-get [options] install|remove pkg1 [pkg2 ...]\n"
@@ -962,7 +962,7 @@ msgstr ""
 "   autoclean - Apaga arquivos antigos obtidos para instalação\n"
 "   check - Verifica se não há dependências quebradas\n"
 
-#: cmdline/apt-get.cc:2193
+#: cmdline/apt-get.cc:2202
 msgid ""
 "\n"
 "Options:\n"
@@ -1466,11 +1466,11 @@ msgstr "Você deve selecionar um explicitamente para instalar."
 msgid "Package %s is a virtual package with multiple providers."
 msgstr "O pacote %s é um pacote virtual provido por:\n"
 
-#: cmdline/cmdline.cc:1905
+#: cmdline/cmdline.cc:1902
 msgid "No packages found"
 msgstr "Nenhum pacote encontrado"
 
-#: cmdline/cmdline.cc:1923
+#: cmdline/cmdline.cc:1920
 msgid "Changelog data not available for the repository."
 msgstr ""
 
@@ -1479,13 +1479,13 @@ msgstr ""
 msgid "Unable to stat the mount point %s"
 msgstr "Impossível rodar stat no ponto de montagem %s"
 
-#: apt-pkg/contrib/cdromutl.cc:175 apt-pkg/acquire.cc:418 apt-pkg/clean.cc:44
+#: apt-pkg/contrib/cdromutl.cc:175 apt-pkg/acquire.cc:418 apt-pkg/clean.cc:45
 #, c-format
 msgid "Unable to change to %s"
 msgstr "Impossível alterar para %s"
 
-#: apt-pkg/contrib/cdromutl.cc:179 apt-pkg/contrib/configuration.cc:735
-#: apt-pkg/acquire.cc:412 apt-pkg/clean.cc:38 apt-pkg/sourcelist.cc:429
+#: apt-pkg/contrib/cdromutl.cc:179 apt-pkg/contrib/configuration.cc:737
+#: apt-pkg/acquire.cc:412 apt-pkg/clean.cc:39 apt-pkg/sourcelist.cc:429
 #, c-format
 msgid "Unable to read %s"
 msgstr "Impossível ler %s"
@@ -1494,198 +1494,198 @@ msgstr "Impossível ler %s"
 msgid "Failed to stat the cdrom"
 msgstr "Impossível rodar stat no cdrom"
 
-#: apt-pkg/contrib/cmndline.cc:80
+#: apt-pkg/contrib/cmndline.cc:82
 #, c-format
 msgid "Command line option '%c' [from %s] is not known."
 msgstr "Opção de linha de comando '%c' [de %s] é desconhecida."
 
-#: apt-pkg/contrib/cmndline.cc:106 apt-pkg/contrib/cmndline.cc:114
-#: apt-pkg/contrib/cmndline.cc:122
+#: apt-pkg/contrib/cmndline.cc:108 apt-pkg/contrib/cmndline.cc:116
+#: apt-pkg/contrib/cmndline.cc:124
 #, c-format
 msgid "Command line option %s is not understood"
 msgstr "Opção de linha de comando %s é desconhecida"
 
-#: apt-pkg/contrib/cmndline.cc:127
+#: apt-pkg/contrib/cmndline.cc:129
 #, c-format
 msgid "Command line option %s is not boolean"
 msgstr "Opção de linha de comando %s não é booleano"
 
-#: apt-pkg/contrib/cmndline.cc:166 apt-pkg/contrib/cmndline.cc:187
+#: apt-pkg/contrib/cmndline.cc:168 apt-pkg/contrib/cmndline.cc:189
 #, c-format
 msgid "Option %s requires an argument."
 msgstr "Opção %s requer um argumento."
 
-#: apt-pkg/contrib/cmndline.cc:201 apt-pkg/contrib/cmndline.cc:207
+#: apt-pkg/contrib/cmndline.cc:203 apt-pkg/contrib/cmndline.cc:209
 #, c-format
 msgid "Option %s: Configuration item specification must have an =<val>."
 msgstr "Opção %s: A especificação de um item de confiugração deve ter =<val>."
 
-#: apt-pkg/contrib/cmndline.cc:237
+#: apt-pkg/contrib/cmndline.cc:239
 #, c-format
 msgid "Option %s requires an integer argument, not '%s'"
 msgstr "Opção %s requer um argumento inteiro, não '%s'"
 
-#: apt-pkg/contrib/cmndline.cc:268
+#: apt-pkg/contrib/cmndline.cc:270
 #, c-format
 msgid "Option '%s' is too long"
 msgstr "Opção '%s' é muito longa"
 
-#: apt-pkg/contrib/cmndline.cc:301
+#: apt-pkg/contrib/cmndline.cc:303
 #, c-format
 msgid "Sense %s is not understood, try true or false."
 msgstr "%s não é entendido, tente 'true' ou 'false'"
 
-#: apt-pkg/contrib/cmndline.cc:351
+#: apt-pkg/contrib/cmndline.cc:353
 #, c-format
 msgid "Invalid operation %s"
 msgstr "Operação %s inválida"
 
-#: apt-pkg/contrib/configuration.cc:425
+#: apt-pkg/contrib/configuration.cc:426
 #, c-format
 msgid "Unrecognized type abbreviation: '%c'"
 msgstr "Abreviação de tipo não reconhecida: '%c'"
 
-#: apt-pkg/contrib/configuration.cc:483
+#: apt-pkg/contrib/configuration.cc:485
 #, c-format
 msgid "Opening configuration file %s"
 msgstr "Abrindo arquivo de configuração %s"
 
-#: apt-pkg/contrib/configuration.cc:593
+#: apt-pkg/contrib/configuration.cc:595
 #, c-format
 msgid "Syntax error %s:%u: Block starts with no name."
 msgstr "Erro de sintaxe %s:%u: Bloco começa sem um nome"
 
-#: apt-pkg/contrib/configuration.cc:612
+#: apt-pkg/contrib/configuration.cc:614
 #, c-format
 msgid "Syntax error %s:%u: Malformed Tag"
 msgstr "Erro de sintaxe %s:%u: Tag inválida"
 
-#: apt-pkg/contrib/configuration.cc:629
+#: apt-pkg/contrib/configuration.cc:631
 #, c-format
 msgid "Syntax error %s:%u: Extra junk after value"
 msgstr "Erro de sintaxe %s:%u: Lixo extra depois do valor"
 
-#: apt-pkg/contrib/configuration.cc:669
+#: apt-pkg/contrib/configuration.cc:671
 #, c-format
 msgid "Syntax error %s:%u: Directives can only be done at the top level"
 msgstr ""
 "Erro de sintaxe %s:%u: Diretivas podem ser feitas somente no primeiro nível"
 
-#: apt-pkg/contrib/configuration.cc:676
+#: apt-pkg/contrib/configuration.cc:678
 #, c-format
 msgid "Syntax error %s:%u: Too many nested includes"
 msgstr "Erro de sintaxe %s:%u: Muitos includes aninhados"
 
-#: apt-pkg/contrib/configuration.cc:680 apt-pkg/contrib/configuration.cc:685
+#: apt-pkg/contrib/configuration.cc:682 apt-pkg/contrib/configuration.cc:687
 #, c-format
 msgid "Syntax error %s:%u: Included from here"
 msgstr "Erro de sintaxe %s:%u: Incluído desse ponto"
 
-#: apt-pkg/contrib/configuration.cc:689
+#: apt-pkg/contrib/configuration.cc:691
 #, c-format
 msgid "Syntax error %s:%u: Unsupported directive '%s'"
 msgstr "Erro de sintaxe %s:%u: Diretiva '%s' não suportada"
 
-#: apt-pkg/contrib/configuration.cc:723
+#: apt-pkg/contrib/configuration.cc:725
 #, c-format
 msgid "Syntax error %s:%u: Extra junk at end of file"
 msgstr "Erro de sintaxe %s:%u: Lixo extra no final do arquivo"
 
-#: apt-pkg/contrib/fileutl.cc:84
+#: apt-pkg/contrib/fileutl.cc:85
 #, c-format
 msgid "Not using locking for read only lock file %s"
 msgstr "Não utilizando bloqueio para apenas leitura em %s"
 
-#: apt-pkg/contrib/fileutl.cc:89
+#: apt-pkg/contrib/fileutl.cc:90
 #, c-format
 msgid "Could not open lock file %s"
 msgstr "Impossível abrir arquivo de bloqueio %s"
 
-#: apt-pkg/contrib/fileutl.cc:107
+#: apt-pkg/contrib/fileutl.cc:108
 #, c-format
 msgid "Not using locking for nfs mounted lock file %s"
 msgstr "Não utilizando bloqueio para arquivo de bloqueio montado em nfs %s"
 
-#: apt-pkg/contrib/fileutl.cc:111
+#: apt-pkg/contrib/fileutl.cc:112
 #, c-format
 msgid "Could not get lock %s"
 msgstr "Impossível bloquear %s"
 
-#: apt-pkg/contrib/fileutl.cc:381
+#: apt-pkg/contrib/fileutl.cc:382
 #, c-format
 msgid "Waited, for %s but it wasn't there"
 msgstr "Esperando, por %s mas este não foi encontrado"
 
-#: apt-pkg/contrib/fileutl.cc:391
+#: apt-pkg/contrib/fileutl.cc:392
 #, c-format
 msgid "Sub-process %s received a segmentation fault."
 msgstr "Subprocesso %s recebeu uma falha de segmentação."
 
-#: apt-pkg/contrib/fileutl.cc:394 apt-pkg/rpm/rpmpm.cc:631
+#: apt-pkg/contrib/fileutl.cc:395 apt-pkg/rpm/rpmpm.cc:640
 #, c-format
 msgid "Sub-process %s returned an error code (%u)"
 msgstr "Subprocesso %s retornou um código de erro (%u)"
 
-#: apt-pkg/contrib/fileutl.cc:396 apt-pkg/rpm/rpmpm.cc:634
+#: apt-pkg/contrib/fileutl.cc:397 apt-pkg/rpm/rpmpm.cc:643
 #, c-format
 msgid "Sub-process %s exited unexpectedly"
 msgstr "O subprocesso %s terminou inesperadamente"
 
-#: apt-pkg/contrib/fileutl.cc:440
+#: apt-pkg/contrib/fileutl.cc:441
 #, c-format
 msgid "Could not open file %s"
 msgstr "Impossível abrir arquivo %s"
 
-#: apt-pkg/contrib/fileutl.cc:475 methods/ftp.cc:342 methods/rsh.cc:193
+#: apt-pkg/contrib/fileutl.cc:476 methods/ftp.cc:342 methods/rsh.cc:193
 msgid "Read error"
 msgstr "Erro de leitura"
 
-#: apt-pkg/contrib/fileutl.cc:496
+#: apt-pkg/contrib/fileutl.cc:497
 #, c-format
 msgid "read, still have %lu to read but none left"
 msgstr "read, ainda existe %lu para ser lido, mas não sobrou nada"
 
-#: apt-pkg/contrib/fileutl.cc:514
+#: apt-pkg/contrib/fileutl.cc:515
 msgid "Write error"
 msgstr "Erro de escrita"
 
-#: apt-pkg/contrib/fileutl.cc:526
+#: apt-pkg/contrib/fileutl.cc:527
 #, c-format
 msgid "write, still have %lu to write but couldn't"
 msgstr "write, ainda existe %lu para ser escrito, mas não foi possível"
 
-#: apt-pkg/contrib/fileutl.cc:601
+#: apt-pkg/contrib/fileutl.cc:602
 msgid "Problem closing the file"
 msgstr "Problema fechando o arquivo"
 
-#: apt-pkg/contrib/fileutl.cc:607
+#: apt-pkg/contrib/fileutl.cc:608
 msgid "Problem unlinking the file"
 msgstr "Problema removendo o arquivo"
 
-#: apt-pkg/contrib/fileutl.cc:618
+#: apt-pkg/contrib/fileutl.cc:619
 msgid "Problem syncing the file"
 msgstr "Problema sincronizando o arquivo"
 
-#: apt-pkg/contrib/mmap.cc:81
+#: apt-pkg/contrib/mmap.cc:82
 msgid "Can't mmap an empty file"
 msgstr "Impossível fazer mmap em um arquivo vazio"
 
-#: apt-pkg/contrib/mmap.cc:86
+#: apt-pkg/contrib/mmap.cc:87
 #, c-format
 msgid "Couldn't make mmap of %lu bytes"
 msgstr "Impossível fazer mmap de %lu bytes"
 
-#: apt-pkg/contrib/mmap.cc:198
+#: apt-pkg/contrib/mmap.cc:199
 #, fuzzy
 msgid "Failed to ftruncate"
 msgstr "Falhou ao rodar stat"
 
-#: apt-pkg/contrib/progress.cc:157
+#: apt-pkg/contrib/progress.cc:158
 #, c-format
 msgid "%c%s... Error!"
 msgstr "%c%s... Erro!"
 
-#: apt-pkg/contrib/progress.cc:159
+#: apt-pkg/contrib/progress.cc:160
 #, c-format
 msgid "%c%s... Done"
 msgstr "%c%s... Feito"
@@ -1695,127 +1695,126 @@ msgstr "%c%s... Feito"
 msgid "Selection %s not found"
 msgstr "Seleção %s não encontrada"
 
-#: apt-pkg/rpm/repomd.cc:38
+#: apt-pkg/rpm/repomd.cc:41
 #, fuzzy, c-format
 msgid "Could not open metadata file '%s'"
 msgstr "Impossível abrir arquivo %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:108
+#: apt-pkg/rpm/rpmhandler.cc:115
 #, c-format
 msgid "Impossible flags %d in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:534
+#: apt-pkg/rpm/rpmhandler.cc:550
 msgid "could not rewind RPMFileHandler"
 msgstr "não foi possível retroceder o RPMFileHandler"
 
-#: apt-pkg/rpm/rpmhandler.cc:571 apt-pkg/rpm/rpmhandler.cc:578
-#: apt-pkg/rpm/rpmpm.cc:692 apt-pkg/rpm/rpmpm.cc:697
+#: apt-pkg/rpm/rpmhandler.cc:587 apt-pkg/rpm/rpmhandler.cc:594
+#: apt-pkg/rpm/rpmpm.cc:701 apt-pkg/rpm/rpmpm.cc:706
 #, c-format
 msgid "Failed reading file %s"
 msgstr "Falha ao ler o arquivo %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:748
+#: apt-pkg/rpm/rpmhandler.cc:764
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Impossível determinar o nome do peer"
 
-#: apt-pkg/rpm/rpmhandler.cc:797
+#: apt-pkg/rpm/rpmhandler.cc:813
 msgid "could not open RPM database"
 msgstr "não foi possível abrir a base de dados RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:804
+#: apt-pkg/rpm/rpmhandler.cc:820
 msgid "could not create RPM database iterator"
 msgstr "não foi possível criar o iterator da base de dados RPM"
 
-#: apt-pkg/rpm/rpmhandler.cc:989 apt-pkg/rpm/rpmhandler.cc:1012
+#: apt-pkg/rpm/rpmhandler.cc:1004 apt-pkg/rpm/rpmhandler.cc:1027
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Impossível analisar o arquivo de pacotes %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:1016
+#: apt-pkg/rpm/rpmhandler.cc:1031
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "Não foi possível encontrar o pacote %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:1035
+#: apt-pkg/rpm/rpmhandler.cc:1050
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1286 apt-pkg/rpm/rpmhandler.cc:1703
+#: apt-pkg/rpm/rpmhandler.cc:1301 apt-pkg/rpm/rpmhandler.cc:1721
 #, c-format
 msgid "Ignoring unknown dependency type %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1372
+#: apt-pkg/rpm/rpmhandler.cc:1387
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Problema ao abrir %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:1418
-#, c-format
-msgid "Unable to handle xmlReader rewind from offset %d!"
+#: apt-pkg/rpm/rpmhandler.cc:1433
+msgid "Internal error: xmlReader cannot rewind"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1531
+#: apt-pkg/rpm/rpmhandler.cc:1548
 #, c-format
 msgid "Unsupported database scheme (%d)"
 msgstr ""
 
-#: apt-pkg/rpm/rpmindexfile.cc:386 apt-pkg/rpm/rpmindexfile.cc:749
+#: apt-pkg/rpm/rpmindexfile.cc:387 apt-pkg/rpm/rpmindexfile.cc:755
 #, c-format
 msgid "Problem with SelectFile %s"
 msgstr "Problema em SelecFile %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:395 apt-pkg/rpm/rpmindexfile.cc:758
-#: apt-pkg/rpm/rpmindexfile.cc:897
+#: apt-pkg/rpm/rpmindexfile.cc:396 apt-pkg/rpm/rpmindexfile.cc:764
+#: apt-pkg/rpm/rpmindexfile.cc:903
 #, fuzzy, c-format
 msgid "Failed to stat %s"
 msgstr "Falhou ao rodar stat"
 
-#: apt-pkg/rpm/rpmindexfile.cc:404 apt-pkg/rpm/rpmindexfile.cc:440
-#: apt-pkg/rpm/rpmindexfile.cc:767 apt-pkg/rpm/rpmindexfile.cc:801
+#: apt-pkg/rpm/rpmindexfile.cc:405 apt-pkg/rpm/rpmindexfile.cc:441
+#: apt-pkg/rpm/rpmindexfile.cc:773 apt-pkg/rpm/rpmindexfile.cc:807
 #, c-format
 msgid "Problem opening %s"
 msgstr "Problema ao abrir %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:410 apt-pkg/rpm/rpmindexfile.cc:773
-#: apt-pkg/rpm/rpmindexfile.cc:902
+#: apt-pkg/rpm/rpmindexfile.cc:411 apt-pkg/rpm/rpmindexfile.cc:779
+#: apt-pkg/rpm/rpmindexfile.cc:908
 #, c-format
 msgid "Problem with MergeList %s"
 msgstr "Problema em MergeList %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:445 apt-pkg/rpm/rpmindexfile.cc:806
-#: apt-pkg/rpm/rpmindexfile.cc:920
+#: apt-pkg/rpm/rpmindexfile.cc:446 apt-pkg/rpm/rpmindexfile.cc:812
+#: apt-pkg/rpm/rpmindexfile.cc:926
 #, c-format
 msgid "Problem with MergeFileProvides %s"
 msgstr "Problema em MergeList %s"
 
-#: apt-pkg/rpm/rpmindexfile.cc:668
+#: apt-pkg/rpm/rpmindexfile.cc:674
 #, c-format
 msgid "Primary metadata not found in repository %s %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmindexfile.cc:887 apt-pkg/rpm/rpmindexfile.cc:916
+#: apt-pkg/rpm/rpmindexfile.cc:893 apt-pkg/rpm/rpmindexfile.cc:922
 msgid "Problem opening RPM database"
 msgstr "Problema ao abrir a base de dados do RPM"
 
-#: apt-pkg/rpm/rpmindexfile.cc:891
+#: apt-pkg/rpm/rpmindexfile.cc:897
 msgid "Problem with SelectFile RPM Database"
 msgstr "Problema com SelectFile na base de dados RPM"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1124 apt-pkg/sourcelist.cc:98
+#: apt-pkg/rpm/rpmindexfile.cc:1130 apt-pkg/sourcelist.cc:98
 #, c-format
 msgid "Malformed line %lu in source list %s (URI)"
 msgstr "Linha inválida %lu na lista de fontes %s (URI)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1126 apt-pkg/sourcelist.cc:100
+#: apt-pkg/rpm/rpmindexfile.cc:1132 apt-pkg/sourcelist.cc:100
 #, c-format
 msgid "Malformed line %lu in source list %s (dist)"
 msgstr "Linha inválida %lu na lista de fontes %s (dist)"
 
-#: apt-pkg/rpm/rpmindexfile.cc:1129 apt-pkg/sourcelist.cc:103
+#: apt-pkg/rpm/rpmindexfile.cc:1135 apt-pkg/sourcelist.cc:103
 #, c-format
 msgid "Malformed line %lu in source list %s (URI parse)"
 msgstr "Linha inválida %lu na lista de fontes %s (URI parse)"
@@ -1862,120 +1861,120 @@ msgstr "Flag NotAutomatic incorreta"
 msgid "could not open Release file '%s'"
 msgstr "não foi possível abrir o arquivo release '%s'"
 
-#: apt-pkg/rpm/rpmpackagedata.cc:52
+#: apt-pkg/rpm/rpmpackagedata.cc:56
 #, c-format
 msgid "could not open package priority file %s"
 msgstr "não foi possível abrir o arquivo de prioridades dos pacotes %s"
 
-#: apt-pkg/rpm/rpmpackagedata.cc:61
+#: apt-pkg/rpm/rpmpackagedata.cc:65
 #, c-format
 msgid "no data in %s"
 msgstr "sem dados em %s"
 
-#: apt-pkg/rpm/rpmpackagedata.cc:111
+#: apt-pkg/rpm/rpmpackagedata.cc:115
 #, c-format
 msgid "Bad regular expression '%s' in option RPM::Hold."
 msgstr "Expressão regular '%s' inválida na opção RPM::Hold."
 
-#: apt-pkg/rpm/rpmpackagedata.cc:134
+#: apt-pkg/rpm/rpmpackagedata.cc:138
 #, c-format
 msgid "Bad regular expression '%s' in option RPM::Allow-Duplicated."
 msgstr "Expressão regular '%s' inválida na opção RPM::Allow-Duplicated."
 
-#: apt-pkg/rpm/rpmpackagedata.cc:151
+#: apt-pkg/rpm/rpmpackagedata.cc:155
 #, c-format
 msgid "Bad entry '%s' in option RPM::FakeProvides."
 msgstr "Expressão regular '%s' inválida na opção RPM::FakeProvides."
 
-#: apt-pkg/rpm/rpmpackagedata.cc:205
+#: apt-pkg/rpm/rpmpackagedata.cc:209
 #, c-format
 msgid "Bad regular expression '%s' in URI translation"
 msgstr "Expressão regular '%s' inválida na radução de URIs"
 
-#: apt-pkg/rpm/rpmpm.cc:72
+#: apt-pkg/rpm/rpmpm.cc:81
 #, c-format
 msgid "Internal Error, No file name for %s"
 msgstr "Erro interno. Sem nome para o arquivo %s"
 
-#: apt-pkg/rpm/rpmpm.cc:141
+#: apt-pkg/rpm/rpmpm.cc:150
 #, c-format
 msgid "Problem executing scripts %s '%s'"
 msgstr "Problemas na execução dos scripts %s '%s'"
 
-#: apt-pkg/rpm/rpmpm.cc:152
+#: apt-pkg/rpm/rpmpm.cc:161
 msgid "Sub-process returned an error code"
 msgstr "Subprocesso retornou um código de erro"
 
-#: apt-pkg/rpm/rpmpm.cc:178 methods/rsh.cc:94
+#: apt-pkg/rpm/rpmpm.cc:187 methods/rsh.cc:94
 msgid "Failed to create IPC pipe to subprocess"
 msgstr "Falha ao criar pipe IPC para subprocesso"
 
-#: apt-pkg/rpm/rpmpm.cc:222 apt-pkg/rpm/rpmpm.cc:229
+#: apt-pkg/rpm/rpmpm.cc:231 apt-pkg/rpm/rpmpm.cc:238
 #, c-format
 msgid "Failure running script %s"
 msgstr "Falha ao executar o script %s"
 
-#: apt-pkg/rpm/rpmpm.cc:320
+#: apt-pkg/rpm/rpmpm.cc:329
 msgid "Unknown pkgRPMPM operation."
 msgstr "Operação do pkgRPMPM desconhecida"
 
-#: apt-pkg/rpm/rpmpm.cc:557
+#: apt-pkg/rpm/rpmpm.cc:566
 msgid "Executing RPM ("
 msgstr "Executando RPM ("
 
-#: apt-pkg/rpm/rpmpm.cc:597
+#: apt-pkg/rpm/rpmpm.cc:606
 msgid "Could not exec "
 msgstr "Impossível executar "
 
-#: apt-pkg/rpm/rpmpm.cc:612
+#: apt-pkg/rpm/rpmpm.cc:621
 msgid "Couldn't wait for subprocess"
 msgstr "Impossível esperar por subprocesso"
 
-#: apt-pkg/rpm/rpmpm.cc:628
+#: apt-pkg/rpm/rpmpm.cc:637
 #, c-format
 msgid "Sub-process %s recieved a segmentation fault."
 msgstr "Subprocesso %s recebeu uma falha de segmentação."
 
-#: apt-pkg/rpm/rpmpm.cc:638
+#: apt-pkg/rpm/rpmpm.cc:647
 msgid "Done."
 msgstr "Feito."
 
-#: apt-pkg/rpm/rpmpm.cc:688
+#: apt-pkg/rpm/rpmpm.cc:697
 #, c-format
 msgid "Failed opening %s"
 msgstr "Problema ao abrir %s"
 
-#: apt-pkg/rpm/rpmpm.cc:701 apt-pkg/rpm/rpmpm.cc:725
+#: apt-pkg/rpm/rpmpm.cc:710 apt-pkg/rpm/rpmpm.cc:734
 #, c-format
 msgid "Failed adding %s to transaction %s"
 msgstr "Falha ao adicionar %s na transação %s"
 
-#: apt-pkg/rpm/rpmpm.cc:781
+#: apt-pkg/rpm/rpmpm.cc:790
 msgid "Could not open RPM database"
 msgstr "Não foi possível abrir a base de dados RPM"
 
-#: apt-pkg/rpm/rpmpm.cc:856 apt-pkg/rpm/rpmpm.cc:869
+#: apt-pkg/rpm/rpmpm.cc:865 apt-pkg/rpm/rpmpm.cc:878
 msgid "Transaction set check failed"
 msgstr "Verificação da transação falhou"
 
-#: apt-pkg/rpm/rpmpm.cc:889
+#: apt-pkg/rpm/rpmpm.cc:898
 #, c-format
 msgid "Ordering failed for %d packages"
 msgstr "Ordenação falhou para %d pacotes"
 
-#: apt-pkg/rpm/rpmpm.cc:908
+#: apt-pkg/rpm/rpmpm.cc:917
 msgid "Error while running transaction"
 msgstr "Erro enquanto rodando a transação"
 
-#: apt-pkg/rpm/rpmpm.cc:918
+#: apt-pkg/rpm/rpmpm.cc:927
 msgid "Some errors occurred while running transaction"
 msgstr "Ocorreram erros enquanto rodando a transação"
 
-#: apt-pkg/rpm/rpmrecords.cc:180 apt-pkg/rpm/rpmsrcrecords.cc:183
+#: apt-pkg/rpm/rpmrecords.cc:181 apt-pkg/rpm/rpmsrcrecords.cc:184
 msgid "Could not allocate buffer for record text"
 msgstr "Impossível alocar buffer para o texto do registro"
 
-#: apt-pkg/rpm/rpmsystem.cc:218
+#: apt-pkg/rpm/rpmsystem.cc:220
 #, fuzzy, c-format
 msgid "Unable to determine version for package %s"
 msgstr "Impossível determinar o nome do peer"
@@ -2068,7 +2067,7 @@ msgstr "O driver do método %s não pôde ser encontrado."
 msgid "Method %s did not start correctly"
 msgstr "O método %s não iniciou corretamente"
 
-#: apt-pkg/algorithms.cc:251
+#: apt-pkg/algorithms.cc:252
 #, c-format
 msgid ""
 "The package %s needs to be reinstalled, but I can't find an archive for it."
@@ -2076,7 +2075,7 @@ msgstr ""
 "O pacote %s precisa ser reinstalado, mas não consigo encontrar um arquivo "
 "para ele."
 
-#: apt-pkg/algorithms.cc:1152
+#: apt-pkg/algorithms.cc:1154
 msgid ""
 "Error, pkgProblemResolver::Resolve generated breaks, this may be caused by "
 "held packages."
@@ -2084,7 +2083,7 @@ msgstr ""
 "Erro, pkgProblemResolver::Resolve gerou quebras, isso pode ser causado por "
 "pacotes mantidos."
 
-#: apt-pkg/algorithms.cc:1154
+#: apt-pkg/algorithms.cc:1156
 msgid "Unable to correct problems, you have held broken packages."
 msgstr "Impossível corrigir problemas, você manteve pacotes quebrados."
 
@@ -2097,12 +2096,12 @@ msgstr ""
 msgid "You may want to run apt-get update to correct these problems"
 msgstr "Você pode querer executar apt-get update para corrigir estes problemas"
 
-#: apt-pkg/clean.cc:60
+#: apt-pkg/clean.cc:61
 #, fuzzy, c-format
 msgid "Failed to chdir to %s"
 msgstr "Falhou ao rodar stat"
 
-#: apt-pkg/clean.cc:62
+#: apt-pkg/clean.cc:63
 #, c-format
 msgid "Unable to stat %s."
 msgstr "Impossível rodar stat em %s."
@@ -2119,12 +2118,17 @@ msgstr "Versões Candidatas"
 msgid "Dependency Generation"
 msgstr "Geração de Dependências"
 
-#: apt-pkg/init.cc:136
+#: apt-pkg/init.cc:57
+#, fuzzy, c-format
+msgid "State directory %s doesn't exist."
+msgstr "Arquivos de fontes %s não existe"
+
+#: apt-pkg/init.cc:135
 #, c-format
 msgid "Packaging system '%s' is not supported"
 msgstr "O sistema de pacotes '%s' não é suportado"
 
-#: apt-pkg/init.cc:152
+#: apt-pkg/init.cc:151
 msgid "Unable to determine a suitable system type"
 msgstr "Impossível determinar um tipo de sistema adequado"
 
@@ -2301,16 +2305,16 @@ msgstr "Erro de E/S salvando cache de fontes"
 msgid "Index file type '%s' is not supported"
 msgstr "Tipo de arquivo de índice '%s' não é suportado"
 
-#: apt-pkg/policy.cc:326
+#: apt-pkg/policy.cc:333
 msgid "Invalid record in the preferences file, no Package header"
 msgstr "Registro inválido no arquivo de preferências, nenhum cabeçalho Package"
 
-#: apt-pkg/policy.cc:348
+#: apt-pkg/policy.cc:355
 #, c-format
 msgid "Did not understand pin type %s"
 msgstr "Não é entendido o tipo de pin %s"
 
-#: apt-pkg/policy.cc:356
+#: apt-pkg/policy.cc:363
 msgid "No priority (or zero) specified for pin"
 msgstr "Nenhuma prioridade (ou zero) especificada para um pin"
 
@@ -2581,7 +2585,7 @@ msgstr "Tempo de conexão esgotado no socket de dados"
 msgid "Unable to accept connection"
 msgstr "Impossível aceitar conexão"
 
-#: methods/ftp.cc:868 methods/http.cc:1037 methods/rsh.cc:306
+#: methods/ftp.cc:868 methods/http.cc:1059 methods/rsh.cc:306
 msgid "Problem hashing file"
 msgstr "Problema criando hash do arquivo"
 
@@ -2686,15 +2690,15 @@ msgstr "Erro lendo do servidor. O site remoto fechou a conexão."
 msgid "Error reading from server"
 msgstr "Erro lendo do servidor"
 
-#: methods/http.cc:1202
+#: methods/http.cc:1224
 msgid "Bad header Data"
 msgstr "Dados do cabeçalho inválidos"
 
-#: methods/http.cc:1219
+#: methods/http.cc:1241
 msgid "Connection failed"
 msgstr "Conexão falhou"
 
-#: methods/http.cc:1350
+#: methods/http.cc:1372
 msgid "Internal error"
 msgstr "Erro interno"
 
