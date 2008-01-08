@@ -19,7 +19,7 @@
 
 #ifdef HAVE_RPM
 
-#include <apt-pkg/rpmversion.h>
+#include "rpmversion.h"
 #include <apt-pkg/pkgcache.h>
 
 #include <rpm/rpmlib.h>

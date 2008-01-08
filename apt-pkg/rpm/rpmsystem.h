@@ -16,8 +16,8 @@
 #endif
 
 #include <apt-pkg/pkgsystem.h>
-#include <apt-pkg/rpmindexfile.h>
 #include <apt-pkg/algorithms.h>
+#include "rpmindexfile.h"
 
 #include <map>
 

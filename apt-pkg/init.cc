@@ -109,7 +109,7 @@ bool pkgInitConfig(Configuration &Cnf)
 
 // CNC:2003-02-16 - We must do that to force a statically linked libapt-pkg
 // 		    library to include the package systems into the binary.
-#include <apt-pkg/rpmsystem.h>
+#include "rpmsystem.h"
 //#include <apt-pkg/debsystem.h>
 void ForceLinkage()
 {

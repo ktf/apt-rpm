@@ -15,8 +15,8 @@
 
 #include <apt-pkg/aptconf.h>
 #include <apt-pkg/pkgcachegen.h>
-#include <apt-pkg/rpmhandler.h>
-#include <apt-pkg/rpmmisc.h>
+#include "rpmhandler.h"
+#include "rpmmisc.h"
 
 #ifdef APT_WITH_REPOMD
 #include <libxml/parser.h>

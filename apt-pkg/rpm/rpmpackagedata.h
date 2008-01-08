@@ -4,7 +4,7 @@
 #include <apt-pkg/aptconf.h>
 #include <apt-pkg/tagfile.h>
 #include <apt-pkg/pkgcache.h>
-#include <apt-pkg/rpmmisc.h>
+#include "rpmmisc.h"
 
 #include <map>
 #include <vector>

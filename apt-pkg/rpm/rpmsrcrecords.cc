@@ -19,10 +19,11 @@
 
 #include <assert.h>
 
-#include <apt-pkg/rpmsrcrecords.h>
+#include "rpmsrcrecords.h"
+#include "rpmhandler.h"
+
 #include <apt-pkg/error.h>
 #include <apt-pkg/strutl.h>
-#include <apt-pkg/rpmhandler.h>
 #include <apt-pkg/pkgcache.h>
 
 #include <apti18n.h>

@@ -19,15 +19,16 @@
 
 #ifdef HAVE_RPM
 
-#include <apt-pkg/rpmsystem.h>
-#include <apt-pkg/rpmversion.h>
-#include <apt-pkg/rpmindexfile.h>
-#include <apt-pkg/rpmpm.h>
-#include <apt-pkg/rpmhandler.h>
+#include "rpmsystem.h"
+#include "rpmversion.h"
+#include "rpmindexfile.h"
+#include "rpmpm.h"
+#include "rpmhandler.h"
+#include "rpmpackagedata.h"
+
 #include <apt-pkg/configuration.h>
 #include <apt-pkg/error.h>
 #include <apt-pkg/fileutl.h>
-#include <apt-pkg/rpmpackagedata.h>
 
 #include <apti18n.h>
     

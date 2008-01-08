@@ -26,8 +26,8 @@
 #include <apt-pkg/md5.h>
 #include <apt-pkg/crc-16.h>
 
-#include <apt-pkg/rpmhandler.h>
-#include <apt-pkg/rpmpackagedata.h>
+#include "rpmhandler.h"
+#include "rpmpackagedata.h"
 
 #ifdef APT_WITH_REPOMD
 #include <libxml/parser.h>
@@ -35,7 +35,7 @@
 #include <libxml/xmlreader.h>
 #include <sstream>
 #ifdef WITH_SQLITE3
-#include <apt-pkg/sqlite.h>
+#include "sqlite.h"
 #endif
 #include "xmlutil.h"
 #endif

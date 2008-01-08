@@ -21,11 +21,11 @@
 #include <iostream>
 #include <cstring>
 
-#include <apt-pkg/repomd.h>
 #include <apt-pkg/error.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include "xmlutil.h"
+#include "repomd.h"
 
 #include <apti18n.h>
 

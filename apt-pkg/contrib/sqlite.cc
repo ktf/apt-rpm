@@ -6,7 +6,7 @@
 
 #ifdef WITH_SQLITE3
 
-#include <apt-pkg/sqlite.h>
+#include "sqlite.h"
 #include <apt-pkg/error.h>
 
 #include <cstdlib>
