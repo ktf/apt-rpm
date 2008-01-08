@@ -20,6 +20,7 @@ apt-pkg/contrib/mmap.cc
 apt-pkg/contrib/progress.cc
 apt-pkg/contrib/sha1.cc
 apt-pkg/contrib/strutl.cc
+apt-pkg/contrib/sqlite.cc
 
 apt-pkg/rpm/repomd.cc
 apt-pkg/rpm/rpmhandler.cc
@@ -31,7 +32,7 @@ apt-pkg/rpm/rpmrecords.cc
 apt-pkg/rpm/rpmsrcrecords.cc
 apt-pkg/rpm/rpmsystem.cc
 apt-pkg/rpm/rpmversion.cc
-apt-pkg/rpm/rpmcallback.cc
+apt-pkg/rpm/aptcallback.cc
 
 apt-pkg/acquire.cc
 apt-pkg/acquire-item.cc
