@@ -257,6 +257,12 @@ void InstPercentProgress::Update()
    }
 }
 
+InstHashProgress::InstHashProgress(Configuration &Config) : InstProgress(Config)
+{
+   if (Config.FindI("quiet",0) >= 1)
+      Quiet = true;
+}
+
 void InstHashProgress::Update()
 {
    if (CheckChange(0.000001) == false)

@@ -127,6 +127,8 @@ class InstPercentProgress : public InstProgress
 class InstHashProgress : public InstProgress
 {
    protected:
+  
+   bool Quiet;
 
    virtual void Update();
    void PrintHashes();
@@ -134,7 +136,7 @@ class InstHashProgress : public InstProgress
    public:
    virtual void Done();
 
-   InstHashProgress(Configuration &Config) : InstProgress(Config) {};
+   InstHashProgress(Configuration &Config);
    virtual ~InstHashProgress() {};
 };
 #endif
