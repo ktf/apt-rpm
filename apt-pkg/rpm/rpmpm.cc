@@ -923,6 +923,7 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
 	 rpmpsPrint(stderr, probs);
    } else {
       Success = true;
+      Progress->Done();
       if (rc < 0)
 	 _error->Warning(_("Some errors occurred while running transaction"));
    }

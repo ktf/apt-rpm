@@ -119,7 +119,7 @@ class InstPercentProgress : public InstProgress
    virtual void Done();
 
    InstPercentProgress(Configuration &Config);
-   virtual ~InstPercentProgress() {Done();};
+   virtual ~InstPercentProgress() {};
 };
 
 // Progress class similar to rpm -Uvh but with erasure callbacks and whatnot
@@ -135,7 +135,7 @@ class InstHashProgress : public InstProgress
    virtual void Done();
 
    InstHashProgress(Configuration &Config) : InstProgress(Config) {};
-   virtual ~InstHashProgress() {Done();};
+   virtual ~InstHashProgress() {};
 };
 #endif
 
