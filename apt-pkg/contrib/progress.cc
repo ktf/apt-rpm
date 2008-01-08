@@ -262,6 +262,7 @@ void InstHashProgress::Update()
    if (CheckChange(0.000001) == false)
       return;
 
+   cout.setf(ios_base::left);
    if (MajorChange == true) {
       cout << Op << endl << flush;
       return;
@@ -270,16 +271,17 @@ void InstHashProgress::Update()
    if (State == Preparing) {
       s = SubOp; 
    } else {
-      s = (*PackageData)["name"] + "-" + 
+      s = "  " + 
+	  (*PackageData)["name"] + "-" + 
           (*PackageData)["version"] + "-" + 
           (*PackageData)["release"] + "." +
 	  (*PackageData)["arch"]; 
    }
    const int namemax = 40;
    cout << "\r";
-   cout.setf(ios_base::left);
    cout << setw(namemax) << s.substr(0, namemax) << " ";
    PrintHashes();
+   cout << flush;
 }
 
 void InstHashProgress::PrintHashes()
@@ -289,12 +291,10 @@ void InstHashProgress::PrintHashes()
            
    cout << setw(hashesNeeded) << setfill('#') << "";
    cout << setw(hashesTotal-hashesNeeded) << setfill(' ') << "";
-   cout.setf(ios_base::left);
-   cout << " [" << setw(3) << int(Percent) << "%]";
+   cout << right << " [" << setw(3) << int(Percent) << "%]" << left;
    if (hashesTotal == hashesNeeded) {
       cout << endl;
    }
-   cout << flush;
 }
 
 void InstHashProgress::Done()
