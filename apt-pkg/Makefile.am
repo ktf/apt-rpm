@@ -120,7 +120,21 @@ libapt_pkg_la_SOURCES = \
 	versionmatch.cc \
 	versionmatch.h
 
-PRIVATEHEADERS = contrib/system.h
+PRIVATEHEADERS = \
+	contrib/system.h \
+	rpm/repomd.h \
+	rpm/aptcallback.h \
+	rpm/rpmhandler.h \
+	rpm/rpmindexfile.h \
+	rpm/rpmlistparser.h \
+	rpm/rpmmisc.h \
+	rpm/rpmpackagedata.h \
+	rpm/rpmpm.h \
+	rpm/rpmrecords.h \
+	rpm/rpmsrcrecords.h \
+	rpm/rpmsystem.h \
+	rpm/rpmversion.h \
+	rpm/xmlutil.h 
 
 includedir=${prefix}/include/apt-pkg
 include_HEADERS = $(filter-out \
