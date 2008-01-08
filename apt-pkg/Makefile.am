@@ -122,6 +122,7 @@ libapt_pkg_la_SOURCES = \
 
 PRIVATEHEADERS = \
 	contrib/system.h \
+	contrib/sqlite.h \
 	rpm/repomd.h \
 	rpm/aptcallback.h \
 	rpm/rpmhandler.h \
