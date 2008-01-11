@@ -8,4 +8,10 @@
 OPTS="$OPTS $EXTRA_OPTIONS"
 
 export HOME=/root
-/usr/bin/apt-get -q update && /usr/bin/apt-get -q -y $OPTS dist-upgrade
+
+if /usr/bin/apt-get -qq update; then
+    /usr/bin/apt-get dist-upgrade -qq --check-only
+    if [ $? -eq 100 ]; then
+        /usr/bin/apt-get -q -y $OPTS dist-upgrade
+    fi
+fi
