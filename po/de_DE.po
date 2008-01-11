@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2008-01-08 12:35+0200\n"
+"POT-Creation-Date: 2008-01-11 20:58+0200\n"
 "PO-Revision-Date: 2002-08-20 14:00+0200\n"
 "Last-Translator: Ralf Corsepius <corsepiu@users.sourceforge.net>\n"
 "Language-Team: German <de@li.org>\n"
@@ -1602,63 +1602,63 @@ msgstr "Auswahl %s nicht gefunden"
 msgid "Could not open metadata file '%s'"
 msgstr "Konnte Datei %s nicht öffnen"
 
-#: apt-pkg/rpm/rpmhandler.cc:115
+#: apt-pkg/rpm/rpmhandler.cc:120
 #, c-format
 msgid "Impossible flags %d in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:550
+#: apt-pkg/rpm/rpmhandler.cc:555
 msgid "could not rewind RPMFileHandler"
 msgstr "konnte RPMFileHandler nicht zurückspulen"
 
-#: apt-pkg/rpm/rpmhandler.cc:587 apt-pkg/rpm/rpmhandler.cc:594
+#: apt-pkg/rpm/rpmhandler.cc:592 apt-pkg/rpm/rpmhandler.cc:599
 #: apt-pkg/rpm/rpmpm.cc:701 apt-pkg/rpm/rpmpm.cc:706
 #, c-format
 msgid "Failed reading file %s"
 msgstr "Fehler beim Lesen von Datei %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:764
+#: apt-pkg/rpm/rpmhandler.cc:769
 msgid "Unable to determine the file size"
 msgstr "Ausserstande, die Dateigröße zu bestimmen"
 
-#: apt-pkg/rpm/rpmhandler.cc:813
+#: apt-pkg/rpm/rpmhandler.cc:818
 msgid "could not open RPM database"
 msgstr "konnte RPM-Datenbank nicht öffnen"
 
-#: apt-pkg/rpm/rpmhandler.cc:820
+#: apt-pkg/rpm/rpmhandler.cc:825
 msgid "could not create RPM database iterator"
 msgstr "konnte RPM-Datenbank-Iterator nicht erzeugen"
 
-#: apt-pkg/rpm/rpmhandler.cc:1004 apt-pkg/rpm/rpmhandler.cc:1027
+#: apt-pkg/rpm/rpmhandler.cc:1009 apt-pkg/rpm/rpmhandler.cc:1032
 #, c-format
 msgid "Failed to open package index %s"
 msgstr "Ausserstande Paketindex %s zu öffnen"
 
-#: apt-pkg/rpm/rpmhandler.cc:1031
+#: apt-pkg/rpm/rpmhandler.cc:1036
 #, c-format
 msgid "Corrupted package index %s"
 msgstr "Korrupter Paketindex %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:1050
+#: apt-pkg/rpm/rpmhandler.cc:1055
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1301 apt-pkg/rpm/rpmhandler.cc:1721
+#: apt-pkg/rpm/rpmhandler.cc:1306 apt-pkg/rpm/rpmhandler.cc:1726
 #, c-format
 msgid "Ignoring unknown dependency type %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1387
+#: apt-pkg/rpm/rpmhandler.cc:1392
 #, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Gescheitert Dateilistenindex %s zu öffnen"
 
-#: apt-pkg/rpm/rpmhandler.cc:1433
+#: apt-pkg/rpm/rpmhandler.cc:1438
 msgid "Internal error: xmlReader cannot rewind"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1548
+#: apt-pkg/rpm/rpmhandler.cc:1553
 #, c-format
 msgid "Unsupported database scheme (%d)"
 msgstr ""
@@ -1855,7 +1855,7 @@ msgstr ""
 msgid "Error while running transaction"
 msgstr ""
 
-#: apt-pkg/rpm/rpmpm.cc:927
+#: apt-pkg/rpm/rpmpm.cc:928
 msgid "Some errors occurred while running transaction"
 msgstr "Fehler während der Ausführung der Transaktion aufgetreten"
 

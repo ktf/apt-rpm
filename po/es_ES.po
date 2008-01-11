@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apt\n"
 "Report-Msgid-Bugs-To: apt-rpm@lists.laiskiainen.org\n"
-"POT-Creation-Date: 2008-01-08 12:35+0200\n"
+"POT-Creation-Date: 2008-01-11 20:58+0200\n"
 "PO-Revision-Date: 2001-01-11 15:40-02:00\n"
 "Last-Translator: Jorge Carrasquilla Soares <jorge@conectiva.com.br>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1598,66 +1598,66 @@ msgstr ""
 msgid "Could not open metadata file '%s'"
 msgstr "no se pudo abrir índice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:115
+#: apt-pkg/rpm/rpmhandler.cc:120
 #, c-format
 msgid "Impossible flags %d in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:550
+#: apt-pkg/rpm/rpmhandler.cc:555
 #, fuzzy
 msgid "could not rewind RPMFileHandler"
 msgstr "no se pudo abrir índice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:587 apt-pkg/rpm/rpmhandler.cc:594
+#: apt-pkg/rpm/rpmhandler.cc:592 apt-pkg/rpm/rpmhandler.cc:599
 #: apt-pkg/rpm/rpmpm.cc:701 apt-pkg/rpm/rpmpm.cc:706
 #, fuzzy, c-format
 msgid "Failed reading file %s"
 msgstr "Falló al cargar el archivo hash:"
 
-#: apt-pkg/rpm/rpmhandler.cc:764
+#: apt-pkg/rpm/rpmhandler.cc:769
 #, fuzzy
 msgid "Unable to determine the file size"
 msgstr "Imposible minimizar el grupo de actualización"
 
-#: apt-pkg/rpm/rpmhandler.cc:813
+#: apt-pkg/rpm/rpmhandler.cc:818
 #, fuzzy
 msgid "could not open RPM database"
 msgstr "no se pudo abrir índice hash"
 
-#: apt-pkg/rpm/rpmhandler.cc:820
+#: apt-pkg/rpm/rpmhandler.cc:825
 msgid "could not create RPM database iterator"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1004 apt-pkg/rpm/rpmhandler.cc:1027
+#: apt-pkg/rpm/rpmhandler.cc:1009 apt-pkg/rpm/rpmhandler.cc:1032
 #, fuzzy, c-format
 msgid "Failed to open package index %s"
 msgstr "Imposible analizar el paquete %s (1)"
 
-#: apt-pkg/rpm/rpmhandler.cc:1031
+#: apt-pkg/rpm/rpmhandler.cc:1036
 #, fuzzy, c-format
 msgid "Corrupted package index %s"
 msgstr "No se encontró el paquete %s"
 
-#: apt-pkg/rpm/rpmhandler.cc:1050
+#: apt-pkg/rpm/rpmhandler.cc:1055
 #, c-format
 msgid "Inconsistent metadata, package count doesn't match in %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1301 apt-pkg/rpm/rpmhandler.cc:1721
+#: apt-pkg/rpm/rpmhandler.cc:1306 apt-pkg/rpm/rpmhandler.cc:1726
 #, c-format
 msgid "Ignoring unknown dependency type %s"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1387
+#: apt-pkg/rpm/rpmhandler.cc:1392
 #, fuzzy, c-format
 msgid "Failed to open filelist index %s"
 msgstr "Falló al abrir %s.new"
 
-#: apt-pkg/rpm/rpmhandler.cc:1433
+#: apt-pkg/rpm/rpmhandler.cc:1438
 msgid "Internal error: xmlReader cannot rewind"
 msgstr ""
 
-#: apt-pkg/rpm/rpmhandler.cc:1548
+#: apt-pkg/rpm/rpmhandler.cc:1553
 #, c-format
 msgid "Unsupported database scheme (%d)"
 msgstr ""
@@ -1860,7 +1860,7 @@ msgstr ""
 msgid "Error while running transaction"
 msgstr ""
 
-#: apt-pkg/rpm/rpmpm.cc:927
+#: apt-pkg/rpm/rpmpm.cc:928
 #, fuzzy
 msgid "Some errors occurred while running transaction"
 msgstr "Error ocurrido al procesar %s (NewVersion1)"
