@@ -57,9 +57,9 @@ class MD5SumValue
 
 class MD5Summation
 {
-   unsigned char Buf[4*4];
-   unsigned char Bytes[2*4];
-   unsigned char In[16*4];
+   unsigned char Buf[4*4] __attribute__((aligned(8)));
+   unsigned char Bytes[2*4] __attribute__((aligned(8)));
+   unsigned char In[16*4] __attribute__((aligned(8)));
    bool Done;
    
    public:
