@@ -1,0 +1,4 @@
+include Makefile
+
+ChangeLog: .git
+	@git-log --pretty > ChangeLog

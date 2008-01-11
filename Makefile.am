@@ -111,6 +111,3 @@ aptstate_DATA =
 
 aptstate_lists_partialdir = $(aptstatedir)/lists/partial
 aptstate_lists_partial_DATA =
-
-ChangeLog:
-	git-log --pretty > ChangeLog
