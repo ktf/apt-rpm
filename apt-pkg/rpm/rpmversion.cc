@@ -19,6 +19,11 @@
 
 #ifdef HAVE_RPM
 
+/* for rpm5.org >= 4.4.9 */
+#ifdef RPM_HAVE_RPMEVR_H
+#define _RPMEVR_INTERNAL
+#endif
+
 #include "rpmversion.h"
 #include <apt-pkg/pkgcache.h>
 

@@ -64,6 +64,9 @@
 /* Define to 1 if you have the <rpm/rpmcb.h> header file. */
 #undef HAVE_RPM_RPMCB_H
 
+/* Define to 1 if you have the <rpm/rpmevr.h> header file. */
+#undef HAVE_RPM_RPMEVR_H
+
 /* Define to 1 if you have the <rpm/rpmmessages.h> header file. */
 #undef HAVE_RPM_RPMMESSAGES_H
 
