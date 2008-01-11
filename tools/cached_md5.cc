@@ -17,9 +17,9 @@
 
 #include <apt-pkg/error.h>
 #include <apt-pkg/tagfile.h>
-#include <apt-pkg/rpmhandler.h>
 #include <apt-pkg/configuration.h>
 #include <apt-pkg/md5.h>
+#include "rpmhandler.h"
 
 #include <config.h>
 

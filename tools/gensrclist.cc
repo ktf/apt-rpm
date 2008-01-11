@@ -20,10 +20,10 @@
 
 #include <apt-pkg/error.h>
 #include <apt-pkg/tagfile.h>
-#include <apt-pkg/rpmhandler.h>
 #include <apt-pkg/configuration.h>
 #include <config.h>
 
+#include "rpmhandler.h"
 #include "cached_md5.h"
 
 #if RPM_VERSION >= 0x040100
