@@ -17,9 +17,9 @@
 #include <system.h>
 #include <apt-pkg/error.h>
 #include <apt-pkg/version.h>
-#include <apt-pkg/rpmversion.h>
 #include <iostream>
 #include <fstream>
+#include "rpmversion.h"
 
 using namespace std;
 
