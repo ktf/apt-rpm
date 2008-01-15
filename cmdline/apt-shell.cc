@@ -140,7 +140,7 @@ class AutoReOpenCache
 	 if ((*Cache)->CheckDeps(true) == false) {
 	    c1out << _("There are broken packages. ")
 		  << _("Run `check' to see them.") << endl;
-	    c1out << _("You can try to fix them automatically with `install --fix-broken'0.") << endl;
+	    c1out << _("You can try to fix them automatically with `install --fix-broken'.") << endl;
 	 }
       }
    };
