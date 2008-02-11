@@ -39,6 +39,7 @@
 #include <errno.h>
 #include <string.h>
 #include <iostream>
+#include <algorithm>
 #include <map>
 
 // Internet stuff
