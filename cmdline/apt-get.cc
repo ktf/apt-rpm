@@ -92,7 +92,7 @@ class CacheFile : public cmdCacheFile
       Sort();
       
       return true;
-   };
+   }
    bool OpenForInstall()
    {
       // CNC:2004-03-07 - dont take lock if in download mode
@@ -102,7 +102,7 @@ class CacheFile : public cmdCacheFile
       else
 	 return Open(true);
    }
-   CacheFile() : cmdCacheFile() {};
+   CacheFile() : cmdCacheFile() {}
 };
 									/*}}}*/
 
@@ -132,9 +132,9 @@ class AptGetLuaCache : public LuaCacheControl
 	 delete Cache;
 	 Cache = NULL;
       }
-   };
+   }
 
-   AptGetLuaCache() : Cache(0) {};
+   AptGetLuaCache() : Cache(0) {}
 };
 #endif
 									/*}}}*/
@@ -882,9 +882,9 @@ class UpdateLogCleaner : public pkgArchiveCleaner
    {
       c1out << "Del " << Pkg << " " << Ver << " [" << SizeToStr(St.st_size) << "B]" << endl;
       unlink(File);      
-   };
+   }
    public:
-   virtual ~UpdateLogCleaner() {};
+   virtual ~UpdateLogCleaner() {}
 };
 
 bool DoUpdate(CommandLine &CmdL)

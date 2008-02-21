@@ -70,10 +70,10 @@ class pkgSystem
    virtual bool UnLock(bool NoErrors = false) = 0;
 
    // CNC:2002-07-06
-   virtual bool LockRead() {return true;};
+   virtual bool LockRead() {return true;}
 
    // CNC:2003-03-07 - Signal to system that the cache has been built.
-   virtual void CacheBuilt() {};
+   virtual void CacheBuilt() {}
    
    /* Various helper classes to interface with specific bits of this
       environment */
@@ -81,7 +81,7 @@ class pkgSystem
 
    /* Load environment specific configuration and perform any other setup
       necessary */
-   virtual bool Initialize(Configuration &/*Cnf*/) {return true;};
+   virtual bool Initialize(Configuration &/*Cnf*/) {return true;}
    
    /* Type is some kind of Globally Unique way of differentiating
       archive file types.. */
@@ -90,31 +90,31 @@ class pkgSystem
    // Return a list of system index files..
    virtual bool AddStatusFiles(std::vector<pkgIndexFile *> &List) = 0;   
    // CNC:2003-11-21
-   virtual bool AddSourceFiles(std::vector<pkgIndexFile *> &List) {return true;};
+   virtual bool AddSourceFiles(std::vector<pkgIndexFile *> &List) {return true;}
    virtual bool FindIndex(pkgCache::PkgFileIterator File,
 			  pkgIndexFile *&Found) const = 0;
    
    /* Evauluate how 'right' we are for this system based on the filesystem
       etc.. */
-   virtual signed Score(Configuration const &/*Cnf*/) {return 0;};
+   virtual signed Score(Configuration const &/*Cnf*/) {return 0;}
 
    // LORG:2006-02-06 Distro version from package system
-   virtual string DistroVer() {return "";};
+   virtual string DistroVer() {return "";}
    
    // CNC:2002-07-03
    // Do environment specific pre-processing over the Index Files
    virtual bool PreProcess(pkgIndexFile **Start,pkgIndexFile **End,
-                           OpProgress &Progress) {return true;};
+                           OpProgress &Progress) {return true;}
    virtual bool ProcessCache(pkgDepCache &Cache, pkgProblemResolver &Fix)
-   	{return true;};
+   	{return true;}
    virtual bool IgnoreDep(pkgVersioningSystem &VS, pkgCache::DepIterator &Dep)
-	{return false;};
+	{return false;}
 
    // CNC:2003-11-24
-   virtual unsigned long OptionsHash() const {return 0;};
+   virtual unsigned long OptionsHash() const {return 0;}
 
    pkgSystem();
-   virtual ~pkgSystem() {};
+   virtual ~pkgSystem() {}
 };
 
 // The environment we are operating in.

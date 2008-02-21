@@ -72,29 +72,29 @@ class Configuration
    public:
 
    string Find(const char *Name,const char *Default = 0) const;
-   string Find(string Name,const char *Default = 0) const {return Find(Name.c_str(),Default);};
+   string Find(string Name,const char *Default = 0) const {return Find(Name.c_str(),Default);}
    string FindFile(const char *Name,const char *Default = 0) const;
    string FindDir(const char *Name,const char *Default = 0) const;
    int FindI(const char *Name,int Default = 0) const;
-   int FindI(string Name,int Default = 0) const {return FindI(Name.c_str(),Default);};
+   int FindI(string Name,int Default = 0) const {return FindI(Name.c_str(),Default);}
    bool FindB(const char *Name,bool Default = false) const;
-   bool FindB(string Name,bool Default = false) const {return FindB(Name.c_str(),Default);};
+   bool FindB(string Name,bool Default = false) const {return FindB(Name.c_str(),Default);}
    string FindAny(const char *Name,const char *Default = 0) const;
 	      
-   inline void Set(string Name,string Value) {Set(Name.c_str(),Value);};
+   inline void Set(string Name,string Value) {Set(Name.c_str(),Value);}
    void CndSet(const char *Name,string Value);
    void Set(const char *Name,string Value);
    void Set(const char *Name,int Value);   
    
-   inline bool Exists(string Name) const {return Exists(Name.c_str());};
+   inline bool Exists(string Name) const {return Exists(Name.c_str());}
    bool Exists(const char *Name) const;
    bool ExistsAny(const char *Name) const;
 
    void Clear(string Name);
    
-   inline const Item *Tree(const char *Name) const {return Lookup(Name);};
+   inline const Item *Tree(const char *Name) const {return Lookup(Name);}
 
-   inline void Dump() { Dump(std::clog); };
+   inline void Dump() { Dump(std::clog); }
    void Dump(std::ostream& str);
 
    // CNC:2003-02-23 - Copy constructor.
@@ -124,7 +124,7 @@ bool ReadConfigDir(Configuration &Conf,string Dir,bool AsSectional = false,
       
       string FullTag(const Item *Stop = 0) const;
       
-      Item() : Parent(0), Child(0), Next(0) {};
+      Item() : Parent(0), Child(0), Next(0) {}
    };
 #endif
 

@@ -43,13 +43,13 @@ class pkgRepository
    virtual bool ParseRelease(string File);
    virtual bool HasRelease() const { return GotRelease; }
 
-   virtual bool IsAuthenticated() const { return !FingerPrint.empty(); };
+   virtual bool IsAuthenticated() const { return !FingerPrint.empty(); }
    virtual bool FindChecksums(string URI,off_t &Size, string &MD5);
    // Only used in repomd atm
-   virtual string FindURI(string DataType) {return "";};
+   virtual string FindURI(string DataType) {return "";}
    // LORG:2006-02-23 
-   virtual string GetCheckMethod() {return CheckMethod;};
-   virtual string GetComprMethod(string URI) {return "bz2";};
+   virtual string GetCheckMethod() {return CheckMethod;}
+   virtual string GetComprMethod(string URI) {return "bz2";}
    
    pkgRepository(string URI,string Dist, const pkgSourceList::Vendor *Vendor,
 		 string RootURI)
@@ -58,9 +58,9 @@ class pkgRepository
    {
       if (Vendor) FingerPrint = Vendor->FingerPrint;
       CheckMethod = "MD5-Hash";
-   };
+   }
 
-   virtual ~pkgRepository() {};
+   virtual ~pkgRepository() {}
 };
 
 #endif

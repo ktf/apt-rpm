@@ -30,11 +30,11 @@ class Hashes
    inline bool Add(const unsigned char *Data,unsigned long Size)
    {
       return MD5.Add(Data,Size) && SHA1.Add(Data,Size);
-   };
-   inline bool Add(const char *Data) {return Add((unsigned char *)Data,strlen(Data));};
+   }
+   inline bool Add(const char *Data) {return Add((unsigned char *)Data,strlen(Data));}
    bool AddFD(int Fd,unsigned long Size);
    inline bool Add(const unsigned char *Beg,const unsigned char *End) 
-                  {return Add(Beg,End-Beg);};
+                  {return Add(Beg,End-Beg);}
 };
 
 #endif

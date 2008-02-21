@@ -62,21 +62,21 @@ class pkgCacheGenerator
    bool NewPackage(pkgCache::PkgIterator &Pkg,string Name);
 
    unsigned long WriteUniqString(const char *S,unsigned int Size);
-   inline unsigned long WriteUniqString(string S) {return WriteUniqString(S.c_str(),S.length());};
+   inline unsigned long WriteUniqString(string S) {return WriteUniqString(S.c_str(),S.length());}
 
-   void DropProgress() {Progress = 0;};
+   void DropProgress() {Progress = 0;}
    bool SelectFile(string File,string Site,pkgIndexFile const &Index,
 		   unsigned long Flags = 0);
    bool MergeList(ListParser &List,pkgCache::VerIterator *Ver = 0);
-   inline pkgCache &GetCache() {return Cache;};
+   inline pkgCache &GetCache() {return Cache;}
    inline pkgCache::PkgFileIterator GetCurFile() 
-         {return pkgCache::PkgFileIterator(Cache,CurrentFile);};
+         {return pkgCache::PkgFileIterator(Cache,CurrentFile);}
 
-   bool HasFileDeps() {return FoundFileDeps;};
+   bool HasFileDeps() {return FoundFileDeps;}
    bool MergeFileProvides(ListParser &List);
 
    // CNC:2003-03-18
-   inline void ResetFileDeps() {FoundFileDeps = false;};
+   inline void ResetFileDeps() {FoundFileDeps = false;}
       
    pkgCacheGenerator(DynamicMMap *Map,OpProgress *Progress);
    ~pkgCacheGenerator();
@@ -98,10 +98,10 @@ class pkgCacheGenerator::ListParser
    pkgCacheGenerator *Owner;
    friend class pkgCacheGenerator;
 
-   inline unsigned long WriteUniqString(string S) {return Owner->WriteUniqString(S);};
-   inline unsigned long WriteUniqString(const char *S,unsigned int Size) {return Owner->WriteUniqString(S,Size);};
-   inline unsigned long WriteString(string S) {return Owner->Map.WriteString(S);};
-   inline unsigned long WriteString(const char *S,unsigned int Size) {return Owner->Map.WriteString(S,Size);};
+   inline unsigned long WriteUniqString(string S) {return Owner->WriteUniqString(S);}
+   inline unsigned long WriteUniqString(const char *S,unsigned int Size) {return Owner->WriteUniqString(S,Size);}
+   inline unsigned long WriteString(string S) {return Owner->Map.WriteString(S);}
+   inline unsigned long WriteString(const char *S,unsigned int Size) {return Owner->Map.WriteString(S,Size);}
    bool NewDepends(pkgCache::VerIterator Ver,string Package,
 		   string Version,unsigned int Op,
 		   unsigned int Type);
@@ -113,7 +113,7 @@ class pkgCacheGenerator::ListParser
    virtual string Package() = 0;
    virtual string Version() = 0;
    // CNC:2002-07-09
-   virtual string Architecture() {return string();};
+   virtual string Architecture() {return string();}
    virtual bool NewVersion(pkgCache::VerIterator Ver) = 0;
    virtual unsigned short VersionHash() = 0;
    virtual bool UsePackage(pkgCache::PkgIterator Pkg,
@@ -124,23 +124,23 @@ class pkgCacheGenerator::ListParser
    // CNC:2003-02-16 - If this is false, the Size of the pkgIndexFile must
    // 		       provide the number of elements, since a sequential
    // 		       counter will be used to verify progress.
-   virtual bool OrderedOffset() {return true;};
+   virtual bool OrderedOffset() {return true;}
 
    // CNC:2003-02-20 - This method will help on package ordering tasks,
    // 		       ensuring that if a package with the same version
    // 		       is installed, it won't be unexpectedly downloaded,
    // 		       even if with a "better" architecture or different
    // 		       dependencies.
-   virtual bool IsDatabase() {return false;};
+   virtual bool IsDatabase() {return false;}
    
    virtual bool Step() = 0;
    
-   inline bool HasFileDeps() {return FoundFileDeps;};
+   inline bool HasFileDeps() {return FoundFileDeps;}
    virtual bool CollectFileProvides(pkgCache &Cache,
-				    pkgCache::VerIterator Ver) {return true;};
+				    pkgCache::VerIterator Ver) {return true;}
 
-   ListParser() : FoundFileDeps(false) {};
-   virtual ~ListParser() {};
+   ListParser() : FoundFileDeps(false) {}
+   virtual ~ListParser() {}
 };
 
 bool pkgMakeStatusCache(pkgSourceList &List,OpProgress &Progress,

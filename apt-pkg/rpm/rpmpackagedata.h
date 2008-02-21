@@ -79,29 +79,29 @@ class RPMPackageData
       if (Priorities.find(Package) != Priorities.end())
 	 return Priorities[Package];
       return pkgCache::State::Standard;
-   };
+   }
    inline pkgCache::Flag::PkgFlags PkgFlags(const string &Package) 
-   	{return Flags[Package];};
+   	{return Flags[Package];}
 
    bool HoldPackage(const char *name);
    bool IgnorePackage(const string &Name)
-   	{return IgnorePackages.find(Name) != IgnorePackages.end();};
+   	{return IgnorePackages.find(Name) != IgnorePackages.end();}
 
    bool IgnoreDep(pkgVersioningSystem &VS,pkgCache::DepIterator &Dep);
 
    void TranslateBinary(string &FullURI, map<string,string> &Dict)
-   	{return GenericTranslate(BinaryTranslations, FullURI, Dict);};
+   	{return GenericTranslate(BinaryTranslations, FullURI, Dict);}
    void TranslateSource(string &FullURI, map<string,string> &Dict)
-   	{return GenericTranslate(SourceTranslations, FullURI, Dict);};
+   	{return GenericTranslate(SourceTranslations, FullURI, Dict);}
    void TranslateIndex(string &FullURI, map<string,string> &Dict)
-   	{return GenericTranslate(IndexTranslations, FullURI, Dict);};
+   	{return GenericTranslate(IndexTranslations, FullURI, Dict);}
 
    bool HasBinaryTranslation()
-	{return !BinaryTranslations.empty();};
+	{return !BinaryTranslations.empty();}
    bool HasSourceTranslation()
-	{return !SourceTranslations.empty();};
+	{return !SourceTranslations.empty();}
    bool HasIndexTranslation()
-	{return !IndexTranslations.empty();};
+	{return !IndexTranslations.empty();}
 
    int ArchScore(const char *Arch)
    {
@@ -116,11 +116,11 @@ class RPMPackageData
    void InitMinArchScore();
 
    bool IsCompatArch(string Arch);
-   bool IsMultilibSys() { return MultilibSys; };
-   string GetCompatArchSuffix() { return CompatArchSuffix; };
+   bool IsMultilibSys() { return MultilibSys; }
+   string GetCompatArchSuffix() { return CompatArchSuffix; }
 
    void SetDupPackage(const string &Name)
-   	{DuplicatedPackages[Name] = 1;};
+   	{DuplicatedPackages[Name] = 1;}
    bool IsDupPackage(const string &Name);
 
    static RPMPackageData *Singleton();
@@ -129,7 +129,7 @@ class RPMPackageData
 		   pkgCache::VerIterator &Version)
    {
       VerMap[Offset][ID] = Version;
-   };
+   }
    const pkgCache::VerIterator *GetVersion(string ID, unsigned long Offset)
    {
        VerMapType::const_iterator I1 = VerMap.find(Offset);
@@ -140,9 +140,9 @@ class RPMPackageData
 		       return &I2->second;
        }
        return NULL;
-   };
+   }
 
-   void CacheBuilt() {VerMap.clear();};
+   void CacheBuilt() {VerMap.clear();}
 
    RPMPackageData();
 };

@@ -41,8 +41,8 @@ class pkgRPMPM : public pkgPackageManager
       string File;
       PkgIterator Pkg;
       Item(Ops Op,PkgIterator Pkg,string File = "")
-	 : Op(Op), File(File), Pkg(Pkg) {};
-      Item() {};
+	 : Op(Op), File(File), Pkg(Pkg) {}
+      Item() {}
       
    };
    vector<Item> List;
@@ -58,7 +58,7 @@ class pkgRPMPM : public pkgPackageManager
     
    virtual bool Process(vector<const char*> &install,
 			vector<const char*> &upgrade,
-			vector<const char*> &uninstall) {return false;};
+			vector<const char*> &uninstall) {return false;}
    
    virtual bool Go();
    virtual void Reset();

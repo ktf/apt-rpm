@@ -109,8 +109,8 @@ class GlobalError
 #endif
 
    // Simple accessors
-   inline bool PendingError() {return PendingFlag;};
-   inline bool empty() {return List == 0;};
+   inline bool PendingError() {return PendingFlag;}
+   inline bool empty() {return List == 0;}
    bool PopMessage(string &Text);
    void Discard();
 

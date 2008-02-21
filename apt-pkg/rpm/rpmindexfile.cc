@@ -1013,7 +1013,7 @@ class rpmSLTypeRpm : public rpmSLTypeGen
       pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
       List.push_back(new rpmPkgListIndex(URI,Dist,Section,Rep));
       return true;
-   };
+   }
 
    rpmSLTypeRpm()
    {
@@ -1033,7 +1033,7 @@ class rpmSLTypeSrpm : public rpmSLTypeGen
       pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
       List.push_back(new rpmSrcListIndex(URI,Dist,Section,Rep));
       return true;
-   };  
+   }
    
    rpmSLTypeSrpm()
    {
@@ -1053,7 +1053,7 @@ class rpmSLTypeRpmDir : public rpmSLTypeGen
       pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
       List.push_back(new rpmPkgDirIndex(URI,Dist,Section,Rep));
       return true;
-   };
+   }
 
    rpmSLTypeRpmDir()
    {
@@ -1073,7 +1073,7 @@ class rpmSLTypeSrpmDir : public rpmSLTypeGen
       pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
       List.push_back(new rpmSrcDirIndex(URI,Dist,Section,Rep));
       return true;
-   };
+   }
 
    rpmSLTypeSrpmDir()
    {
@@ -1117,7 +1117,7 @@ class rpmSLTypeRepomd : public rpmSLTypeGen
       pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
       List.push_back(new rpmRepomdPkgIndex(URI,Dist,Section,Rep));
       return true;
-   };
+   }
 
    bool ParseLine(vector<pkgIndexFile *> &List,
                   pkgSourceList::Vendor const *Vendor,
@@ -1141,7 +1141,7 @@ class rpmSLTypeRepomd : public rpmSLTypeGen
 	 return false;
 
       return true;
-   };
+   }
 
 
    rpmSLTypeRepomd()
@@ -1161,7 +1161,7 @@ class rpmSLTypeRepomdSrc : public rpmSLTypeRepomd
       pkgRepository *Rep = GetRepository(URI,Dist,Vendor);
       List.push_back(new rpmRepomdSrcIndex(URI,Dist,Section,Rep));
       return true;
-   };
+   }
 
    rpmSLTypeRepomdSrc()
    {
@@ -1186,7 +1186,7 @@ class rpmIFTypeSrc : public pkgIndexFile::Type
 {
    public:
    
-   rpmIFTypeSrc() {Label = "RPM Source Index";};
+   rpmIFTypeSrc() {Label = "RPM Source Index";}
 };
 class rpmIFTypePkg : public pkgIndexFile::Type
 {
@@ -1195,8 +1195,8 @@ class rpmIFTypePkg : public pkgIndexFile::Type
    virtual pkgRecords::Parser *CreatePkgParser(pkgCache::PkgFileIterator File) const
    {
       return new rpmRecordParser(File.FileName(),*File.Cache());
-   };
-   rpmIFTypePkg() {Label = "RPM Package Index";};
+   }
+   rpmIFTypePkg() {Label = "RPM Package Index";}
 };
 class rpmIFTypeDatabase : public pkgIndexFile::Type
 {
@@ -1205,8 +1205,8 @@ class rpmIFTypeDatabase : public pkgIndexFile::Type
    virtual pkgRecords::Parser *CreatePkgParser(pkgCache::PkgFileIterator File) const
    {
       return new rpmRecordParser(File.FileName(),*File.Cache());
-   };
-   rpmIFTypeDatabase() {Label = "RPM Database";};
+   }
+   rpmIFTypeDatabase() {Label = "RPM Database";}
 };
 static rpmIFTypeSrc _apt_Src;
 static rpmIFTypePkg _apt_Pkg;

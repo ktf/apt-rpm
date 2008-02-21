@@ -80,7 +80,7 @@ class pkgAcquire::Worker
    bool QueueItem(pkgAcquire::Queue::QItem *Item);
    bool Start();
    void Pulse();
-   inline const MethodConfig *GetConf() const {return Config;};
+   inline const MethodConfig *GetConf() const {return Config;}
    
    Worker(Queue *OwnerQ,MethodConfig *Config,pkgAcquireStatus *Log);
    Worker(MethodConfig *Config);

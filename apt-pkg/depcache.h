@@ -89,20 +89,20 @@ class pkgDepCache : protected pkgCache::Namespace
       void Update(PkgIterator Pkg,pkgCache &Cache);
       
       // Various test members for the current status of the package
-      inline bool NewInstall() const {return Status == 2 && Mode == ModeInstall;};
-      inline bool Delete() const {return Mode == ModeDelete;};
-      inline bool Keep() const {return Mode == ModeKeep;};
-      inline bool Upgrade() const {return Status > 0 && Mode == ModeInstall;};
-      inline bool Upgradable() const {return Status >= 1;};
-      inline bool Downgrade() const {return Status < 0 && Mode == ModeInstall;};
-      inline bool Held() const {return Status != 0 && Keep();};
-      inline bool NowBroken() const {return (DepState & DepNowMin) != DepNowMin;};
-      inline bool InstBroken() const {return (DepState & DepInstMin) != DepInstMin;};
-      inline bool Install() const {return Mode == ModeInstall;};
+      inline bool NewInstall() const {return Status == 2 && Mode == ModeInstall;}
+      inline bool Delete() const {return Mode == ModeDelete;}
+      inline bool Keep() const {return Mode == ModeKeep;}
+      inline bool Upgrade() const {return Status > 0 && Mode == ModeInstall;}
+      inline bool Upgradable() const {return Status >= 1;}
+      inline bool Downgrade() const {return Status < 0 && Mode == ModeInstall;}
+      inline bool Held() const {return Status != 0 && Keep();}
+      inline bool NowBroken() const {return (DepState & DepNowMin) != DepNowMin;}
+      inline bool InstBroken() const {return (DepState & DepInstMin) != DepInstMin;}
+      inline bool Install() const {return Mode == ModeInstall;}
       inline VerIterator InstVerIter(pkgCache &Cache)
-                {return VerIterator(Cache,InstallVer);};
+                {return VerIterator(Cache,InstallVer);}
       inline VerIterator CandidateVerIter(pkgCache &Cache)
-                {return VerIterator(Cache,CandidateVer);};
+                {return VerIterator(Cache,CandidateVer);}
    };
    
    // Helper functions
@@ -119,9 +119,9 @@ class pkgDepCache : protected pkgCache::Namespace
       // CNC:2003-03-05 - We need access to the priority in pkgDistUpgrade
       //		  while checking for obsoleting packages.
       virtual signed short GetPkgPriority(pkgCache::PkgIterator const &Pkg)
-	 { return 0; };
+	 { return 0; }
       
-      virtual ~Policy() {};
+      virtual ~Policy() {}
    };
      
    protected:
@@ -162,9 +162,9 @@ class pkgDepCache : protected pkgCache::Namespace
    
    // Count manipulators
    void AddSizes(const PkgIterator &Pkg,signed long Mult = 1);
-   inline void RemoveSizes(const PkgIterator &Pkg) {AddSizes(Pkg,-1);};
+   inline void RemoveSizes(const PkgIterator &Pkg) {AddSizes(Pkg,-1);}
    void AddStates(const PkgIterator &Pkg,int Add = 1);
-   inline void RemoveStates(const PkgIterator &Pkg) {AddStates(Pkg,-1);};
+   inline void RemoveStates(const PkgIterator &Pkg) {AddStates(Pkg,-1);}
    
    public:
 
@@ -173,24 +173,24 @@ class pkgDepCache : protected pkgCache::Namespace
    friend class State;
    
    // Legacy.. We look like a pkgCache
-   inline operator pkgCache &() {return *Cache;};
-   inline Header &Head() {return *Cache->HeaderP;};
-   inline PkgIterator PkgBegin() {return Cache->PkgBegin();};
-   inline PkgIterator FindPkg(string const &Name) {return Cache->FindPkg(Name);};
+   inline operator pkgCache &() {return *Cache;}
+   inline Header &Head() {return *Cache->HeaderP;}
+   inline PkgIterator PkgBegin() {return Cache->PkgBegin();}
+   inline PkgIterator FindPkg(string const &Name) {return Cache->FindPkg(Name);}
 
-   inline pkgCache &GetCache() {return *Cache;};
-   inline pkgVersioningSystem &VS() {return *Cache->VS;};
+   inline pkgCache &GetCache() {return *Cache;}
+   inline pkgVersioningSystem &VS() {return *Cache->VS;}
    
    // Policy implementation
-   inline VerIterator GetCandidateVer(PkgIterator Pkg) {return LocalPolicy->GetCandidateVer(Pkg);};
-   inline bool IsImportantDep(DepIterator Dep) {return LocalPolicy->IsImportantDep(Dep);};
-   inline Policy &GetPolicy() {return *LocalPolicy;};
+   inline VerIterator GetCandidateVer(PkgIterator Pkg) {return LocalPolicy->GetCandidateVer(Pkg);}
+   inline bool IsImportantDep(DepIterator Dep) {return LocalPolicy->IsImportantDep(Dep);}
+   inline Policy &GetPolicy() {return *LocalPolicy;}
    // CNC:2003-03-05 - See above.
-   inline signed short GetPkgPriority(pkgCache::PkgIterator const &Pkg) {return LocalPolicy->GetPkgPriority(Pkg);};
+   inline signed short GetPkgPriority(pkgCache::PkgIterator const &Pkg) {return LocalPolicy->GetPkgPriority(Pkg);}
    
    // Accessors
-   inline StateCache &operator [](PkgIterator const &I) {return PkgState[I->ID];};
-   inline unsigned char &operator [](DepIterator const &I) {return DepState[I->ID];};
+   inline StateCache &operator [](PkgIterator const &I) {return PkgState[I->ID];}
+   inline unsigned char &operator [](DepIterator const &I) {return DepState[I->ID];}
 
    // Manipulators
    void MarkKeep(PkgIterator const &Pkg,bool Soft = false);
@@ -204,13 +204,13 @@ class pkgDepCache : protected pkgCache::Namespace
    void Update(OpProgress *Prog = 0);
    
    // Size queries
-   inline double UsrSize() {return iUsrSize;};
-   inline double DebSize() {return iDownloadSize;};
-   inline unsigned long DelCount() {return iDelCount;};
-   inline unsigned long KeepCount() {return iKeepCount;};
-   inline unsigned long InstCount() {return iInstCount;};
-   inline unsigned long BrokenCount() {return iBrokenCount;};
-   inline unsigned long BadCount() {return iBadCount;};
+   inline double UsrSize() {return iUsrSize;}
+   inline double DebSize() {return iDownloadSize;}
+   inline unsigned long DelCount() {return iDelCount;}
+   inline unsigned long KeepCount() {return iKeepCount;}
+   inline unsigned long InstCount() {return iInstCount;}
+   inline unsigned long BrokenCount() {return iBrokenCount;}
+   inline unsigned long BadCount() {return iBadCount;}
 
    bool Init(OpProgress *Prog);
    
@@ -243,21 +243,21 @@ class pkgDepCache::State
    void Restore();
    bool Changed();
 
-   void Ignore(PkgIterator const &I) {PkgIgnore[I->ID] = true;};
-   void UnIgnore(PkgIterator const &I) {PkgIgnore[I->ID] = false;};
-   bool Ignored(PkgIterator const &I) {return PkgIgnore[I->ID];};
+   void Ignore(PkgIterator const &I) {PkgIgnore[I->ID] = true;}
+   void UnIgnore(PkgIterator const &I) {PkgIgnore[I->ID] = false;}
+   bool Ignored(PkgIterator const &I) {return PkgIgnore[I->ID];}
    void UnIgnoreAll();
 
-   StateCache &operator [](pkgCache::PkgIterator const &I) {return PkgState[I->ID];};
+   StateCache &operator [](pkgCache::PkgIterator const &I) {return PkgState[I->ID];}
 
    // Size queries
-   inline double UsrSize() {return iUsrSize;};
-   inline double DebSize() {return iDownloadSize;};
-   inline unsigned long DelCount() {return iDelCount;};
-   inline unsigned long KeepCount() {return iKeepCount;};
-   inline unsigned long InstCount() {return iInstCount;};
-   inline unsigned long BrokenCount() {return iBrokenCount;};
-   inline unsigned long BadCount() {return iBadCount;};
+   inline double UsrSize() {return iUsrSize;}
+   inline double DebSize() {return iDownloadSize;}
+   inline unsigned long DelCount() {return iDelCount;}
+   inline unsigned long KeepCount() {return iKeepCount;}
+   inline unsigned long InstCount() {return iInstCount;}
+   inline unsigned long BrokenCount() {return iBrokenCount;}
+   inline unsigned long BadCount() {return iBadCount;}
 
    void Copy(State const &Other);
    void operator =(State const &Other)
@@ -266,18 +266,18 @@ class pkgDepCache::State
 	 delete[] DepState;
 	 delete[] PkgIgnore;
 	 Copy(Other);
-      };
+      }
    State(const State &Other)
-      { Copy(Other); };
+      { Copy(Other); }
    State(pkgDepCache *Dep=NULL)
 	 : Dep(0), PkgState(0), DepState(0), PkgIgnore(0)
-      { if (Dep != NULL) Save(Dep); };
+      { if (Dep != NULL) Save(Dep); }
    ~State()
       {
 	 delete[] PkgState;
 	 delete[] DepState;
 	 delete[] PkgIgnore;
-      };
+      }
 };
 
 
@@ -311,20 +311,20 @@ class pkgDepCache::State
       void Update(PkgIterator Pkg,pkgCache &Cache);
       
       // Various test members for the current status of the package
-      inline bool NewInstall() const {return Status == 2 && Mode == ModeInstall;};
-      inline bool Delete() const {return Mode == ModeDelete;};
-      inline bool Keep() const {return Mode == ModeKeep;};
-      inline bool Upgrade() const {return Status > 0 && Mode == ModeInstall;};
-      inline bool Upgradable() const {return Status >= 1;};
-      inline bool Downgrade() const {return Status < 0 && Mode == ModeInstall;};
-      inline bool Held() const {return Status != 0 && Keep();};
-      inline bool NowBroken() const {return (DepState & DepNowMin) != DepNowMin;};
-      inline bool InstBroken() const {return (DepState & DepInstMin) != DepInstMin;};
-      inline bool Install() const {return Mode == ModeInstall;};
+      inline bool NewInstall() const {return Status == 2 && Mode == ModeInstall;}
+      inline bool Delete() const {return Mode == ModeDelete;}
+      inline bool Keep() const {return Mode == ModeKeep;}
+      inline bool Upgrade() const {return Status > 0 && Mode == ModeInstall;}
+      inline bool Upgradable() const {return Status >= 1;}
+      inline bool Downgrade() const {return Status < 0 && Mode == ModeInstall;}
+      inline bool Held() const {return Status != 0 && Keep();}
+      inline bool NowBroken() const {return (DepState & DepNowMin) != DepNowMin;}
+      inline bool InstBroken() const {return (DepState & DepInstMin) != DepInstMin;}
+      inline bool Install() const {return Mode == ModeInstall;}
       inline VerIterator InstVerIter(pkgCache &Cache)
-                {return VerIterator(Cache,InstallVer);};
+                {return VerIterator(Cache,InstallVer);}
       inline VerIterator CandidateVerIter(pkgCache &Cache)
-                {return VerIterator(Cache,CandidateVer);};
+                {return VerIterator(Cache,CandidateVer);}
    };
 #endif
 

@@ -56,7 +56,7 @@ class pkgSimulate : public pkgPackageManager
 	 return (*Cache)[Pkg].CandidateVerIter(*Cache);
       }
       
-      Policy(pkgDepCache *Cache) : Cache(Cache) {};
+      Policy(pkgDepCache *Cache) : Cache(Cache) {}
    };
    
    unsigned char *Flags;
@@ -109,9 +109,9 @@ class pkgProblemResolver
    
    public:
    
-   inline void Protect(pkgCache::PkgIterator Pkg) {Flags[Pkg->ID] |= Protected;};
-   inline void Remove(pkgCache::PkgIterator Pkg) {Flags[Pkg->ID] |= ToRemove;};
-   inline void Clear(pkgCache::PkgIterator Pkg) {Flags[Pkg->ID] &= ~(Protected | ToRemove);};
+   inline void Protect(pkgCache::PkgIterator Pkg) {Flags[Pkg->ID] |= Protected;}
+   inline void Remove(pkgCache::PkgIterator Pkg) {Flags[Pkg->ID] |= ToRemove;}
+   inline void Clear(pkgCache::PkgIterator Pkg) {Flags[Pkg->ID] &= ~(Protected | ToRemove);}
    
    // Try to intelligently resolve problems by installing and removing packages   
    bool Resolve(bool BrokenFix = false);

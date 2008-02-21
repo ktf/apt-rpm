@@ -93,8 +93,8 @@ struct CommandLine::Args
    const char *ConfName;
    unsigned long Flags;
    
-   inline bool end() {return ShortOpt == 0 && LongOpt == 0;};
-   inline bool IsBoolean() {return Flags == 0 || (Flags & (Boolean|InvBoolean)) != 0;};
+   inline bool end() {return ShortOpt == 0 && LongOpt == 0;}
+   inline bool IsBoolean() {return Flags == 0 || (Flags & (Boolean|InvBoolean)) != 0;}
 };
 
 struct CommandLine::Dispatch

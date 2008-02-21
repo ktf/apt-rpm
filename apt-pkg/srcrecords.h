@@ -58,7 +58,7 @@ class pkgSrcRecords
 	 unsigned char Type;
       };
 	
-      inline const pkgIndexFile &Index() const {return *iIndex;};
+      inline const pkgIndexFile &Index() const {return *iIndex;}
       
       virtual bool Restart() = 0;
       virtual bool Step() = 0;
@@ -77,8 +77,8 @@ class pkgSrcRecords
 
       virtual bool Files(vector<pkgSrcRecords::File> &F) = 0;
       
-      Parser(const pkgIndexFile *Index) : iIndex(Index) {};
-      virtual ~Parser() {};
+      Parser(const pkgIndexFile *Index) : iIndex(Index) {}
+      virtual ~Parser() {}
    };
    
    private:

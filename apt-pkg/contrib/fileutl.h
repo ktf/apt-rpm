@@ -61,22 +61,22 @@ class FileFd
    bool Sync();
    
    // Simple manipulators
-   inline int Fd() {return iFd;};
-   inline void Fd(int fd) {iFd = fd;};
-   inline bool IsOpen() {return iFd >= 0;};
-   inline bool Failed() {return (Flags & Fail) == Fail;};
-   inline void EraseOnFailure() {Flags |= DelOnFail;};
-   inline void OpFail() {Flags |= Fail;};
-   inline bool Eof() {return (Flags & HitEof) == HitEof;};
-   inline string &Name() {return FileName;};
+   inline int Fd() {return iFd;}
+   inline void Fd(int fd) {iFd = fd;}
+   inline bool IsOpen() {return iFd >= 0;}
+   inline bool Failed() {return (Flags & Fail) == Fail;}
+   inline void EraseOnFailure() {Flags |= DelOnFail;}
+   inline void OpFail() {Flags |= Fail;}
+   inline bool Eof() {return (Flags & HitEof) == HitEof;}
+   inline string &Name() {return FileName;}
    
    FileFd(string FileName,OpenMode Mode,unsigned long Perms = 0666) : iFd(-1), 
             Flags(0) 
    {
       Open(FileName,Mode,Perms);
-   };
-   FileFd(int Fd = -1) : iFd(Fd), Flags(AutoClose) {};
-   FileFd(int Fd,bool) : iFd(Fd), Flags(0) {};
+   }
+   FileFd(int Fd = -1) : iFd(Fd), Flags(AutoClose) {}
+   FileFd(int Fd,bool) : iFd(Fd), Flags(0) {}
    virtual ~FileFd();
 };
 

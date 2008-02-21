@@ -68,14 +68,14 @@ class rpmListParser : public pkgCacheGenerator::ListParser
    virtual bool UsePackage(pkgCache::PkgIterator Pkg,
 			   pkgCache::VerIterator Ver);
    virtual off_t Offset()
-	{return Handler->Offset();};
+	{return Handler->Offset();}
    virtual off_t Size();
 
    virtual bool OrderedOffset()
-   	{return Handler->OrderedOffset();};
+   	{return Handler->OrderedOffset();}
 
    virtual bool IsDatabase()
-   	{return Handler->IsDatabase();};
+   	{return Handler->IsDatabase();}
 
    virtual bool CollectFileProvides(pkgCache &Cache,
 				    pkgCache::VerIterator Ver); 
@@ -106,7 +106,7 @@ class rpmRepomdParser : public rpmListParser
    bool LoadReleaseInfo(pkgCache::PkgFileIterator FileI,const string File,
 		   	const string Dist);
 
-   rpmRepomdParser(RPMHandler *Handler) : rpmListParser(Handler) {};
+   rpmRepomdParser(RPMHandler *Handler) : rpmListParser(Handler) {}
 };
 #endif /* APT_WITH_REPOMD */
 

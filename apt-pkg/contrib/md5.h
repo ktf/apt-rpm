@@ -45,11 +45,11 @@ class MD5SumValue
    bool operator ==(const MD5SumValue &rhs) const; 
    string Value() const;
    inline void Value(unsigned char S[16]) 
-         {for (int I = 0; I != sizeof(Sum); I++) S[I] = Sum[I];};
-   inline operator string() const {return Value();};
+         {for (int I = 0; I != sizeof(Sum); I++) S[I] = Sum[I];}
+   inline operator string() const {return Value();}
    bool Set(string Str);
    inline void Set(unsigned char S[16]) 
-         {for (int I = 0; I != sizeof(Sum); I++) Sum[I] = S[I];};
+         {for (int I = 0; I != sizeof(Sum); I++) Sum[I] = S[I];}
 
    MD5SumValue(string Str);
    MD5SumValue();
@@ -65,10 +65,10 @@ class MD5Summation
    public:
 
    bool Add(const unsigned char *Data,unsigned long Size);
-   inline bool Add(const char *Data) {return Add((unsigned char *)Data,strlen(Data));};
+   inline bool Add(const char *Data) {return Add((unsigned char *)Data,strlen(Data));}
    bool AddFD(int Fd,unsigned long Size);
    inline bool Add(const unsigned char *Beg,const unsigned char *End) 
-                  {return Add(Beg,End-Beg);};
+                  {return Add(Beg,End-Beg);}
    MD5SumValue Result();
    
    MD5Summation();

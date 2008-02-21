@@ -56,9 +56,9 @@ class MMap
                    UnMapped = (1<<3)};
       
    // Simple accessors
-   inline operator void *() {return Base;};
-   inline void *Data() {return Base;}; 
-   inline size_t Size() {return iSize;};
+   inline operator void *() {return Base;}
+   inline void *Data() {return Base;} 
+   inline size_t Size() {return iSize;}
    
    // File manipulators
    bool Sync();
@@ -94,8 +94,8 @@ class DynamicMMap : public MMap
    size_t RawAllocate(size_t Size,unsigned long Aln = 0);
    unsigned long Allocate(unsigned long ItemSize);
    size_t WriteString(const char *String,size_t Len = (size_t)-1);
-   inline size_t WriteString(string S) {return WriteString(S.c_str(),S.length());};
-   void UsePools(Pool &P,unsigned int Count) {Pools = &P; PoolCount = Count;};
+   inline size_t WriteString(string S) {return WriteString(S.c_str(),S.length());}
+   void UsePools(Pool &P,unsigned int Count) {Pools = &P; PoolCount = Count;}
    
    DynamicMMap(FileFd &F,unsigned long Flags,size_t WorkSpace = 2*1024*1024);
    DynamicMMap(unsigned long Flags,size_t WorkSpace = 2*1024*1024);

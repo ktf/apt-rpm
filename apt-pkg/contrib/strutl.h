@@ -114,12 +114,12 @@ class URI
    unsigned int Port;
    
    operator string();
-   inline void operator =(string From) {CopyFrom(From);};
-   inline bool empty() {return Access.empty();};
+   inline void operator =(string From) {CopyFrom(From);}
+   inline bool empty() {return Access.empty();}
    static string SiteOnly(string URI);
    
-   URI(string Path) {CopyFrom(Path);};
-   URI() : Port(0) {};
+   URI(string Path) {CopyFrom(Path);}
+   URI() : Port(0) {}
 };
 
 struct SubstVar

@@ -62,19 +62,19 @@ class pkgAcqMethod
    
    // Handlers for messages
    virtual bool Configuration(string Message);
-   virtual bool Fetch(FetchItem * /*Item*/) {return true;};
+   virtual bool Fetch(FetchItem * /*Item*/) {return true;}
    
    // Outgoing messages
    void Fail(bool Transient = false);
-   inline void Fail(const char *Why, bool Transient = false) {Fail(string(Why),Transient);};
+   inline void Fail(const char *Why, bool Transient = false) {Fail(string(Why),Transient);}
    void Fail(string Why, bool Transient = false);
    void URIStart(FetchResult &Res);
    void URIDone(FetchResult &Res,FetchResult *Alt = 0);
    bool MediaFail(string Required,string Drive);
    bool NeedAuth(string Description,string &User,string &Pass);
-   virtual void Exit() {};
+   virtual void Exit() {}
    // CNC:2004-04-27
-   virtual string PreferredURI() { return ""; };
+   virtual string PreferredURI() { return ""; }
 
    public:
 
@@ -89,10 +89,10 @@ class pkgAcqMethod
    void Redirect(const string &NewURI);
 
    int Run(bool Single = false);
-   inline void SetFailExtraMsg(string Msg) {FailExtra = Msg;};
+   inline void SetFailExtraMsg(string Msg) {FailExtra = Msg;}
    
    pkgAcqMethod(const char *Ver,unsigned long Flags = 0);
-   virtual ~pkgAcqMethod() {};
+   virtual ~pkgAcqMethod() {}
 };
 
 #endif

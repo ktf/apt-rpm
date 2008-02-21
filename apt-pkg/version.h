@@ -51,7 +51,7 @@ class pkgVersioningSystem
 		   		const char *AA,const char *AAend,
 				const char *B,const char *Bend,
 				const char *BA,const char *BAend)
-	{return DoCmpVersion(A,Aend,B,Bend);};
+	{return DoCmpVersion(A,Aend,B,Bend);}
    virtual int CmpVersionArch(string A,string AA,
 		   	      const char *B,const char *BA)
 	{
@@ -62,9 +62,9 @@ class pkgVersioningSystem
 	      return DoCmpVersionArch(A.c_str(),A.c_str()+A.length(),
 				      AA.c_str(),AA.c_str()+AA.length(),
 				      B,B+strlen(B),BA,BA+strlen(BA));
-	};
+	}
    virtual bool CheckDep(const char *PkgVer,pkgCache::DepIterator Dep)
-   	{return CheckDep(PkgVer,Dep->CompareOp,Dep.TargetVer());};
+   	{return CheckDep(PkgVer,Dep->CompareOp,Dep.TargetVer());}
    
 
    virtual bool CheckDep(const char *PkgVer,int Op,const char *DepVer) = 0;
@@ -74,14 +74,14 @@ class pkgVersioningSystem
    
    // See if the given VS is compatible with this one.. 
    virtual bool TestCompatibility(pkgVersioningSystem const &Against) 
-                {return this == &Against;};
+                {return this == &Against;}
 
    // Shortcuts
    APT_MKSTRCMP(CmpVersion,DoCmpVersion);
    APT_MKSTRCMP(CmpReleaseVer,DoCmpReleaseVer);
    
    pkgVersioningSystem();
-   virtual ~pkgVersioningSystem() {};
+   virtual ~pkgVersioningSystem() {}
 };
 
 

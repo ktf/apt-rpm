@@ -63,20 +63,20 @@ class CircleBuf
    bool WriteTillEl(string &Data,bool Single = false);
    
    // Control the write limit
-   void Limit(long Max) {if (Max == -1) MaxGet = 0-1; else MaxGet = OutP + Max;}   
-   bool IsLimit() {return MaxGet == OutP;};
-   void Print() {cout << MaxGet << ',' << OutP << endl;};
+   void Limit(long Max) {if (Max == -1) MaxGet = 0-1; else MaxGet = OutP + Max;}
+   bool IsLimit() {return MaxGet == OutP;}
+   void Print() {cout << MaxGet << ',' << OutP << endl;}
 
    // Test for free space in the buffer
-   bool ReadSpace() {return Size - (InP - OutP) > 0;};
-   bool WriteSpace() {return InP - OutP > 0;};
+   bool ReadSpace() {return Size - (InP - OutP) > 0;}
+   bool WriteSpace() {return InP - OutP > 0;}
 
    // Dump everything
    void Reset();
    void Stats();
 
    CircleBuf(unsigned long Size);
-   ~CircleBuf() {delete [] Buf; delete Hash;};
+   ~CircleBuf() {delete [] Buf; delete Hash;}
 };
 
 struct ServerState
@@ -110,10 +110,10 @@ struct ServerState
    URI ServerName;
   
    bool HeaderLine(string Line);
-   bool Comp(URI Other) {return Other.Host == ServerName.Host && Other.Port == ServerName.Port;};
+   bool Comp(URI Other) {return Other.Host == ServerName.Host && Other.Port == ServerName.Port;}
    void Reset() {Major = 0; Minor = 0; Result = 0; Size = 0; StartPos = 0;
                  Encoding = Closes; time(&Date); ServerFd = -1; 
-                 Pipeline = true;};
+                 Pipeline = true;}
    int RunHeaders();
    bool RunData();
    
@@ -121,7 +121,7 @@ struct ServerState
    bool Close();
    
    ServerState(URI Srv,HttpMethod *Owner);
-   ~ServerState() {Close();};
+   ~ServerState() {Close();}
 };
 
 class HttpMethod : public pkgAcqMethod
@@ -165,7 +165,7 @@ class HttpMethod : public pkgAcqMethod
    {
       File = 0;
       Server = 0;
-   };
+   }
 };
 
 URI Proxy;

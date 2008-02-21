@@ -28,7 +28,7 @@ class CopyMethod : public pkgAcqMethod
    
    public:
    
-   CopyMethod() : pkgAcqMethod("1.0",SingleInstance) {};
+   CopyMethod() : pkgAcqMethod("1.0",SingleInstance) {}
 };
 
 // CopyMethod::Fetch - Fetch a file					/*{{{*/

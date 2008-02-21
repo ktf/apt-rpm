@@ -110,7 +110,7 @@ class pkgCache
 
    // CNC:2003-02-16 - Inlined here.
    inline unsigned long sHash(const char *S) const;
-   inline unsigned long sHash(string S) const {return sHash(S.c_str());};
+   inline unsigned long sHash(string S) const {return sHash(S.c_str());}
    
    public:
    
@@ -126,13 +126,13 @@ class pkgCache
    char *StrP;
 
    virtual bool ReMap();
-   inline bool Sync() {return Map.Sync();};
-   inline MMap &GetMap() {return Map;};
-   inline void *DataEnd() {return ((unsigned char *)Map.Data()) + Map.Size();};
+   inline bool Sync() {return Map.Sync();}
+   inline MMap &GetMap() {return Map;}
+   inline void *DataEnd() {return ((unsigned char *)Map.Data()) + Map.Size();}
       
    // String hashing function (512 range)
-   inline unsigned long Hash(string S) const {return sHash(S);};
-   inline unsigned long Hash(const char *S) const {return sHash(S);};
+   inline unsigned long Hash(string S) const {return sHash(S);}
+   inline unsigned long Hash(const char *S) const {return sHash(S);}
 
    // Usefull transformation things
    const char *Priority(unsigned char Priority);
@@ -141,7 +141,7 @@ class pkgCache
    PkgIterator FindPkg(string Name);
    // CNC:2003-02-17 - A slightly changed FindPkg(), hacked for performance.
    Package *FindPackage(const char *Name);
-   Header &Head() {return *HeaderP;};
+   Header &Head() {return *HeaderP;}
    inline PkgIterator PkgBegin();
    inline PkgIterator PkgEnd();
    inline PkgFileIterator FileBegin();
@@ -156,7 +156,7 @@ class pkgCache
    static const char *DepType(unsigned char Dep);
    
    pkgCache(MMap *Map,bool DoMap = true);
-   virtual ~pkgCache() {};
+   virtual ~pkgCache() {}
 };
 
 // Header structure

@@ -36,7 +36,7 @@ class cmdCacheFile : public pkgCacheFile
    pkgCache::Package **List;
    void Sort();
 
-   cmdCacheFile() : List(0) {};
+   cmdCacheFile() : List(0) {}
    virtual ~cmdCacheFile();
 };
 
@@ -46,7 +46,7 @@ class LogCleaner : public pkgArchiveCleaner
    virtual void Erase(const char *File,string Pkg,string Ver,struct stat &St);
 
    public:
-   virtual ~LogCleaner() {};
+   virtual ~LogCleaner() {}
 };
 
 bool ShowList(ostream &out,string Title,string List,string VersionsList);

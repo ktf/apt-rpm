@@ -56,7 +56,7 @@ class OpProgress
    bool SubChange;
    
    bool CheckChange(float Interval = 0.7);		    
-   virtual void Update() {};
+   virtual void Update() {}
    
    public:
    
@@ -65,10 +65,10 @@ class OpProgress
    void SubProgress(unsigned long SubTotal,string Op);
    void OverallProgress(unsigned long Current,unsigned long Total,
 			unsigned long Size,string Op);
-   virtual void Done() {};
+   virtual void Done() {}
    
    OpProgress();
-   virtual ~OpProgress() {};
+   virtual ~OpProgress() {}
 };
 
 class OpTextProgress : public OpProgress
@@ -87,9 +87,9 @@ class OpTextProgress : public OpProgress
    virtual void Done();
    
    OpTextProgress(bool NoUpdate = false) : NoUpdate(NoUpdate), 
-                NoDisplay(false), LastLen(0) {};
+                NoDisplay(false), LastLen(0) {}
    OpTextProgress(Configuration &Config);
-   virtual ~OpTextProgress() {Done();};
+   virtual ~OpTextProgress() {Done();}
 };
 
 
@@ -98,10 +98,10 @@ class InstProgress : public OpProgress
    public:
    enum InstallStates { Preparing, Installing, Repackaging, Removing };
 
-   void SetState(enum InstallStates St) {State = St;};
-   void SetPackageData(map<string,string> *PkgData) {PackageData=PkgData;};
-   InstProgress(Configuration &Config) : OpProgress(), PackageData(NULL) {};
-   virtual ~InstProgress() {};
+   void SetState(enum InstallStates St) {State = St;}
+   void SetPackageData(map<string,string> *PkgData) {PackageData=PkgData;}
+   InstProgress(Configuration &Config) : OpProgress(), PackageData(NULL) {}
+   virtual ~InstProgress() {}
 
    protected:
    map<string,string> *PackageData;
@@ -119,7 +119,7 @@ class InstPercentProgress : public InstProgress
    virtual void Done();
 
    InstPercentProgress(Configuration &Config);
-   virtual ~InstPercentProgress() {};
+   virtual ~InstPercentProgress() {}
 };
 
 // Progress class similar to rpm -Uvh but with erasure callbacks and whatnot
@@ -137,7 +137,7 @@ class InstHashProgress : public InstProgress
    virtual void Done();
 
    InstHashProgress(Configuration &Config);
-   virtual ~InstHashProgress() {};
+   virtual ~InstHashProgress() {}
 };
 #endif
 

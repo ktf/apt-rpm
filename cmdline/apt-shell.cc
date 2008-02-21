@@ -96,7 +96,7 @@ class CacheFile : public cmdCacheFile
 	 return false;
       Sort();
       return true;
-   };
+   }
    bool CanCommit()
    {
       return IsRoot;
@@ -104,7 +104,7 @@ class CacheFile : public cmdCacheFile
    CacheFile() : cmdCacheFile()
    {
       IsRoot = (getuid() == 0);
-   };
+   }
 };
 									/*}}}*/
 
@@ -115,12 +115,12 @@ class AutoRestore
    pkgDepCache::State State;
    bool Guarded;
    public:
-   inline pkgDepCache::State *operator ->() {return &State;};
-   inline pkgDepCache::State *operator &() {return &State;};
-   inline void UnGuard() { Guarded = false; };
+   inline pkgDepCache::State *operator ->() {return &State;}
+   inline pkgDepCache::State *operator &() {return &State;}
+   inline void UnGuard() { Guarded = false; }
    AutoRestore(pkgDepCache &Cache)
-      : State(&Cache), Guarded(true) {};
-   ~AutoRestore() { if (Guarded) State.Restore(); };
+      : State(&Cache), Guarded(true) {}
+   ~AutoRestore() { if (Guarded) State.Restore(); }
 };
 
 class AutoReOpenCache
@@ -128,9 +128,9 @@ class AutoReOpenCache
    CacheFile **Cache;
    bool Guarded;
    public:
-   inline void UnGuard() { Guarded = false; };
+   inline void UnGuard() { Guarded = false; }
    AutoReOpenCache(CacheFile *&Cache)
-      : Cache(&Cache), Guarded(true) {};
+      : Cache(&Cache), Guarded(true) {}
    ~AutoReOpenCache()
    {
       if (Guarded) {
@@ -143,7 +143,7 @@ class AutoReOpenCache
 	    c1out << _("You can try to fix them automatically with `install --fix-broken'.") << endl;
 	 }
       }
-   };
+   }
 };
 
 void CommandHelp(const char *Name);
@@ -914,7 +914,7 @@ class UpdateLogCleaner : public pkgArchiveCleaner
    {
       c1out << "Del " << Pkg << " " << Ver << " [" << SizeToStr(St.st_size) << "B]" << endl;
       unlink(File);      
-   };
+   }
 };
 
 bool DoUpdate(CommandLine &CmdL)

@@ -48,8 +48,8 @@ class PackageCopy : public IndexCopy
    
    virtual bool GetFile(string &Filename,unsigned long &Size);
    virtual bool RewriteEntry(FILE *Target,string File);
-   virtual const char *GetFileName() {return "Packages";};
-   virtual const char *Type() {return "Package";};
+   virtual const char *GetFileName() {return "Packages";}
+   virtual const char *Type() {return "Package";}
    
    public:
 };
@@ -60,8 +60,8 @@ class SourceCopy : public IndexCopy
    
    virtual bool GetFile(string &Filename,unsigned long &Size);
    virtual bool RewriteEntry(FILE *Target,string File);
-   virtual const char *GetFileName() {return "Sources";};
-   virtual const char *Type() {return "Source";};
+   virtual const char *GetFileName() {return "Sources";}
+   virtual const char *Type() {return "Source";}
    
    public:
 };

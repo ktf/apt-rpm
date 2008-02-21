@@ -87,24 +87,24 @@ class pkgOrderList : protected pkgCache::Namespace
                States = (UnPacked | Configured | Removed)};
 
    // Flag manipulators
-   inline bool IsFlag(PkgIterator Pkg,unsigned long F) {return (Flags[Pkg->ID] & F) == F;};
-   inline bool IsFlag(Package *Pkg,unsigned long F) {return (Flags[Pkg->ID] & F) == F;};
-   void Flag(PkgIterator Pkg,unsigned long State, unsigned long F) {Flags[Pkg->ID] = (Flags[Pkg->ID] & (~F)) | State;};
-   inline void Flag(PkgIterator Pkg,unsigned long F) {Flags[Pkg->ID] |= F;};
-   inline void Flag(Package *Pkg,unsigned long F) {Flags[Pkg->ID] |= F;};
-   inline bool IsNow(PkgIterator Pkg) {return (Flags[Pkg->ID] & (States & (~Removed))) == 0;};
+   inline bool IsFlag(PkgIterator Pkg,unsigned long F) {return (Flags[Pkg->ID] & F) == F;}
+   inline bool IsFlag(Package *Pkg,unsigned long F) {return (Flags[Pkg->ID] & F) == F;}
+   void Flag(PkgIterator Pkg,unsigned long State, unsigned long F) {Flags[Pkg->ID] = (Flags[Pkg->ID] & (~F)) | State;}
+   inline void Flag(PkgIterator Pkg,unsigned long F) {Flags[Pkg->ID] |= F;}
+   inline void Flag(Package *Pkg,unsigned long F) {Flags[Pkg->ID] |= F;}
+   inline bool IsNow(PkgIterator Pkg) {return (Flags[Pkg->ID] & (States & (~Removed))) == 0;}
    bool IsMissing(PkgIterator Pkg);
    void WipeFlags(unsigned long F);
-   void SetFileList(string *FileList) {this->FileList = FileList;};
+   void SetFileList(string *FileList) {this->FileList = FileList;}
 
    // Accessors
-   inline iterator begin() {return List;};
-   inline iterator end() {return End;};
-   inline void push_back(Package *Pkg) {*(End++) = Pkg;};
-   inline void push_back(PkgIterator Pkg) {*(End++) = Pkg;};
-   inline void pop_back() {End--;};
-   inline bool empty() {return End == List;};
-   inline unsigned int size() {return End - List;};
+   inline iterator begin() {return List;}
+   inline iterator end() {return End;}
+   inline void push_back(Package *Pkg) {*(End++) = Pkg;}
+   inline void push_back(PkgIterator Pkg) {*(End++) = Pkg;}
+   inline void pop_back() {End--;}
+   inline bool empty() {return End == List;}
+   inline unsigned int size() {return End - List;}
    
    // Ordering modes
    bool OrderCritical();

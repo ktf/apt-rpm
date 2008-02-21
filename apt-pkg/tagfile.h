@@ -40,8 +40,8 @@ class pkgTagSection
      
    public:
    
-   inline bool operator ==(const pkgTagSection &rhs) {return Section == rhs.Section;};
-   inline bool operator !=(const pkgTagSection &rhs) {return Section != rhs.Section;};
+   inline bool operator ==(const pkgTagSection &rhs) {return Section == rhs.Section;}
+   inline bool operator !=(const pkgTagSection &rhs) {return Section != rhs.Section;}
    
    bool Find(const char *Tag,const char *&Start, const char *&End) const;
    bool Find(const char *Tag,unsigned &Pos) const;
@@ -61,9 +61,9 @@ class pkgTagSection
    {
       Start = Section;
       Stop = this->Stop;
-   };
+   }
    
-   pkgTagSection() : Section(0), Stop(0) {};
+   pkgTagSection() : Section(0), Stop(0) {}
 };
 
 class pkgTagFile
@@ -81,7 +81,7 @@ class pkgTagFile
    public:
 
    bool Step(pkgTagSection &Section);
-   inline off_t Offset() {return iOffset;};
+   inline off_t Offset() {return iOffset;}
    bool Jump(pkgTagSection &Tag,off_t Offset);
 
    pkgTagFile(FileFd *F,size_t Size = 32*1024);

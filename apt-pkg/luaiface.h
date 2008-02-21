@@ -29,7 +29,7 @@ class LuaCacheControl {
    virtual pkgDepCache *Open(bool Write) = 0;
    virtual void Close() = 0;
 
-   virtual ~LuaCacheControl() {};
+   virtual ~LuaCacheControl() {}
 };
 
 class Lua {
@@ -54,16 +54,16 @@ class Lua {
 
    void RunInteractive(const char *PlaceHint=NULL);
    void RunInteractive(const string &PlaceHint)
-	 { RunInteractive(PlaceHint.c_str()); };
+	 { RunInteractive(PlaceHint.c_str()); }
 
    bool RunScript(const string &Script, const string &ChunkCacheKey="")
 	 { return RunScript(Script.c_str(), (ChunkCacheKey.length() == 0) ?
-				      NULL : ChunkCacheKey.c_str()); };
+				      NULL : ChunkCacheKey.c_str()); }
    bool RunScript(const char *Script, const char *ChunkCacheKey=NULL);
    bool RunScripts(const char *ConfListKey, bool CacheChunks=false);
    bool HasScripts(const char *ConfListKey);
    void ResetScript(const string &ChunkCacheKey)
-	 { ResetScript(ChunkCacheKey.c_str()); };
+	 { ResetScript(ChunkCacheKey.c_str()); }
    void ResetScript(const char *ChunkCacheKey);
 
    void SetGlobal(const char *Name);
@@ -72,9 +72,9 @@ class Lua {
    void SetGlobal(const char *Name, double Value);
    void SetGlobal(const char *Name, void *Value);
    void SetGlobal(const char *Name, const string &Value)
-	 { SetGlobal(Name, Value.c_str()); };
+	 { SetGlobal(Name, Value.c_str()); }
    void SetGlobal(const char *Name, int Value)
-	 { SetGlobal(Name, (double)Value); };
+	 { SetGlobal(Name, (double)Value); }
    void SetGlobal(const char *Name, lua_CFunction Value);
    void SetGlobal(const char *Name, const char **Value, int Total=-1);
    void SetGlobal(const char *Name, pkgCache::Package *Value);
@@ -95,19 +95,19 @@ class Lua {
    vector<pkgCache::Package*> GetGlobalPkgList(const char *Name);
 
    void SetDepCache(pkgDepCache *DepCache_);
-   void SetCache(pkgCache *Cache_) { Cache = Cache_; };
+   void SetCache(pkgCache *Cache_) { Cache = Cache_; }
    void SetCacheControl(LuaCacheControl *CacheControl_);
-   void SetProblemResolver(pkgProblemResolver *Fix_) { Fix = Fix_; };
-   void SetDontFix() { DontFix = true; };
+   void SetProblemResolver(pkgProblemResolver *Fix_) { Fix = Fix_; }
+   void SetDontFix() { DontFix = true; }
    void ResetCaches()
-      { DepCache = NULL; Cache = NULL; Fix = NULL; DontFix = false; };
+      { DepCache = NULL; Cache = NULL; Fix = NULL; DontFix = false; }
 
    // For API functions
    pkgDepCache *GetDepCache(lua_State *L=NULL);
    pkgCache *GetCache(lua_State *L=NULL);
-   LuaCacheControl *GetCacheControl() { return CacheControl; };
-   pkgProblemResolver *GetProblemResolver() { return Fix; };
-   bool GetDontFix() { return DontFix; };
+   LuaCacheControl *GetCacheControl() { return CacheControl; }
+   pkgProblemResolver *GetProblemResolver() { return Fix; }
+   bool GetDontFix() { return DontFix; }
 
    Lua();
    ~Lua();

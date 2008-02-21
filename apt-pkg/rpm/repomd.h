@@ -35,7 +35,7 @@ class repomdRepository : public pkgRepository
 
    public:   
 
-   virtual bool IsAuthenticated() const { return false; };
+   virtual bool IsAuthenticated() const { return false; }
    virtual bool ParseRelease(string File);
    virtual string FindURI(string DataType);
    virtual string GetComprMethod(string URI);
@@ -46,9 +46,9 @@ class repomdRepository : public pkgRepository
    {
       // repomd always has a "release" file
       GotRelease = true;
-   };
+   }
 
-   virtual ~repomdRepository() {};
+   virtual ~repomdRepository() {}
 };
 
 #endif /* APT_WITH_REPOMD */
