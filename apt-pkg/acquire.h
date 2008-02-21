@@ -200,7 +200,7 @@ class pkgAcquire::UriIterator
    public:
    
    // Advance to the next item
-   inline void operator ++() {operator ++();}
+   inline void operator ++() {operator ++(0);}
    void operator ++(int)
    {
       CurItem = CurItem->Next;
