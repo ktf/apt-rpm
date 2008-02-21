@@ -73,6 +73,9 @@
 /* Define to 1 if you have the <rpm/rpmsx.h> header file. */
 #undef HAVE_RPM_RPMSX_H
 
+/* Define to 1 if you have the <rpm/rpmtypes.h> header file. */
+#undef HAVE_RPM_RPMTYPES_H
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
@@ -126,9 +129,6 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
-
-/* rpm_data_t */
-#undef RPM_HAVE_DATA_T
 
 /* rpmdsGetconf */
 #undef RPM_HAVE_DSGETCONF

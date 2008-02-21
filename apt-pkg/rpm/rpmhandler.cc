@@ -66,7 +66,7 @@ extern sigset_t rpmsqCaught;
 #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
 #endif
 
-#ifndef RPM_HAVE_DATA_T
+#ifndef HAVE_RPM_RPMTYPES_H
 typedef void * rpm_data_t;
 typedef int_32 rpm_count_t;
 typedef int_32 rpm_tagtype_t;

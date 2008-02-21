@@ -22165,8 +22165,9 @@ fi
 
 
 
+
 for ac_header in rpm/rpmsx.h rpm/rpmcallback.h rpm/rpmcb.h \
-	     rpm/rpmmessages.h rpm/rpmevr.h
+	     rpm/rpmmessages.h rpm/rpmevr.h rpm/rpmtypes.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if { as_var=$as_ac_Header; eval "test \"\${$as_var+set}\" = set"; }; then
@@ -22380,32 +22381,6 @@ if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
 echo "${ECHO_T}yes" >&6; }
 cat >>confdefs.h <<\_ACEOF
 #define RPM_HAVE_FDIGESTS 1
-_ACEOF
-
-else
-  { echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-fi
-rm -f conftest*
-
-
-{ echo "$as_me:$LINENO: checking for rpm_data_t" >&5
-echo $ECHO_N "checking for rpm_data_t... $ECHO_C" >&6; }
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <rpm/header.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "rpm_data_t" >/dev/null 2>&1; then
-  { echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6; }
-cat >>confdefs.h <<\_ACEOF
-#define RPM_HAVE_DATA_T 1
 _ACEOF
 
 else
