@@ -24,6 +24,7 @@
 #define _RPMEVR_INTERNAL
 #endif
 
+#include "rapttypes.h"
 #include "rpmversion.h"
 #include <apt-pkg/pkgcache.h>
 
@@ -203,8 +204,8 @@ bool rpmVersioningSystem::CheckDep(const char *PkgVer,
    }
 
 #if RPM_VERSION >= 0x040100
-   rpmds pds = rpmdsSingle(RPMTAG_PROVIDENAME, "", PkgVer, PkgFlags);
-   rpmds dds = rpmdsSingle(RPMTAG_REQUIRENAME, "", DepVer, DepFlags);
+   rpmds pds = rpmdsSingle(RPMTAG_PROVIDENAME, "", PkgVer, (raptDepFlags) PkgFlags);
+   rpmds dds = rpmdsSingle(RPMTAG_REQUIRENAME, "", DepVer, (raptDepFlags) DepFlags);
 #if RPM_VERSION >= 0x040201
    rpmdsSetNoPromote(pds, _rpmds_nopromote);
    rpmdsSetNoPromote(dds, _rpmds_nopromote);

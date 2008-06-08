@@ -3,12 +3,7 @@
 
 #include <apt-pkg/progress.h>
 #include <rpm/rpmcli.h>
-
-#if HAVE_RPM_RPMCB_H
-typedef unsigned long long rpmCallbackSize_t;
-#else
-typedef unsigned long rpmCallbackSize_t;
-#endif
+#include "rapttypes.h"
 
 #if RPM_VERSION < 0x040000
 void * rpmCallback(const Header h,
@@ -16,8 +11,8 @@ void * rpmCallback(const Header h,
 void * rpmCallback(const void * arg, 
 #endif
 			const rpmCallbackType what,
-                        const rpmCallbackSize_t amount,
-                        const rpmCallbackSize_t total,
+                        const raptOffset amount,
+                        const raptOffset total,
 			const void * pkgKey, void * data);
 
 #endif /* _APTRPM_RPMCALLBACK_H */

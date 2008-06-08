@@ -40,8 +40,8 @@ void * rpmCallback(const Header h,
 void * rpmCallback(const void * arg, 
 #endif
 		   const rpmCallbackType what,
-                   const rpmCallbackSize_t amount,
-                   const rpmCallbackSize_t total,
+                   const raptOffset amount,
+                   const raptOffset total,
 		   const void * pkgKey, void * data)
 
 {

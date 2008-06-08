@@ -23,6 +23,7 @@
 
 #include <rpm/rpmlib.h>
 #include <rpm/rpmmacro.h>
+#include "rapttypes.h"
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -63,8 +64,8 @@ class RPMHandler
    string ID;
 
    unsigned int DepOp(int_32 rpmflags);
-   bool InternalDep(const char *name, const char *ver, int_32 flag);
-   bool PutDep(const char *name, const char *ver, int_32 flags,
+   bool InternalDep(const char *name, const char *ver, raptDepFlags flag);
+   bool PutDep(const char *name, const char *ver, raptDepFlags flags,
                unsigned int type, vector<Dependency*> &Deps);
 
    public:

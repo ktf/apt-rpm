@@ -66,12 +66,6 @@ extern sigset_t rpmsqCaught;
 #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
 #endif
 
-#ifndef HAVE_RPM_RPMTYPES_H
-typedef void * rpm_data_t;
-typedef int_32 rpm_count_t;
-typedef int_32 rpm_tagtype_t;
-#endif
-
 // An attempt to deal with false zero epochs from repomd. With older rpm's we
 // can only blindly trust the repo admin created the repository with options
 // suitable for those versions. For rpm >= 4.2.1 this is linked with
@@ -138,7 +132,7 @@ bool RPMHandler::HasFile(const char *File)
    return false;
 }
 
-bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag) 
+bool RPMHandler::InternalDep(const char *name, const char *ver, raptDepFlags flag) 
 {
    if (strncmp(name, "rpmlib(", strlen("rpmlib(")) == 0) {
 #if RPM_VERSION >= 0x040100
@@ -247,7 +241,7 @@ bool RPMHandler::InternalDep(const char *name, const char *ver, int_32 flag)
    return false; 
 }
 
-bool RPMHandler::PutDep(const char *name, const char *ver, int_32 flags, 
+bool RPMHandler::PutDep(const char *name, const char *ver, raptDepFlags flags, 
 			unsigned int Type, vector<Dependency*> &Deps)
 {
    if (InternalDep(name, ver, flags) == true) {
@@ -282,9 +276,9 @@ bool RPMHandler::PutDep(const char *name, const char *ver, int_32 flags,
 string RPMHdrHandler::Epoch()
 {
    char str[512] = "";
-   rpm_count_t count;
-   rpm_tagtype_t type;
-   rpm_data_t val;
+   raptTagCount count;
+   raptTagType type;
+   raptTagData val;
    int_32 *epoch;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH, &type, &val, &count);
@@ -297,9 +291,9 @@ string RPMHdrHandler::Epoch()
 
 off_t RPMHdrHandler::GetITag(rpmTag Tag)
 {
-   rpm_count_t count;
-   rpm_tagtype_t type;
-   rpm_data_t val;
+   raptTagCount count;
+   raptTagType type;
+   raptTagData val;
    int_32 *num;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, Tag,
@@ -311,9 +305,9 @@ off_t RPMHdrHandler::GetITag(rpmTag Tag)
 string RPMHdrHandler::GetSTag(rpmTag Tag)
 {
    const char *str;
-   rpm_data_t val;
-   rpm_count_t count;
-   rpm_tagtype_t type;
+   raptTagData val;
+   raptTagCount count;
+   raptTagType type;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, Tag,
 			   &type, &val, &count);
@@ -461,9 +455,9 @@ bool RPMHdrHandler::ChangeLog(vector<ChangeLogEntry *> &ChangeLogs)
    int *timel = NULL;
    char **authorl = NULL;
    char **entryl = NULL;
-   rpm_data_t timeval, authorval, entryval;
-   rpm_tagtype_t type;
-   rpm_count_t count;
+   raptTagData timeval, authorval, entryval;
+   raptTagType type;
+   raptTagCount count;
    int res;
 
    res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTIME, &type, &timeval, &count);
@@ -1265,7 +1259,7 @@ bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
       return true;
    }
    for (xmlNode *n = prco->children; n; n = n->next) {
-      int_32 RpmOp = 0;
+      unsigned int RpmOp = 0;
       string deptype, depver;
       xmlChar *depname, *flags;
       if ((depname = xmlGetProp(n, (xmlChar*)"name")) == NULL) continue;
@@ -1318,7 +1312,7 @@ bool RPMRepomdHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	    xmlFree(pre);
 	 }
       }
-      PutDep((char*)depname, depver.c_str(), RpmOp, Type, Deps);
+      PutDep((char*)depname, depver.c_str(), (raptDepFlags) RpmOp, Type, Deps);
       xmlFree(depname);
    }
    return true;
@@ -1703,7 +1697,7 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
    }
 
    while (prco->Step()) {
-      int_32 RpmOp = 0;
+      unsigned int RpmOp = 0;
       string deptype, depver = "";
       string e, v, r;
 
@@ -1741,7 +1735,7 @@ bool RPMSqliteHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 }
       }
       string depname = prco->GetCol("name");
-      PutDep(depname.c_str(), depver.c_str(), RpmOp, Type, Deps);
+      PutDep(depname.c_str(), depver.c_str(), (raptDepFlags) RpmOp, Type, Deps);
    }
    delete prco;
    return true;
