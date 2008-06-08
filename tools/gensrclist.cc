@@ -139,8 +139,8 @@ void usage()
 #if RPM_VERSION >= 0x040000
 extern "C" {
 // No prototype from rpm after 4.0.
-int headerGetRawEntry(Header h, int_32 tag, int_32 * type,
-		      void *p, int_32 *c);
+int headerGetRawEntry(Header h, raptTag tag, raptTagType * type,
+		      raptTagData p, raptTagCount *c);
 }
 #endif
 
@@ -334,16 +334,17 @@ int main(int argc, char ** argv)
 	    
 	    // the std tags
 	    for (i = 0; i < numTags; i++) {
-	       int type, count;
-	       void *data;
+	       raptTagType type;
+	       raptTagCount count;
+	       raptTagData data;
 	       int res;
 	       
 	       // Copy raw entry, so that internationalized strings
 	       // will get copied correctly.
-	       res = headerGetRawEntry(h, tags[i], &type, &data, &count);
+	       res = headerGetRawEntry(h, (raptTag) tags[i], &type, &data, &count);
 	       if (res != 1)
 		  continue;
-	       headerAddEntry(newHeader, tags[i], type, data, count);
+	       headerAddEntry(newHeader, (raptTag) tags[i], type, data, count);
 	    }
 	    
 	    

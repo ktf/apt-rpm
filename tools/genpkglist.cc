@@ -29,12 +29,6 @@
 #include <rpm/rpmts.h>
 #endif
 
-#ifndef RPM_HAVE_DATA_T
-typedef void * rpm_data_t;
-typedef int_32 rpm_count_t;
-typedef int_32 rpm_tagtype_t;
-#endif
-
 #define CRPMTAG_TIMESTAMP   1012345
 
 int tags[] =  {
@@ -103,13 +97,13 @@ static inline int usefullFile(char *a)
 
 static void copyStrippedFileList(Header header, Header newHeader)
 {
-   rpm_count_t i, i1, i2;
+   raptTagCount i, i1, i2;
    
-   rpm_tagtype_t type1, type2, type3;
-   rpm_count_t count1, count2, count3;
+   raptTagType type1, type2, type3;
+   raptTagCount count1, count2, count3;
    char **dirnames = NULL, **basenames = NULL;
    int_32 *dirindexes = NULL;
-   rpm_data_t dirnameval = NULL, basenameval = NULL, dirindexval = NULL;
+   raptTagData dirnameval = NULL, basenameval = NULL, dirindexval = NULL;
    char **dnames, **bnames;
    int_32 *dindexes;
    int res1, res2, res3;
@@ -230,8 +224,8 @@ bool loadUpdateInfo(char *path, map<string,UpdateInfo> &map)
 #if RPM_VERSION >= 0x040000
 // No prototype from rpm after 4.0.
 extern "C" {
-int headerGetRawEntry(Header h, int_32 tag, int_32 * type,
-		      void *p, int_32 *c);
+int headerGetRawEntry(Header h, raptTag tag, raptTagType * type,
+		      raptTagData p, raptTagCount *c);
 }
 #endif
 
@@ -247,23 +241,24 @@ bool copyFields(Header h, Header newHeader,
    
    // the std tags
    for (i = 0; i < numTags; i++) {
-      int_32 type, count;
-      void *data;
+      raptTagType type;
+      raptTagCount count;
+      raptTagData data;
       int res;
       
       // Copy raw entry, so that internationalized strings
       // will get copied correctly.
-      res = headerGetRawEntry(h, tags[i], &type, &data, &count);
+      res = headerGetRawEntry(h, (raptTag) tags[i], &type, &data, &count);
       if (res != 1)
 	 continue;
-      headerAddEntry(newHeader, tags[i], type, data, count);
+      headerAddEntry(newHeader, (raptTag) tags[i], type, data, count);
    }
  
    if (fullFileList) {
-      rpm_tagtype_t type1, type2, type3;
-      rpm_count_t count1, count2, count3;
+      raptTagType type1, type2, type3;
+      raptTagCount count1, count2, count3;
       char **dnames, **bnames, **dindexes;
-      rpm_data_t dnameval, bnameval, dindexval;
+      raptTagData dnameval, bnameval, dindexval;
       int res;
    
       res = headerGetEntry(h, RPMTAG_DIRNAMES, &type1, 
@@ -288,9 +283,9 @@ bool copyFields(Header h, Header newHeader,
    
    // update index of srpms
    if (idxfile) {
-      rpm_tagtype_t type;
-      rpm_count_t count;
-      rpm_data_t srpmval, nameval;
+      raptTagType type;
+      raptTagCount count;
+      raptTagData srpmval, nameval;
       char *srpm, *name;
       int res;
       
