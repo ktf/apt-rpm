@@ -73,6 +73,9 @@
 /* Define to 1 if you have the <rpm/rpmsx.h> header file. */
 #undef HAVE_RPM_RPMSX_H
 
+/* Define to 1 if you have the <rpm/rpmtd.h> header file. */
+#undef HAVE_RPM_RPMTD_H
+
 /* Define to 1 if you have the <rpm/rpmtypes.h> header file. */
 #undef HAVE_RPM_RPMTYPES_H
 
@@ -138,6 +141,9 @@
 
 /* fdigests */
 #undef RPM_HAVE_FDIGESTS
+
+/* headerFormat */
+#undef RPM_HAVE_HEADERFORMAT
 
 /* Define to the RPM version */
 #undef RPM_VERSION

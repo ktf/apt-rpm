@@ -102,9 +102,14 @@ dnl Various rpm header checks..
 AC_CHECK_HEADER(rpm/rpmlib.h, [],
 	   [AC_MSG_ERROR([Can't find rpmlib.h])])
 AC_CHECK_HEADERS([rpm/rpmsx.h rpm/rpmcallback.h rpm/rpmcb.h \
-	     rpm/rpmmessages.h rpm/rpmevr.h rpm/rpmtypes.h])
+	     rpm/rpmmessages.h rpm/rpmevr.h rpm/rpmtypes.h rpm/rpmtd.h])
 
 dnl Various rpm variant capability checks
+AC_MSG_CHECKING(for headerFormat)
+AC_EGREP_HEADER(headerFormat, rpm/header.h,
+	[AC_MSG_RESULT(yes) AC_DEFINE(RPM_HAVE_HEADERFORMAT, 1, [headerFormat]) ],
+	[AC_MSG_RESULT(no) ])
+
 AC_MSG_CHECKING(for rpmdsGetconf)
 AC_EGREP_HEADER(rpmdsGetconf, rpm/rpmds.h,
 	[AC_MSG_RESULT(yes) AC_DEFINE(RPM_HAVE_DSGETCONF, 1, [rpmdsGetconf]) ],
