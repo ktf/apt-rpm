@@ -53,12 +53,19 @@
 #include <rpm/rpmds.h>
 #include <rpm/rpmfi.h>
 
-// XXX we'd need to include rpmsq.h but it's not valid C++ in many
-// existing rpm versions so just declare rpmsqCaught extern.. sigh.
-#if 1
-extern sigset_t rpmsqCaught;
-#else
+// Newer rpm.org has rpmsqIsCaught() which suits out purposes just fine,
+// for other versions define our own version of it. We'd want to include 
+// rpmsq.h here but it's not valid C++ in many existing rpm versions so 
+// just declare rpmsqCaught extern.. sigh.
+#ifdef RPM_HAVE_RPMSQISCAUGHT
 #include <rpm/rpmsq.h>
+#else
+extern sigset_t rpmsqCaught;
+
+static int rpmsqIsCaught(int signum) 
+{
+   return sigismember(&rpmsqCaught, signum);
+}
 #endif
 
 #define rpmxxInitIterator(a,b,c,d) rpmtsInitIterator(a,(rpmTag)b,c,d)
@@ -864,11 +871,11 @@ RPMDBHandler::~RPMDBHandler()
     * There's a WTF involved as rpmCheckSignals() actually calls exit()
     * so we shouldn't even get here really?!
     */
-   if (sigismember(&rpmsqCaught, SIGINT) || 
-       sigismember(&rpmsqCaught, SIGQUIT) ||
-       sigismember(&rpmsqCaught, SIGHUP) ||
-       sigismember(&rpmsqCaught, SIGTERM) ||
-       sigismember(&rpmsqCaught, SIGPIPE)) {
+   if (rpmsqIsCaught(SIGINT) || 
+       rpmsqIsCaught(SIGQUIT) ||
+       rpmsqIsCaught(SIGHUP) ||
+       rpmsqIsCaught(SIGTERM) ||
+       rpmsqIsCaught(SIGPIPE)) {
       /* do nothing */
    } else if (Handler != NULL) {
       rpmtsFree(Handler);
