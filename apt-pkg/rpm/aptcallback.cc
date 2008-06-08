@@ -23,7 +23,11 @@ static void getPackageData(const Header h, map<string,string> &Data)
    Data.clear();
    for (Tag = &copyTags[0]; *Tag != NULL; *Tag++) {
       sprintf(rTag, "%%{%s}", *Tag);
+#ifdef RPM_HAVE_HEADERFORMAT
+      char *s = headerFormat(h, rTag, NULL);
+#else
       char *s = headerSprintf(h, rTag, rpmTagTable, rpmHeaderFormats, NULL);
+#endif
       Data[*Tag] = s;
       free(s);
    }
