@@ -151,7 +151,7 @@ static void copyStrippedFileList(Header header, Header newHeader)
       
       if (ok)
       {
-	 rpm_count_t j;
+	 raptTagCount j;
 	 
 	 bnames[i1] = basenames[i];
 	 for (j = 0; j < i2; j++)

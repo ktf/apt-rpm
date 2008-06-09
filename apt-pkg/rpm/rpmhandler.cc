@@ -475,7 +475,7 @@ bool RPMHdrHandler::ChangeLog(vector<ChangeLogEntry *> &ChangeLogs)
    authorl = (char**)authorval;
    entryl = (char**)entryval;
 
-   for (rpm_count_t i = 0; i < count; i++) {
+   for (raptTagCount i = 0; i < count; i++) {
       ChangeLogEntry *Entry = new ChangeLogEntry;
       Entry->Time = timel[i];
       Entry->Author = authorl[i];
