@@ -11,8 +11,8 @@ void * rpmCallback(const Header h,
 void * rpmCallback(const void * arg, 
 #endif
 			const rpmCallbackType what,
-                        const raptOffset amount,
-                        const raptOffset total,
+                        const raptCallbackSize amount,
+                        const raptCallbackSize total,
 			const void * pkgKey, void * data);
 
 #endif /* _APTRPM_RPMCALLBACK_H */
