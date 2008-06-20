@@ -14,8 +14,8 @@ typedef rpm_count_t raptTagCount;
 typedef rpmTag raptTag;
 typedef rpmTagType raptTagType;
 typedef rpmsenseFlags raptDepFlags;
-typedef rpm_off_t raptOffset;
-typedef rpm_off_t raptCallbackSize;
+typedef rpm_loff_t raptOffset;
+typedef rpm_loff_t raptCallbackSize;
 #else
 #include <rpm/header.h>
 typedef void * raptTagData;
