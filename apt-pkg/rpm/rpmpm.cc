@@ -839,6 +839,7 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    if (upgrade.empty() == false)
        AddToTransaction(Item::RPMUpgrade, upgrade);
 
+#if 0
    // XXX temp stuff..
    int packagesTotal = 0;
    // Figure out exactly how many rpm operations we're going to process,
@@ -854,7 +855,8 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
 	 packagesTotal += 1 + repackage;
       }
    }
-         
+#endif
+
 #if RPM_VERSION >= 0x040100
    if (_config->FindB("RPM::NoDeps", false) == false) {
       rc = rpmtsCheck(TS);
