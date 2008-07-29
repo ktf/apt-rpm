@@ -101,6 +101,7 @@ void * rpmCallback(const void * arg,
       Prog->Progress(total);
       break;
 
+#if RPM_VERSION >= 0x040100
    case RPMCALLBACK_REPACKAGE_START:
       repackage = true;
       Prog->OverallProgress(0,1,1, "Repackaging");
@@ -114,6 +115,7 @@ void * rpmCallback(const void * arg,
    case RPMCALLBACK_REPACKAGE_STOP:
       repackage = false;
       break;
+#endif
 
    case RPMCALLBACK_UNINST_PROGRESS:
       break;
