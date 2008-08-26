@@ -223,7 +223,7 @@ struct pkgCache::Package
    unsigned char InstState;         // Flags
    unsigned char CurrentState;      // State
    
-   unsigned short ID;
+   unsigned int ID;
    unsigned long Flags;
 };
 
