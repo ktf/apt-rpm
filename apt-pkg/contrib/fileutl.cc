@@ -168,14 +168,14 @@ string flNotFile(string File)
    return string(File,0,Res);
 }
 									/*}}}*/
-// flExtension - Return the extension for the file			/*{{{*/
+// flExtension - Return the extension for the file or "" if none	/*{{{*/
 // ---------------------------------------------------------------------
 /* */
 string flExtension(string File)
 {
    string::size_type Res = File.rfind('.');
    if (Res == string::npos)
-      return File;
+      return string();
    Res++;
    return string(File,Res,Res - File.length());
 }
