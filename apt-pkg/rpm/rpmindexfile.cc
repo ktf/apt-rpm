@@ -970,7 +970,7 @@ class rpmSLTypeGen : public pkgSourceList::Type
 	 if ((*iter)->URI == URI && (*iter)->Dist == Dist) 
 	 {	 
 	    if (Vendor != NULL)
-	       (*iter)->FingerPrint = Vendor->FingerPrint;
+	       (*iter)->FingerPrintList = Vendor->FingerPrintList;
 	    return *iter;
 	 }
       }

@@ -34,7 +34,7 @@ class pkgRepository
 
    string URI;
    string Dist;
-   string FingerPrint;
+   vector<string> FingerPrintList;
    string RootURI;
 
    bool Acquire;
@@ -43,7 +43,7 @@ class pkgRepository
    virtual bool ParseRelease(string File);
    virtual bool HasRelease() const { return GotRelease; }
 
-   virtual bool IsAuthenticated() const { return !FingerPrint.empty(); }
+   virtual bool IsAuthenticated() const { return !FingerPrintList.empty(); }
    virtual bool FindChecksums(string URI,off_t &Size, string &MD5);
    // Only used in repomd atm
    virtual string FindURI(string DataType) {return "";}
@@ -56,7 +56,7 @@ class pkgRepository
       : GotRelease(0), URI(URI), Dist(Dist), RootURI(RootURI),
    	Acquire(1)
    {
-      if (Vendor) FingerPrint = Vendor->FingerPrint;
+      if (Vendor) FingerPrintList = Vendor->FingerPrintList;
       CheckMethod = "MD5-Hash";
    }
 
