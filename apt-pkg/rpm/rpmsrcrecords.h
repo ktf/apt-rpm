@@ -11,10 +11,6 @@
 #ifndef PKGLIB_RPMSRCRECORDS_H
 #define PKGLIB_RPMSRCRECORDS_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/rpmsrcrecords.h"
-#endif 
-
 #include <apt-pkg/srcrecords.h>
 #include <apt-pkg/fileutl.h>
 #include "rpmhandler.h"

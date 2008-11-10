@@ -11,10 +11,6 @@
  */
 									/*}}}*/
 // Include Files							/*{{{*/
-#ifdef __GNUG__
-#pragma implementation "apt-pkg/rpmsystem.h"
-#endif
-
 #include <config.h>
 
 #ifdef HAVE_RPM

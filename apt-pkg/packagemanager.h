@@ -23,10 +23,6 @@
 #ifndef PKGLIB_PACKAGEMANAGER_H
 #define PKGLIB_PACKAGEMANAGER_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/packagemanager.h"
-#endif
-
 #include <string>
 #include <apt-pkg/pkgcache.h>
 #include <apt-pkg/progress.h>

@@ -3,10 +3,6 @@
 #ifndef PKGLIB_REPOMD_H
 #define PKBLIB_REPOMD_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/repomd.h"
-#endif
-
 #include <apt-pkg/aptconf.h>
 #include <apt-pkg/repository.h>
 

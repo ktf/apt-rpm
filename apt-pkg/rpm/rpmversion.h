@@ -12,10 +12,6 @@
 #ifndef PKGLIB_RPMVERSION_H
 #define PKGLIB_RPMVERSION_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/rpmversion.h"
-#endif 
-
 #include <apt-pkg/version.h>
 #include <apt-pkg/strutl.h>    
     

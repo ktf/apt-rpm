@@ -11,10 +11,6 @@
 #ifndef PKGLIB_RPMSYSTEM_H
 #define PKGLIB_RPMSYSTEM_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/rpmsystem.h"
-#endif
-
 #include <apt-pkg/pkgsystem.h>
 #include <apt-pkg/algorithms.h>
 #include "rpmindexfile.h"

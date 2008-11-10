@@ -1,10 +1,6 @@
 #ifndef APTPKG_SQLITE_H
 #define APTPKG_SQLITE_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/sqlite.h"
-#endif
-
 #ifdef WITH_SQLITE3
 
 #include <sqlite3.h>

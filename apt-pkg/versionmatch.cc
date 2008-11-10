@@ -11,9 +11,6 @@
    ##################################################################### */
 									/*}}}*/
 // Include Files							/*{{{*/
-#ifdef __GNUG__
-#pragma implementation "apt-pkg/versionmatch.h"
-#endif
 #include <apt-pkg/versionmatch.h>
 // CNC:2003-11-05
 #include <apt-pkg/version.h>

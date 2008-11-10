@@ -3,10 +3,6 @@
 #ifndef PKGLIB_REPOSITORY_H
 #define PKGLIB_REPOSITORY_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/repository.h"
-#endif
-
 #include <string>
 #include <map>
 

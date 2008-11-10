@@ -8,10 +8,6 @@
  */
 									/*}}}*/
 // Includes								/*{{{*/
-#ifdef __GNUG__
-#pragma implementation "apt-pkg/rpmpm.h"
-#endif
-
 #include <config.h>
 
 #ifdef HAVE_RPM

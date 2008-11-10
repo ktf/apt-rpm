@@ -41,10 +41,6 @@
 #define PKGLIB_ERROR_H
 
 #ifdef __GNUG__
-#pragma interface "apt-pkg/error.h"
-#endif 
-
-#ifdef __GNUG__
 // Methods have a hidden this parameter that is visible to this attribute
 #define APT_MFORMAT1 __attribute__ ((format (printf, 2, 3)))
 #define APT_MFORMAT2 __attribute__ ((format (printf, 3, 4)))

@@ -1,7 +1,3 @@
-#ifdef __GNUG__
-#pragma implementation "apt-pkg/sqlite.h"
-#endif
-
 #include <config.h>
 
 #ifdef WITH_SQLITE3

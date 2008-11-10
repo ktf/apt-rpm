@@ -28,10 +28,6 @@
 #ifndef PKGLIB_CONFIGURATION_H
 #define PKGLIB_CONFIGURATION_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/configuration.h"
-#endif 
-
 #include <string>
 #include <iostream>
 

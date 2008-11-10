@@ -10,10 +10,6 @@
    ##################################################################### */
 									/*}}}*/
 // Include Files							/*{{{*/
-#ifdef __GNUG__
-#pragma implementation "apt-pkg/repository.h"
-#endif
-
 #include <apt-pkg/sourcelist.h>
 #include <apt-pkg/repository.h>
 #include <apt-pkg/error.h>

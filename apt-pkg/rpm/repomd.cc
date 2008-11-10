@@ -10,10 +10,6 @@
    ##################################################################### */
 									/*}}}*/
 // Include Files							/*{{{*/
-#ifdef __GNUG__
-#pragma implementation "apt-pkg/repomd.h"
-#endif
-
 #include <config.h>
 
 #ifdef APT_WITH_REPOMD

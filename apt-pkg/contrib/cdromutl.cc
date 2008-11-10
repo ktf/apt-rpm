@@ -10,10 +10,6 @@
    ##################################################################### */
 									/*}}}*/
 // Include Files							/*{{{*/
-#ifdef __GNUG__
-#pragma implementation "apt-pkg/cdromutl.h"
-#endif
-
 // CNC:2004-03-19
 #include <config.h>
 #include <apt-pkg/luaiface.h>

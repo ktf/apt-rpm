@@ -17,10 +17,6 @@
 #ifndef PKGLIB_RPMINDEXFILE_H
 #define PKGLIB_RPMINDEXFILE_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/rpmindexfile.h"
-#endif
-
 #include <apt-pkg/aptconf.h>
 #include <apt-pkg/indexfile.h>
 #include "rpmhandler.h"

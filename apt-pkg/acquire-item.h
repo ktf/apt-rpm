@@ -24,10 +24,6 @@
 #include <apt-pkg/indexfile.h>
 #include <apt-pkg/pkgrecords.h>
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/acquire-item.h"
-#endif 
-
 // Item to acquire
 class pkgAcquire::Item
 {  

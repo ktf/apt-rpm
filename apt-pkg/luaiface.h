@@ -2,10 +2,6 @@
 #ifndef LUAIFACE_H
 #define LUAIFACE_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/luaiface.h"
-#endif 
-
 #include <apt-pkg/aptconf.h>
 
 #ifdef APT_WITH_LUA

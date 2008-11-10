@@ -16,10 +16,6 @@
 #ifndef STRUTL_H
 #define STRUTL_H
 
-#ifdef __GNUG__
-#pragma interface "apt-pkg/strutl.h"
-#endif 
-
 #include <stdlib.h>
 #include <cstring>
 #include <string>
