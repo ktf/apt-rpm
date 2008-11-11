@@ -442,7 +442,7 @@ bool RPMHdrHandler::FileList(vector<string> &FileList)
 {
    const char **names = NULL;
    void *val = NULL;
-   int_32 count = 0;
+   raptTagCount count = 0;
    bool ret = true;
    rpmHeaderGetEntry(HeaderP, RPMTAG_OLDFILENAMES,
                      NULL, (void **) &val, &count);
