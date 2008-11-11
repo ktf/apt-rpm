@@ -98,10 +98,10 @@ string RPMHandler::EVR()
    return evr;
 } 
 
-unsigned int RPMHandler::DepOp(int_32 rpmflags)
+unsigned int RPMHandler::DepOp(raptDepFlags rpmflags)
 {
    unsigned int Op = 0;
-   int_32 flags = (rpmflags & RPMSENSE_SENSEMASK);
+   raptDepFlags flags = (raptDepFlags)(rpmflags & RPMSENSE_SENSEMASK);
    if (flags == RPMSENSE_ANY) {
       Op = pkgCache::Dep::NoOp;
    } else if (flags & RPMSENSE_LESS) {

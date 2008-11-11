@@ -63,7 +63,7 @@ class RPMHandler
    off_t iSize;
    string ID;
 
-   unsigned int DepOp(int_32 rpmflags);
+   unsigned int DepOp(raptDepFlags rpmflags);
    bool InternalDep(const char *name, const char *ver, raptDepFlags flag);
    bool PutDep(const char *name, const char *ver, raptDepFlags flags,
                unsigned int type, vector<Dependency*> &Deps);
