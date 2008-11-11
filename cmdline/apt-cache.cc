@@ -48,6 +48,12 @@
 
 using namespace std;
 
+ostream c0out(0);
+ostream c1out(0);
+ostream c2out(0);
+ofstream devnull("/dev/null");
+unsigned int ScreenWidth = 80;
+
 pkgCache *GCache = 0;
 pkgSourceList *SrcList = 0;
 

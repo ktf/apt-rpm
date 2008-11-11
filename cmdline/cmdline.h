@@ -15,11 +15,11 @@
 using std::ostream;
 using std::ofstream;
 
-static ostream c0out(0);
-static ostream c1out(0);
-static ostream c2out(0);
-static ofstream devnull("/dev/null");
-static unsigned int ScreenWidth = 80;
+extern ostream c0out;
+extern ostream c1out;
+extern ostream c2out;
+extern ofstream devnull;
+extern unsigned int ScreenWidth;
 
 bool YnPrompt();
 bool AnalPrompt(const char *Text);

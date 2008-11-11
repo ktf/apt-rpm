@@ -73,6 +73,13 @@
 
 using namespace std;
 
+ostream c0out(0);
+ostream c1out(0);
+ostream c2out(0);
+ofstream devnull("/dev/null");
+unsigned int ScreenWidth = 80;
+
+
 // class CacheFile - Cover class for some dependency cache functions	/*{{{*/
 // ---------------------------------------------------------------------
 /* */
