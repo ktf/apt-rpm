@@ -808,10 +808,10 @@ bool pkgMakeStatusCache(pkgSourceList &List,OpProgress &Progress,
    {
       unlink(CacheFile.c_str());
       CacheF = new FileFd(CacheFile,FileFd::WriteEmpty);
-      fchmod(CacheF->Fd(),0644);
-      Map = new DynamicMMap(*CacheF,MMap::Public,MapSize);
       if (_error->PendingError() == true)
 	 return false;
+      fchmod(CacheF->Fd(),0644);
+      Map = new DynamicMMap(*CacheF,MMap::Public,MapSize);
    }
    else
    {
@@ -905,10 +905,10 @@ bool pkgMakeStatusCache(pkgSourceList &List,OpProgress &Progress,
       // even if using the sources cache (above).
       if (Writeable == true && SrcCacheFile.empty() == false)
       {
+	 unlink(SrcCacheFile.c_str());
 	 FileFd SCacheF(SrcCacheFile,FileFd::WriteEmpty);
 	 if (_error->PendingError() == true)
 	    return false;
-	 
 	 fchmod(SCacheF.Fd(),0644);
 	 
 	 // Write out the main data

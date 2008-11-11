@@ -366,7 +366,6 @@ bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
    return true;
 }
 #else
-bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 {
    char **namel = NULL;
    char **verl = NULL;

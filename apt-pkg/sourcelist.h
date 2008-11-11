@@ -44,7 +44,7 @@ class pkgSourceList
    struct Vendor
    {
       string VendorID;
-      string FingerPrint;
+      vector<string> FingerPrintList;
       string Description;
 
       /* Lets revisit these..
@@ -83,8 +83,8 @@ class pkgSourceList
    protected:
 
    vector<pkgIndexFile *> SrcList;
-   vector<Vendor const *> VendorList;
-   
+   vector<Vendor *> VendorList;
+
    public:
 
    bool ReadMainList();

@@ -505,12 +505,26 @@ void pkgAcqIndexRel::Done(string Message,off_t Size,string MD5,
 	    return;
 	 }
 
-	 // Match fingerprint of Release file
-	 if (Repository->FingerPrint != FingerPrint)
+	 bool found = false;
+	 for (vector<string>::const_iterator I = Repository->FingerPrintList.begin();
+	      I != Repository->FingerPrintList.end(); I++)
+	 {
+	    // Match fingerprint of Release file
+	    if ((*I) == FingerPrint)
+	    {
+	       found = true;
+	       break;
+	    }
+	 }
+
+	 if (!found)
 	 {
 	    Status = StatError;
-	    ErrorText = _("Signature fingerprint of Release file does not match (expected ")
-	       +Repository->FingerPrint+_(", got ")+FingerPrint+")";
+	    ErrorText = _("Signature fingerprint of Release file does not match (expected ");
+	    for (vector<string>::const_iterator I = Repository->FingerPrintList.begin();
+		 I != Repository->FingerPrintList.end(); I++)
+	      ErrorText += "\n"+(*I);
+	    ErrorText += _(", got ")+FingerPrint+")";
 	    return;
 	 }
       }
