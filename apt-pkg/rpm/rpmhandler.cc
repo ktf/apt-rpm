@@ -68,7 +68,7 @@ static int rpmsqIsCaught(int signum)
 }
 #endif
 
-#define rpmxxInitIterator(a,b,c,d) rpmtsInitIterator(a,(rpmTag)b,c,d)
+#define rpmxxInitIterator(a,b,c,d) rpmtsInitIterator(a,(raptTag)b,c,d)
 #else
 #define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
 #endif
@@ -296,7 +296,7 @@ string RPMHdrHandler::Epoch()
    return string(str);
 }
 
-off_t RPMHdrHandler::GetITag(rpmTag Tag)
+off_t RPMHdrHandler::GetITag(raptTag Tag)
 {
    raptTagCount count;
    raptTagType type;
@@ -309,7 +309,7 @@ off_t RPMHdrHandler::GetITag(rpmTag Tag)
    return rc?num[0]:0;
 }
 
-string RPMHdrHandler::GetSTag(rpmTag Tag)
+string RPMHdrHandler::GetSTag(raptTag Tag)
 {
    const char *str;
    raptTagData val;
@@ -326,7 +326,7 @@ string RPMHdrHandler::GetSTag(rpmTag Tag)
 bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 #if RPM_VERSION >= 0x040100
 {
-   rpmTag deptype = RPMTAG_REQUIRENAME;
+   raptTag deptype = RPMTAG_REQUIRENAME;
    switch (Type) {
       case pkgCache::Dep::Depends:
 	 deptype = RPMTAG_REQUIRENAME;
@@ -371,7 +371,7 @@ bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
    char **verl = NULL;
    int *flagl = NULL;
    int res, type, count;
-   int_32 deptag, depver, depflags;
+   raptTag deptag, depver, depflags;
    void *nameval = NULL;
    void *verval = NULL;
    void *flagval = NULL;
@@ -965,7 +965,7 @@ bool RPMDBHandler::JumpByName(string PkgName)
    if (RpmIter == NULL) return false;
    rpmdbFreeIterator(RpmIter);
 #if RPM_VERSION >= 0x040100
-   RpmIter = rpmtsInitIterator(Handler, (rpmTag)RPMDBI_LABEL, PkgName.c_str(), 0);
+   RpmIter = rpmtsInitIterator(Handler, (raptTag)RPMDBI_LABEL, PkgName.c_str(), 0);
 #else
    RpmIter = rpmdbInitIterator(Handler, RPMDBI_LABEL, PkgName.c_str(), 0);
 #endif
