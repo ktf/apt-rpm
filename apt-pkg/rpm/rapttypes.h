@@ -16,6 +16,8 @@ typedef rpmTagType raptTagType;
 typedef rpmsenseFlags raptDepFlags;
 typedef rpm_loff_t raptOffset;
 typedef rpm_loff_t raptCallbackSize;
+typedef uint32_t raptInt;
+typedef uint32_t raptDbOffset;
 #else
 #include <rpm/header.h>
 typedef void * raptTagData;
@@ -25,6 +27,8 @@ typedef int_32 raptTagType;
 typedef int_32 raptDepFlags;
 typedef int_32 raptOffset;
 typedef long unsigned int raptCallbackSize;
+typedef int_32 raptInt;
+typedef uint_32 raptDbOffset;
 #endif
 
 #endif /* PKGLIB_RAPTTYPES_H */

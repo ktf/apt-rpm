@@ -102,10 +102,10 @@ static void copyStrippedFileList(Header header, Header newHeader)
    raptTagType type1, type2, type3;
    raptTagCount count1, count2, count3;
    char **dirnames = NULL, **basenames = NULL;
-   int_32 *dirindexes = NULL;
+   raptInt *dirindexes = NULL;
    raptTagData dirnameval = NULL, basenameval = NULL, dirindexval = NULL;
    char **dnames, **bnames;
-   int_32 *dindexes;
+   raptInt *dindexes;
    int res1, res2, res3;
    
 #define FREE(a) if (a) free(a);
@@ -118,7 +118,7 @@ static void copyStrippedFileList(Header header, Header newHeader)
 			 &dirindexval, &count3);
    dirnames = (char **)dirnameval;
    basenames = (char **)basenameval;
-   dirindexes = (int_32 *)dirindexval;
+   dirindexes = (raptInt *)dirindexval;
    
    if (res1 != 1 || res2 != 1 || res3 != 1) {
       FREE(dirnames);
@@ -128,7 +128,7 @@ static void copyStrippedFileList(Header header, Header newHeader)
 
    dnames = dirnames;
    bnames = basenames;
-   dindexes = (int_32*)malloc(sizeof(int_32)*count3);
+   dindexes = (raptInt*)malloc(sizeof(raptInt)*count3);
    
    i1 = 0;
    i2 = 0;
@@ -235,7 +235,7 @@ bool copyFields(Header h, Header newHeader,
 		bool fullFileList)
 {
    int i;
-   int_32 size[1];
+   raptInt size[1];
 
    size[0] = filesize;
    

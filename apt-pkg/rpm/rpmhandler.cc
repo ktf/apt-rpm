@@ -286,10 +286,10 @@ string RPMHdrHandler::Epoch()
    raptTagCount count;
    raptTagType type;
    raptTagData val;
-   int_32 *epoch;
+   raptInt *epoch;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH, &type, &val, &count);
-   epoch = (int_32*)val;
+   epoch = (raptInt*)val;
    if (rc == 1 && count > 0) {
       snprintf(str, sizeof(str), "%i", epoch[0]);
    }
@@ -301,11 +301,11 @@ off_t RPMHdrHandler::GetITag(raptTag Tag)
    raptTagCount count;
    raptTagType type;
    raptTagData val;
-   int_32 *num;
+   raptInt *num;
    assert(HeaderP != NULL);
    int rc = headerGetEntry(HeaderP, Tag,
 			   &type, &val, &count);
-   num = (int_32*)val;
+   num = (raptInt*)val;
    return rc?num[0]:0;
 }
 
@@ -942,7 +942,7 @@ bool RPMDBHandler::Jump(off_t Offset)
    iOffset = Offset;
 #if RPM_VERSION >= 0x040000
    // rpmdb indexes are hardcoded uint32_t, the size must match here
-   uint_32 rpmOffset = iOffset;
+   raptDbOffset rpmOffset = iOffset;
    if (RpmIter == NULL)
       return false;
    rpmdbFreeIterator(RpmIter);

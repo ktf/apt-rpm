@@ -153,7 +153,7 @@ int main(int argc, char ** argv)
    struct dirent **dirEntries;
    int rc, i;
    Header h;
-   int_32 size[1];
+   raptInt size[1];
    int entry_no, entry_cur;
    CachedMD5 *md5cache;
    map<string, list<char*>* > rpmTable; // table that maps srpm -> generated rpm
