@@ -11,6 +11,7 @@
 
 #include <regex.h>
 #include <sys/stat.h>
+#include <sys/ioctl.h>
 #include <fnmatch.h>
 #include <langinfo.h>
 
