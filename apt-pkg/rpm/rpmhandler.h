@@ -120,8 +120,8 @@ class RPMHdrHandler : public RPMHandler
 
    Header HeaderP;
 
-   string GetSTag(rpmTag Tag);
-   off_t GetITag(rpmTag Tag);
+   string GetSTag(raptTag Tag);
+   off_t GetITag(raptTag Tag);
 
    public:
 
