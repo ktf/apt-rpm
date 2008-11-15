@@ -116,6 +116,8 @@ bool OpProgress::CheckChange(float Interval)
    
    if ((int)LastPercent == (int)Percent)
       return false;
+
+   LastPercent = Percent;
    
    if (Interval == 0)
       return false;
@@ -127,7 +129,6 @@ bool OpProgress::CheckChange(float Interval)
    if (Diff < Interval)
       return false;
    LastTime = Now;   
-   LastPercent = Percent;
    return true;
 }
 									/*}}}*/
