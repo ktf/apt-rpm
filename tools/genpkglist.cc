@@ -62,9 +62,7 @@ int tags[] =  {
        
        RPMTAG_OBSOLETENAME,
        RPMTAG_OBSOLETEFLAGS,
-       RPMTAG_OBSOLETEVERSION,
-
-       RPMTAG_FILEFLAGS
+       RPMTAG_OBSOLETEVERSION
 };
 int numTags = sizeof(tags) / sizeof(int);
 
