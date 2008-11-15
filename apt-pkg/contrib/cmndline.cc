@@ -331,10 +331,17 @@ unsigned int CommandLine::FileSize() const
 /* */
 bool CommandLine::DispatchArg(Dispatch *Map,bool NoMatch)
 {
+   const char *cmd = FileList ? FileList[0] : 0;
+   if (cmd == 0)
+   {
+      _error->Error(_("Invalid operation %s"),cmd);
+      return false;
+   }
+
    int I;
    for (I = 0; Map[I].Match != 0; I++)
    {
-      if (strcmp(FileList[0],Map[I].Match) == 0)
+      if (strcmp(cmd,Map[I].Match) == 0)
       {
 	 bool Res = Map[I].Handler(*this);
 	 if (Res == false && _error->PendingError() == false)
@@ -347,7 +354,7 @@ bool CommandLine::DispatchArg(Dispatch *Map,bool NoMatch)
    if (Map[I].Match == 0)
    {
       if (NoMatch == true)
-	 _error->Error(_("Invalid operation %s"),FileList[0]);
+	 _error->Error(_("Invalid operation %s"),cmd);
    }
    
    return false;
