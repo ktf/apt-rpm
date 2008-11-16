@@ -24,6 +24,7 @@
 
 #include "rpmhandler.h"
 #include "cached_md5.h"
+#include "genutil.h"
 
 #if RPM_VERSION >= 0x040100
 #include <rpm/rpmts.h>
@@ -75,19 +76,6 @@ typedef struct {
    string url;
 } UpdateInfo;
 
-
-static inline
-bool endswith(const char *str, const char *suffix)
-{
-   size_t len1 = strlen(str);
-   size_t len2 = strlen(suffix);
-   if (len1 < len2)
-      return false;
-   str += (len1 - len2);
-   if (strcmp(str, suffix))
-      return false;
-   return true;
-}
 
 static
 int usefulFile(const char *d, const char *b)
@@ -340,35 +328,6 @@ bool copyFields(Header h, Header newHeader,
 }
 
 
-#if defined(__APPLE__) || defined(__FREEBSD__)
-int selectDirent(struct dirent *ent)
-#else
-int selectDirent(const struct dirent *ent)
-#endif
-{
-   int state = 0;
-   const char *p = ent->d_name;
-   
-   while (1) {
-      if (*p == '.') {
-	  state = 1;
-      } else if (state == 1 && *p == 'r')
-	  state++;
-      else if (state == 2 && *p == 'p')
-	  state++;
-      else if (state == 3 && *p == 'm')
-	  state++;
-      else if (state == 4 && *p == '\0')
-	  return 1;
-      else if (*p == '\0')
-	  return 0;
-      else
-	  state = 0;
-      p++;
-   }
-}
-
-
 void usage()
 {
    cerr << "genpkglist " << VERSION << endl;
@@ -503,7 +462,7 @@ int main(int argc, char ** argv)
 
    string dirtag = "RPMS." + string(op_suf);
 
-   entry_no = scandir(rpmsdir.c_str(), &dirEntries, selectDirent, alphasort);
+   entry_no = scandir(rpmsdir.c_str(), &dirEntries, selectRPMs, alphasort);
    if (entry_no < 0) {
       cerr << "genpkglist: error opening directory " << rpmsdir << ": "
 	  << strerror(errno) << endl;

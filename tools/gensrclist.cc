@@ -25,6 +25,7 @@
 
 #include "rpmhandler.h"
 #include "cached_md5.h"
+#include "genutil.h"
 
 #if RPM_VERSION >= 0x040100
 #include <rpm/rpmts.h>
@@ -54,34 +55,6 @@ int tags[] =  {
        RPMTAG_REQUIREVERSION
 };
 int numTags = sizeof(tags) / sizeof(int);
-
-#if defined(__APPLE__) || defined(__FREEBSD__)
-int selectDirent(struct dirent *ent)
-#else
-int selectDirent(const struct dirent *ent)
-#endif
-{
-   int state = 0;
-   const char *p = ent->d_name;
-   
-   while (1) {
-      if (*p == '.') {
-	  state = 1;
-      } else if (state == 1 && *p == 'r')
-	  state++;
-      else if (state == 2 && *p == 'p')
-	  state++;
-      else if (state == 3 && *p == 'm')
-	  state++;
-      else if (state == 4 && *p == '\0')
-	  return 1;
-      else if (*p == '\0')
-	  return 0;
-      else
-	  state = 0;
-      p++;
-   }
-}
 
 bool readRPMTable(char *file, map<string, list<char*>* > &table)
 {
@@ -255,7 +228,7 @@ int main(int argc, char ** argv)
 #endif
 #endif
    
-   entry_no = scandir(buf, &dirEntries, selectDirent, alphasort);
+   entry_no = scandir(buf, &dirEntries, selectRPMs, alphasort);
    if (entry_no < 0) { 
       cerr << "gensrclist: error opening directory " << buf << ": "
 	  << strerror(errno) << endl;
