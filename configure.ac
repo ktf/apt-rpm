@@ -11,7 +11,6 @@ AM_MAINTAINER_MODE
 
 AC_CONFIG_HEADER([include/config.h:buildlib/config.h.in])
 AC_CONFIG_HEADER([include/apt-pkg/aptconf.h:apt-pkg/aptconf.h.in])
-AC_PROG_LIBTOOL
 
 dnl Check our C compiler
 AC_PROG_CC
@@ -21,6 +20,8 @@ AC_ISC_POSIX
 dnl Check for other programs
 AC_PROG_CXX
 AC_PROG_CPP
+
+AC_PROG_LIBTOOL
 
 dnl Checks for sockets
 SAVE_LIBS="$LIBS"
