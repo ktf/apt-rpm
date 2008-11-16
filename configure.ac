@@ -249,10 +249,10 @@ AC_MSG_RESULT($osset)
 AC_DEFINE_UNQUOTED(COMMON_OS,"$osset")
 
 dnl We use C99 types if at all possible
-AC_CACHE_CHECK([for C99 integer types],c9x_ints,[
+AC_CACHE_CHECK([for C99 integer types],apt_cv_c9x_ints,[
     AC_TRY_COMPILE([#include <inttypes.h>],
                    [uint8_t Foo1;uint16_t Foo2;uint32_t Foo3;],
-		   c9x_ints=yes,c9x_ints=no)])
+		   apt_cv_c9x_ints=yes,apt_cv_c9x_ints=no)])
 
 AC_C_BIGENDIAN
 
@@ -328,7 +328,7 @@ AC_CONFIG_FILES([
 	  ])
 AC_CONFIG_LINKS([include/apti18n.h:buildlib/gettext.h])
 
-AS_IF([test "$c9x_ints" = "no"],[
+AS_IF([test "$apt_cv_c9x_ints" = "no"],[
 AC_CONFIG_LINKS([include/inttypes.h:buildlib/inttypes.h])
 ])
 
