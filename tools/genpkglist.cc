@@ -76,19 +76,30 @@ typedef struct {
 } UpdateInfo;
 
 
-static inline int usefullFile(char *a)
+static inline
+bool endswith(const char *str, const char *suffix)
 {
-   int l = strlen(a);
-   
-   if (strstr(a, "bin") || strstr(a, "/etc") || strncmp(a, "/lib", 4) == 0)
-       return 1;
-   
-   if (l < 3)
-       return 0;
-   
-   if (strcmp(a + l - 3, ".so") == 0
-       || strstr(a, ".so."))
-       return 1;
+   size_t len1 = strlen(str);
+   size_t len2 = strlen(suffix);
+   if (len1 < len2)
+      return false;
+   str += (len1 - len2);
+   if (strcmp(str, suffix))
+      return false;
+   return true;
+}
+
+static
+int usefulFile(const char *d, const char *b)
+{
+   // PATH-like directories
+   if (endswith(d, "/bin/") || endswith(d, "/sbin/"))
+      return 1;
+
+   // shared libraries
+   if (strncmp(b, "lib", 3) == 0 && strstr(b + 3, ".so"))
+      return 1;
+
    return 0;
 }
 
@@ -132,11 +143,7 @@ static void copyStrippedFileList(Header header, Header newHeader)
    i2 = 0;
    for (i = 0; i < count2 ; i++) 
    {
-      int ok = 0;
-      
-      ok = usefullFile(basenames[i]);
-      if (!ok) 
-	  ok = usefullFile(dirnames[dirindexes[i]]);
+      int ok = usefulFile(dirnames[dirindexes[i]], basenames[i]);
       
       if (!ok) {
 	 int k = i;
