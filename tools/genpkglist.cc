@@ -489,7 +489,7 @@ int main(int argc, char ** argv)
       
       if (getcwd(cwd, PATH_MAX) == 0)
       {
-         cerr << argv[0] << strerror(errno) << endl;
+         cerr << argv[0] << ": " << strerror(errno) << endl;
          exit(1);
       }
       if (*op_dir != '/') {
@@ -505,14 +505,14 @@ int main(int argc, char ** argv)
 
    entry_no = scandir(rpmsdir.c_str(), &dirEntries, selectDirent, alphasort);
    if (entry_no < 0) {
-      cerr << "genpkglist: error opening directory " << rpmsdir << ":"
-	  << strerror(errno);
+      cerr << "genpkglist: error opening directory " << rpmsdir << ": "
+	  << strerror(errno) << endl;
       return 1;
    }
    
    if (chdir(rpmsdir.c_str()) != 0)
    {
-      cerr << argv[0] << strerror(errno) << endl;
+      cerr << argv[0] << ": " << strerror(errno) << endl;
       return 1;
    }
    
@@ -529,8 +529,8 @@ int main(int argc, char ** argv)
       outfd = Fopen(pkglist_path.c_str(), "w+");
    }
    if (!outfd) {
-      cerr << "genpkglist: error creating file" << pkglist_path << ":"
-	  << strerror(errno);
+      cerr << "genpkglist: error creating file " << pkglist_path << ": "
+	  << strerror(errno) << endl;
       return 1;
    }
 

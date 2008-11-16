@@ -211,7 +211,7 @@ int main(int argc, char ** argv)
 
    if(getcwd(cwd, PATH_MAX) == 0)
    {
-      cerr << argv[0] << ":" << strerror(errno) << endl;
+      cerr << argv[0] << ": " << strerror(errno) << endl;
       exit(1);
    }
    
@@ -257,7 +257,7 @@ int main(int argc, char ** argv)
    
    entry_no = scandir(buf, &dirEntries, selectDirent, alphasort);
    if (entry_no < 0) { 
-      cerr << "gensrclist: error opening directory " << buf << ":"
+      cerr << "gensrclist: error opening directory " << buf << ": "
 	  << strerror(errno) << endl;
       return 1;
    }
@@ -280,8 +280,8 @@ int main(int argc, char ** argv)
       outfd = Fopen(buf, "w+");
    }
    if (!outfd) {
-      cerr << "gensrclist: error creating file" << buf << ":"
-	  << strerror(errno);
+      cerr << "gensrclist: error creating file " << buf << ": "
+	  << strerror(errno) << endl;
       return 1;
    }
 
