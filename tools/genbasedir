@@ -330,9 +330,9 @@ for comp in $components; do
     fi
 
     if [ $mapi -ne 0 ]; then
-        (cd $basedir; gensrclist $progress $flat $meta_opts --mapi $srctopdir $comp $srcidxdir/srcidx.$comp)
+        (cd $basedir; gensrclist $progress $flat $meta_opts $cacheopts --mapi $srctopdir $comp $srcidxdir/srcidx.$comp)
     else
-        (cd $basedir; gensrclist $progress $flat $meta_opts $srctopdir $comp $srcidxdir/srcidx)
+        (cd $basedir; gensrclist $progress $flat $meta_opts $cacheopts $srctopdir $comp $srcidxdir/srcidx)
     fi
 
     if [ -z "$meta" -a -f $basedir/srclist.$comp ]; then
