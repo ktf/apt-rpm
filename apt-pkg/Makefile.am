@@ -46,6 +46,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/strutl.h \
 	contrib/system.h \
 	rpm/rapttypes.h \
+	rpm/raptheader.cc \
+	rpm/raptheader.h \
 	rpm/repomd.cc \
 	rpm/repomd.h \
 	rpm/aptcallback.h \
@@ -125,6 +127,7 @@ PRIVATEHEADERS = \
 	contrib/system.h \
 	contrib/sqlite.h \
 	rpm/rapttypes.h \
+	rpm/raptheader.h \
 	rpm/repomd.h \
 	rpm/aptcallback.h \
 	rpm/rpmhandler.h \
