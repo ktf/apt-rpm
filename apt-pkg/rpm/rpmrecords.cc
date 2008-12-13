@@ -242,7 +242,6 @@ void rpmRecordParser::BufCatDescr(const char *descr)
 // ---------------------------------------------------------------------
 void rpmRecordParser::GetRec(const char *&Start,const char *&Stop) 
 {
-   // FIXME: This method is leaking memory from headerGetEntry().
    char buf[32];
 
    BufUsed = 0;

@@ -20,6 +20,7 @@
 #include <assert.h>
 #include <libgen.h>
 #include <cstring>
+#include <sstream>
 
 #include <apt-pkg/error.h>
 #include <apt-pkg/configuration.h>
@@ -33,6 +34,7 @@
 
 #include "rpmhandler.h"
 #include "rpmpackagedata.h"
+#include "raptheader.h"
 
 #ifdef APT_WITH_REPOMD
 #include <libxml/parser.h>
@@ -283,44 +285,32 @@ bool RPMHandler::PutDep(const char *name, const char *ver, raptDepFlags flags,
 
 string RPMHdrHandler::Epoch()
 {
-   char str[512] = "";
-   raptTagCount count;
-   raptTagType type;
-   raptTagData val;
-   raptInt *epoch;
-   assert(HeaderP != NULL);
-   int rc = headerGetEntry(HeaderP, RPMTAG_EPOCH, &type, &val, &count);
-   epoch = (raptInt*)val;
-   if (rc == 1 && count > 0) {
-      snprintf(str, sizeof(str), "%i", epoch[0]);
+   raptInt val;
+   ostringstream epoch("");
+   raptHeader h(HeaderP);
+
+   if (h.getTag(RPMTAG_EPOCH, val)) {
+      epoch << val;
    }
-   return string(str);
+   return epoch.str();
 }
 
 off_t RPMHdrHandler::GetITag(raptTag Tag)
 {
-   raptTagCount count;
-   raptTagType type;
-   raptTagData val;
-   raptInt *num;
-   assert(HeaderP != NULL);
-   int rc = headerGetEntry(HeaderP, Tag,
-			   &type, &val, &count);
-   num = (raptInt*)val;
-   return rc?num[0]:0;
+   raptInt val = 0;
+   raptHeader h(HeaderP);
+
+   h.getTag(Tag, val); 
+   return val;
 }
 
 string RPMHdrHandler::GetSTag(raptTag Tag)
 {
-   const char *str;
-   raptTagData val;
-   raptTagCount count;
-   raptTagType type;
-   assert(HeaderP != NULL);
-   int rc = headerGetEntry(HeaderP, Tag,
-			   &type, &val, &count);
-   str = (const char *)val;
-   return string(rc?str:"");
+   string str = "";
+   raptHeader h(HeaderP);
+
+   h.getTag(Tag, str);
+   return str;
 }
 
 
@@ -368,14 +358,10 @@ bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 }
 #else
 {
-   char **namel = NULL;
-   char **verl = NULL;
-   int *flagl = NULL;
-   int res, type, count;
+   vector<string> names, versions;
+   vector<raptInt> flags;
    raptTag deptag, depver, depflags;
-   void *nameval = NULL;
-   void *verval = NULL;
-   void *flagval = NULL;
+   raptHeader h(HeaderP);
 
    switch (Type) {
       case pkgCache::Dep::Depends:
@@ -403,87 +389,53 @@ bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 	 return false;
 	 break;
    }
-   res = headerGetEntry(HeaderP, deptag, &type, (void **)&nameval, &count);
-   if (res != 1)
-      return true;
-   res = headerGetEntry(HeaderP, depver, &type, (void **)&verval, &count);
-   res = headerGetEntry(HeaderP, depflags, &type, (void **)&flagval, &count);
+   if (h.getTag(deptag, names)) {
+      h.getTag(depver, versions);
+      h.getTag(depflags, flags);
 
-   namel = (char**)nameval;
-   verl = (char**)verval;
-   flagl = (int*)flagval;
-
-   for (int i = 0; i < count; i++) {
-
-      bool res = PutDep(namel[i], verl[i], flagl[i], Type, Deps);
-   }
-   free(namel);
-   free(verl);
-   return true;
-      
-}
-#endif
-
-// XXX rpmfi originates from somewhere around 2001 but what's the version?
-#if RPM_VERSION >= 0x040100
-bool RPMHdrHandler::FileList(vector<string> &FileList)
-{
-   rpmfi fi = NULL;
-   fi = rpmfiNew(NULL, HeaderP, RPMTAG_BASENAMES, 0);
-   if (fi != NULL) {
-      while (rpmfiNext(fi) >= 0) {
-        FileList.push_back(rpmfiFN(fi));
+      vector<string>::const_iterator ni = names.begin();
+      vector<string>::const_iterator vi = versions.begin();
+      vector<raptInt>::const_iterator fi = flags.begin();
+      while (ni != names.end() && vi != versions.end() && fi != flags.end()) {
+	 PutDep(ni->c_str(), vi->c_str(), (raptDepFlags)*fi, Type, Deps);
+	 ni++; vi++; fi++;
       }
    }
-   fi = rpmfiFree(fi);
    return true;
 }
-#else
+#endif
+
 bool RPMHdrHandler::FileList(vector<string> &FileList)
 {
-   const char **names = NULL;
-   void *val = NULL;
-   raptTagCount count = 0;
-   bool ret = true;
-   rpmHeaderGetEntry(HeaderP, RPMTAG_OLDFILENAMES,
-                     NULL, (void **) &val, &count);
-   names = (const char **)val;
-   while (count--) {
-      FileList.push_back(names[count]);
-   }
-   free(names);
-   return ret;
-
+   raptHeader h(HeaderP);
+   h.getTag(RAPT_FILENAMES, FileList);
+   // it's ok for a package not have files 
+   return true; 
 }
-#endif
 
 bool RPMHdrHandler::ChangeLog(vector<ChangeLogEntry *> &ChangeLogs)
 {
-   int *timel = NULL;
-   char **authorl = NULL;
-   char **entryl = NULL;
-   raptTagData timeval, authorval, entryval;
-   raptTagType type;
-   raptTagCount count;
-   int res;
+   vector<string> names, texts;
+   vector<raptInt> times;
+   raptHeader h(HeaderP);
 
-   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTIME, &type, &timeval, &count);
-   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGNAME, &type, &authorval, &count);
-   res = headerGetEntry(HeaderP, RPMTAG_CHANGELOGTEXT, &type, &entryval, &count);
-
-   timel = (int*)timeval;
-   authorl = (char**)authorval;
-   entryl = (char**)entryval;
-
-   for (raptTagCount i = 0; i < count; i++) {
-      ChangeLogEntry *Entry = new ChangeLogEntry;
-      Entry->Time = timel[i];
-      Entry->Author = authorl[i];
-      Entry->Text = entryl[i];
-      ChangeLogs.push_back(Entry);
+   if (h.getTag(RPMTAG_CHANGELOGTIME, times)) {
+      h.getTag(RPMTAG_CHANGELOGNAME, names);
+      h.getTag(RPMTAG_CHANGELOGTEXT, texts);
+   
+      vector<raptInt>::const_iterator timei = times.begin();
+      vector<string>::const_iterator namei = names.begin();
+      vector<string>::const_iterator texti = texts.begin();
+      while (timei != times.end() && namei != names.end() && 
+				     texti != texts.end()) {
+	 ChangeLogEntry *Entry = new ChangeLogEntry;
+	 Entry->Time = *(timei);
+	 Entry->Author = *(namei);
+	 Entry->Text = *(texti);
+	 timei++; namei++; texti++;
+	 ChangeLogs.push_back(Entry);
+      }
    }
-   free(entryl);
-   free(authorl);
       
    return true;
 }
