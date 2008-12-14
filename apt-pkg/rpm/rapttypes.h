@@ -33,4 +33,9 @@ typedef uint_32 raptDbOffset;
 #define RAPT_FILENAMES RPMTAG_OLDFILENAMES
 #endif
 
+#if RPM_VERSION >= 0x040100
+#define raptInitIterator(a,b,c,d) rpmtsInitIterator(a,(rpmTag)b,c,d)
+#else
+#define raptInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
+#endif
 #endif /* PKGLIB_RAPTTYPES_H */

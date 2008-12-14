@@ -721,9 +721,9 @@ bool pkgRPMLibPM::AddToTransaction(Item::RPMOps op, vector<const char*> &files)
 #if RPM_VERSION >= 0x040000
             rpmdbMatchIterator MI;
 #if RPM_VERSION >= 0x040100
-	    MI = rpmtsInitIterator(TS, (raptTag)RPMDBI_LABEL, *I, 0);
+	    MI = raptInitIterator(TS, RPMDBI_LABEL, *I, 0);
 #else
-	    MI = rpmdbInitIterator(DB, RPMDBI_LABEL, *I, 0);
+	    MI = raptInitIterator(DB, RPMDBI_LABEL, *I, 0);
 #endif
 	    while ((hdr = rpmdbNextIterator(MI)) != NULL) 
 	    {

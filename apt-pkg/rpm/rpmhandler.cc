@@ -70,10 +70,6 @@ static int rpmsqIsCaught(int signum)
    return sigismember(&rpmsqCaught, signum);
 }
 #endif
-
-#define rpmxxInitIterator(a,b,c,d) rpmtsInitIterator(a,(raptTag)b,c,d)
-#else
-#define rpmxxInitIterator(a,b,c,d) rpmdbInitIterator(a,b,c,d)
 #endif
 
 // An attempt to deal with false zero epochs from repomd. With older rpm's we
@@ -317,7 +313,7 @@ string RPMHdrHandler::GetSTag(raptTag Tag)
 bool RPMHdrHandler::PRCO(unsigned int Type, vector<Dependency*> &Deps)
 #if RPM_VERSION >= 0x040100
 {
-   raptTag deptype = RPMTAG_REQUIRENAME;
+   rpmTag deptype = RPMTAG_REQUIRENAME;
    switch (Type) {
       case pkgCache::Dep::Depends:
 	 deptype = RPMTAG_REQUIRENAME;
@@ -773,19 +769,19 @@ RPMDBHandler::RPMDBHandler(bool WriteLock)
    }
 #endif
 #if RPM_VERSION >= 0x040000
-   RpmIter = rpmxxInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
+   RpmIter = raptInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
    if (RpmIter == NULL) {
       _error->Error(_("could not create RPM database iterator"));
       return;
    }
    // iSize = rpmdbGetIteratorCount(RpmIter);
    // This doesn't seem to work right now. Code in rpm (4.0.4, at least)
-   // returns a 0 from rpmdbGetIteratorCount() if rpmxxInitIterator() is
+   // returns a 0 from rpmdbGetIteratorCount() if raptInitIterator() is
    // called with RPMDBI_PACKAGES or with keyp == NULL. The algorithm
    // below will be used until there's support for it.
    iSize = 0;
    rpmdbMatchIterator countIt;
-   countIt = rpmxxInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
+   countIt = raptInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
    while (rpmdbNextIterator(countIt) != NULL)
       iSize++;
    rpmdbFreeIterator(countIt);
@@ -900,9 +896,9 @@ bool RPMDBHandler::Jump(off_t Offset)
       return false;
    rpmdbFreeIterator(RpmIter);
    if (iOffset == 0)
-      RpmIter = rpmxxInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
+      RpmIter = raptInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
    else {
-      RpmIter = rpmxxInitIterator(Handler, RPMDBI_PACKAGES,
+      RpmIter = raptInitIterator(Handler, RPMDBI_PACKAGES,
 				  &rpmOffset, sizeof(rpmOffset));
       iOffset = rpmOffset;
    }
@@ -917,12 +913,7 @@ bool RPMDBHandler::JumpByName(string PkgName)
 {
    if (RpmIter == NULL) return false;
    rpmdbFreeIterator(RpmIter);
-#if RPM_VERSION >= 0x040100
-   RpmIter = rpmtsInitIterator(Handler, (raptTag)RPMDBI_LABEL, PkgName.c_str(), 0);
-#else
-   RpmIter = rpmdbInitIterator(Handler, RPMDBI_LABEL, PkgName.c_str(), 0);
-#endif
-
+   RpmIter = raptInitIterator(Handler, RPMDBI_LABEL, PkgName.c_str(), 0);
    HeaderP = rpmdbNextIterator(RpmIter);
    return (HeaderP != NULL);
 }
@@ -933,7 +924,7 @@ void RPMDBHandler::Rewind()
    if (RpmIter == NULL)
       return;
    rpmdbFreeIterator(RpmIter);   
-   RpmIter = rpmxxInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
+   RpmIter = raptInitIterator(Handler, RPMDBI_PACKAGES, NULL, 0);
 #else
    if (HeaderP != NULL)
    {
