@@ -37,41 +37,34 @@ bool raptHeader::hasTag(raptTag tag)
    return headerIsEntry(Hdr, tag);
 }
 
-#ifdef HAVE_RPM_RPMTD_H
-
-// use MINMEM to avoid extra copy from header if possible
-#define HGDFL (headerGetFlags)(HEADERGET_EXT | HEADERGET_MINMEM)
-#define HGRAW (headerGetFlags)(HGDFL | HEADERGET_RAW)
-
 bool raptHeader::getTag(raptTag tag, raptInt &data)
 {
-   struct rpmtd_s td;
+   vector<raptInt> _data;
    bool ret = false;
-   if (headerGet(Hdr, tag, &td, HGDFL)) {
-      if (rpmtdType(&td) == RPM_INT32_TYPE && rpmtdCount(&td) == 1) {
-	 data = *rpmtdGetUint32(&td);
-	 ret = true;
-      }
-      rpmtdFreeData(&td);
+
+   if (getTag(tag, _data) && _data.size() == 1) {
+      data = _data[0];
+      ret = true;
    }
    return ret;
 }
 
 bool raptHeader::getTag(raptTag tag, string &data, bool raw)
 {
-   struct rpmtd_s td;
+   vector<string> _data;
    bool ret = false;
-   headerGetFlags flags = raw ? HGRAW : HGDFL;
 
-   if (headerGet(Hdr, tag, &td, flags)) {
-      if (rpmtdType(&td) == RPM_STRING_TYPE) {
-	 data = rpmtdGetString(&td);
-	 ret = true;
-      }
-      rpmtdFreeData(&td);
+   if (getTag(tag, _data, raw) && _data.size() == 1) {
+      data = _data[0];
+      ret = true;
    }
    return ret;
 }
+#ifdef XHAVE_RPM_RPMTD_H
+
+// use MINMEM to avoid extra copy from header if possible
+#define HGDFL (headerGetFlags)(HEADERGET_EXT | HEADERGET_MINMEM)
+#define HGRAW (headerGetFlags)(HGDFL | HEADERGET_RAW)
 
 bool raptHeader::getTag(raptTag tag, vector<string> &data, bool raw)
 {
@@ -80,7 +73,7 @@ bool raptHeader::getTag(raptTag tag, vector<string> &data, bool raw)
    headerGetFlags flags = raw ? HGRAW : HGDFL;
 
    if (headerGet(Hdr, tag, &td, flags)) {
-      if (rpmtdType(&td) == RPM_STRING_ARRAY_TYPE) {
+      if (rpmtdClass(&td) == RPM_STRING_CLASS) {
 	 const char *str;
 	 while ((str = rpmtdNextString(&td))) {
 	    data.push_back(str);
@@ -109,52 +102,26 @@ bool raptHeader::getTag(raptTag tag, vector<raptInt> &data)
    return ret;
 }
 #else
-bool raptHeader::getTag(raptTag tag, string &data, bool raw)
-{
-   bool ret = false;
-   void *val = NULL;
-   raptTagCount count = 0;
-   raptTagType type = RPM_NULL_TYPE;
-   if (headerGetEntry(Hdr, tag, &type, (void **) &val, &count)) {
-      if (type == RPM_STRING_TYPE && count == 1 && val != NULL) {
-	 data = (const char *)val;
-	 ret = true;
-      }
-      headerFreeData(val, type);
-   }
-   return ret;
-}
-
-bool raptHeader::getTag(raptTag tag, raptInt &data)
-{
-   bool ret = false;
-   void *val = NULL;
-   raptTagCount count = 0;
-   raptTagType type = RPM_NULL_TYPE;
-   if (headerGetEntry(Hdr, tag, &type, (void **) &val, &count)) {
-      if (type == RPM_INT32_TYPE && count == 1 && val != NULL) {
-	 raptInt *hdata = (raptInt *)val;
-	 data = *hdata;
-	 ret = true;
-      }
-      headerFreeData(val, type);
-   }
-   return ret;
-}
-
 bool raptHeader::getTag(raptTag tag, vector<string> &data, bool raw)
 {
    bool ret = false;
    void *val = NULL;
+   const char **hdata = NULL;
    raptTagCount count = 0;
    raptTagType type = RPM_NULL_TYPE;
    if (headerGetEntry(Hdr, tag, &type, (void **) &val, &count)) {
-      if (type == RPM_STRING_ARRAY_TYPE && count > 0 && val != NULL) {
-	 const char **hdata = (const char **)val;
-	 for (int i = 0; i < count; i++) {
-	    data.push_back(hdata[i]);
-	 }
-	 ret = true;
+      switch (type) {
+	 case RPM_STRING_TYPE:
+	 case RPM_STRING_ARRAY_TYPE:
+	 case RPM_I18NSTRING_TYPE: 
+	    hdata = (const char **)val;
+	    for (int i = 0; i < count; i++) {
+	       data.push_back(hdata[i]);
+	    }
+	    ret = true;
+	    break;
+	 default: 
+	    break;
       }
       headerFreeData(val, type);
    }
@@ -168,7 +135,7 @@ bool raptHeader::getTag(raptTag tag, vector<raptInt> &data)
    raptTagCount count = 0;
    raptTagType type = RPM_NULL_TYPE;
    if (headerGetEntry(Hdr, tag, &type, (void **) &val, &count)) {
-      if (type == RPM_STRING_ARRAY_TYPE && count > 0 && val != NULL) {
+      if (type == RPM_INT32_TYPE) {
 	 raptInt *hdata = (raptInt *)val;
 	 for (int i = 0; i < count; i++) {
 	    data.push_back(hdata[i]);
