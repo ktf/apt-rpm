@@ -38,11 +38,16 @@ bool raptHeader::hasTag(raptTag tag)
 }
 
 #ifdef HAVE_RPM_RPMTD_H
+
+// use MINMEM to avoid extra copy from header if possible
+#define HGDFL (headerGetFlags)(HEADERGET_EXT | HEADERGET_MINMEM)
+#define HGRAW (headerGetFlags)(HGDFL | HEADERGET_RAW)
+
 bool raptHeader::getTag(raptTag tag, raptInt &data)
 {
    struct rpmtd_s td;
    bool ret = false;
-   if (headerGet(Hdr, tag, &td, HEADERGET_EXT)) {
+   if (headerGet(Hdr, tag, &td, HGDFL)) {
       if (rpmtdType(&td) == RPM_INT32_TYPE && rpmtdCount(&td) == 1) {
 	 data = *rpmtdGetUint32(&td);
 	 ret = true;
@@ -56,7 +61,7 @@ bool raptHeader::getTag(raptTag tag, string &data, bool raw)
 {
    struct rpmtd_s td;
    bool ret = false;
-   headerGetFlags flags = HEADERGET_EXT;
+   headerGetFlags flags = raw ? HGRAW : HGDFL;
 
    if (headerGet(Hdr, tag, &td, flags)) {
       if (rpmtdType(&td) == RPM_STRING_TYPE) {
@@ -72,7 +77,7 @@ bool raptHeader::getTag(raptTag tag, vector<string> &data, bool raw)
 {
    struct rpmtd_s td;
    bool ret = false;
-   headerGetFlags flags = HEADERGET_EXT;
+   headerGetFlags flags = raw ? HGRAW : HGDFL;
 
    if (headerGet(Hdr, tag, &td, flags)) {
       if (rpmtdType(&td) == RPM_STRING_ARRAY_TYPE) {
@@ -91,7 +96,7 @@ bool raptHeader::getTag(raptTag tag, vector<raptInt> &data)
 {
    struct rpmtd_s td;
    bool ret = false;
-   if (headerGet(Hdr, tag, &td, HEADERGET_EXT)) {
+   if (headerGet(Hdr, tag, &td, HGDFL)) {
       if (rpmtdType(&td) == RPM_INT32_TYPE) {
 	 raptInt *num;
 	 while ((num = rpmtdNextUint32(&td))) {
