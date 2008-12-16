@@ -1,4 +1,7 @@
 include Makefile
 
+snapshot: ChangeLog
+	@$(MAKE) dist VERSION=$(VERSION).git`git-log --pretty=oneline|wc -l`
+
 ChangeLog: .git
 	@git-log --pretty > ChangeLog
