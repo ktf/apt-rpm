@@ -28,13 +28,16 @@
 
 using namespace std;
 
-// Parse repomd.xml file for checksums
-bool repomdRepository::ParseRelease(string File)
+repomdXML::repomdXML(const string File) : Path(File)
 {
+   xmlDocPtr RepoMD;
+   xmlNode *Root;
+
    RepoMD = xmlReadFile(File.c_str(), NULL, XML_PARSE_NONET);
    if ((Root = xmlDocGetRootElement(RepoMD)) == NULL) {
       xmlFreeDoc(RepoMD);
-      return _error->Error(_("Could not open metadata file '%s'"),File.c_str());
+      _error->Error(_("Could not open metadata file '%s'"),File.c_str());
+      return;
    }
 
    for (xmlNode *Node = Root->children; Node; Node = Node->next) {
@@ -97,38 +100,41 @@ bool repomdRepository::ParseRelease(string File)
 	 xmlFree(type);
       }
 
-      IndexChecksums[Path].MD5 = Hash;
-      IndexChecksums[Path].Size = 0;
       RepoFiles[DataType].Path = Path;
       RepoFiles[DataType].RealPath = RealPath;
       RepoFiles[DataType].TimeStamp = TimeStamp;
-      if (ChecksumType == "sha") {
-	 CheckMethod = "SHA1-Hash";
-      } else {
-	 CheckMethod = "MDA5-Hash";
-      }
+      RepoFiles[DataType].Hash = Hash;
+      RepoFiles[DataType].Size = 0;
+      RepoFiles[DataType].ChecksumType = ChecksumType;
    }
-   GotRelease = true;
 
    xmlFreeDoc(RepoMD);
-   return true;
 }
 
-string repomdRepository::FindURI(string DataType)
+RPMHandler *repomdXML::CreateHandler() const
+{
+#ifdef WITH_SQLITE3
+   if (RepoFiles.find("primary_db") != RepoFiles.end()) {
+      return new RPMSqliteHandler(Path);
+   }
+#endif
+   return new RPMRepomdHandler(Path);
+}
+
+string repomdXML::FindURI(string DataType) const
 {
    string Res = "";
-   if (RepoFiles.find(DataType) != RepoFiles.end()) {
-        Res = RepoFiles[DataType].Path;
+   map<string,RepoFile>::const_iterator I = RepoFiles.find(DataType);
+   if (I != RepoFiles.end()) {
+      Res = I->second.Path;
    }
    return Res;
 }
 
-string repomdRepository::GetComprMethod(string URI)
+string repomdXML::GetComprMethod(string Path) const
 {
    string Res = "";
-   string Path = string(URI,RootURI.size());
-   
-   map<string,RepoFile>::iterator I;
+   map<string,RepoFile>::const_iterator I;
    for (I = RepoFiles.begin(); I != RepoFiles.end(); I++) {
       if (Path == flUnCompressed(I->second.RealPath)) {
 	 Res = flExtension(I->second.RealPath);
@@ -136,7 +142,39 @@ string repomdRepository::GetComprMethod(string URI)
    }
    return Res;
 }
+
+// Parse repomd.xml file for checksums
+bool repomdRepository::ParseRelease(string File)
+{
+   repomd = new repomdXML(File);
+   bool usesha = true;
+
+   map<string,repomdXML::RepoFile>::const_iterator I;
+   for (I = repomd->RepoFiles.begin(); I != repomd->RepoFiles.end(); I++) {
+      IndexChecksums[I->second.Path].MD5 = I->second.Hash;
+      IndexChecksums[I->second.Path].Size = 0;
+      if (I->second.ChecksumType != "sha") {
+	 usesha = false;
+      }
+   }
+   CheckMethod = usesha ? "SHA1-Hash" : "MDA5-Hash";
+      
+   GotRelease = true;
+
+   return true;
+}
+
+string repomdRepository::FindURI(string DataType)
+{
+   return repomd->FindURI(DataType);
+}
+
+string repomdRepository::GetComprMethod(string URI)
+{
+   string Path = string(URI,RootURI.size());
+   return repomd->GetComprMethod(Path);
    
+}
 
 #endif /* APT_WITH_REPOMD */
 

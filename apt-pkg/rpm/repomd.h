@@ -10,24 +10,41 @@
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include "rpmhandler.h"
 
 using namespace std;
 
-class repomdRepository : public pkgRepository
+class repomdXML
 {
    protected:
-
-   xmlDocPtr RepoMD;
-   xmlNode *Root;
-   
+   string Path;
    struct RepoFile {
       string Path;
       string RealPath;
       string Type;
       string TimeStamp;
+      string ChecksumType;
+      string Hash;
+      off_t Size;
    };
 
    map<string,RepoFile> RepoFiles;
+   
+   public:
+   friend class repomdRepository;
+   string FindURI(string DataType) const;
+   string ID() const {return Path;};
+   string GetComprMethod(string URI) const;
+   RPMHandler *CreateHandler() const;
+
+   repomdXML(const string File);
+   ~repomdXML() {};
+};
+
+class repomdRepository : public pkgRepository
+{
+   protected:
+   repomdXML *repomd;
 
    public:   
 
