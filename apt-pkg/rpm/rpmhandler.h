@@ -270,6 +270,7 @@ class RPMDirHandler : public RPMHdrHandler
 };
 
 #ifdef APT_WITH_REPOMD
+class repomdXML;
 class RPMRepomdHandler : public RPMHandler
 {
 
@@ -321,7 +322,7 @@ class RPMRepomdHandler : public RPMHandler
    virtual bool FileList(vector<string> &FileList);
    virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
 
-   RPMRepomdHandler(string File);
+   RPMRepomdHandler(repomdXML const *repomd);
    virtual ~RPMRepomdHandler();
 };
 
@@ -434,7 +435,7 @@ class RPMSqliteHandler : public RPMHandler
    virtual bool FileList(vector<string> &FileList);
    virtual bool ChangeLog(vector<ChangeLogEntry* > &ChangeLogs);
 
-   RPMSqliteHandler(string File);
+   RPMSqliteHandler(repomdXML const *repomd);
    virtual ~RPMSqliteHandler();
 };
 #endif /* WITH_SQLITE3 */

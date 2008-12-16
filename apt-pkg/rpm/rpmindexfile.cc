@@ -22,7 +22,6 @@
 #include "rpmsystem.h"
 #include "rpmhandler.h"
 #include "rpmpackagedata.h"
-#include "repomd.h"
 
 #include <apt-pkg/sourcelist.h>
 #include <apt-pkg/configuration.h>
@@ -666,6 +665,11 @@ bool rpmRepomdIndex::GetIndexes(pkgAcquire *Owner) const
 {
    bool AcqOther = _config->FindB("Acquire::RepoMD::OtherData", false);
    bool AcqGroup = _config->FindB("Acquire::RepoMD::Group", false);
+
+   if (!FileExists(ReleasePath())) {
+      return _error->Error(_("Repository model not found for %s %s"),
+			Repository->URI.c_str(), Repository->Dist.c_str());
+   }
    if (Repository->FindURI("primary").empty()) {
       return _error->Error(_("Primary metadata not found in repository %s %s"),
 			Repository->URI.c_str(), Repository->Dist.c_str());
@@ -702,7 +706,7 @@ string rpmRepomdIndex::Describe(bool Short) const
 
 string rpmRepomdIndex::IndexPath() const
 {
-   return IndexFile("primary");
+   return ReleasePath();
 }
 
 string rpmRepomdIndex::IndexFile(string Type) const
@@ -729,13 +733,7 @@ string rpmRepomdIndex::ReleasePath() const
 
 RPMHandler* rpmRepomdIndex::CreateHandler() const
 {
-   string TypeURI;
-#if WITH_SQLITE3
-   if (HasDBExtension()) {
-      return new RPMSqliteHandler(IndexFile("primary"));
-   }
-#endif
-   return new RPMRepomdHandler(IndexFile("primary"));
+   return RepoMD->CreateHandler();
 } 
 
 bool rpmRepomdIndex::Merge(pkgCacheGenerator &Gen,OpProgress &Prog) const
@@ -817,6 +815,7 @@ rpmRepomdIndex::rpmRepomdIndex(string URI,string Dist,string Section,
 			       Repository(Repository)	
 {
    if (FileExists(ReleasePath())) {
+      RepoMD = new repomdXML(ReleasePath());
       Repository->ParseRelease(ReleasePath());
    }
 }

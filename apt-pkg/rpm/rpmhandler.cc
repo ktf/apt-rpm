@@ -39,6 +39,7 @@
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
 #include <sstream>
+#include "repomd.h"
 #ifdef WITH_SQLITE3
 #include "sqlite.h"
 #endif
@@ -993,14 +994,15 @@ void RPMDBHandler::Rewind()
 #endif
 
 #ifdef APT_WITH_REPOMD
-RPMRepomdHandler::RPMRepomdHandler(string File): RPMHandler(),
-      Primary(NULL), Root(NULL), PrimaryPath(File), HavePrimary(false)
+RPMRepomdHandler::RPMRepomdHandler(repomdXML const *repomd): RPMHandler(),
+      Primary(NULL), Root(NULL), HavePrimary(false)
 {
-   string DBBase = PrimaryPath.substr(0, File.size() - strlen("primary.xml"));
-   FilelistPath = DBBase + "filelists.xml";
-   OtherPath = DBBase + "other.xml";
-
-   ID = File;
+   ID = repomd->ID();
+   // Try to figure where in the world our files might be... 
+   string base = ID.substr(0, ID.size() - strlen("repomd.xml"));
+   PrimaryPath = base + flNotDir(repomd->FindURI("primary"));
+   FilelistPath = base + flNotDir(repomd->FindURI("filelists"));
+   OtherPath = base + flNotDir(repomd->FindURI("other"));
 
    xmlTextReaderPtr Index;
    Index = xmlReaderForFile(PrimaryPath.c_str(), NULL,
@@ -1027,7 +1029,7 @@ bool RPMRepomdHandler::LoadPrimary()
    xmlChar *packages = NULL;
    off_t pkgcount = 0;
 
-   Primary = xmlReadFile(ID.c_str(), NULL, XML_PARSE_NONET|XML_PARSE_NOBLANKS);
+   Primary = xmlReadFile(PrimaryPath.c_str(), NULL, XML_PARSE_NONET|XML_PARSE_NOBLANKS);
    if ((Root = xmlDocGetRootElement(Primary)) == NULL) {
       _error->Error(_("Failed to open package index %s"), PrimaryPath.c_str());
       goto error;
@@ -1521,15 +1523,15 @@ bool RPMRepomdOtherHandler::ChangeLog(vector<ChangeLogEntry* > &ChangeLogs)
 }
 
 #ifdef WITH_SQLITE3
-RPMSqliteHandler::RPMSqliteHandler(string File) : 
+RPMSqliteHandler::RPMSqliteHandler(repomdXML const *repomd) : 
    Primary(NULL), Filelists(NULL), Other(NULL), Packages(NULL)
 {
-   ID = File;
-   DBPath = File; 
-   // ugh, pass this in to the constructor or something..
-   string DBBase = File.substr(0, File.size() - strlen("primary.sqlite"));
-   FilesDBPath = DBBase + "filelists.sqlite";
-   OtherDBPath = DBBase + "other.sqlite";
+   ID = repomd->ID();
+   // Try to figure where in the world our files might be... 
+   string base = ID.substr(0, ID.size() - strlen("repomd.xml"));
+   DBPath = base + flNotDir(repomd->FindURI("primary_db"));
+   FilesDBPath = base + flNotDir(repomd->FindURI("filelists_db"));
+   OtherDBPath = base + flNotDir(repomd->FindURI("other_db"));
 
    Primary = new SqliteDB(DBPath);
    Primary->Exclusive(true);

@@ -17,6 +17,7 @@
 
 #include "rpmsrcrecords.h"
 #include "rpmhandler.h"
+#include "repomd.h"
 
 #include <apt-pkg/error.h>
 #include <apt-pkg/strutl.h>
@@ -38,12 +39,8 @@ rpmSrcRecordParser::rpmSrcRecordParser(string File,pkgIndexFile const *Index)
    else if (flExtension(File) == "rpm")
       Handler = new RPMSingleFileHandler(File);
 #ifdef APT_WITH_REPOMD
-#ifdef WITH_SQLITE3
-   else if (flExtension(File) == "sqlite")
-      Handler = new RPMSqliteHandler(File);
-#endif
    else if (flExtension(File) == "xml")
-      Handler = new RPMRepomdHandler(File);
+      Handler = repomdXML(File).CreateHandler();
 #endif
    else
       Handler = new RPMFileHandler(File);

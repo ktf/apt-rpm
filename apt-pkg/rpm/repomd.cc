@@ -115,10 +115,10 @@ RPMHandler *repomdXML::CreateHandler() const
 {
 #ifdef WITH_SQLITE3
    if (RepoFiles.find("primary_db") != RepoFiles.end()) {
-      return new RPMSqliteHandler(Path);
+      return new RPMSqliteHandler(this);
    }
 #endif
-   return new RPMRepomdHandler(Path);
+   return new RPMRepomdHandler(this);
 }
 
 string repomdXML::FindURI(string DataType) const

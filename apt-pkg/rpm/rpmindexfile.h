@@ -20,6 +20,7 @@
 #include <apt-pkg/aptconf.h>
 #include <apt-pkg/indexfile.h>
 #include "rpmhandler.h"
+#include "repomd.h"
 
 class RPMHandler;
 class RPMDBHandler;
@@ -277,6 +278,7 @@ class rpmSingleSrcIndex : public rpmSrcListIndex
 class rpmRepomdIndex : public rpmIndexFile
 {
    protected:
+   repomdXML *RepoMD;
 
    string URI;
    string Dist;
