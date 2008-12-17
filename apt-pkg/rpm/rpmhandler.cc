@@ -791,7 +791,7 @@ RPMDBHandler::RPMDBHandler(bool WriteLock)
 #if RPM_VERSION >= 0x040000
    RpmIter = NULL;
 #endif
-   string Dir = _config->Find("RPM::RootDir");
+   string Dir = _config->Find("RPM::RootDir", "/");
    
    rpmReadConfigFiles(NULL, NULL);
    ID = DataPath(false);

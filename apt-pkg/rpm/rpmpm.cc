@@ -764,7 +764,7 @@ bool pkgRPMLibPM::Process(vector<const char*> &install,
    int rc = 0;
    bool Success = false;
    bool Interactive = _config->FindB("RPM::Interactive",true);
-   string Dir = _config->Find("RPM::RootDir");
+   string Dir = _config->Find("RPM::RootDir", "/");
    rpmReadConfigFiles(NULL, NULL);
 
    int probFilter = 0;
