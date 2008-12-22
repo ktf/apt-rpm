@@ -60,7 +60,7 @@ bool raptHeader::getTag(raptTag tag, string &data, bool raw)
    }
    return ret;
 }
-#ifdef XHAVE_RPM_RPMTD_H
+#ifdef HAVE_RPM_RPMTD_H
 
 // use MINMEM to avoid extra copy from header if possible
 #define HGDFL (headerGetFlags)(HEADERGET_EXT | HEADERGET_MINMEM)
@@ -106,20 +106,25 @@ bool raptHeader::getTag(raptTag tag, vector<string> &data, bool raw)
 {
    bool ret = false;
    void *val = NULL;
-   const char **hdata = NULL;
    raptTagCount count = 0;
    raptTagType type = RPM_NULL_TYPE;
    if (headerGetEntry(Hdr, tag, &type, (void **) &val, &count)) {
       switch (type) {
-	 case RPM_STRING_TYPE:
+	 case RPM_STRING_TYPE: {
+	    const char *hdata = (const char *)val;
+	    data.push_back(hdata);
+	    ret = true;
+	    break;
+	 }
 	 case RPM_STRING_ARRAY_TYPE:
-	 case RPM_I18NSTRING_TYPE: 
-	    hdata = (const char **)val;
+	 case RPM_I18NSTRING_TYPE: {
+	    const char **hdata = (const char **)val;
 	    for (int i = 0; i < count; i++) {
 	       data.push_back(hdata[i]);
 	    }
 	    ret = true;
 	    break;
+	 }
 	 default: 
 	    break;
       }
