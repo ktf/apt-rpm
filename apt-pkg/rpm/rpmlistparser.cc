@@ -19,6 +19,7 @@
 #include "rpmhandler.h"
 #include "rpmpackagedata.h"
 #include "rpmsystem.h"
+#include "xmlutil.h"
 #include <apt-pkg/error.h>
 #include <apt-pkg/configuration.h>
 #include <apt-pkg/strutl.h>
@@ -517,16 +518,6 @@ void rpmListParser::VirtualizePackage(string Name)
 }
 
 #ifdef APT_WITH_REPOMD
-xmlNode *rpmRepomdParser::FindNode(xmlNode *n, const string Name)
-{
-   for (n = n->children; n; n = n->next) {
-      if (strcmp((char*)n->name, Name.c_str()) == 0) {
-	 return n;
-      }
-   }
-   return NULL;
-}
-
 bool rpmRepomdParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
                                       const string File, const string Dist)
 {
@@ -567,14 +558,14 @@ bool rpmRepomdParser::LoadReleaseInfo(pkgCache::PkgFileIterator FileI,
    /* Parse primary, filelists and other location from here */
    for (xmlNode *n = Root->children; n; n = n->next) {
       if (n->type == XML_ELEMENT_NODE && strcmp((char*)n->name, "data") == 0) {
-        string type = (char*)xmlGetProp(n, (xmlChar*)"type");
+        string type = XmlGetProp(n, "type");
         if (type == "primary") {
-           xmlNode *loc = FindNode(n, "location");
+           xmlNode *loc = XmlFindNode(n, "location");
            if (loc) {
               Primary = (char*)xmlGetProp(loc, (xmlChar*)"href");
            }
        } else if (type == "filelists") {
-           xmlNode *loc = FindNode(n, "location");
+           xmlNode *loc = XmlFindNode(n, "location");
            if (loc) {
               Filelist = (char*)xmlGetProp(loc, (xmlChar*)"href");
            }
