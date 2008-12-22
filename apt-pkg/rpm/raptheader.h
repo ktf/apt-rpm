@@ -4,8 +4,14 @@
 #include <vector>
 #include <string>
 
-#include <rpm/header.h>
 #include "rapttypes.h"
+
+#ifndef HAVE_RPM_RPMTAG_H
+#include <rpm/rpmlib.h>
+#else
+#include <rpm/header.h>
+#include <rpm/rpmtag.h>
+#endif
 
 using std::vector;
 using std::string;

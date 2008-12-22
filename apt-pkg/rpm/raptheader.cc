@@ -1,8 +1,6 @@
 #include <config.h>
 #include <iostream>
 
-#include <rpm/rpmlegacy.h>
-#include <rpm/rpmtag.h>
 #include "raptheader.h"
 
 using namespace std;
@@ -102,33 +100,50 @@ bool raptHeader::getTag(raptTag tag, vector<raptInt> &data)
    return ret;
 }
 #else
+#if RPM_VERSION >= 0x040000
+// No prototype from rpm after 4.0.
+extern "C" {
+int headerGetRawEntry(Header h, raptTag tag, raptTagType * type,
+                      raptTagData p, raptTagCount *c);
+}
+#endif
+
 bool raptHeader::getTag(raptTag tag, vector<string> &data, bool raw)
 {
    bool ret = false;
    void *val = NULL;
+   int rc = 0;
    raptTagCount count = 0;
    raptTagType type = RPM_NULL_TYPE;
-   if (headerGetEntry(Hdr, tag, &type, (void **) &val, &count)) {
+   if (tag == RPMTAG_OLDFILENAMES) {
+      rc = rpmHeaderGetEntry(Hdr, tag, &type, (void **) &val, &count);
+   } else if (raw) {
+      rc = headerGetRawEntry(Hdr, tag, &type, (void **) &val, &count);
+   } else {
+      rc = headerGetEntry(Hdr, tag, &type, (void **) &val, &count);
+   }
+
+   if (rc) {
       switch (type) {
 	 case RPM_STRING_TYPE: {
-	    const char *hdata = (const char *)val;
+	    char *hdata = (char *)val;
 	    data.push_back(hdata);
 	    ret = true;
 	    break;
 	 }
 	 case RPM_STRING_ARRAY_TYPE:
 	 case RPM_I18NSTRING_TYPE: {
-	    const char **hdata = (const char **)val;
+	    char **hdata = (char **)val;
 	    for (int i = 0; i < count; i++) {
 	       data.push_back(hdata[i]);
 	    }
+	    free(hdata);
 	    ret = true;
 	    break;
 	 }
 	 default: 
 	    break;
       }
-      headerFreeData(val, type);
    }
    return ret;
 }
@@ -147,7 +162,6 @@ bool raptHeader::getTag(raptTag tag, vector<raptInt> &data)
 	 }
 	 ret = true;
       }
-      headerFreeData(val, type);
    }
    return ret;
 }
