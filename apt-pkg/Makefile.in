@@ -66,17 +66,17 @@ am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	contrib/configuration.lo contrib/crc-16.lo contrib/error.lo \
 	contrib/fileutl.lo contrib/hashes.lo contrib/md5.lo \
 	contrib/mmap.lo contrib/progress.lo contrib/sha1.lo \
-	contrib/sqlite.lo contrib/strutl.lo rpm/repomd.lo \
-	rpm/aptcallback.lo rpm/rpmhandler.lo rpm/rpmindexfile.lo \
-	rpm/rpmlistparser.lo rpm/rpmpackagedata.lo rpm/rpmpm.lo \
-	rpm/rpmrecords.lo rpm/rpmsrcrecords.lo rpm/rpmsystem.lo \
-	rpm/rpmversion.lo rpm/xmlutil.lo acquire.lo acquire-item.lo \
-	acquire-method.lo acquire-worker.lo algorithms.lo cachefile.lo \
-	clean.lo depcache.lo indexfile.lo init.lo luaiface.lo \
-	orderlist.lo packagemanager.lo pkgcache.lo pkgcachegen.lo \
-	pkgrecords.lo pkgsystem.lo policy.lo repository.lo \
-	sourcelist.lo srcrecords.lo tagfile.lo version.lo \
-	versionmatch.lo
+	contrib/sqlite.lo contrib/strutl.lo rpm/raptheader.lo \
+	rpm/repomd.lo rpm/aptcallback.lo rpm/rpmhandler.lo \
+	rpm/rpmindexfile.lo rpm/rpmlistparser.lo rpm/rpmpackagedata.lo \
+	rpm/rpmpm.lo rpm/rpmrecords.lo rpm/rpmsrcrecords.lo \
+	rpm/rpmsystem.lo rpm/rpmversion.lo rpm/xmlutil.lo acquire.lo \
+	acquire-item.lo acquire-method.lo acquire-worker.lo \
+	algorithms.lo cachefile.lo clean.lo depcache.lo indexfile.lo \
+	init.lo luaiface.lo orderlist.lo packagemanager.lo pkgcache.lo \
+	pkgcachegen.lo pkgrecords.lo pkgsystem.lo policy.lo \
+	repository.lo sourcelist.lo srcrecords.lo tagfile.lo \
+	version.lo versionmatch.lo
 libapt_pkg_la_OBJECTS = $(am_libapt_pkg_la_OBJECTS)
 libapt_pkg_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
@@ -130,6 +130,7 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
+DSYMUTIL = @DSYMUTIL@
 ECHO = @ECHO@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
@@ -168,6 +169,7 @@ MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 MSGMERGE = @MSGMERGE@
 NEED_SOCKLEN_T_DEFINE = @NEED_SOCKLEN_T_DEFINE@
+NMEDIT = @NMEDIT@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -241,6 +243,7 @@ sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
+top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libapt-pkg.la
@@ -281,6 +284,8 @@ libapt_pkg_la_SOURCES = \
 	contrib/strutl.h \
 	contrib/system.h \
 	rpm/rapttypes.h \
+	rpm/raptheader.cc \
+	rpm/raptheader.h \
 	rpm/repomd.cc \
 	rpm/repomd.h \
 	rpm/aptcallback.h \
@@ -360,6 +365,7 @@ PRIVATEHEADERS = \
 	contrib/system.h \
 	contrib/sqlite.h \
 	rpm/rapttypes.h \
+	rpm/raptheader.h \
 	rpm/repomd.h \
 	rpm/aptcallback.h \
 	rpm/rpmhandler.h \
@@ -499,6 +505,7 @@ rpm/$(am__dirstamp):
 rpm/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) rpm/$(DEPDIR)
 	@: > rpm/$(DEPDIR)/$(am__dirstamp)
+rpm/raptheader.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/repomd.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/aptcallback.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
 rpm/rpmhandler.lo: rpm/$(am__dirstamp) rpm/$(DEPDIR)/$(am__dirstamp)
@@ -547,6 +554,8 @@ mostlyclean-compile:
 	-rm -f contrib/strutl.lo
 	-rm -f rpm/aptcallback.$(OBJEXT)
 	-rm -f rpm/aptcallback.lo
+	-rm -f rpm/raptheader.$(OBJEXT)
+	-rm -f rpm/raptheader.lo
 	-rm -f rpm/repomd.$(OBJEXT)
 	-rm -f rpm/repomd.lo
 	-rm -f rpm/rpmhandler.$(OBJEXT)
@@ -611,6 +620,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/sqlite.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@contrib/$(DEPDIR)/strutl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/aptcallback.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/raptheader.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/repomd.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmhandler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rpm/$(DEPDIR)/rpmindexfile.Plo@am__quote@
