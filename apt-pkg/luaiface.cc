@@ -13,12 +13,12 @@
 #ifdef APT_WITH_LUA
 
 extern "C" {
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-#include "lposix.h"
-#include "lrexlib.h"
-#include "linit.h"
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+#include <lposix.h>
+#include <lrexlib.h>
+#include <linit.h>
 }
 
 #include <apt-pkg/depcache.h>
@@ -47,6 +47,7 @@ extern "C" {
       lua_setmetatable(L, -2); \
    } while (0)
 
+#if LUA_VERSION_NUM < 501
 #define checkudata(ctype, target, n) \
    do { \
       ctype *_tmp = (ctype *) luaL_checkudata(L, n, #ctype); \
@@ -55,6 +56,14 @@ extern "C" {
       else \
 	 target = NULL; \
    } while (0)
+#else
+#define checkudata(ctype, target, n) \
+   do { ctype *_tmp; target = NULL; \
+      if ( !lua_isnil(L, n) && \
+	  (_tmp = (ctype *) luaL_checkudata(L, n, #ctype)) ) \
+	 target = *_tmp; \
+   } while (0)
+#endif
 
 Lua *_GetLuaObj()
 {
@@ -74,6 +83,8 @@ Lua::Lua()
 {
    _config->CndSet("Dir::Bin::scripts", PKGDATADIR "/scripts");
 
+   L = lua_open();
+#if LUA_VERSION_NUM < 501
    const luaL_reg lualibs[] = {
       {"base", luaopen_base},
       {"table", luaopen_table},
@@ -88,12 +99,27 @@ Lua::Lua()
       {"apt", luaopen_apt},
       {NULL, NULL}
    };
-   L = lua_open();
    const luaL_reg *lib = lualibs;
    for (; lib->name; lib++) {
       lib->func(L);  /* open library */
       lua_settop(L, 0);  /* discard any results */
    }
+#else
+   const luaL_reg lualibs[] = {
+      {"posix", luaopen_posix},
+      {"rex", luaopen_rex},
+      {"apt", luaopen_apt},
+      {NULL, NULL}
+   };
+   luaL_openlibs(L);
+   const luaL_reg *lib = lualibs;
+   for (; lib->name; lib++) {
+      lua_pushcfunction(L, lib->func);
+      lua_pushstring(L, lib->name);
+      lua_call(L, 1, 0);
+      lua_settop(L, 0);
+   }
+#endif
    luaL_newmetatable(L, "pkgCache::Package*");
    lua_pushstring(L, "__eq");
    lua_pushcfunction(L, AptLua_pkgcomp);
