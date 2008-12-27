@@ -35,6 +35,23 @@ bool raptHeader::hasTag(raptTag tag)
    return headerIsEntry(Hdr, tag);
 }
 
+// XXX: should have a way to pass back formatting error messages
+string raptHeader::format(const string fmt)
+{
+   string res = "";
+   char *s;
+#ifdef RPM_HAVE_HEADERFORMAT
+   s = headerFormat(Hdr, fmt.c_str(), NULL);
+#else
+   s = headerSprintf(Hdr, fmt.c_str(), rpmTagTable, rpmHeaderFormats, NULL);
+#endif
+   if (s) {
+      res = string(s);
+      free(s);
+   }
+   return res;
+}
+
 bool raptHeader::getTag(raptTag tag, raptInt &data)
 {
    vector<raptInt> _data;

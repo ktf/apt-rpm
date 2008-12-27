@@ -27,6 +27,7 @@ class raptHeader
    bool getTag(raptTag tag, string &data, bool raw = false);
    bool getTag(raptTag tag, vector<raptInt> &data);
    bool getTag(raptTag tag, vector<string> &data, bool raw = false);
+   string format(const string fmt);
 
    raptHeader(Header hdr);
    ~raptHeader();
