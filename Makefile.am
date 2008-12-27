@@ -1,5 +1,8 @@
-
-SUBDIRS = lua apt-pkg methods cmdline tools doc po
+SUBDIRS =
+if WITH_LUAEXT
+SUBDIRS += luaext
+endif
+SUBDIRS += apt-pkg methods cmdline tools doc po
 SUBDIRS += test
 
 ACLOCAL_AMFLAGS = -I m4 -I buildlib

@@ -34,7 +34,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@WITH_LUA_TRUE@am__append_1 = $(top_builddir)/lua/liblua.la
+@WITH_LUAEXT_TRUE@am__append_1 = $(top_builddir)/luaext/libluaext.la \
+@WITH_LUAEXT_TRUE@	-llua
 subdir = apt-pkg
 DIST_COMMON = $(include_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/libapt-pkg.pc.in
@@ -60,7 +61,9 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(includedir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libapt_pkg_la_DEPENDENCIES = $(am__append_1)
+@WITH_LUAEXT_TRUE@am__DEPENDENCIES_1 =  \
+@WITH_LUAEXT_TRUE@	$(top_builddir)/luaext/libluaext.la
+libapt_pkg_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libapt_pkg_la_OBJECTS = contrib/cdromutl.lo contrib/cmndline.lo \
 	contrib/configuration.lo contrib/crc-16.lo contrib/error.lo \
@@ -253,7 +256,7 @@ libapt_pkg_la_LIBADD = @RPM_LIBS@ $(am__append_1)
 libapt_pkg_la_LDFLAGS = -version-info 3:0:0
 AM_CPPFLAGS = -DLIBDIR=\"$(libdir)\" -DPKGDATADIR=\"$(pkgdatadir)\" \
 	-DLOCALEDIR=\"$(localedir)\" -DAPT_DOMAIN=\"$(PACKAGE)\" \
-	-I$(top_srcdir)/lua/include -I$(top_srcdir)/lua/local
+	-I$(top_srcdir)/luaext
 libapt_pkg_la_SOURCES = \
 	contrib/cdromutl.cc \
 	contrib/cdromutl.h \

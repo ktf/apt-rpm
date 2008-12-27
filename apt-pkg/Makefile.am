@@ -10,10 +10,11 @@ libapt_pkg_la_LDFLAGS = -version-info 3:0:0
 
 AM_CPPFLAGS = -DLIBDIR=\"$(libdir)\" -DPKGDATADIR=\"$(pkgdatadir)\"
 AM_CPPFLAGS += -DLOCALEDIR=\"$(localedir)\" -DAPT_DOMAIN=\"$(PACKAGE)\"
-AM_CPPFLAGS += -I$(top_srcdir)/lua/include -I$(top_srcdir)/lua/local
+AM_CPPFLAGS += -I$(top_srcdir)/luaext
 
-if WITH_LUA
-libapt_pkg_la_LIBADD += $(top_builddir)/lua/liblua.la
+if WITH_LUAEXT
+libapt_pkg_la_LIBADD += $(top_builddir)/luaext/libluaext.la
+libapt_pkg_la_LIBADD += -llua
 endif
 
 libapt_pkg_la_SOURCES = \

@@ -169,7 +169,10 @@ if test "$enable_scripts" != "no"; then
 else
   AC_MSG_RESULT(yes)
 fi
+# XXX We should optimally support both internal and system lua, with our 
+# local extensions always built if lua enabled.
 AM_CONDITIONAL(WITH_LUA, test "$enable_scripts" != "no")
+AM_CONDITIONAL(WITH_LUAEXT, test "$enable_scripts" != "no")
 
 dnl SELinux support
 AC_MSG_CHECKING(for --disable-selinux)
@@ -316,7 +319,7 @@ dnl ah_GCC3DEP
 
 AC_CONFIG_FILES([
 	  Makefile
-	  lua/Makefile
+	  luaext/Makefile
 	  apt-pkg/Makefile
 	  apt-pkg/libapt-pkg.pc
 	  methods/Makefile
