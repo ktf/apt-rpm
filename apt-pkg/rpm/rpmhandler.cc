@@ -130,12 +130,8 @@ bool RPMHandler::HasFile(const char *File)
    
    vector<string> Files;
    FileList(Files);
-   for (vector<string>::iterator I = Files.begin(); I != Files.end(); I++) {
-      if (string(File) == (*I)) {
-	 return true;
-      }
-   }
-   return false;
+   vector<string>::iterator I = find(Files.begin(), Files.end(), File);
+   return (I != Files.end());
 }
 
 bool RPMHandler::InternalDep(const char *name, const char *ver, raptDepFlags flag) 
@@ -1280,12 +1276,8 @@ bool RPMRepomdHandler::HasFile(const char *File)
    
    vector<string> Files;
    ShortFileList(Files);
-   for (vector<string>::iterator I = Files.begin(); I != Files.end(); I++) {
-      if (string(File) == (*I)) {
-	 return true;
-      }
-   }
-   return false;
+   vector<string>::iterator I = find(Files.begin(), Files.end(), File);
+   return (I != Files.end());
 }
 
 bool RPMRepomdHandler::ShortFileList(vector<string> &FileList)
