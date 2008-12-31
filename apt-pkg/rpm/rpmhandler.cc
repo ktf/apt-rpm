@@ -905,11 +905,12 @@ bool RPMDBHandler::Jump(off_t Offset)
    return true;
 }
 
-bool RPMDBHandler::JumpByName(string PkgName)
+bool RPMDBHandler::JumpByName(string PkgName, bool Provides)
 {
+   raptTag tag = (raptTag)(Provides ? RPMTAG_PROVIDES : RPMDBI_LABEL);
    if (RpmIter == NULL) return false;
    rpmdbFreeIterator(RpmIter);
-   RpmIter = raptInitIterator(Handler, RPMDBI_LABEL, PkgName.c_str(), 0);
+   RpmIter = raptInitIterator(Handler, tag, PkgName.c_str(), 0);
    HeaderP = rpmdbNextIterator(RpmIter);
    return (HeaderP != NULL);
 }

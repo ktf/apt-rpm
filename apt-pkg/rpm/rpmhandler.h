@@ -233,7 +233,7 @@ class RPMDBHandler : public RPMHdrHandler
    virtual bool OrderedOffset() {return false;}
 
    // used by rpmSystem::DistroVer()
-   bool JumpByName(string PkgName);
+   bool JumpByName(string PkgName, bool Provides=false);
 
    RPMDBHandler(bool WriteLock=false);
    virtual ~RPMDBHandler();

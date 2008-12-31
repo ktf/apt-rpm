@@ -210,7 +210,7 @@ string rpmSystem::DistroVer()
       return "";
 
    string DistroVersion = "";
-   if (RpmDB->JumpByName(DistroVerPkg) == true) {
+   if (RpmDB->JumpByName(DistroVerPkg, true) == true) {
       DistroVersion = RpmDB->Version();
    } else {
       _error->Error(_("Unable to determine version for package %s"),
