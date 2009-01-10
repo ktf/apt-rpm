@@ -2725,10 +2725,18 @@ int main(int argc,const char *argv[])
       }
       
       line = readline(_config->Find("APT::Shell::Prompt", "apt> ").c_str());
-      if (!line || !*line) {
-	 free(line);
-	 continue;
+      if (!line) {
+        c1out << endl;
+        // exit from shell by EOF
+         _config->Set("quit", "true");
+         continue;
       }
+
+      if (!*line) {
+         free(line);
+         continue;
+      }
+
       add_history(line);
 
       largc = 1; // CommandLine.Parse() ignores the first option.
