@@ -2332,7 +2332,7 @@ char *ReadLineCompCommands(const char *Text, int State)
 	 "keep", "dist-upgrade", "dselect-upgrade", "build-dep", "clean",
 	 "autoclean", "check", "help", "commit", "exit", "quit", "status",
 	 "showpkg", "unmet", "search", "depends", "whatdepends", "rdepends",
-	 "show", "script", "searchfile", "files", "changelog", 0};
+	 "show", "script", "searchfile", "files", "changelog", "list", "ls", 0};
    static int Last;
    static size_t Len;
    if (State == 0) {
