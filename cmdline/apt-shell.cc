@@ -2480,7 +2480,7 @@ void ReadLineInit()
    rl_attempted_completion_function = ReadLineCompletion;
    string History = ReadLineHistoryFile();
    if (History.empty() == false)
-      read_history_range(History.c_str(), 0, -1);
+      read_history(History.c_str());
 }
 
 void ReadLineFinish()
