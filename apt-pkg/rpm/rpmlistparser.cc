@@ -398,9 +398,7 @@ bool rpmListParser::Step()
       if (RpmData->IgnorePackage(RealName) == true)
 	 continue;
  
-      if (Handler->IsDatabase() == true ||
-	  RpmData->ArchScore(Architecture().c_str()) > 0)
-	 return true;
+      return true;
    }
    return false;
 }
