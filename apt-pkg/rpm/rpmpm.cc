@@ -13,6 +13,7 @@
 #ifdef HAVE_RPM
 
 #include "rpmpm.h"
+#include "rpmlog.h"
 #include <apt-pkg/error.h>
 #include <apt-pkg/configuration.h>
 #include <apt-pkg/luaiface.h>
