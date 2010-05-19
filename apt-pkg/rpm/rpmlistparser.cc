@@ -397,8 +397,17 @@ bool rpmListParser::Step()
 	 RealName = RealName.substr(0,RealName.find('#'));
       if (RpmData->IgnorePackage(RealName) == true)
 	 continue;
- 
+#ifndef APT_DISABLE_MULTIARCH 
+      if (Handler->IsDatabase() == true ||
+	  RpmData->ArchScore(Architecture().c_str()) > 0)
+	 return true;
+#else
+      // Ignore architecture mismatches.
+      // This is required when installing on a shared
+      // filesystem multiple archs (e.g. 64 and 32 bit) 
+      // from the same machine.
       return true;
+#endif
    }
    return false;
 }
