@@ -46,7 +46,7 @@ using std::string;
 // ---------------------------------------------------------------------
 /* Returns false only if the checksums fail (the file not existing is not
    a checksum mismatch) */
-bool VerifyChecksums(string File,unsigned long Size,string MD5, string method)
+bool VerifyChecksums(string File,unsigned long long Size,string MD5, string method)
 {
    struct stat Buf;
    
@@ -56,7 +56,7 @@ bool VerifyChecksums(string File,unsigned long Size,string MD5, string method)
    // LORG:2006-03-09
    // XXX hack alert: repomd doesn't have index sizes so ignore it and
    // rely on checksum
-   if (Size > 0 && (unsigned long)Buf.st_size != Size)
+   if (Size > 0 && (unsigned long long)Buf.st_size != Size)
    {
       if (_config->FindB("Acquire::Verbose", false) == true)
 	 cout << "Size of "<<File<<" did not match what's in the checksum list and was redownloaded."<<endl;
@@ -143,7 +143,7 @@ void pkgAcquire::Item::Failed(string Message,pkgAcquire::MethodConfig *Cnf)
 // ---------------------------------------------------------------------
 /* Stash status and the file size. Note that setting Complete means 
    sub-phases of the acquire process such as decompresion are operating */
-void pkgAcquire::Item::Start(string /*Message*/,unsigned long Size)
+void pkgAcquire::Item::Start(string /*Message*/,unsigned long long Size)
 {
    Status = StatFetching;
    if (FileSize == 0 && Complete == false)
@@ -153,7 +153,7 @@ void pkgAcquire::Item::Start(string /*Message*/,unsigned long Size)
 // Acquire::Item::Done - Item downloaded OK				/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-void pkgAcquire::Item::Done(string Message,off_t Size,string,
+void pkgAcquire::Item::Done(string Message,unsigned long long Size,string,
 			    pkgAcquire::MethodConfig *Cnf)
 {
    // We just downloaded something..
@@ -161,7 +161,7 @@ void pkgAcquire::Item::Done(string Message,off_t Size,string,
    if (Complete == false && FileName == DestFile)
    {
       if (Owner->Log != 0)
-	 Owner->Log->Fetched(Size,atoi(LookupTag(Message,"Resume-Point","0").c_str()));
+	 Owner->Log->Fetched(Size,strtoull(LookupTag(Message,"Resume-Point","0").c_str(), NULL, 10));
    }
 
    if (FileSize == 0)
@@ -214,7 +214,7 @@ pkgAcqIndex::pkgAcqIndex(pkgAcquire *Owner,pkgRepository *Repository,
    // If we're verifying authentication, check whether the size and
    // checksums match, if not, delete the cached files and force redownload
    string MD5Hash;
-   off_t Size;
+   unsigned long long Size;
 
    if (Repository != NULL)
    {
@@ -280,7 +280,7 @@ string pkgAcqIndex::Custom600Headers()
    to the uncompressed version of the file. If this is so the file
    is copied into the partial directory. In all other cases the file
    is decompressed with a gzip uri. */
-void pkgAcqIndex::Done(string Message,off_t Size,string MD5,
+void pkgAcqIndex::Done(string Message,unsigned long long Size,string MD5,
 		       pkgAcquire::MethodConfig *Cfg)
 {
    Item::Done(Message,Size,MD5,Cfg);
@@ -288,7 +288,7 @@ void pkgAcqIndex::Done(string Message,off_t Size,string MD5,
    if (Decompression == true)
    {
       // CNC:2002-07-03
-      off_t FSize;
+      unsigned long long FSize;
       string MD5Hash;
 
       if (Repository != NULL && Repository->HasRelease() == true &&
@@ -305,7 +305,7 @@ void pkgAcqIndex::Done(string Message,off_t Size,string MD5,
 	    ErrorText = _("Size mismatch");
 	    Rename(DestFile,DestFile + ".FAILED");
 	    if (_config->FindB("Acquire::Verbose",false) == true) 
-	       _error->Warning("Size mismatch of index file %s: %lu was supposed to be %lu",
+	       _error->Warning("Size mismatch of index file %s: %llu was supposed to be %llu",
 			       RealURI.c_str(), Size, FSize);
 	    return;
 	 }
@@ -423,7 +423,7 @@ pkgAcqIndexRel::pkgAcqIndexRel(pkgAcquire *Owner,pkgRepository *Repository,
 
    // CNC:2002-07-09
    string MD5Hash;
-   off_t Size;
+   unsigned long long Size;
    if (Master == false && Repository != NULL)
    {
       if (Repository->HasRelease() == true)
@@ -485,7 +485,7 @@ string pkgAcqIndexRel::Custom600Headers()
 /* The release file was not placed into the download directory then
    a copy URI is generated and it is copied there otherwise the file
    in the partial directory is moved into .. and the URI is finished. */
-void pkgAcqIndexRel::Done(string Message,off_t Size,string MD5,
+void pkgAcqIndexRel::Done(string Message,unsigned long long Size,string MD5,
 			  pkgAcquire::MethodConfig *Cfg)
 {
    Item::Done(Message,Size,MD5,Cfg);
@@ -590,7 +590,7 @@ void pkgAcqIndexRel::Done(string Message,off_t Size,string MD5,
    }
    
    // CNC:2002-07-03
-   off_t FSize;
+   unsigned long long FSize;
    string MD5Hash;
    if (Master == false && Repository != NULL
        && Repository->HasRelease() == true
@@ -602,7 +602,7 @@ void pkgAcqIndexRel::Done(string Message,off_t Size,string MD5,
 	 ErrorText = _("Size mismatch");
 	 Rename(DestFile,DestFile + ".FAILED");
 	 if (_config->FindB("Acquire::Verbose",false) == true) 
-	    _error->Warning("Size mismatch of index file %s: %lu was supposed to be %lu",
+	    _error->Warning("Size mismatch of index file %s: %llu was supposed to be %llu",
 			    RealURI.c_str(), Size, FSize);
 	 return;
       }
@@ -863,7 +863,7 @@ static void ScriptsAcquireDone(const char *ConfKey,
 // AcqArchive::Done - Finished fetching					/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-void pkgAcqArchive::Done(string Message,off_t Size,string Md5Hash,
+void pkgAcqArchive::Done(string Message,unsigned long long Size,string Md5Hash,
 			 pkgAcquire::MethodConfig *Cfg)
 {
    Item::Done(Message,Size,Md5Hash,Cfg);
@@ -984,7 +984,7 @@ void pkgAcqArchive::Finished()
 // ---------------------------------------------------------------------
 /* The file is added to the queue */
 pkgAcqFile::pkgAcqFile(pkgAcquire *Owner,string URI,string MD5,
-		       unsigned long Size,string Dsc,string ShortDesc) :
+		       unsigned long long Size,string Dsc,string ShortDesc) :
                        Item(Owner), Md5Hash(MD5)
 {
    Retries = _config->FindI("Acquire::Retries",0);
@@ -1005,7 +1005,7 @@ pkgAcqFile::pkgAcqFile(pkgAcquire *Owner,string URI,string MD5,
    if (stat(DestFile.c_str(),&Buf) == 0)
    {
       // Hmm, the partial file is too big, erase it
-      if ((unsigned)Buf.st_size > Size)
+      if ((unsigned long long)Buf.st_size > Size)
 	 unlink(DestFile.c_str());
       else
 	 PartialSize = Buf.st_size;
@@ -1017,7 +1017,7 @@ pkgAcqFile::pkgAcqFile(pkgAcquire *Owner,string URI,string MD5,
 // AcqFile::Done - Item downloaded OK					/*{{{*/
 // ---------------------------------------------------------------------
 /* */
-void pkgAcqFile::Done(string Message,off_t Size,string MD5,
+void pkgAcqFile::Done(string Message,unsigned long long Size,string MD5,
 		      pkgAcquire::MethodConfig *Cnf)
 {
    // Check the md5
