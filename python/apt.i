@@ -368,7 +368,7 @@ class pkgRPyAcquireStatus : public pkgAcquireStatus
 	pkgAcquireStatus::CurrentItems;
    
    	/* Call only Python method, if existent, or parent method. */
-	void Fetched(unsigned long Size,unsigned long ResumePoint)
+	void Fetched(unsigned long long Size,unsigned long long ResumePoint)
 	{
 		PyObject *attr = PyObject_GetAttrString(PyObj, "Fetched");
 		if (attr != NULL) {

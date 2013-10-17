@@ -176,7 +176,7 @@ class pkgAcquire::Queue
 
    // Find a Queued item
    QItem *FindItem(string URI,pkgAcquire::Worker *Owner);
-   bool ItemStart(QItem *Itm,unsigned long Size);
+   bool ItemStart(QItem *Itm,unsigned long long Size);
    bool ItemDone(QItem *Itm);
    
    bool Startup();
@@ -266,7 +266,7 @@ class pkgAcquireStatus
    bool MorePulses;
       
    // Called by items when they have finished a real download
-   virtual void Fetched(unsigned long Size,unsigned long ResumePoint);
+   virtual void Fetched(unsigned long long Size,unsigned long long ResumePoint);
    
    // Called to change media
    virtual bool MediaChange(string Media,string Drive) = 0;

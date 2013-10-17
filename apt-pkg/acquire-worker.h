@@ -68,9 +68,9 @@ class pkgAcquire::Worker
    // The curent method state
    pkgAcquire::Queue::QItem *CurrentItem;
    string Status;
-   unsigned long CurrentSize;
-   unsigned long TotalSize;
-   unsigned long ResumePoint;
+   unsigned long long CurrentSize;
+   unsigned long long TotalSize;
+   unsigned long long ResumePoint;
    
    // Load the method and do the startup 
    bool QueueItem(pkgAcquire::Queue::QItem *Item);

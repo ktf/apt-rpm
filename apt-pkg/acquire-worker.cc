@@ -264,9 +264,9 @@ bool pkgAcquire::Worker::RunMessages()
 	    
 	    CurrentItem = Itm;
 	    CurrentSize = 0;
-	    TotalSize = atoi(LookupTag(Message,"Size","0").c_str());
-	    ResumePoint = atoi(LookupTag(Message,"Resume-Point","0").c_str());
-	    Itm->Owner->Start(Message,atoi(LookupTag(Message,"Size","0").c_str()));
+	    TotalSize = strtoull(LookupTag(Message,"Size","0").c_str(), NULL, 10);
+	    ResumePoint = strtoull(LookupTag(Message,"Resume-Point","0").c_str(), NULL, 10);
+	    Itm->Owner->Start(Message,strtoull(LookupTag(Message,"Size","0").c_str(), NULL, 10));
 
 	    // Display update before completion
 	    if (Log != 0 && Log->MorePulses == true)
@@ -296,13 +296,13 @@ bool pkgAcquire::Worker::RunMessages()
 	    
 	    OwnerQ->ItemDone(Itm);
 	    if (TotalSize != 0 &&
-		(unsigned)atoi(LookupTag(Message,"Size","0").c_str()) != TotalSize)
-	       _error->Warning("Bizarre Error - File size is not what the server reported %s %lu",
+		strtoull(LookupTag(Message,"Size","0").c_str(), NULL, 10) != TotalSize)
+	       _error->Warning("Bizarre Error - File size is not what the server reported %s %llu",
 			       LookupTag(Message,"Size","0").c_str(),TotalSize);
 
 	    // LORG:2006-03-09
 	    // Look up the checksum type from owner
-	    Owner->Done(Message,atoi(LookupTag(Message,"Size","0").c_str()),
+	    Owner->Done(Message,strtoull(LookupTag(Message,"Size","0").c_str(), NULL, 10),
 			LookupTag(Message,Owner->ChecksumType().c_str()),Config);
 	    
 	    ItemDone();

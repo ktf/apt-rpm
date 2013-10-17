@@ -16,7 +16,7 @@ class pkgRepository
    
 
    struct Checksum {
-      unsigned long Size;
+      unsigned long long Size;
       string MD5;
       string SHA1;
    };
@@ -40,7 +40,7 @@ class pkgRepository
    virtual bool HasRelease() const { return GotRelease; }
 
    virtual bool IsAuthenticated() const { return !FingerPrintList.empty(); }
-   virtual bool FindChecksums(string URI,off_t &Size, string &MD5);
+   virtual bool FindChecksums(string URI,unsigned long long &Size, string &MD5);
    // Only used in repomd atm
    virtual string FindURI(string DataType) {return "";}
    // LORG:2006-02-23 
